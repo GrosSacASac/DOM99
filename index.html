@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    
+    <!-- style -->
+    <meta name="viewport" content="width=device-width">
+    <!-- coming 
+    <link rel="stylesheet" href="css/normalize.css">
+    -->
+
+</head>
+<body>
+    <h1>DOM99 Demo</h1><br>
+    
+    <main >
+        <article data-99-bind="keyup,click-calculate">
+            <h2>Multiplier</h2><br>
+            <input data-99-var="a" type="number">
+            <span> X </span>
+            <input data-99-var="b" type="number">
+            <span> = </span>
+            <span data-99-var="result"></span>
+        </article>
+        
+        <article>
+            <h2>More examples coming soon</h2>
+        </article>
+        <article hidden>
+        <!-- work in progress -->
+            <template data-99-node="todoTemplate">
+                <li>
+                    <input type="checkbox">
+                    <input type="text" placeholder="What to do ?">
+                </li>
+            </template>
+            <h2>To-do List</h2>
+            <ol data-99-node="todoContainer"></ol>
+            <button data-99-bind="click-deleteTodos">Delete finished tasks</button>
+            <button data-99-bind="click-addTodo">Add To-do</button>
+        </article>
+    </main>
+    
+    
+
+<script src="js/bundle.js"></script>
+</body>
+</html>

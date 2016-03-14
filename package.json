@@ -1,0 +1,16 @@
+{
+  "name": "DOM99",
+  "version": "1.2.0",
+  "license": "MIT",
+  "description": "HTML/DOM manipulation made easier",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GrosSacASac/DOM99"
+  },
+  "dependencies": {
+  },
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}
