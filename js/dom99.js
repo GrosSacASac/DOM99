@@ -1,5 +1,6 @@
 //dom99.js
-
+/*uses es6
+globals: window, document, console*/
 module.exports = (function () {
     "use strict";
     let vars = {},
