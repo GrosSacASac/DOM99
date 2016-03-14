@@ -2,11 +2,11 @@
 
 ##What is DOM99 ?
 
-DOM99 is a framework to ease the interaction between the HTML/DOM and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently. It is very beginner friendly yet powerful and ultra fast. DOM99 is written in JavaScript ES2015 edition. 
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently.
 
 ##Why use DOM99 ?
 
-DOM99 allows you to manipulate the UI on a webpage very easily in a declarative way. You can get started in less than 15 minutes, it has no extra dependency, it doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small and is written respecting modern ES2015 and HTML5 standards. Also if you want to teach people JavaScript, without having to spend hours explaining the gimmicks of the native DOM interface, DOM99 is for you.
+DOM99 allows you to manipulate the UI on a webpage very easily in a declarative way. You can get started in less than 15 minutes, it has no extra dependency, it doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small and is written respecting modern ES2015 and HTML5 standards. Also if you want to teach people JavaScript, without having to spend hours explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
 
 ##How to use DOM99 ?
@@ -29,13 +29,18 @@ The general syntax is
 
 `<tag data-99-Keyword="details" > bla bla </tag>`
 
+If you are not using browserify you need to include this script tag in your html before other scripts that want access to dom99.
+
+    <script src="js/dom99.js"></script>
+
 ###In your JavaScript code :
 
-    //Start by requiring dom99 (you may need browserify)
+If you are using browserify start by requiring dom99. If you used the script tag, you already have the dom99 object and you can ignore this.
 
     const dom99 = require('./dom99.js');
 
-    //Store your functions in the dom99.fx object
+
+Store your functions in the dom99.fx object
 
     dom99.fx.functionName = aFunction;
 
@@ -79,6 +84,18 @@ having data-99-var="x" and data-99-bind="keyup,click-functionThatUsesX" can have
 ##Details
 
 You can handle new HTML with `DOM99.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
+
+###Transpile to ES5
+
+If you target older browsers, I recommend you to transpile dom99 to es5 compatible code. Here are the steps
+
+
+  1. Download node.js at https://nodejs.org/en/
+  2. Open the node.js command prompt and go in the directory with the dom99.js file
+  3. Download Babel, find out how at http://babeljs.io/docs/usage/cli/.
+  4. Use this command `babel dom99.js -o dom99.es5.js`
+  5. Now use dom99.es5.js in your production.
+
 
 ###Additional Explanations to understand dom99.js file
 

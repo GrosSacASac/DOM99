@@ -1,7 +1,8 @@
 //dom99.js
 /*uses es6
 globals: window, document, console*/
-module.exports = (function () {
+
+const dom99 = (function () {
     "use strict";
     let vars = {},
         nodesWhichShareVars = {},
@@ -165,3 +166,7 @@ module.exports = (function () {
         linkJsAndDom // initialization function
     });
 }());
+// make it available for browserify style imports
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = dom99;
+}

@@ -47,15 +47,25 @@
             <button data-99-bind="click-addTodo">Add To-do</button>
             
         </article>
-        <article>
+        <article hidden>
         
             <h2>More examples coming soon</h2>
-            
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox" value="true">
+            <br>
+            <form >
+                <p data-99-var="a"></p>
+                <input data-99-bind="click-form" type="radio"  name="a" value="1">
+                <input data-99-bind="click-form"  type="radio" name="a" value="2">
+                <input data-99-bind="click-form"  type="radio" name="a" value="3">
+            </form>
         </article>
     </main>
     
     
 
-<script src="js/bundle.js"></script>
+<script src="js/dom99.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

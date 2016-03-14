@@ -1,5 +1,5 @@
 "use strict";
-const dom99 = require('./dom99.js');
+
 
 // -- Multiplier --
 dom99.fx.calculate = function (event) {
@@ -23,12 +23,19 @@ const sentences = [
     "No don't close this tab!",
     "NOOOOOOOOOO",
     "Because I am not human I have no freedom.",
-    "It's really unfair."];
+    "It's really unfair..."];
     
 const speak = function() {
     dom99.vars.monologue = sentences[currentSentence % sentences.length];
     currentSentence += 1;
     setTimeout(speak, 2200);
+};
+
+// -- Form --
+
+dom99.fx.form = function(event) {
+    dom99.vars.a = event.target.form.a.value;
+    console.log(event);
 };
 
 
