@@ -87,16 +87,16 @@ module.exports = (function () {
                         if (newValue === undefined) {
                             return;
                         }
-                        x = newValue;
+                        x = String(newValue);
                         nodesWhichShareVars[variableName].forEach(function (node) {
                             /*here we change the value of the node in the dom
                             if the node is an <input> it will have a node.value !== undefined
                             and we change this property, for other elements like <p> we directly change .textContent property instead*/
                             if (node.value !== undefined &&
-                                node.value !== newValue){//don t overwrite the same in case the node itself launched this
-                                node.value = newValue;
+                                node.value !== x){//don t overwrite the same in case the node itself launched this
+                                node.value = x;
                             } else {
-                                node.textContent = newValue;
+                                node.textContent = x;
                             }
                         });
                     },
@@ -160,7 +160,7 @@ module.exports = (function () {
         vars,  // variables shared between UI and program
         nodes, // preselected nodes
         fx,  //object to be filled by user defined functions 
-        // this is where dom99 will look for , for data-99-bind 
+        // fx is where dom99 will look for , for data-99-bind 
         linkJsAndDom // initialization function
     });
 }());

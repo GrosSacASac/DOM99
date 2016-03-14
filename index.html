@@ -12,22 +12,28 @@
 
 </head>
 <body>
-    <h1>DOM99 Demo</h1><br>
-    
-    <main >
+    <h1>DOM99 Demo</h1>
+    <p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/js/main.js" target="_blank">JS</a>.</p>
+    <main>
         <article data-99-bind="keyup,click-calculate">
+        
             <h2>Multiplier</h2><br>
             <input data-99-var="a" type="number">
             <span> X </span>
             <input data-99-var="b" type="number">
             <span> = </span>
             <span data-99-var="result"></span>
+            
         </article>
         
         <article>
-            <h2>More examples coming soon</h2>
+            
+            <h2>The monologue</h2>
+            <p data-99-var="monologue"></p>
+            
         </article>
         <article hidden>
+        
         <!-- work in progress -->
             <template data-99-node="todoTemplate">
                 <li>
@@ -39,6 +45,12 @@
             <ol data-99-node="todoContainer"></ol>
             <button data-99-bind="click-deleteTodos">Delete finished tasks</button>
             <button data-99-bind="click-addTodo">Add To-do</button>
+            
+        </article>
+        <article>
+        
+            <h2>More examples coming soon</h2>
+            
         </article>
     </main>
     

@@ -4,9 +4,9 @@
 
 DOM99 is a framework to ease the interaction between the HTML/DOM and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently. It is very beginner friendly yet powerful and ultra fast. DOM99 is written in JavaScript ES2015 edition. 
 
-##Why use DOM99
+##Why use DOM99 ?
 
-DOM99 allows you to manipulate the UI on a webpage very easily in a declarative way. You can get started in less than 15 minutes, it has no extra dependency, it doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small and is written respecting modern ES2015 and HTML5 standards.
+DOM99 allows you to manipulate the UI on a webpage very easily in a declarative way. You can get started in less than 15 minutes, it has no extra dependency, it doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small and is written respecting modern ES2015 and HTML5 standards. Also if you want to teach people JavaScript, without having to spend hours explaining the gimmicks of the native DOM interface, DOM99 is for you.
 
 
 ##How to use DOM99 ?
@@ -41,7 +41,7 @@ The general syntax is
 
     //For example aFunction would be called if you click this button
     //<button data-99-bind="click-functionName">Action</button>
-    //Note data-99-bind="click-__functionName__" and not data-99-bind="click-__aFunction__"
+    //Note we have wrote functionName not aFunction
 
     //to start using dom99
 

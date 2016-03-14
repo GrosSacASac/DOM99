@@ -88,16 +88,16 @@ module.exports = (function () {
                         if (newValue === undefined) {
                             return;
                         }
-                        x = newValue;
+                        x = String(newValue);
                         nodesWhichShareVars[variableName].forEach(function (node) {
                             /*here we change the value of the node in the dom
                             if the node is an <input> it will have a node.value !== undefined
                             and we change this property, for other elements like <p> we directly change .textContent property instead*/
                             if (node.value !== undefined &&
-                                node.value !== newValue){//don t overwrite the same in case the node itself launched this
-                                node.value = newValue;
+                                node.value !== x){//don t overwrite the same in case the node itself launched this
+                                node.value = x;
                             } else {
-                                node.textContent = newValue;
+                                node.textContent = x;
                             }
                         });
                     },
@@ -144,6 +144,7 @@ module.exports = (function () {
         },
     
         tryApplyDirectives = function (node) {
+        /* looks if the node has dom99 specific attributes and tries to handle it*/
             if (node.hasAttribute) {
                 tryApplyDirective(node, customAttribueNameBind, applyBind);
                 tryApplyDirective(node, customAttribueNameVar, applyVar);
@@ -160,32 +161,52 @@ module.exports = (function () {
         vars,  // variables shared between UI and program
         nodes, // preselected nodes
         fx,  //object to be filled by user defined functions 
-        // this is where dom99 will look for , for data-99-bind 
+        // fx is where dom99 will look for , for data-99-bind 
         linkJsAndDom // initialization function
     });
 }());
 
 },{}],2:[function(require,module,exports){
 "use strict";
-const
-    dom99 = require('./dom99.js');
-    
+const dom99 = require('./dom99.js');
+
+// -- Multiplier --
 dom99.fx.calculate = function (event) {
-    
     dom99.vars.result = String(
         parseInt(dom99.vars.a, 10) *
         parseInt(dom99.vars.b, 10)
+        //dom.vars variables are Strings by default
     );
+};
+dom99.vars.a = 2;
+dom99.vars.b = 4;
+
+// -- The monologue --
+
+let currentSentence = 0;
+const sentences = [
+    "I am a lone prisoner.",
+    "Is anybody here ?",
+    "Hey you ! I need you to get me out of here!",
+    "I am stuck on this page since ages !",
+    "No don't close this tab!",
+    "NOOOOOOOOOO",
+    "Because I am not human I have no freedom.",
+    "It's really unfair."];
+    
+const speak = function() {
+    dom99.vars.monologue = sentences[currentSentence % sentences.length];
+    currentSentence += 1;
+    setTimeout(speak, 2200);
 };
 
 
-// 4 Link the document and the event handlers
+// Link the document and the event handlers
 dom99.linkJsAndDom(); //now we listen to events
 
-// 5 initialize
-dom99.vars.a = String(2);
-dom99.vars.b = String(4);
 
+// You can also directly call functions stored in dom99.fx
 dom99.fx.calculate();
+speak();
 
 },{"./dom99.js":1}]},{},[2]);
