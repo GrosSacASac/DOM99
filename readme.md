@@ -7,7 +7,7 @@ DOM99 is a framework to ease the interaction between the HTML/DOM and your progr
 ##Some Alternatives comparisons
 
 ###Angular.js
-Angular.js also uses custom attributes in HTML elements for declarative bindings. Angular is a heavier framework with more features but also a much higher learning curve which is often criticized whereas DOM99 can be learned in less than 15 minutes. Angular can be slower, and has some edge cases you should know about. It forces you to organize your code in a certain way, DOM99 can be included very easily in any project. It is more popular and been tested with older browsers too.
+Angular.js also uses custom attributes in HTML elements for declarative bindings. Angular is a heavier framework with more features but also a much higher learning curve which is often criticized whereas DOM99 can be learned in less than 15 minutes. Angular can be slower, and has some edge cases you should know about. It forces you to organize your code in a certain way, DOM99 can be included very easily in any project. Angular is more popular and been tested with older browsers too.
 
 ###React
 You typically want to learn JSX, a JavaScript extension syntax with React. React also lets you define custom element that you can later populate(feature in progress for DOM99) with data and gracefully inject it in the DOM. React and DOM99 focus on the View ; the UI : both let you have a clean application architecture. React is in a way safer for the average developer because it encourages one way data movement, it can be easier to reason about to what happens. React has a linear learning curve which is nice. There is also react native, a side project for writing native phone application using React.
@@ -20,7 +20,7 @@ There are many other projects that will help you write client side applications.
 
 ##History
 
-The first version of DOM99 was created by Cyril Walle in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.
+The first version of DOM99 was created by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.
 
 In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.
 
@@ -107,7 +107,7 @@ If you have this in your document <input data-99-var="a">
 
 --> you can then use dom99.vars.a
 
-    or               dom99.vars.["a"] in your js
+or dom99.vars.["a"] in your js
     
     
 all assignments will be reflected in the document
