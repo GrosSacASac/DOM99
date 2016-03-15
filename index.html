@@ -15,12 +15,22 @@
     <h1>DOM99 Demo</h1>
     <p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/js/main.js" target="_blank">JS</a>.</p>
     <main>
-        <article data-99-bind="keyup,click-calculate">
+        <article data-99-bind="keyup-sayHi">
+        
+            <h2>Hello World</h2><br>
+            <label>First name: <input data-99-var="firstName" type="text"></label><br>
+            <label>Last name: <input data-99-var="lastName" type="text"></label>
+            
+            <br><p> Hello <em data-99-var="completeName"></em></p>
+            
+        </article>
+        
+        <article >
         
             <h2>Multiplier</h2><br>
-            <input data-99-var="a" type="number">
+            <input data-99-var="a" data-99-bind="input-calculate" type="number">
             <span> X </span>
-            <input data-99-var="b" type="number">
+            <input data-99-var="b" data-99-bind="input-calculate" type="number">
             <span> = </span>
             <span data-99-var="result"></span>
             
@@ -34,38 +44,31 @@
             
         </article>
         
-        <article hidden>
+        <article>
         
-        <!-- work in progress -->
+        
             <template data-99-node="todoTemplate">
+                <!-- Everything here has its own scope  -->
                 <li>
-                    <input data-99-bind="change-updateJson" data-99-var="todoDone" type="checkbox">
-                    <input data-99-bind="input-updateJson" data-99-var="todoText" type="text" placeholder="What to do ?">
+                    <input data-99-bind="click-updateJson" data-99-var="done" type="checkbox">
+                    <input data-99-bind="input-updateJson" data-99-var="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
             <h2>To-do List</h2>
             <ol data-99-node="todoContainer"></ol>
             <button data-99-bind="click-deleteTodos">Delete finished tasks</button>
             <button data-99-bind="click-addTodo">Add To-do</button>
-            <pre>JSON:
-                <output data-99-var="todoAsJson"></output>
+            <pre>JSON: <output data-99-var="todoAsJson"></output>
             </pre>
             
         </article>
-        <article hidden>
         
+        <article>
+       
             <h2>More examples coming soon</h2>
-            <input type="checkbox">
-            <input type="checkbox">
-            <input type="checkbox" value="true">
-            <br>
-            <form >
-                <p data-99-var="a"></p>
-                <input data-99-bind="click-form" type="radio"  name="a" value="1">
-                <input data-99-bind="click-form"  type="radio" name="a" value="2">
-                <input data-99-bind="click-form"  type="radio" name="a" value="3">
-            </form>
+            <p data-99-var="para"></p>
         </article>
+        
     </main>
     
     

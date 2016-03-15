@@ -2,7 +2,7 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently.
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently. You can easily populate HTML templates with data and insert it in the document.
 
 ##Why use DOM99 ?
 
@@ -69,6 +69,10 @@ If you are using browserify start by requiring dom99. If you used the script tag
 
     //will remove <h1 data-99-node="bigTitle">You can remove me to make space</h1>
 
+    //New, exerimental
+    //use dom99.templateRender(templateNodeName, targetNodeName, variablesPathStart);
+    //to inject template clones in your Document, read source in the Demo
+
 You are ready to use DOM99 ! 
     
 ##Demo file:
@@ -79,7 +83,7 @@ index.html and main.js
 
 ##Known issues:
 
-having data-99-var="x" and data-99-bind="keyup,click-functionThatUsesX" can have the funtion use the old x value then updating x. This will soon be updated.
+All previously known issues are fixed now. Clear.
 
 ##Details
 

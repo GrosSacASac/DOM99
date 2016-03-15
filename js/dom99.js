@@ -1,9 +1,80 @@
 //dom99.js
 /*uses es6
 globals: window, document, console*/
-/*todo handle memory leaks maybe with a public forget node method
-templating, improve system
-more examples*/
+/*todo  improve system
+more examples, readme */
+
+const dom99Config = (function () {
+    "use strict";
+    /*this configuration will be split in another file when it is ready.
+    it is ready when it is open to extension and closed to changes*/
+    const 
+        miss = Symbol(),
+        
+        getValueElseDefaultDecorator = function (object1) {
+            /*Decorator function around an Object to provide a default value
+            Decorated object must have a miss key with the default value associated
+            
+            traditional use: 
+                let a = objectName[c];
+            getValueElseDefaultDecorator use
+                let objectNameElseDefault = getValueElseDefaultDecorator(objectName);
+                ...
+                let a = objectNameElseDefault(c); 
+                
+            */
+            return (function (key) {
+                if (object1.hasOwnProperty(key)) {
+                    return object1[key];
+                } // else
+                    return object1.miss; // correct syntax ?
+                    // return object[miss]; always undefined
+            });
+        },
+        
+        
+        EventForTagAndType = getValueElseDefaultDecorator({
+            //tag.type: eventType
+            "input.text": "input",
+            "input.checkbox": "click",
+            "input.radio": "click",
+            miss: "input"
+        }),
+    
+        PropertyForTag = getValueElseDefaultDecorator({
+            //Input Type : appropriate property name to retrieve and set the value
+            "input": "value",
+            miss: "textContent"
+        }),
+    
+        PropertyForInputType = getValueElseDefaultDecorator({
+            //Input Type : appropriate property name to retrieve and set the value
+            "checkbox": "checked",
+            "radio": "checked",
+            miss: "value"
+        }),
+    
+        PropertyBooleanList = [
+            /* add here all relevant boolean properties*/
+            "checked"
+        ],
+        
+        getVisibleProperty = function (tagName, type) {
+        /*if the element is an <input> its VisibleProperty is "value"
+        for other elements like <p> it is "textContent*/
+            if (tagName === "input") {
+                return PropertyForInputType(type); 
+            } // else
+            return PropertyForTag(tagName);
+        };
+    
+    return Object.freeze({
+        EventForTagAndType,
+        getVisibleProperty,
+        PropertyBooleanList
+    });
+}());
+
 const dom99 = (function () {
     "use strict";
     let vars = {},
@@ -11,7 +82,7 @@ const dom99 = (function () {
         nodes = {},
         fx = {},
         renderingTemplate = false,
-        renderingTemplatevariablePathStart;
+        renderingTemplatevariablesPathStart;
         
     const 
         customAttribueNameBind = "data-99-bind",
@@ -22,11 +93,16 @@ const dom99 = (function () {
  
         walkTheDom = function (node, aFunction) {
             aFunction(node);
+            // we could use .firstElementChild instead if we want to ignore text nodes
             node = node.firstChild;
             while (node) {
                 walkTheDom(node, aFunction);
                 node = node.nextSibling;
             }
+        },
+        
+        getTagName = function (element) {
+            return element.tagName.toLowerCase();
         },
     
         addEventListener = function (node, eventName, aFunction, useCapture=false) {
@@ -53,7 +129,7 @@ const dom99 = (function () {
                 functionLookUp = function(event) {
                     fx[functionName](event);
                 };
-                
+            
             eventNames.split(",").forEach(function (eventName) {
                 addEventListener(node, eventName, functionLookUp);
             });
@@ -73,26 +149,31 @@ const dom99 = (function () {
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
             let variableName = directiveTokens[0],
                 temp,
-                variablePath = vars;
-                
-            //for template cloning
+                variablesPath = vars,
+                nodesWhichShareVarsPath = nodesWhichShareVars,
+                visibleTextPropertyName,
+                tagName = getTagName(node);
+            
+            
+            //for template cloning, we use a grouped scope
             if (renderingTemplate) {
-                variablePath = vars[renderingTemplatevariablePathStart];
-                // it is also an {}
+                variablesPath = vars[renderingTemplatevariablesPathStart];
+                nodesWhichShareVarsPath = nodesWhichShareVars[renderingTemplatevariablesPathStart];
+                // 
             }
             
-            /*we check if the user already saved data in variablePath[variableName]
+            /*we check if the user already saved data in variablesPath[variableName]
             before using linkJsAndDom , if that is the case we
-            initialize variablePath[variableName] with that same data once we defined
+            initialize variablesPath[variableName] with that same data once we defined
             our custom property*/
-            if (variablePath.hasOwnProperty(variableName)) {
-                temp = variablePath[variableName];
+            if (variablesPath.hasOwnProperty(variableName)) {
+                temp = variablesPath[variableName];
             }
             
-            if (!nodesWhichShareVars[variableName]) {
+            if (!nodesWhichShareVarsPath[variableName]) {
                 let x; // holds the value
-                nodesWhichShareVars[variableName] = [node];
-                Object.defineProperty(variablePath, variableName, {
+                nodesWhichShareVarsPath[variableName] = [node];
+                Object.defineProperty(variablesPath, variableName, {
                     get: function () {
                         return x;
                     },
@@ -101,18 +182,22 @@ const dom99 = (function () {
                             return;
                         }
                         x = String(newValue);
-                        nodesWhichShareVars[variableName].forEach(function (node) {
-                            /*here we change the value of the node in the dom
-                            if the node is an <input> it will have a node.value !== undefined
-                            and we change this property, for other elements like <p> we directly change .textContent property instead*/
-                            if (node.value !== undefined &&
-                                node.value !== x){//don t overwrite the same in case the node itself launched this
-                                node.value = x;
+                        nodesWhichShareVarsPath[variableName].forEach(function (currentNode) {
+                            /*here we change the value of the currentNode in the dom
+                            */
+                            visibleTextPropertyName = dom99Config.getVisibleProperty(
+                                getTagName(currentNode), 
+                                currentNode.type
+                            );
+                            if (String(currentNode[visibleTextPropertyName]) !== x) {
+                                if (visibleTextPropertyName in dom99Config.PropertyBooleanList) {
+                                    //"false" is truthy ...
+                                    currentNode[visibleTextPropertyName] = newValue; 
+                                } else {
+                                    //don't overwrite the same
+                                    currentNode[visibleTextPropertyName] = x;
+                                }
                             }
-                            if (node.textContent !== undefined &&
-                                node.textContent !== x){//don t overwrite the same in case the node itself launched this
-                                node.textContent = x;
-                            } 
                         });
                     },
                     enumerable: true,
@@ -120,52 +205,96 @@ const dom99 = (function () {
                     //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
                 });
             } else {
-                nodesWhichShareVars[variableName].push(node);
+                nodesWhichShareVarsPath[variableName].push(node);
             }
             
             if (temp !== undefined) {
-                variablePath[variableName] = temp; //calls the set once
+                variablesPath[variableName] = temp; //calls the set once
             }
-            addEventListener(node, "input",  function (event) {
-                // works fine for <input>
-                //todo find solution for all kinds of widgets that have user editable content
-                variablePath[variableName] = event.target.value;
-                
+            visibleTextPropertyName = dom99Config.getVisibleProperty(tagName, node.type);
+            
+
+            addEventListener(node, 
+                dom99Config.EventForTagAndType(`${getTagName(node)}.${node.type}`),
+                function (event) {
+                    variablesPath[variableName] = event.target[visibleTextPropertyName];
             });
         },
     
         applyNode = function (node, directiveTokens) {
-            // stores node for direct access !
-            if (!nodes[directiveTokens[0]]) {
-                nodes[directiveTokens[0]] = node;
-            } else {
-                console.error("cannot have 2 nodes with the same name");
+            /* stores node for direct access !*/
+            let nodeName = directiveTokens[0],
+                nodesPath = nodes;
+                
+            //for template cloning, we use a grouped scope
+            if (renderingTemplate) {
+                nodesPath = nodes[renderingTemplatevariablesPathStart];
             }
+            if (nodesPath[nodeName]) {
+                console.warn(`cannot have 2 nodes with the same name, overwriting dom99.nodes.${nodeName}`);
+            }
+            nodesPath[nodeName] = node;
         },
         
-        templateRender = function (templateNodeName, targetNodeName, variablePathStart) {
+        templateRender = function (templateNodeName, targetNodeName, variablesPathStart) {
         //NOT FINISHED DO NOT USE, yet
             /*takes a template node as argument, usually a <template>
-            clones the content and inserts it at the end of the targetnodes list of childnodes
+            clones the content and inserts it at the end of the target nodes list of childnodes
             the content nodes with var "data-99-var" will share a variable at
-            dom99.vars[variablePathStart][variableName]
+            dom99.vars[variablesPathStart][variableName]
             that way you can render a template multiple times, populate clone data
             and have it not shared between all clones.
             
-            maybe handle variablePathStart internally
-            we ll do same for nodes if it works
+            dom99.nodes[variablesPathStart].firstElementChild will be the first element child of the clone
+            for convenience
+            maybe handle generate variablesPathStart internally
             */
             //console.log(nodes[templateNodeName]);
-            if (!dom99.vars.hasOwnProperty(variablePathStart)){
-                dom99.vars[variablePathStart] = {};
+            if (!vars.hasOwnProperty(variablesPathStart)){
+                nodes[variablesPathStart] = {};
+                vars[variablesPathStart] = {};
+                nodesWhichShareVars[variablesPathStart] = {};
             }
             let clone = document.importNode(nodes[templateNodeName].content, true);
+            // clone is a DocumentFragment
             renderingTemplate = true;
-            renderingTemplatevariablePathStart = variablePathStart;
+            //renderingTemplatevariablesPathStart is used for the grouped scope
+            renderingTemplatevariablesPathStart = variablesPathStart;
             //clone.querySelector("input").value = content;
+            
+            nodes[variablesPathStart].firstElementChild = clone.firstElementChild;
             linkJsAndDom(clone);
             nodes[targetNodeName].insertBefore(clone, null);
             renderingTemplate = false;
+        },
+    
+        forgetNode = function (variablesPathStart) {
+            /*Removing a DOM node with .remove() or .innerHTML = "" will NOT delete
+            all the node references.
+            A removed node will continue receive invisible automatic updates 
+            it also takes space in the memory.
+            
+            And all of this doesn't matter for 1-100 nodes
+            
+            It does matter in single page application where you CONSISTENTLY use 
+            
+                1. dom99.templateRender 
+                2. populate the result with data
+                3. somewhat later delete the result
+                
+            In that case I recommend using an additional step
+            
+                4. Use dom99.forgetNode to free space in memory
+                (can also improve performance but it doesn't matter here, read optimize optimization)
+            
+            Note: If you have yet another reference to the node in a variable in your program, the node will still exist and we cannot clean it up from here.
+            
+            Internally we just deleted the scope group for every relevant function
+            (for instance binds are not scope grouped)
+            */
+            delete nodes[variablesPathStart];
+            delete vars[variablesPathStart];
+            delete nodesWhichShareVars[variablesPathStart];
         },
         
         tryApplyDirective = function (node, customAttribueName, ApplyADirective) {
@@ -185,8 +314,10 @@ const dom99 = (function () {
         tryApplyDirectives = function (node) {
         /* looks if the node has dom99 specific attributes and tries to handle it*/
             if (node.hasAttribute) {
-                tryApplyDirective(node, customAttribueNameBind, applyBind);
+                /*the order matters here, applyVar being first,
+                we can use the just changed live variable in the bind function*/
                 tryApplyDirective(node, customAttribueNameVar, applyVar);
+                tryApplyDirective(node, customAttribueNameBind, applyBind);
                 tryApplyDirective(node, customAttribueNameNode, applyNode);
             }
         },
@@ -202,6 +333,7 @@ const dom99 = (function () {
         fx,  //object to be filled by user defined functions 
         // fx is where dom99 will look for , for data-99-bind,
         templateRender,
+        forgetNode,
         linkJsAndDom // initialization function
     });
 }());
