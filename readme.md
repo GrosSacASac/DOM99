@@ -40,7 +40,7 @@ If you are using browserify start by requiring dom99. If you used the script tag
     const dom99 = require('./dom99.js');
 
 
-Store your functions in the dom99.fx object
+    //Store your functions in the dom99.fx object
 
     dom99.fx.functionName = aFunction;
 

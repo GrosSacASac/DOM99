@@ -30,21 +30,26 @@
             
             <h2>The monologue</h2>
             <p data-99-var="monologue"></p>
+            <button data-99-var="monologueButton" data-99-bind="click-stopStartTalking"></button>
             
         </article>
+        
         <article hidden>
         
         <!-- work in progress -->
             <template data-99-node="todoTemplate">
                 <li>
-                    <input type="checkbox">
-                    <input type="text" placeholder="What to do ?">
+                    <input data-99-bind="change-updateJson" data-99-var="todoDone" type="checkbox">
+                    <input data-99-bind="input-updateJson" data-99-var="todoText" type="text" placeholder="What to do ?">
                 </li>
             </template>
             <h2>To-do List</h2>
             <ol data-99-node="todoContainer"></ol>
             <button data-99-bind="click-deleteTodos">Delete finished tasks</button>
             <button data-99-bind="click-addTodo">Add To-do</button>
+            <pre>JSON:
+                <output data-99-var="todoAsJson"></output>
+            </pre>
             
         </article>
         <article hidden>

@@ -1,13 +1,17 @@
 //dom99.js
 /*uses es6
 globals: window, document, console*/
-
+/*todo handle memory leaks maybe with a public forget node method
+templating, improve system
+more examples*/
 const dom99 = (function () {
     "use strict";
     let vars = {},
         nodesWhichShareVars = {},
         nodes = {},
-        fx = {};
+        fx = {},
+        renderingTemplate = false,
+        renderingTemplatevariablePathStart;
         
     const 
         customAttribueNameBind = "data-99-bind",
@@ -68,20 +72,27 @@ const dom99 = (function () {
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
             let variableName = directiveTokens[0],
-                temp;
+                temp,
+                variablePath = vars;
+                
+            //for template cloning
+            if (renderingTemplate) {
+                variablePath = vars[renderingTemplatevariablePathStart];
+                // it is also an {}
+            }
             
-            /*we check if the user already saved data in vars[variableName]
+            /*we check if the user already saved data in variablePath[variableName]
             before using linkJsAndDom , if that is the case we
-            initialize vars[variableName] with that same data once we defined
+            initialize variablePath[variableName] with that same data once we defined
             our custom property*/
-            if (vars.hasOwnProperty(variableName)) {
-                temp = vars[variableName];
+            if (variablePath.hasOwnProperty(variableName)) {
+                temp = variablePath[variableName];
             }
             
             if (!nodesWhichShareVars[variableName]) {
                 let x; // holds the value
                 nodesWhichShareVars[variableName] = [node];
-                Object.defineProperty(vars, variableName, {
+                Object.defineProperty(variablePath, variableName, {
                     get: function () {
                         return x;
                     },
@@ -97,9 +108,11 @@ const dom99 = (function () {
                             if (node.value !== undefined &&
                                 node.value !== x){//don t overwrite the same in case the node itself launched this
                                 node.value = x;
-                            } else {
-                                node.textContent = x;
                             }
+                            if (node.textContent !== undefined &&
+                                node.textContent !== x){//don t overwrite the same in case the node itself launched this
+                                node.textContent = x;
+                            } 
                         });
                     },
                     enumerable: true,
@@ -111,12 +124,12 @@ const dom99 = (function () {
             }
             
             if (temp !== undefined) {
-                vars[variableName] = temp; //calls the set once
+                variablePath[variableName] = temp; //calls the set once
             }
             addEventListener(node, "input",  function (event) {
                 // works fine for <input>
                 //todo find solution for all kinds of widgets that have user editable content
-                vars[variableName] = event.target.value;
+                variablePath[variableName] = event.target.value;
                 
             });
         },
@@ -129,7 +142,32 @@ const dom99 = (function () {
                 console.error("cannot have 2 nodes with the same name");
             }
         },
-    
+        
+        templateRender = function (templateNodeName, targetNodeName, variablePathStart) {
+        //NOT FINISHED DO NOT USE, yet
+            /*takes a template node as argument, usually a <template>
+            clones the content and inserts it at the end of the targetnodes list of childnodes
+            the content nodes with var "data-99-var" will share a variable at
+            dom99.vars[variablePathStart][variableName]
+            that way you can render a template multiple times, populate clone data
+            and have it not shared between all clones.
+            
+            maybe handle variablePathStart internally
+            we ll do same for nodes if it works
+            */
+            //console.log(nodes[templateNodeName]);
+            if (!dom99.vars.hasOwnProperty(variablePathStart)){
+                dom99.vars[variablePathStart] = {};
+            }
+            let clone = document.importNode(nodes[templateNodeName].content, true);
+            renderingTemplate = true;
+            renderingTemplatevariablePathStart = variablePathStart;
+            //clone.querySelector("input").value = content;
+            linkJsAndDom(clone);
+            nodes[targetNodeName].insertBefore(clone, null);
+            renderingTemplate = false;
+        },
+        
         tryApplyDirective = function (node, customAttribueName, ApplyADirective) {
             let customAttributeValue;
             if (node.hasAttribute(customAttribueName)) {
@@ -162,7 +200,8 @@ const dom99 = (function () {
         vars,  // variables shared between UI and program
         nodes, // preselected nodes
         fx,  //object to be filled by user defined functions 
-        // fx is where dom99 will look for , for data-99-bind 
+        // fx is where dom99 will look for , for data-99-bind,
+        templateRender,
         linkJsAndDom // initialization function
     });
 }());
