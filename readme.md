@@ -29,9 +29,12 @@ The general syntax is
 
 `<tag data-99-Keyword="details" > bla bla </tag>`
 
-If you are not using browserify you need to include this script tag in your html before other scripts that want access to dom99.
+If you are not using browserify you need to include this script tag in your html **before** other scripts that access dom99.
 
     <script src="js/dom99.js"></script>
+    <script src="js/yourJavascriptFile.js"></script>
+    
+
 
 ###In your JavaScript code :
 
@@ -132,16 +135,71 @@ it is basically a short cut for getElementBy...()
 custom attribute names must start with "data-" see
 https://docs.webplatform.org/wiki/html/attributes/data-*
 
-##Some Alternatives comparisons
+##Alternatives comparisons with Contra, Pro , some similarities
 
 ###Angular.js
-Angular.js also uses custom attributes in HTML elements for declarative bindings. Angular is a heavier framework with more features but also a much higher learning curve which is often criticized whereas DOM99 can be learned in less than 15 minutes. Angular can be slower, and has some edge cases you should know about. It forces you to organize your code in a certain way, DOM99 can be included very easily in any project. Angular is more popular and been tested with older browsers too.
+
+Pro:
+
+  * More features
+  * Easily Testable
+  * More browser compatibility
+  
+Contra:
+
+  * Learning curve: wall
+  * Forced to organize code base in the Angular MVC way
+  * Logic in Markup
+  * Heavy components for simple UIs
+  * Heavier
+    
+Some similarities:
+
+  * Declarative Markup
+  * Shared variables are normal js objects
+
 
 ###React
-You typically want to learn JSX, a JavaScript extension syntax with React. React also lets you define custom element that you can later populate(feature in progress for DOM99) with data and gracefully inject it in the DOM. React and DOM99 focus on the View ; the UI : both let you have a clean application architecture. React is in a way safer for the average developer because it encourages one way data movement, it can be easier to reason about to what happens. React has a linear learning curve which is nice. There is also react native, a side project for writing native phone application using React.
+
+Pro:
+
+  * Easier to understand what is happening in large code bases
+  * React native (still a thing ?)
+  * More browser compatibility
+  
+Contra:
+
+  * Encouraged to use JSX, a JavaScript extension syntax
+  * Can be hard to understand how and why to use react
+  * Forced V-V model
+    
+Some similarities:
+
+  * Elegantly populate templates with data 
+  * Focus on the view
+  * Simple by design
+ 
 
 ###jQuery
-jQuery is large library of functions that can very well be used alongside DOM99. However it doesn't make sense to use both for node selection, DOM manipulation etc. jQuery is used in an imperative manner, as opposed to react, Angular and DOM99 that use declarative models. Imperative programming is very easy to understand, but makes it less obvious to how organize code in a clean way. Declarative, especially for UI is quite handy and lets you collaborate easier with designers who know little about programming. jQuery is the most solid choice if you target old browser.
+
+Pro:
+
+  * Imperative instructions are easy to understand
+  * Beginner friendly
+  * Best old browser compatibility
+  * Also a non-UI library
+  
+Contra:
+
+  * Not obvious how organize large code in a clean way
+  * Can do almost everything as easily with browser APIs
+    
+Some similarities:
+
+  * Freedom
+  * Can be used alongside other JavaScript view frameworks
+  * Simple
+
 
 ###Others
 There are many other projects that will help you write client side applications. All have their advantages/problems. It will take you weeks/month maybe even years to browse them all and compare them. You have to make a choice at some point.
