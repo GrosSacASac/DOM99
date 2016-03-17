@@ -11,6 +11,8 @@ DOM99 allows you to manipulate the UI on a webpage very easily in a declarative 
 
 ##How to use DOM99 ?
 
+###The Basics
+
 ###In your HTML :
 
 DOM99 will browse the DOM and react if an element has one of the following attributes
@@ -77,7 +79,12 @@ If you are using browserify start by requiring dom99. If you used the script tag
     //to inject template clones in your Document, read source in the Demo
 
 You are ready to use DOM99 ! 
-    
+
+###Complete overview
+
+coming soon !
+
+ 
 ##Demo file:
 
 index.html and main.js
@@ -96,44 +103,11 @@ You can handle new HTML with `DOM99.linkJsAndDom(startNode);`. Already processed
 
 If you target older browsers, I recommend you to transpile dom99 to es5 compatible code. Here are the steps
 
-
   1. Download node.js at https://nodejs.org/en/
   2. Open the node.js command prompt and go in the directory with the dom99.js file
   3. Download Babel, find out how at http://babeljs.io/docs/usage/cli/.
   4. Use this command `babel dom99.js -o dom99.es5.js`
   5. Now use dom99.es5.js in your production.
-
-
-###Additional Explanations to understand dom99.js file
-
-varListeners contains arrays of nodes , each array contains all nodes
-that listen to the same variable. 
-
-If you have this in your document <input data-99-var="a">
-
---> you can then use vars.a or vars["a"] in dom99.js
-
---> you can then use dom99.vars.a
-
-or dom99.vars.["a"] in your js
-    
-    
-all assignments will be reflected in the document
-
-
-If you have this in your document <div data-99-node="box1"></div>
-
-
---> you can then use nodes.box1 or nodes["box1"]
-
-
-it is basically a short cut for getElementBy...()
-  
-
-
-
-custom attribute names must start with "data-" see
-https://docs.webplatform.org/wiki/html/attributes/data-*
 
 ##Alternatives comparisons with Contra, Pro , some similarities
 
@@ -188,11 +162,12 @@ Pro:
   * Beginner friendly
   * Best old browser compatibility
   * Also a non-UI library
+  * One of the best things that happened in the Web Platform
   
 Contra:
 
   * Not obvious how organize large code in a clean way
-  * Can do almost everything as easily with browser APIs
+  * Can do almost everything as easily with browser APIs nowadays
     
 Some similarities:
 
@@ -202,6 +177,7 @@ Some similarities:
 
 
 ###Others
+
 There are many other projects that will help you write client side applications. All have their advantages/problems. It will take you weeks/month maybe even years to browse them all and compare them. You have to make a choice at some point.
 
 ##History
@@ -209,6 +185,24 @@ There are many other projects that will help you write client side applications.
 The first version of DOM99 was created by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.
 
 In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.
+
+##Future
+
+###Abstract directions for the future:
+
+ * Freedom
+ * Simplicity in system and usage
+ * Encourage declarative UI programming models
+
+###Discussion
+
+####Chat
+
+https://dystroy.org/miaou/3
+
+####Issues reports
+
+https://github.com/GrosSacASac/DOM99/issues
 
 ##License
 

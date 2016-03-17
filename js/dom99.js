@@ -341,3 +341,33 @@ const dom99 = (function () {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = dom99;
 }
+/*Additional Explanations to understand dom99.js file
+
+varListeners contains arrays of nodes , each array contains all nodes
+that listen to the same variable. 
+
+If you have this in your document <input data-99-var="a">
+
+--> you can then use vars.a or vars["a"] in dom99.js
+
+--> you can then use dom99.vars.a
+
+or dom99.vars.["a"] in your js
+    
+    
+all assignments will be reflected in the document
+
+
+If you have this in your document <div data-99-node="box1"></div>
+
+
+--> you can then use nodes.box1 or nodes["box1"]
+
+
+it is basically a short cut for getElementBy...()
+  
+
+
+
+custom attribute names must start with "data-" see
+https://docs.webplatform.org/wiki/html/attributes/data-* */
