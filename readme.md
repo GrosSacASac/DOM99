@@ -17,15 +17,15 @@ DOM99 allows you to manipulate the UI on a webpage very easily in a declarative 
 
 DOM99 will browse the DOM and react if an element has one of the following attributes
 
-* data-99-var :  data binding between DOM element and js variable
-* data-99-node : pre-selecting a node for later usage
-* data-99-bind : adds an event listener to that element
+* data-99-vr : **vr for variable**: data binding between DOM element and js variable
+* data-99-el : **el for element**: pre-selecting an element for later usage
+* data-99-fx : **fx for function** adds an event listener to that element
 
 Examples:
 
-    <input data-99-var="b" type="text">
-    <nav data-99-node="myNav">Navigation Links</nav>
-    <button data-99-bind="click-deleteFoto">Delete Foto</button>
+    <input data-99-vr="b" type="text">
+    <nav data-99-el="myNav">Navigation Links</nav>
+    <button data-99-fx="click-deleteFoto">Delete Foto</button>
             
 The general syntax is 
 
@@ -50,32 +50,32 @@ If you are using browserify start by requiring dom99. If you used the script tag
     dom99.fx.functionName = aFunction;
 
     //For example aFunction would be called if you click this button
-    //<button data-99-bind="click-functionName">Action</button>
+    //<button data-99-fx="click-functionName">Action</button>
     //Note we have wrote functionName not aFunction
 
     //to start using dom99
 
     dom99.linkJsAndDom(); 
 
-    //Now <button data-99-bind... and others are live !
+    //Now <button data-99-fx... and others are live !
 
     //To change a shared variable
 
-    dom99.vars.talkings = "Hi";
+    dom99.vr.talkings = "Hi";
 
     //Changes the text of this paragraph and all other nodes that share the variable talkings
-    //<p data-99-var="talkings"></p>
+    //<p data-99-vr="talkings"></p>
     //Use <input> elements for two way data bindings
 
     //To use a preselected node
 
-    dom99.nodes.bigTitle //the node, we can do what we want with it
-    dom99.nodes.bigTitle.remove(); //for instance remove the bigTitle node
+    dom99.el.bigTitle //the node, we can do what we want with it
+    dom99.el.bigTitle.remove(); //for instance remove the bigTitle node
 
-    //will remove <h1 data-99-node="bigTitle">You can remove me to make space</h1>
+    //will remove <h1 data-99-el="bigTitle">You can remove me to make space</h1>
 
     //New, exerimental
-    //use dom99.templateRender(templateNodeName, targetNodeName, variablesPathStart);
+    //use dom99.templateRender(templateNodeName, scope);
     //to inject template clones in your Document, read source in the Demo
 
 You are ready to use DOM99 ! 
@@ -87,8 +87,7 @@ coming soon !
  
 ##Demo file:
 
-index.html and main.js
-
+(Tested with Firefox 47+)
 [Open demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html)
 
 ##Known issues:
