@@ -40,9 +40,6 @@ If you are not using browserify you need to include this script tag in your html
 
 ###In your JavaScript code :
 
-If you are using browserify start by requiring dom99 `const dom99 = require('./dom99.js');`. If you used the script tag, you already have the dom99 object and you can ignore this.
-
-
     //Store your functions in the dom99.fx object
 
     dom99.fx.functionName = aFunction;
@@ -61,7 +58,7 @@ To changes the text of `<p data-99-vr="talkings"></p>` and all other element tha
 
     dom99.vr.talkings = "Hi";
 
-Use the same data-99-vr="talkings" on <input> elements for two way data bindings
+Use the same data-99-vr="talkings" on `<input>` elements for two way data bindings
 
 
 To use a preselected element
