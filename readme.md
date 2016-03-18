@@ -40,21 +40,20 @@ If you are not using browserify you need to include this script tag in your html
 
 ###In your JavaScript code :
 
-If you are using browserify start by requiring dom99. If you used the script tag, you already have the dom99 object and you can ignore this.
-
-    const dom99 = require('./dom99.js');
+If you are using browserify start by requiring dom99 `const dom99 = require('./dom99.js');`. If you used the script tag, you already have the dom99 object and you can ignore this.
 
 
     //Store your functions in the dom99.fx object
 
     dom99.fx.functionName = aFunction;
 
-    //For example aFunction would be called if you click this button
-    //<button data-99-fx="click-functionName">Action</button>
-    //Note we have wrote functionName not aFunction
+aFunction is called when you click this button
+
+    <button data-99-fx="click-functionName">Action</button>
+    //Note we wrote functionName not aFunction
 
     //to start using dom99
-
+    //Use this statement as late as possible
     dom99.linkJsAndDom(); 
 
     //Now <button data-99-fx... and others are live !
@@ -65,7 +64,7 @@ If you are using browserify start by requiring dom99. If you used the script tag
 
     //Changes the text of this paragraph and all other nodes that share the variable talkings
     //<p data-99-vr="talkings"></p>
-    //Use <input> elements for two way data bindings
+    //Use the same data-99-vr="talkings" on <input> elements for two way data bindings
 
     //To use a preselected node
 
