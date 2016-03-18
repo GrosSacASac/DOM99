@@ -52,30 +52,56 @@ aFunction is called when you click this button
     <button data-99-fx="click-functionName">Action</button>
     //Note we wrote functionName not aFunction
 
-    //to start using dom99
-    //Use this statement as late as possible
+to start using dom99 use this statement as late as possible
+
     dom99.linkJsAndDom(); 
 
-    //Now <button data-99-fx... and others are live !
+To changes the text of `<p data-99-vr="talkings"></p>` and all other element that share the variable talkings
 
-    //To change a shared variable
 
     dom99.vr.talkings = "Hi";
 
-    //Changes the text of this paragraph and all other nodes that share the variable talkings
-    //<p data-99-vr="talkings"></p>
-    //Use the same data-99-vr="talkings" on <input> elements for two way data bindings
+Use the same data-99-vr="talkings" on <input> elements for two way data bindings
 
-    //To use a preselected node
 
-    dom99.el.bigTitle //the node, we can do what we want with it
+To use a preselected element
+
+    dom99.el.bigTitle //An element reference, we can do what we want with it
     dom99.el.bigTitle.remove(); //for instance remove the bigTitle node
 
-    //will remove <h1 data-99-el="bigTitle">You can remove me to make space</h1>
+will remove `<h1 data-99-el="bigTitle">You can remove me to make space</h1>`
 
-    //New, exerimental
-    //use dom99.templateRender(templateNodeName, scope);
-    //to inject template clones in your Document, read source in the Demo
+
+To inject template clones in your Document
+
+    <body>
+    <template data-99-el="templateName">
+        <div data-99-el="SemanticName">
+        
+            <p data-99-vr="text" ></p>
+            Any HTML ...
+        </div>
+    </template>
+    ...
+    <div data-99-el="target"></div>
+    </body>
+    
+    // JS
+    // 1 create clone and execute directives
+    let clone = dom99.templateRender( "templateName", "scopeName" );
+    
+    // 2 populate the clone with any data and more
+    dom99.vr["scopeName"]["text"] = "Anything I want";
+    
+    // 3 insert the clone in the DOM
+    dom99.el["target"].appendChild(clone);
+    
+    
+    
+   
+   
+Detailed explanations soon, see example in the Demo for now
+
 
 You are ready to use DOM99 ! 
 
