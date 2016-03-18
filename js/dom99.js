@@ -60,7 +60,7 @@ const dom99Config = (function () {
         getVisibleProperty = function (tagName, type) {
         /*if the element is an <input> its VisibleProperty is "value"
         for other elements like <p> it is "textContent*/
-            if (tagName === "input") {
+            if (tagName === "input" && type) {
                 return PropertyForInputType(type); 
             } // else
             return PropertyForTag(tagName);
@@ -167,7 +167,9 @@ const dom99 = (function () {
                 temp = variablesScope[variableName];
             }
             
-            if (!variablesSubscribersScope[variableName]) {
+            if (variablesSubscribersScope[variableName]) {
+                variablesSubscribersScope[variableName].push(element);
+            } else {
                 let x; // holds the value
                 variablesSubscribersScope[variableName] = [element];
                 Object.defineProperty(variablesScope, variableName, {
@@ -176,6 +178,7 @@ const dom99 = (function () {
                     },
                     set: function (newValue) {
                         if (newValue === undefined) {
+                            console.warn("Use strings values with dom99.vr.x= , not undefined!");
                             return;
                         }
                         x = String(newValue);
@@ -186,12 +189,12 @@ const dom99 = (function () {
                                 getTagName(currentElement), 
                                 currentElement.type
                             );
+                            //don't overwrite the same
                             if (String(currentElement[visibleTextPropertyName]) !== x) {
                                 if (visibleTextPropertyName in dom99Config.PropertyBooleanList) {
                                     //"false" is truthy ...
                                     currentElement[visibleTextPropertyName] = !!newValue; 
                                 } else {
-                                    //don't overwrite the same
                                     currentElement[visibleTextPropertyName] = x;
                                 }
                             }
@@ -201,8 +204,6 @@ const dom99 = (function () {
                     configurable: false
                     //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
                 });
-            } else {
-                variablesSubscribersScope[variableName].push(element);
             }
             
             if (temp !== undefined) {
@@ -210,7 +211,7 @@ const dom99 = (function () {
             }
             visibleTextPropertyName = dom99Config.getVisibleProperty(tagName, element.type);
             
-
+            //suggestion: could check if the tagName is in a list with all element that can be changed by the user
             addEventListener(element, 
                 dom99Config.EventForTagAndType(`${getTagName(element)}.${element.type}`),
                 function (event) {
@@ -243,6 +244,7 @@ const dom99 = (function () {
         that way you can render a template multiple times, populate clone data
         and have it not shared between all clones.
         
+        returns clone
         
         suggestion: maybe generate automatice scope names internally
         */
