@@ -1,4 +1,4 @@
-#DOM99
+[DOM99](images/visual.jpg)
 
 ##What is DOM99 ?
 
