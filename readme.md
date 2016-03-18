@@ -2,11 +2,13 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI and JavaScript variables very easily and conveniently. You can easily populate HTML templates with data and insert it in the document.
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
 
 ##Why use DOM99 ?
 
-DOM99 allows you to manipulate the UI on a webpage very easily in a declarative way. You can get started in less than 15 minutes, it has no extra dependency, it doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small and is written respecting modern ES2015 and HTML5 standards. Also if you want to teach people JavaScript, without having to spend hours explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
+DOM99 encourages you to build the link between the UI and your business logic in a declarative way. You can learn how to use DOM99 in less than 15 minutes. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small, has no external dependency and is written respecting modern ES2015 and HTML5 standards.
+ 
+Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
 
 ##How to use DOM99 ?
@@ -214,6 +216,14 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Freedom
  * Simplicity in system and usage
  * Encourage declarative UI programming models
+ 
+###DOM99 is not and will never be
+
+ * Large library with all utility functions
+ * Simplified API for client-server communication
+ * A replacement for what CSS does
+
+This leaves more freedom to combine DOM99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside DOM99 and anything else that is complementary to accelerate the development process.
 
 ###Discussion
 
