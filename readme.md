@@ -111,8 +111,26 @@ coming soon !
  
 ##Demo file:
 
-(Tested with Firefox 47+)
-[Open demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html)
+Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
+
+[Open demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html) 
+
+
+##Downloads:
+
+direct download (right click, save file as ...) 
+
+###Development (ES2015)
+
+[dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
+
+###Production (transpiled ES5, no comments, less white-spaces)
+
+[dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.compact.js)
+
+or with npm
+
+`npm install dom99`
 
 ##Known issues:
 

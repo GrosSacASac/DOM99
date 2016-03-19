@@ -26,8 +26,8 @@ const dom99Config = (function () {
                 if (object1.hasOwnProperty(key)) {
                     return object1[key];
                 } // else
-                    return object1.miss; // correct syntax ?
-                    // return object[miss]; always undefined
+                return object1.miss; // correct syntax ?
+                // return object[miss]; always undefined
             });
         },
         
@@ -340,7 +340,7 @@ const dom99 = (function () {
     });
 }());
 // make it available for browserify style imports
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
 }
 /*Additional Explanations to understand dom99.js file :
