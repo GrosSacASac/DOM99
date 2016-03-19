@@ -19,15 +19,15 @@ Also if you want to teach people JavaScript, without having to spend too much ti
 
 DOM99 will browse the DOM and react if an element has one of the following attributes
 
-* data-99-vr : **vr for variable**: data binding between DOM element and js variable
-* data-99-el : **el for element**: pre-selecting an element for later usage
-* data-99-fx : **fx for function** adds an event listener to that element
+* data-vr : **vr for variable**: data binding between DOM element and js variable
+* data-el : **el for element**: pre-selecting an element for later usage
+* data-fx : **fx for function** adds an event listener to that element
 
 Examples:
 
-    <input data-99-vr="b" type="text">
-    <nav data-99-el="myNav">Navigation Links</nav>
-    <button data-99-fx="click-deleteFoto">Delete Foto</button>
+    <input data-vr="b" type="text">
+    <nav data-el="myNav">Navigation Links</nav>
+    <button data-fx="click-deleteFoto">Delete Foto</button>
             
 The general syntax is 
 
@@ -42,58 +42,60 @@ If you are not using browserify you need to include this script tag in your html
 
 ###In your JavaScript code :
 
-    //Store your functions in the dom99.fx object
+    //Use a shorter name
+    const D = dom99;
+    //Store your functions in the D.fx object
 
-    dom99.fx.functionName = aFunction;
+    D.fx.functionName = aFunction;
 
 aFunction is called when you click this button
 
-    <button data-99-fx="click-functionName">Action</button>
+    <button data-fx="click-functionName">Action</button>
     //Note we wrote functionName not aFunction
 
-to start using dom99 use this statement as late as possible
+to start using dom99 use this statement
 
-    dom99.linkJsAndDom(); 
+    D.linkJsAndDom(); 
 
-To changes the text of `<p data-99-vr="talkings"></p>` and all other element that share the variable talkings
+To changes the text of `<p data-vr="talkings"></p>` and all other element that share the variable talkings
 
 
-    dom99.vr.talkings = "Hi";
+    D.vr.talkings = "Hi";
 
-Use the same data-99-vr="talkings" on `<input>` elements for two way data bindings
+Use the same data-vr="talkings" on `<input>` elements for two way data bindings
 
 
 To use a preselected element
 
-    dom99.el.bigTitle //An element reference, we can do what we want with it
-    dom99.el.bigTitle.remove(); //for instance remove the bigTitle node
+    D.el.bigTitle //An element reference, we can do what we want with it
+    D.el.bigTitle.remove(); //for instance remove the bigTitle node
 
-will remove `<h1 data-99-el="bigTitle">You can remove me to make space</h1>`
+will remove `<h1 data-el="bigTitle">You can remove me to make space</h1>`
 
 
 To inject template clones in your Document
 
     <body>
-    <template data-99-el="templateName">
-        <div data-99-el="SemanticName">
+    <template data-el="templateName">
+        <div data-el="SemanticName">
         
-            <p data-99-vr="text" ></p>
+            <p data-vr="text" ></p>
             Any HTML ...
         </div>
     </template>
     ...
-    <div data-99-el="target"></div>
+    <div data-el="target"></div>
     </body>
     
     // JS
     // 1 create clone and execute directives
-    let clone = dom99.templateRender( "templateName", "scopeName" );
+    let clone = D.templateRender( "templateName", "scopeName" );
     
     // 2 populate the clone with any data and more
-    dom99.vr["scopeName"]["text"] = "Anything I want";
+    D.vr["scopeName"]["text"] = "Anything I want";
     
     // 3 insert the clone in the DOM
-    dom99.el["target"].appendChild(clone);
+    D.el["target"].appendChild(clone);
     
     
     
@@ -135,7 +137,7 @@ All previously known issues are fixed now. Clear.
 
 ##Details
 
-You can handle new HTML with `DOM99.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
+You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
 
 ###Transpile to ES5
 

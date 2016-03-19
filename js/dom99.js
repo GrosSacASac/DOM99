@@ -84,9 +84,9 @@ const dom99 = (function () {
         innerScope;
         
     const 
-        directiveNameFx = "data-99-fx",
-        directiveNameVr = "data-99-vr",
-        directiveNameEl = "data-99-el",
+        directiveNameFx = "data-fx",
+        directiveNameVr = "data-vr",
+        directiveNameEl = "data-el",
         attributeValueDoneSign = "☀",
         tokenSeparator = "-",
  
@@ -237,9 +237,9 @@ const dom99 = (function () {
         templateRender = function (templateName, scope) {
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
-        the content elements with "data-99-vr" will share a variable at
+        the content elements with "data-vr" will share a variable at
         dom99.vr[scope][variableName]
-        the content elements with "data-99-el" will have a reference at
+        the content elements with "data-el" will have a reference at
         dom99.el[scope][elementName]
         that way you can render a template multiple times, populate clone data
         and have it not shared between all clones.
@@ -333,7 +333,7 @@ const dom99 = (function () {
         vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
         el: elements, // preselected elements, basically a short cut for getElementBy...()
         fx: functions,  //object to be filled by user defined functions 
-        // fx is where dom99 will look for , for data-99-fx,
+        // fx is where dom99 will look for , for data-fx,
         templateRender, // render a clone of template alive
         forgetScope,  // forget scope
         linkJsAndDom // initialization function

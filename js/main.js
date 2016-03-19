@@ -1,21 +1,23 @@
 "use strict";
+//Use a shorter name
+const D = dom99;
 // -- Hello World --
 
-dom99.fx.sayHi = function (event) {
-    dom99.vr.completeName = `${dom99.vr.firstName} ${dom99.vr.lastName}`;
+D.fx.sayHi = function (event) {
+    D.vr.completeName = `${D.vr.firstName} ${D.vr.lastName}`;
 };
 
-dom99.vr.firstName = "Mr";
-dom99.vr.lastName = "World";
+D.vr.firstName = "Mr";
+D.vr.lastName = "World";
 
 // -- Multiplier --
 
-dom99.fx.calculate = function (event) {
+D.fx.calculate = function (event) {
     //dom.vars variables are Strings by default
-    dom99.vr.result = parseInt(dom99.vr.a, 10) * parseInt(dom99.vr.b, 10);
+    D.vr.result = parseInt(D.vr.a, 10) * parseInt(D.vr.b, 10);
 };
-dom99.vr.a = 2;
-dom99.vr.b = 4;
+D.vr.a = 2;
+D.vr.b = 4;
 
 // -- The monologue --
 
@@ -25,24 +27,24 @@ const sentences = ["I am a lone prisoner.",    "Is anybody here ?",    "Hey you 
 ];
     
 const speak = function() {
-    dom99.vr.monologue = sentences[currentSentence % sentences.length];
+    D.vr.monologue = sentences[currentSentence % sentences.length];
     currentSentence += 1;
     t = setTimeout(speak, 2200);
 };
 
-dom99.fx.stopStartTalking = function (event) {
+D.fx.stopStartTalking = function (event) {
     if (t) {
         clearTimeout(t);
         t = 0;
-        dom99.vr.monologueButton = "I listen";
-        dom99.vr.monologue = "Where is your humanity ?";
+        D.vr.monologueButton = "I listen";
+        D.vr.monologue = "Where is your humanity ?";
     } else {
         speak();
-        dom99.vr.monologueButton = "I don't care";
+        D.vr.monologueButton = "I don't care";
     }
 };
 
-dom99.vr.monologueButton = "Hi";
+D.vr.monologueButton = "Hi";
 
 
 // -- The Todo --
@@ -53,42 +55,42 @@ let path = "todo",
 
 const boolz = {"false": false, "true": true};
 /* we use boolz to convert string boolean into real boolean
-values returned from dom99.vr are strings*/
-dom99.fx.addTodo = function (event) {
+values returned from D.vr are strings*/
+D.fx.addTodo = function (event) {
     let todoScopeName = path + String(i),
         clone;
     todoScopeNames.push(todoScopeName);
-    clone = dom99.templateRender(
+    clone = D.templateRender(
         "todoTemplate",
         todoScopeName
     );
-    dom99.vr[todoScopeName]["done"] = false;
-    dom99.vr[todoScopeName]["text"] = "";
-    dom99.el["todoContainer"].appendChild(clone);
+    D.vr[todoScopeName]["done"] = false;
+    D.vr[todoScopeName]["text"] = "";
+    D.el["todoContainer"].appendChild(clone);
     i += 1;
 };
 
-dom99.fx.updateJson = function (event) {
+D.fx.updateJson = function (event) {
     
     let x = todoScopeNames.map(function(todoScopeName) {
-        return {text: dom99.vr[todoScopeName]["text"],
-                done: boolz[dom99.vr[todoScopeName]["done"]]};
+        return {text: D.vr[todoScopeName]["text"],
+                done: boolz[D.vr[todoScopeName]["done"]]};
     });
-    dom99.vr.todoAsJson = JSON.stringify(x);
+    D.vr.todoAsJson = JSON.stringify(x);
 };
 
-dom99.fx.deleteTodos = function (event) {
+D.fx.deleteTodos = function (event) {
     //delete done todos only !
     let newTodoScopeNames = [];
     todoScopeNames.filter(function(todoScopeName) {
-        if (boolz[dom99.vr[todoScopeName]["done"]]) {
+        if (boolz[D.vr[todoScopeName]["done"]]) {
             return true;
         }
         newTodoScopeNames.push(todoScopeName);
         return false;
     }).forEach(function(todoScopeName) {
-        dom99.el[todoScopeName].todo.remove();
-        dom99.forgetScope(todoScopeName);
+        D.el[todoScopeName].todo.remove();
+        D.forgetScope(todoScopeName);
     });
     todoScopeNames = newTodoScopeNames; //keep todoScopeNames up to date
 };
@@ -99,9 +101,9 @@ dom99.fx.deleteTodos = function (event) {
 
 
 // Link the document and the event handlers
-dom99.linkJsAndDom(); //now we listen to all events
+D.linkJsAndDom(); //now we listen to all events
 
 
-// You can also directly call functions stored in dom99.fx
-dom99.fx.calculate();
-dom99.fx.sayHi();
+// You can also directly call functions stored in D.fx
+D.fx.calculate();
+D.fx.sayHi();

@@ -15,50 +15,50 @@
     <h1><img src="images/visual.jpg"></h1>
     <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/js/main.js" target="_blank">JS</a>.</p>
     <main>
-        <article data-99-fx="keyup-sayHi">
+        <article data-fx="keyup-sayHi">
         
             <h2>Hello World</h2><br>
-            <label>First name: <input data-99-vr="firstName" type="text"></label><br>
-            <label>Last name: <input data-99-vr="lastName" type="text"></label>
+            <label>First name: <input data-vr="firstName" type="text"></label><br>
+            <label>Last name: <input data-vr="lastName" type="text"></label>
             
-            <br><p> Hello <em data-99-vr="completeName"></em></p>
+            <br><p> Hello <em data-vr="completeName"></em></p>
             
         </article>
         
         <article >
         
             <h2>Multiplier</h2><br>
-            <input data-99-vr="a" data-99-fx="input-calculate" type="number">
+            <input data-vr="a" data-fx="input-calculate" type="number">
             <span> X </span>
-            <input data-99-vr="b" data-99-fx="input-calculate" type="number">
+            <input data-vr="b" data-fx="input-calculate" type="number">
             <span> = </span>
-            <span data-99-vr="result"></span>
+            <span data-vr="result"></span>
             
         </article>
         
         <article>
             
             <h2>The monologue</h2>
-            <p data-99-vr="monologue"></p>
-            <button data-99-vr="monologueButton" data-99-fx="click-stopStartTalking"></button>
+            <p data-vr="monologue"></p>
+            <button data-vr="monologueButton" data-fx="click-stopStartTalking"></button>
             
         </article>
         
-        <article data-99-fx="click-updateJson">
+        <article data-fx="click-updateJson">
         
         
-            <template data-99-el="todoTemplate">
+            <template data-el="todoTemplate">
                 <!-- Everything here has its own scope  -->
-                <li data-99-el="todo">
-                    <input data-99-vr="done" type="checkbox">
-                    <input data-99-fx="input-updateJson" data-99-vr="text" type="text" placeholder="What to do ?">
+                <li data-el="todo">
+                    <input data-vr="done" type="checkbox">
+                    <input data-fx="input-updateJson" data-vr="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
             <h2>To-do List</h2>
-            <ol data-99-el="todoContainer"></ol>
-            <button data-99-fx="click-deleteTodos">Delete finished tasks</button>
-            <button data-99-fx="click-addTodo">Add To-do</button>
-            <pre>JSON: <output data-99-vr="todoAsJson"></output>
+            <ol data-el="todoContainer"></ol>
+            <button data-fx="click-deleteTodos">Delete finished tasks</button>
+            <button data-fx="click-addTodo">Add To-do</button>
+            <pre>JSON: <output data-vr="todoAsJson"></output>
             </pre>
             
         </article>
@@ -66,7 +66,7 @@
         <article>
        
             <h2>More examples coming soon</h2>
-            <p data-99-vr="para"></p>
+            <p data-vr="para"></p>
         </article>
         
     </main>
