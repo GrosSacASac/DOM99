@@ -1,2 +1,4 @@
 browserify js/main.js > js/bundle.js
 babel js/dom99.js --compact true --remove-comments -o js/dom99.es5.compact.js
+npm version major|minor|patch
+npm publish
