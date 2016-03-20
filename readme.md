@@ -6,7 +6,7 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to build the link between the UI and your business logic in a declarative way. You can learn how to use DOM99 in less than 15 minutes. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra fast, the source file is small, has no external dependency and is written respecting modern ES2015 and HTML5 standards.
+DOM99 encourages you to build the link between the UI and your business logic in a **declarative** way. You can learn how to use DOM99 in less than 15 minutes. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra **fast**, the source file is small, has **no external dependency** and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design
  
 Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
@@ -120,8 +120,7 @@ Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 
 ##Downloads:
 
-
-direct download (right click, save file as ...) 
+If you target older browsers, I recommend the transpiled version. Direct download (right click, save file as ...) 
 
  * [Development ES2015 dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, no comments, less white-spaces dom99.es5.compact.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.compact.js)
@@ -139,17 +138,16 @@ All previously known issues are fixed now. Clear.
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
 
-###Transpile to ES5
+###Transpile to ES5 yourself
 
-If you target older browsers, I recommend you to transpile dom99 to es5 compatible code. Here are the steps
 
   1. Download node.js at https://nodejs.org/en/
   2. Open the node.js command prompt and go in the directory with the dom99.js file
   3. Download Babel, find out how at http://babeljs.io/docs/usage/cli/.
-  4. Use this command `babel dom99.js -o dom99.es5.js`
-  5. Now use dom99.es5.js in your production.
+  4. Use this command `babel js/dom99.js --compact true --remove-comments -o js/dom99.es5.compact.js
+  5. Now use dom99.es5.compact.js in your production.
 
-##Alternatives comparisons with Contra, Pro , some similarities
+##Some alternatives comparisons with Contras, Pros and some similarities
 
 ###Angular.js
 
