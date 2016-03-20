@@ -116,8 +116,11 @@ coming soon !
 Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 
 [Basic demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html) 
+
 [Chat demo](http://rawgit.com/GrosSacASac/DOM99/master/examples/chat.html) 
+
 [Chat demo explanations](documentation/tutorial1_chat.md) 
+
 
 
 ##Downloads:
