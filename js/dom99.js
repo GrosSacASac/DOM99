@@ -42,6 +42,7 @@ const dom99Config = (function () {
         PropertyForTag = getValueElseDefaultDecorator({
             //Input Type : appropriate property name to retrieve and set the value
             "input": "value",
+            "textarea": "value",
             miss: "textContent"
         }),
     
@@ -127,6 +128,9 @@ const dom99 = (function () {
                 functionLookUp = function(event) {
                     functions[functionName](event);
                 };
+            if (!eventNames || !functionName) {
+                console.warn('Use data-fx="event1,event2-functionName" format. Empty string found');
+            }
             
             eventNames.split(",").forEach(function (eventName) {
                 addEventListener(element, eventName, functionLookUp);

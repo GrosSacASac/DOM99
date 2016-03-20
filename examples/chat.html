@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    
+    <!-- style -->
+    <meta name="viewport" content="width=device-width">
+    <!-- coming 
+    <link rel="stylesheet" href="css/normalize.css">
+    -->
+
+</head>
+<body>
+    <h1></h1>
+    <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/js/chat.js" target="_blank">JS</a>.</p>
+    <main>
+        <div data-el="chat">
+            <ol data-el="messagesContainer">
+            
+            </ol>
+            <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
+            <button data-fx="click-trySendMessage">Send !</button>
+        </div>
+        
+
+        <template data-el="messageTemplate">
+            <!-- Everything here has its own scope  -->
+            <li data-el="message">
+                <div>
+                    <span data-vr="authorName" ></span>
+                    <img data-el="authorFoto">
+                </div>
+                <p data-vr="messageText" ></p>
+            </li>
+        </template>
+            
+   
+        
+    </main>
+    
+    
+
+<script src="../js/dom99.es5.compact.js"></script>
+<script src="../js/chat.js"></script>
+</body>
+</html>
