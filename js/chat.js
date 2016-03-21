@@ -55,7 +55,6 @@ const displayNewMessage = function(data) {
         messageScopes.push(scope);
         
         //render a new Element retrievable via the scope string
-        console.log(data);
         renderNewMessageElement(data, scope);
         messageNumber += 1;
     }
