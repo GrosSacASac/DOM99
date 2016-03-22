@@ -1,4 +1,5 @@
 browserify js/main.js > js/bundle.js
 babel js/dom99.js --compact true --remove-comments -o js/dom99.es5.compact.js
+uglifyjs js/dom99.es5.compact.js  --screw-ie8 --mangle -o js/dom99.es5.min.js
 npm version major|minor|patch
 npm publish

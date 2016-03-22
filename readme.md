@@ -128,7 +128,7 @@ Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 If you target older browsers, I recommend the transpiled version. Direct download (right click, save file as ...) 
 
  * [Development ES2015 dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
- * [Production transpiled ES5, no comments, less white-spaces dom99.es5.compact.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.compact.js)
+ * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
 
  
 or with npm

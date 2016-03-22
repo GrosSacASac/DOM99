@@ -8,7 +8,7 @@ const dom99Config = (function () {
     "use strict";
     /*this configuration will be split in another file when it is open to extension and closed to changes*/
     const 
-        miss = Symbol(),
+        miss = "miss",
         
         getValueElseDefaultDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
@@ -26,8 +26,7 @@ const dom99Config = (function () {
                 if (object1.hasOwnProperty(key)) {
                     return object1[key];
                 } // else
-                return object1.miss; // correct syntax ?
-                // return object[miss]; always undefined
+                return object[miss];
             });
         },
         
@@ -126,10 +125,10 @@ const dom99 = (function () {
                 /*functionLookUp allows us to store function in dom99.fx after 
                 dom99.linkJsAndDom() */
                 functionLookUp = function(event) {
-                    functions[functionName](event);
+                    return functions[functionName](event);
                 };
             if (!eventNames || !functionName) {
-                console.warn('Use data-fx="event1,event2-functionName" format. Empty string found');
+                console.warn('Not data-fx="event1,event2-functionName" format!');
             }
             
             eventNames.split(",").forEach(function (eventName) {
@@ -182,7 +181,7 @@ const dom99 = (function () {
                     },
                     set: function (newValue) {
                         if (newValue === undefined) {
-                            console.warn("Use strings values with dom99.vr.x= , not undefined!");
+                            console.warn("dom99.vr.x= string || bool , not undefined!");
                             return;
                         }
                         x = String(newValue);
@@ -233,7 +232,7 @@ const dom99 = (function () {
                 elementsScope = elements[innerScope];
             }
             if (elementsScope[elementName]) {
-                console.warn(`cannot have 2 elements with the same name, overwriting dom99.el.${elementName}`);
+                console.warn(`2 elements with the same name, overwriting dom99.el.${elementName}`);
             }
             elementsScope[elementName] = element;
         },
