@@ -26,7 +26,7 @@ const dom99Config = (function () {
                 if (object1.hasOwnProperty(key)) {
                     return object1[key];
                 } // else
-                return object[miss];
+                return object1[miss];
             });
         },
         
