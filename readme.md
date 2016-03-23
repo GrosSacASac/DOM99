@@ -6,7 +6,7 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to build the link between the UI and your business logic in a **declarative** way. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra **fast**, the source file is small, has **no external dependency** and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
+DOM99 encourages you to build the link between the UI and your business logic in a **declarative** way. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra **fast**, the source file is small (<3KB minified), has **no external dependency** and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
 Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
