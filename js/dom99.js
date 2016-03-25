@@ -151,9 +151,7 @@ const dom99 = (function () {
             let variableName = directiveTokens[0],
                 temp,
                 variablesScope = variables,
-                variablesSubscribersScope = variablesSubscribers,
-                visibleTextPropertyName,
-                tagName = getTagName(element);
+                variablesSubscribersScope = variablesSubscribers;
             
             
             //for template cloning, we use a grouped scope
@@ -185,6 +183,7 @@ const dom99 = (function () {
                             return;
                         }
                         x = String(newValue);
+                        let visibleTextPropertyName;
                         variablesSubscribersScope[variableName].forEach(function (currentElement) {
                             /*here we change the value of the currentElement in the dom
                             */
@@ -212,12 +211,12 @@ const dom99 = (function () {
             if (temp !== undefined) {
                 variablesScope[variableName] = temp; //calls the set once
             }
-            visibleTextPropertyName = dom99Config.getVisibleProperty(tagName, element.type);
             
             //suggestion: could check if the tagName is in a list with all element that can be changed by the user
             addEventListener(element, 
                 dom99Config.EventForTagAndType(`${getTagName(element)}.${element.type}`),
                 function (event) {
+                    let visibleTextPropertyName = dom99Config.getVisibleProperty(getTagName(event.target), event.target.type);
                     variablesScope[variableName] = event.target[visibleTextPropertyName];
             });
         },

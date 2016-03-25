@@ -2,7 +2,7 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. [Try the playground](http://jsbin.com/migeya/2/edit?html,js,output)
 
 ##Why use DOM99 ?
 
