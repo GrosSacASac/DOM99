@@ -171,7 +171,7 @@ const dom99 = (function () {
             if (variablesSubscribersScope[variableName]) {
                 variablesSubscribersScope[variableName].push(element);
             } else {
-                let x; // holds the value
+                let x = ""; // holds the value
                 variablesSubscribersScope[variableName] = [element];
                 Object.defineProperty(variablesScope, variableName, {
                     get: function () {

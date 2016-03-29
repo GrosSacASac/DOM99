@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    
+    <!-- style -->
+    <meta name="viewport" content="width=device-width">
+    <!-- coming 
+    <link rel="stylesheet" href="css/normalize.css">
+    -->
+
+</head>
+<body>
+    
+    
+  <input data-vr="text1" type="text">
+  
+  <p data-vr="text1">is overriden with D.vr.text1 = "Hi";</p><br>
+  
+  
+  <div data-el="myDiv" data-fx="click-hideToogle">This is a div. It can be selected with D.el.myDiv. We added an event listener also: click me</div><br>
+  
+  <button data-fx="click-hideToogle">Hide/Unhide, same function is used</button>
+  
+  
+  
+<script src="js/dom99.js"></script>
+<script >
+//Use a shorter name
+const D = dom99;
+
+
+//Store your functions in the D.fx object
+D.fx.hideToogle = function(event) {
+  D.el.myDiv.hidden = !D.el.myDiv.hidden;
+};
+
+//manually set text1 variable
+D.vr.text1 = "Hi";
+
+//start
+D.linkJsAndDom(); 
+
+
+</script>
+</body>
+</html>
