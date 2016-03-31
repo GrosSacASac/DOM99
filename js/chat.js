@@ -98,7 +98,7 @@ const fakeBossSpeak = function() {
     
     displayNewMessage(data);
     fakeMessagesFromBossCurrentIndex += 1;
-    setTimeout(fakeBossSpeak, 12000);
+    setTimeout(fakeBossSpeak, 12120);
 };
 // Link the document and the event handlers
 

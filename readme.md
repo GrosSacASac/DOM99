@@ -99,18 +99,11 @@ To inject template clones in your Document
     
     
     
+You are ready to use DOM99 ! 
    
    
 Detailed explanations soon, see example in the Demo for now
 
-
-You are ready to use DOM99 ! 
-
-###Complete overview
-
-coming soon !
-
- 
 ##Demo file:
 
 Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
@@ -120,6 +113,49 @@ Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 [Chat demo](http://rawgit.com/GrosSacASac/DOM99/master/examples/chat.html) 
 
 [Chat demo explanations](documentation/tutorial1_chat.md) 
+
+
+###Complete overview
+
+    const D = dom99;
+    // creates an alias
+    
+####Start with 
+
+    D.linkJsAndDom();
+    
+This will look the for DOM99 directives in the document tree.
+
+Initialize variables with `D.vr = ...;`. Next store event listener functions in `D.fx`. You can use nodes references in `D.el`.
+
+####Use HTML templates
+
+If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that use `D.templateRender(templateName, scopeName)` where `templateName` is the name of the template you found in `data-el`, the second is a scope name. That scope name is useful for dynamic templates, templates that have DOM99 directives inside.
+
+
+    let clone = D.templateRender( "templateName", "scopeName" );
+
+The `clone` here is the copy of the Document Fragment of the template. All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el D.fx`) by going in the correct scope:
+  
+
+    D.vr["scopeName"]["text"] = "A string"
+    D.fx["scopeName"]["functionText"] = function(event) {...};
+    D.el["scopeName"]["myElementIWantToChangeClassNameForInstance"].className = ...
+
+The clone is not yet in the document itself. I recommend putting the Fragment in the document last to improve performance. To do that use the appendChild interface on a node that is in the Document. Here we have `<div data-el="target"></div>`. It doesn't need to be a `div`. Use whatever fits semantically and functionally the best for a container.
+  
+    D.el["target"].appendChild(clone);
+
+At this point you should not need `clone` any more. Use the topmost element node instead. 
+
+If a some point your program continuously uses `D.templateRender` and later `D.el["scopeName"].ElementName.remove()`, without reusing anything inside the `D.el["scopeName"]` then consider using `D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies.
+
+####Additional tips
+
+
+You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
+
+more coming next time
 
 
 
@@ -139,9 +175,23 @@ or with npm
 
 All previously known issues are fixed now. Clear.
 
-##Details
+##Security
 
-You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
+###General tips
+
+ * Don't BlackList, Aggressively White-list
+ * Don't mix data with code, use parameter injection with proper escaping and encoding
+ * Don't trust what you don't control, validate size and format instead
+ * Every software component should be so simple that it is obviously safe
+ * Avoid complexity
+ * Aggressively block if some behaviours are undefined
+ * Talk with security experts
+ 
+###DOM99 and security
+
+DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. `D.vr` uses textContent or value by default. 
+
+If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.
 
 ###Transpile to ES5 yourself
 
