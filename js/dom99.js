@@ -122,13 +122,14 @@ const dom99 = (function () {
             /*directiveTokens example : ["keyup,click", "calculate"] */
             let eventNames = directiveTokens[0],
                 functionName = directiveTokens[1],
-                /*functionLookUp allows us to store function in dom99.fx after 
+                /*functionLookUp allows us to store functions in dom99.fx after 
                 dom99.linkJsAndDom() */
                 functionLookUp = function(event) {
                     return functions[functionName](event);
                 };
             if (!eventNames || !functionName) {
-                console.warn('Not data-fx="event1,event2-functionName" format!');
+                console.warn('Use data-fx="event1,event2-functionName" format!');
+                return;
             }
             
             eventNames.split(",").forEach(function (eventName) {
@@ -153,6 +154,10 @@ const dom99 = (function () {
                 variablesScope = variables,
                 variablesSubscribersScope = variablesSubscribers;
             
+            if (!variableName) {
+                console.warn('Use data-vr="variableName" format!');
+                return;
+            }
             
             //for template cloning, we use a grouped scope
             if (usingInnerScope) {
@@ -226,6 +231,11 @@ const dom99 = (function () {
             let elementName = directiveTokens[0],
                 elementsScope = elements;
                 
+            if (!elementName) {
+                console.warn('Use data-el="elementName" format!');
+                return;
+            }    
+            
             //for template cloning, we use a grouped scope
             if (usingInnerScope) {
                 elementsScope = elements[innerScope];

@@ -153,11 +153,27 @@ If a some point your program continuously uses `D.templateRender` and later `D.e
 ####Additional tips
 
 
-You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed nodes won't be affected at all because the ☀ is added to the attribute value after that.
+You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
 
-more coming next time
+If you accidentally made a mistake, open your console, warnings may give you clues.
 
+You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
+#####Performance
+
+In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Simply changing a class name of an element can cause the browser to do heavy computation under the hood. For very simple programs, performance may not be an issue at all.
+
+ * Avoid Document Object Model (DOM) Access in big loops
+ * Instead compute the result in your loop first, then assign the final result to the DOM
+ * Avoid read/write alternations with the DOM
+ * Instead chain reads, then chain writes 
+ * Use callbacks for future events (example XMLHttpRequest), never block !
+ * If you have more performance issues, profile first to know what is the cause
+ * If you need to do heavy computation, consider using Web Workers
+ * [More tips](https://docs.webplatform.org/wiki/tutorials/speed_best_practices)
+ * [Even more tips](http://www.html5rocks.com/en/features/performance)
+
+Server side rendering with DOM99 is under consideration.
 
 ##Downloads:
 
