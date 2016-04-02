@@ -2,14 +2,17 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. [Try the playground](http://jsbin.com/migeya/4/edit?html,js,output)
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. [Try the intro playground](http://jsbin.com/migeya/4/edit?html,js,output)
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to build the link between the UI and your business logic in a **declarative** way. DOM99 doesn't force you to structure your code in a certain manner. DOM99 is ultra **fast**, the source file is small (<3KB minified), has **no external dependency** and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
+DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 3KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
 Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
+##Limitations
+
+ * Old IE browser may not support the `<template>` element natively.
 
 ##How to use DOM99 ?
 
@@ -115,20 +118,20 @@ Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 [Chat demo explanations](documentation/tutorial1_chat.md) 
 
 
-###Complete overview
+##Complete overview
+
+    
+###Start with 
 
     const D = dom99;
     // creates an alias
-    
-####Start with 
-
     D.linkJsAndDom();
     
 This will look the for DOM99 directives in the document tree.
 
 Initialize variables with `D.vr = ...;`. Next store event listener functions in `D.fx`. You can use nodes references in `D.el`.
 
-####Use HTML templates
+###Use HTML templates
 
 If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that use `D.templateRender(templateName, scopeName)` where `templateName` is the name of the template you found in `data-el`, the second is a scope name. That scope name is useful for dynamic templates, templates that have DOM99 directives inside.
 
@@ -150,7 +153,7 @@ At this point you should not need `clone` any more. Use the topmost element node
 
 If a some point your program continuously uses `D.templateRender` and later `D.el["scopeName"].ElementName.remove()`, without reusing anything inside the `D.el["scopeName"]` then consider using `D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies.
 
-####Additional tips
+###Additional tips
 
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
@@ -159,7 +162,10 @@ If you accidentally made a mistake, open your console, warnings may give you clu
 
 You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
-#####Performance
+##Performance
+
+###General Tips
+
 
 In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Simply changing a class name of an element can cause the browser to do heavy computation under the hood. For very simple programs, performance may not be an issue at all.
 
@@ -174,6 +180,14 @@ In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Sim
  * [Even more tips](http://www.html5rocks.com/en/features/performance)
 
 Server side rendering with DOM99 is under consideration.
+
+###How is DOM99 fast ?
+
+ * Load time element selection and binding instead of runtime element selection and binding 
+ * The abstraction layer is small, no assumptions are made
+ * No complexity, no dirty checking, no separate model under the hood
+ 
+
 
 ##Downloads:
 

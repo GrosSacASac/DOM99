@@ -140,9 +140,9 @@ const dom99 = (function () {
     
         applyVr = function (element, directiveTokens) {
             /* two-way bind
-            example : called for <input data-99-var="a" >
+            example : called for <input data-vr="a" >
             in this example the variableName = "a"
-            we push the <input data-99-var="a" > element in the array
+            we push the <input data-vr="a" > element in the array
             that holds all elements which share this same "a" variable
             everytime "a" is changed we change all those elements values
             and also 1 private js variable (named x below) 
