@@ -316,7 +316,7 @@ const dom99 = (function () {
             let customAttributeValue;
             if (element.hasAttribute(customAttribueName)) {
                 customAttributeValue = element.getAttribute(customAttribueName);
-                if (!customAttributeValue[0] === attributeValueDoneSign) {
+                if (!(customAttributeValue[0] === attributeValueDoneSign)) {
                     ApplyADirective(element, customAttributeValue.split(tokenSeparator));
                     // ensure the directive is only applied once
                     element.setAttribute(customAttribueName, attributeValueDoneSign + customAttributeValue);
