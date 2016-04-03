@@ -1,4 +1,4 @@
-![DOM99](images/visual.jpg)
+![DOM99](images/visual.png)
 
 ##What is DOM99 ?
 
@@ -18,7 +18,7 @@ Also if you want to teach people JavaScript, without having to spend too much ti
 
 ###The Basics
 
-###In your HTML :
+###In your HTML:
 
 DOM99 will browse the DOM and react if an element has one of the following attributes
 
@@ -43,7 +43,7 @@ If you are not using browserify you need to include this script tag in your html
     
 
 
-###In your JavaScript code :
+###In your JavaScript:
 
     //Use a shorter name
     const D = dom99;
@@ -173,13 +173,13 @@ In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Sim
  * Instead compute the result in your loop first, then assign the final result to the DOM
  * Avoid read/write alternations with the DOM
  * Instead chain reads, then chain writes 
- * Use callbacks for future events (example XMLHttpRequest), never block !
+ * Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !
  * If you have more performance issues, profile first to know what is the cause
  * If you need to do heavy computation, consider using Web Workers
  * [More tips](https://docs.webplatform.org/wiki/tutorials/speed_best_practices)
  * [Even more tips](http://www.html5rocks.com/en/features/performance)
 
-Server side rendering with DOM99 is under consideration.
+
 
 ###How is DOM99 fast ?
 
@@ -311,11 +311,18 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
 
 ##Future
 
-###Abstract directions for the future:
+###What is coming soon:
+
+ * Static component composition in html
+ * System improvement at initialization
+ * Automated test
+
+###Abstract directions for the future or Specification
 
  * Freedom
  * Simplicity in system and usage
  * Encourage declarative UI programming models
+ * Focus on the view
  
 ###DOM99 is not and will never be
 
@@ -337,4 +344,4 @@ https://github.com/GrosSacASac/DOM99/issues
 
 ##License
 
-MIT
+https://opensource.org/licenses/MIT
