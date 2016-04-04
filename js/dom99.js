@@ -4,10 +4,23 @@ globals: window, document, console*/
 /*todo  improve system
 more examples, readme */
 
-const dom99Config = (function () {
+const dom99 = (function () {
     "use strict";
-    /*this configuration will be split in another file when it is open to extension and closed to changes*/
+
+    let variables = {},
+        variablesSubscribers = {},/*contains arrays of elements , each array 
+        contains all elements that listen to the same variable. */
+        elements = {},
+        functions = {},
+        usingInnerScope = false,
+        innerScope;
+        
     const 
+        directiveNameFx = "data-fx",
+        directiveNameVr = "data-vr",
+        directiveNameEl = "data-el",
+        attributeValueDoneSign = "☀",
+        tokenSeparator = "-",
         miss = "miss",
         
         getValueElseDefaultDecorator = function (object1) {
@@ -33,8 +46,8 @@ const dom99Config = (function () {
         EventForTagAndType = getValueElseDefaultDecorator({
             //tag.type: eventType
             "input.text": "input",
-            "input.checkbox": "click",
-            "input.radio": "click",
+            "input.checkbox": "change",
+            "input.radio": "change",
             miss: "input"
         }),
     
@@ -64,37 +77,13 @@ const dom99Config = (function () {
                 return PropertyForInputType(type); 
             } // else
             return PropertyForTag(tagName);
-        };
-    
-    return Object.freeze({
-        EventForTagAndType,
-        getVisibleProperty,
-        PropertyBooleanList
-    });
-}());
-
-const dom99 = (function () {
-    "use strict";
-    let variables = {},
-        variablesSubscribers = {},/*contains arrays of elements , each array 
-        contains all elements that listen to the same variable. */
-        elements = {},
-        functions = {},
-        usingInnerScope = false,
-        innerScope;
+        },
         
-    const 
-        directiveNameFx = "data-fx",
-        directiveNameVr = "data-vr",
-        directiveNameEl = "data-el",
-        attributeValueDoneSign = "☀",
-        tokenSeparator = "-",
- 
-        walkTheDomElements = function (element, aFunction) {
-            aFunction(element);
+        walkTheDomElements = function (element, function1) {
+            function1(element);
             element = element.firstElementChild;
             while (element) {
-                walkTheDomElements(element, aFunction);
+                walkTheDomElements(element, function1);
                 element = element.nextSibling;
             }
         },
@@ -103,16 +92,16 @@ const dom99 = (function () {
             return element.tagName.toLowerCase();
         },
     
-        addEventListener = function (element, eventName, aFunction, useCapture=false) {
+        addEventListener = function (element, eventName, function1, useCapture=false) {
             //add here attachEvent for old IE if you want
-            element.addEventListener(eventName, aFunction, useCapture);
+            element.addEventListener(eventName, function1, useCapture);
         },
     
         /*not used, tested yet
-        onceAddEventListener = function (element, eventName, aFunction, useCapture=false) {
+        onceAddEventListener = function (element, eventName, function1, useCapture=false) {
             let tempFunction = function (event) {
                 //called once only
-                aFunction(event);
+                function1(event);
                 element.removeEventListener(eventName, tempFunction, useCapture);
             };
             addEventListener(element, eventName, tempFunction, useCapture);
@@ -192,13 +181,13 @@ const dom99 = (function () {
                         variablesSubscribersScope[variableName].forEach(function (currentElement) {
                             /*here we change the value of the currentElement in the dom
                             */
-                            visibleTextPropertyName = dom99Config.getVisibleProperty(
+                            visibleTextPropertyName = getVisibleProperty(
                                 getTagName(currentElement), 
                                 currentElement.type
                             );
                             //don't overwrite the same
                             if (String(currentElement[visibleTextPropertyName]) !== x) {
-                                if (visibleTextPropertyName in dom99Config.PropertyBooleanList) {
+                                if (visibleTextPropertyName in PropertyBooleanList) {
                                     //"false" is truthy ...
                                     currentElement[visibleTextPropertyName] = !!newValue; 
                                 } else {
@@ -219,9 +208,9 @@ const dom99 = (function () {
             
             //suggestion: could check if the tagName is in a list with all element that can be changed by the user
             addEventListener(element, 
-                dom99Config.EventForTagAndType(`${getTagName(element)}.${element.type}`),
+                EventForTagAndType(`${getTagName(element)}.${element.type}`),
                 function (event) {
-                    let visibleTextPropertyName = dom99Config.getVisibleProperty(getTagName(event.target), event.target.type);
+                    let visibleTextPropertyName = getVisibleProperty(getTagName(event.target), event.target.type);
                     variablesScope[variableName] = event.target[visibleTextPropertyName];
             });
         },

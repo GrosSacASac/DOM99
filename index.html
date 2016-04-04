@@ -50,7 +50,7 @@
             <template data-el="todoTemplate">
                 <!-- Everything here has its own scope  -->
                 <li data-el="todo">
-                    <input data-vr="done" type="checkbox">
+                    <input data-fx="change-updateJson" data-vr="done" type="checkbox">
                     <input data-fx="input-updateJson" data-vr="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
