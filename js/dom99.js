@@ -393,9 +393,12 @@ const dom99 = (function (
         forgetScope,  // forget scope
         linkJsAndDom // initialization function
     });
+}());
+
+
+/* 
 }(...(window.dom99Configuration || [])));
-//let dom99Configuration = window.dom99Configuration || [];
-/* in the future when import syntax is recognized use this syntax instead:
+in the future when import syntax is recognized use this syntax instead:
 import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
 dom99Configuration = dom99Configuration || []; */
 /* make it available for browserify style imports

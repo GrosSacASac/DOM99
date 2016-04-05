@@ -1,5 +1,5 @@
 /*dom99ConfigurationExample.js
-
+Warning: disabled because it doesn't compile into ES5 now
  1. Make a copy of this file
  2. Rename the copy dom99Configuration.js
  3. Make sure dom99Configuration.js runs before dom99.js
