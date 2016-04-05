@@ -4,9 +4,17 @@ globals: window, document, console*/
 /*todo  improve system
 more examples, readme */
 
-const dom99 = (function () {
+dom99Configuration = window.dom99Configuration || [];
+/* in the future when import syntax is recognized use this syntax instead:
+import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
+dom99Configuration = dom99Configuration || []; */
+const dom99 = (function (
+        /*you can change the syntax in dom99Configuration*/
+        directiveNameFx="data-fx", directiveNameVr="data-vr", directiveNameEl="data-el",
+        attributeValueDoneSign="☀", tokenSeparator="-", listSeparator=","
+        ) {
     "use strict";
-
+    
     let variables = {},
         variablesSubscribers = {},/*contains arrays of elements , each array 
         contains all elements that listen to the same variable. */
@@ -16,11 +24,6 @@ const dom99 = (function () {
         innerScope;
         
     const 
-        directiveNameFx = "data-fx",
-        directiveNameVr = "data-vr",
-        directiveNameEl = "data-el",
-        attributeValueDoneSign = "☀",
-        tokenSeparator = "-",
         miss = "miss",
         
         getValueElseDefaultDecorator = function (object1) {
@@ -109,19 +112,26 @@ const dom99 = (function () {
     
         applyFx = function (element, directiveTokens) {
             /*directiveTokens example : ["keyup,click", "calculate"] */
-            let eventNames = directiveTokens[0],
-                functionName = directiveTokens[1],
+            const eventNames = directiveTokens[0],
+                functionNames = directiveTokens[1],
                 /*functionLookUp allows us to store functions in dom99.fx after 
-                dom99.linkJsAndDom() */
+                dom99.linkJsAndDom() and use the functions that are in D.fx at that moment.
+                we also return what the last function returns*/
                 functionLookUp = function(event) {
-                    return functions[functionName](event);
+                    let last;
+                    const functionLookUp = function(functionName) {
+                        last = functions[functionName](event);
+                    };
+                    functionNames.split(listSeparator).forEach(functionLookUp);
+                    return last;
                 };
-            if (!eventNames || !functionName) {
-                console.warn('Use data-fx="event1,event2-functionName" format!');
+                
+            if (!eventNames || !functionNames) {
+                console.warn('Use data-fx="event1,event2-functionName1,functionName2" format!');
                 return;
             }
             
-            eventNames.split(",").forEach(function (eventName) {
+            eventNames.split(listSeparator).forEach(function (eventName) {
                 addEventListener(element, eventName, functionLookUp);
             });
             
@@ -339,7 +349,7 @@ const dom99 = (function () {
         forgetScope,  // forget scope
         linkJsAndDom // initialization function
     });
-}());
+}(...dom99Configuration));
 // make it available for browserify style imports
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
