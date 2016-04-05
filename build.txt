@@ -2,9 +2,9 @@ browserify js/main.js > js/bundle.js
 
 babel js/dom99.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/dom99.es5.min.js
 
-babel js/main.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/main.es5.min.js
+babel examples/main.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o examples/main.es5.min.js
 
-babel js/chat.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/chat.es5.min.js
+babel examples/chat.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o examples/chat.es5.min.js
 
 npm version major|minor|patch
 npm publish
