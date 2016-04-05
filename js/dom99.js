@@ -4,7 +4,7 @@ globals: window, document, console*/
 /*todo  improve system
 more examples, readme */
 
-dom99Configuration = window.dom99Configuration || [];
+let dom99Configuration = window.dom99Configuration || [];
 /* in the future when import syntax is recognized use this syntax instead:
 import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
 dom99Configuration = dom99Configuration || []; */
