@@ -162,6 +162,8 @@ If you accidentally made a mistake, open your console, warnings may give you clu
 
 You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
+You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js
+
 ##Performance
 
 ###General Tips
@@ -193,7 +195,7 @@ In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Sim
 
 If you target older browsers, I recommend the transpiled version. Direct download (right click, save file as ...) 
 
- * [Development ES2015 dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
+ * [Development ES2015 with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
 
  
