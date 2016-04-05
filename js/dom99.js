@@ -3,11 +3,8 @@
 globals: window, document, console*/
 /*todo  improve system
 more examples, readme */
+"use strict";
 
-let dom99Configuration = window.dom99Configuration || [];
-/* in the future when import syntax is recognized use this syntax instead:
-import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
-dom99Configuration = dom99Configuration || []; */
 const dom99 = (function (
         /*you can change the syntax in dom99Configuration*/
         directiveNameFx="data-fx", directiveNameVr="data-vr", directiveNameEl="data-el",
@@ -15,7 +12,7 @@ const dom99 = (function (
         tokenSeparator="-", 
         listSeparator=","
         ) {
-    "use strict";
+    //"use strict";
     
     let variables = {},
         variablesSubscribers = {},/*contains arrays of elements , each array 
@@ -396,7 +393,11 @@ const dom99 = (function (
         forgetScope,  // forget scope
         linkJsAndDom // initialization function
     });
-}(...dom99Configuration));
+}(...(window.dom99Configuration || [])));
+//let dom99Configuration = window.dom99Configuration || [];
+/* in the future when import syntax is recognized use this syntax instead:
+import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
+dom99Configuration = dom99Configuration || []; */
 /* make it available for browserify style imports
 future export default dom99*/
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
