@@ -11,7 +11,9 @@ dom99Configuration = dom99Configuration || []; */
 const dom99 = (function (
         /*you can change the syntax in dom99Configuration*/
         directiveNameFx="data-fx", directiveNameVr="data-vr", directiveNameEl="data-el",
-        attributeValueDoneSign="☀", tokenSeparator="-", listSeparator=","
+        directiveNameCustomElement="data-scope", attributeValueDoneSign="☀", 
+        tokenSeparator="-", 
+        listSeparator=","
         ) {
     "use strict";
     
@@ -19,6 +21,7 @@ const dom99 = (function (
         variablesSubscribers = {},/*contains arrays of elements , each array 
         contains all elements that listen to the same variable. */
         elements = {},
+        templateElementNameFromCustomElementName = {},
         functions = {},
         usingInnerScope = false,
         innerScope;
@@ -227,7 +230,10 @@ const dom99 = (function (
     
         applyEl = function (element, directiveTokens) {
             /* stores element for direct access !*/
-            let elementName = directiveTokens[0],
+            let [elementName, 
+                customElementTargetNamePrefix,
+                customElementTargetNameAppendix] = directiveTokens,//Destructuring
+                customElementTargetName,
                 elementsScope = elements;
                 
             if (!elementName) {
@@ -243,6 +249,12 @@ const dom99 = (function (
                 console.warn(`2 elements with the same name, overwriting dom99.el.${elementName}`);
             }
             elementsScope[elementName] = element;
+            
+            if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
+                //it is a template for a custom element
+                customElementTargetName = `${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`;
+                templateElementNameFromCustomElementName[customElementTargetName] = elementName;
+            }
         },
         
         templateRender = function (templateName, scope) {
@@ -273,6 +285,8 @@ const dom99 = (function (
             
             //make a clone ,clone is a DocumentFragment object
             let clone = document.importNode(elements[templateName].content, true);
+            /* could also use let clone = elements[templateName].content.cloneNode(true);
+            from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with document.importNode() it is updated when the nodes are cloned.*/
            
             // apply dom99 directives with the scope
             linkJsAndDom(clone);
@@ -311,27 +325,60 @@ const dom99 = (function (
             delete variablesSubscribers[scope];
         },
         
-        tryApplyDirective = function (element, customAttribueName, ApplyADirective) {
-            let customAttributeValue;
-            if (element.hasAttribute(customAttribueName)) {
-                customAttributeValue = element.getAttribute(customAttribueName);
-                if (!(customAttributeValue[0] === attributeValueDoneSign)) {
-                    ApplyADirective(element, customAttributeValue.split(tokenSeparator));
-                    // ensure the directive is only applied once
-                    element.setAttribute(customAttribueName, attributeValueDoneSign + customAttributeValue);
-                }
-            }
+        
+        renderCustomElement = function (customElement, templateName, scope) {
+        
+            // does it make sense to populate the clone here ?
+            customElement.appendChild(templateRender(templateName, scope));
         },
-    
+        
+        applyScope = function (element, directiveTokens) {
+            /* stores element for direct access !*/
+            let scopeName = directiveTokens[0],
+                customElementName = getTagName(element),
+                templateName = templateElementNameFromCustomElementName[customElementName];
+            
+            if (!scopeName) {
+                console.warn('Use data-scope="scopeName" format!');
+                return;
+            }
+            //warn for duplicate scopes ?
+            
+
+            renderCustomElement(element, templateName, scopeName);
+        },
+        
+        functionDirectiveNamePairs = [
+        /*order is relevant applyVr being before applyFx,
+        we can use the just changed live variable in the bind function*/
+                [directiveNameEl, applyEl],
+                [directiveNameVr, applyVr],
+                [directiveNameFx, applyFx],
+                [directiveNameCustomElement, applyScope]
+        ],
+        
         tryApplyDirectives = function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
-                if (element.hasAttribute) {
-                /*the order matters here, applyVr being first,
-                we can use the just changed live variable in the bind function*/
-
-                tryApplyDirective(element, directiveNameVr, applyVr);
-                tryApplyDirective(element, directiveNameFx, applyFx);
-                tryApplyDirective(element, directiveNameEl, applyEl);
+            if (element.hasAttribute) {
+                let pairs, 
+                    customAttributeValue,
+                    directiveName,
+                    directiveFunction;
+                for (pairs of functionDirectiveNamePairs) {
+                    directiveName = pairs[0];
+                    directiveFunction = pairs[1];
+                    
+                    if (!element.hasAttribute(directiveName)) {
+                        continue;
+                    } //else
+                    customAttributeValue = element.getAttribute(directiveName);
+                    if ((customAttributeValue[0] === attributeValueDoneSign)) {
+                        continue;
+                    } //else
+                    directiveFunction(element, customAttributeValue.split(tokenSeparator));
+                    // ensure the directive is only applied once
+                    element.setAttribute(directiveName, attributeValueDoneSign + customAttributeValue);
+                }
             }
         },
     
@@ -350,11 +397,14 @@ const dom99 = (function (
         linkJsAndDom // initialization function
     });
 }(...dom99Configuration));
-// make it available for browserify style imports
+/* make it available for browserify style imports
+future export default dom99*/
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
 }
 /*Additional Explanations to understand dom99.js file :
 
 custom attribute names must start with "data-" see
-https://docs.webplatform.org/wiki/html/attributes/data-* */
+https://docs.webplatform.org/wiki/html/attributes/data-* 
+https://w3c.github.io/webcomponents/spec/custom/
+*/

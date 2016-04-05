@@ -1,8 +1,7 @@
-js/main.es5.compact.js
-js/chat.es5.compact.js
-js/dom99.es5.compact.js
+
 uglifyjs
 test.html
+documentation/personal_notes.txt
 #################
 ## Eclipse
 #################

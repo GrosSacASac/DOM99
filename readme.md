@@ -2,11 +2,11 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. [Try the intro playground](http://jsbin.com/migeya/9/edit?html,js,output)
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.[Try the intro playground](http://jsbin.com/migeya/10/edit?html,js,output)
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 3KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
+DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 3.5KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
 Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
@@ -75,30 +75,19 @@ To use a preselected element
 
 will remove `<h1 data-el="bigTitle">You can remove me to make space</h1>`
 
+To compose html with predefined building blocks.
 
-To inject template clones in your Document
-
-    <body>
-    <template data-el="templateName">
-        <div data-el="SemanticName">
-        
-            <p data-vr="text" ></p>
-            Any HTML ...
-        </div>
+    <template data-el="commentTemplate-d-comment">
+        <p data-vr="text">A comment</p>
+        <datetime data-vr="date">06/04/2016</datetime>
     </template>
-    ...
-    <div data-el="target"></div>
-    </body>
+
+    <d-comment data-scope="first"></d-comment>
+    <d-comment data-scope="second"></d-comment>
     
-    // JS
-    // 1 create clone and execute directives
-    let clone = D.templateRender( "templateName", "scopeName" );
-    
-    // 2 populate the clone with any data and more
-    D.vr["scopeName"]["text"] = "Anything I want";
-    
-    // 3 insert the clone in the DOM
-    D.el["target"].appendChild(clone);
+To edit a comment at run time do this:
+
+    D.vr["first"].text = "A new comment";
     
     
     
@@ -133,6 +122,33 @@ Initialize variables with `D.vr = ...;`. Next store event listener functions in 
 
 ###Use HTML templates
 
+
+####Short overview
+
+    <body>
+    <template data-el="templateName">
+        <div data-el="SemanticName">
+        
+            <p data-vr="text" ></p>
+            Any HTML ...
+        </div>
+    </template>
+    ...
+    <div data-el="target"></div>
+    </body>
+    
+    // JS
+    // 1 create clone and execute directives
+    let clone = D.templateRender( "templateName", "scopeName" );
+    
+    // 2 populate the clone with any data and more
+    D.vr["scopeName"]["text"] = "Anything I want";
+    
+    // 3 insert the clone in the DOM
+    D.el["target"].appendChild(clone);
+    
+####The details
+    
 If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that use `D.templateRender(templateName, scopeName)` where `templateName` is the name of the template you found in `data-el`, the second is a scope name. That scope name is useful for dynamic templates, templates that have DOM99 directives inside.
 
 
@@ -315,9 +331,12 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
 
 ###What is coming soon:
 
- * Static component composition in html
- * System improvement at initialization
+
+ * System improvements
  * Automated test
+ * Easier to use
+ * Better documentation
+ * Deep HTML composition
 
 ###Abstract directions for the future or Specification
 
