@@ -6,7 +6,7 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 3.5KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
+DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 4KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
 Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
 
@@ -22,16 +22,19 @@ Also if you want to teach people JavaScript, without having to spend too much ti
 
 DOM99 will browse the DOM and react if an element has one of the following attributes
 
-* data-vr : **vr for variable**: data binding between DOM element and js variable
-* data-el : **el for element**: pre-selecting an element for later usage
-* data-fx : **fx for function** adds an event listener to that element
+ * data-vr : **vr for variable**: data binding between DOM element and js variable
+ * data-el : **el for element**: pre-selecting an element for later usage
+ * data-fx : **fx for function** adds an event listener to that element
+ * data-scope: (advanced) **scope for scope name** adds the linked template copy at load time
+
 
 Examples:
 
     <input data-vr="b" type="text">
     <nav data-el="myNav">Navigation Links</nav>
     <button data-fx="click-deleteFoto">Delete Foto</button>
-            
+    <d-magicbutton data-scope="1"></d-magicbutton>      
+    
 The general syntax is 
 
 `<tag data-99-Keyword="details" > bla bla </tag>`
@@ -47,7 +50,12 @@ If you are not using browserify you need to include this script tag in your html
 
     //Use a shorter name
     const D = dom99;
-    //Store your functions in the D.fx object
+    //to start using dom99 use this statement
+    D.linkJsAndDom(); 
+
+    
+Store your functions in the D.fx object
+
 
     D.fx.functionName = aFunction;
 
@@ -56,9 +64,6 @@ aFunction is called when you click this button
     <button data-fx="click-functionName">Action</button>
     //Note we wrote functionName not aFunction
 
-to start using dom99 use this statement
-
-    D.linkJsAndDom(); 
 
 To changes the text of `<p data-vr="talkings"></p>` and all other element that share the variable talkings
 
@@ -94,11 +99,11 @@ To edit a comment at run time do this:
 You are ready to use DOM99 ! 
    
    
-Detailed explanations soon, see example in the Demo for now
+
 
 ##Demo file:
 
-Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
+Demoes use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 
 [Basic demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html) 
 
@@ -118,12 +123,70 @@ Demo uses the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
     
 This will look the for DOM99 directives in the document tree.
 
-Initialize variables with `D.vr = ...;`. Next store event listener functions in `D.fx`. You can use nodes references in `D.el`.
+Initialize variables with `D.vr.yourtarget = ...;`. Next store event listener functions in `D.fx`. You can use nodes references in `D.el`.
 
-###Use HTML templates
+###Use HTML templates, it is healthy
+
+There are 2 ways to use HTML templates
+
+ * Static Load time template rendering with custom elements
+ * Run time template rendering and insertion
+ 
+Both ways are **complementary** and use the same core ideas. To illustrate this imagine you want to have a web page with an article and comments. When the page loads you want to display the article and already display the 2 last comments, later when the user scrolls down or clicks a button to show more comments we load more comments into the page. We here define a comment as some text and a date. What we want initially is something like this
 
 
-####Short overview
+    <html>
+
+        <article>
+            <p>...</p><p>...</p>
+        </article>
+        
+        <!-- a comment is some text and a date -->
+        <template data-el="commentTemplate-d-comment">
+            <p data-vr="text"></p>
+            <datetime data-vr="date"></datetime>
+        </template>
+        
+        <d-comment data-scope="comment1"></d-comment>
+        <d-comment data-scope="comment2"></d-comment>
+        
+        <button data-fx="click-showNextComment">Show more comments</button>
+
+    </html>
+
+    Note: `<d-comment>` is a valid custom element, `<comment>` is not.
+
+Our initial JS code looks like this    
+
+    "use strict";
+    const D = dom99;
+
+    D.fx.showNextComment = function(event) {
+        ;//todo
+    };
+
+    let commentsData = {
+        comment1: {
+            text: "I am the first to comment, well written! Bravo!",
+            date: "In the year 2016"
+        },
+        comment2: {
+            text: "I really appreciate your work",
+            date: "just now" 
+        }
+    };
+
+    // we could also manually assign every property in a complicated for loop
+    Object.assign(D.vr, commentsData);
+
+    D.linkJsAndDom();
+    
+[Try templates1.html static template injection](http://rawgit.com/GrosSacASac/DOM99/master/examples/templates1.html) 
+[Try templates2.html static+dynamic template injection](http://rawgit.com/GrosSacASac/DOM99/master/examples/templates2.html) 
+
+under construction ...
+
+####Short overview over dynamic template injection
 
     <body>
     <template data-el="templateName">
@@ -146,6 +209,18 @@ Initialize variables with `D.vr = ...;`. Next store event listener functions in 
     
     // 3 insert the clone in the DOM
     D.el["target"].appendChild(clone);
+    
+    // or 
+    
+    // 1 create HTML ELement
+    let customElement = D.createElement2(customElementDescription);
+    
+    // 2 feed data in D.vr 
+    // 3 link it
+    D.linkJsAndDom(customElement);
+    
+    // 4 insert the Element that has a clone as a child in the DOM
+    D.el.commentSection.appendChild(customElement);
     
 ####The details
     
@@ -337,6 +412,9 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Easier to use
  * Better documentation
  * Deep HTML composition
+ * API harmonization
+ * Custom Element Lifecycle declaration
+ * Better Support for D.vr on all elements 
 
 ###Abstract directions for the future or Specification
 

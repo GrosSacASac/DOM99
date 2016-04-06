@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    
+    <!-- style -->
+    <meta name="viewport" content="width=device-width">
+    <!-- coming 
+    <link rel="stylesheet" href="css/normalize.css">
+    -->
+<style>d-comment {
+  border: 1px solid;
+  display:block;
+  margin: 3px;
+}</style>
+</head>
+<body>
+  
+<article>
+    <p>Article</p><p>Blalblabla I give my opinion blabla</p> 
+</article>
+
+<!-- a comment is some text and a date -->
+<template data-el="commentTemplate-d-comment">
+    <p data-vr="text"></p>
+    <datetime data-vr="date"></datetime>
+</template>
+
+<d-comment data-scope="comment1"></d-comment>
+<d-comment data-scope="comment2"></d-comment>
+
+<button data-fx="click-showNextComment" disabled>Show more comments</button>
+
+<script src="../js/dom99.es5.min.js"></script>
+<script src="templates1.js"></script>
+</body>
+</html>

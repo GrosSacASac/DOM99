@@ -1,10 +1,11 @@
 //dom99.js
-/*uses es6
+/*uses es2015, es2016
 globals: window, document, console*/
 /*todo  improve system
-more examples, readme */
+more examples, readme 
+note 
+*/
 "use strict";
-
 const dom99 = (function (
         /*you can change the syntax in dom99Configuration*/
         directiveNameFx="data-fx", directiveNameVr="data-vr", directiveNameEl="data-el",
@@ -87,7 +88,7 @@ const dom99 = (function (
             element = element.firstElementChild;
             while (element) {
                 walkTheDomElements(element, function1);
-                element = element.nextSibling;
+                element = element.nextElementSibling;
             }
         },
         
@@ -112,8 +113,8 @@ const dom99 = (function (
     
         applyFx = function (element, directiveTokens) {
             /*directiveTokens example : ["keyup,click", "calculate"] */
-            const eventNames = directiveTokens[0],
-                functionNames = directiveTokens[1],
+            const [eventNames,
+                  functionNames] = directiveTokens,
                 /*functionLookUp allows us to store functions in dom99.fx after 
                 dom99.linkJsAndDom() and use the functions that are in D.fx at that moment.
                 we also return what the last function returns*/
@@ -148,7 +149,7 @@ const dom99 = (function (
             The public dom99.vr.a variable returns this private js variable
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-            let variableName = directiveTokens[0],
+            let [variableName] = directiveTokens,
                 temp,
                 variablesScope = variables,
                 variablesSubscribersScope = variablesSubscribers;
@@ -254,7 +255,7 @@ const dom99 = (function (
             }
         },
         
-        templateRender = function (templateName, scope) {
+        templateRender = function (templateName, scope, optionalCustomElementDescription) {
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
         the content elements with "data-vr" will share a variable at
@@ -266,16 +267,22 @@ const dom99 = (function (
         
         returns clone
         
-        suggestion: maybe generate automatice scope names internally
+        suggestion: maybe generate automatic scope names internally
         */
+
             //create the scope
-            if (!variables.hasOwnProperty(scope)){
+            if (!elements.hasOwnProperty(scope)){
                 elements[scope] = {};
-                variables[scope] = {};
-                variablesSubscribers[scope] = {};
-            } else {
-                console.warn(`templateRender with scope=${scope} is already taken, you must change the scope if you want to have data not shared between all clones`);
             }
+            if (!variables.hasOwnProperty(scope)){
+                variables[scope] = {};
+            }
+            if (!variablesSubscribers.hasOwnProperty(scope)){
+                variablesSubscribers[scope] = {};
+            } 
+            /*else {
+                console.warn(`templateRender with scope=${scope} is already taken, you must change the scope if you want to have data not shared between all clones`);
+            }*/
             usingInnerScope = true;
             //innerScope is used for the grouped scope
             innerScope = scope;
@@ -327,11 +334,12 @@ const dom99 = (function (
         
             // does it make sense to populate the clone here ?
             customElement.appendChild(templateRender(templateName, scope));
+            return customElement;
         },
         
         applyScope = function (element, directiveTokens) {
             /* stores element for direct access !*/
-            let scopeName = directiveTokens[0],
+            let [scopeName] = directiveTokens,
                 customElementName = getTagName(element),
                 templateName = templateElementNameFromCustomElementName[customElementName];
             
@@ -378,9 +386,26 @@ const dom99 = (function (
                 }
             }
         },
+        
+        createElement2 = function (ElementDescription) {
+            
+            let element1 = document.createElement(ElementDescription.tagName);
+            ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
+            delete ElementDescription.tagName; // read only
+            /*elt.setAttribute(attr, value) is good to set initial attr like you do in html
+            elt.attr = value is good to change the live values
+            
+            this is the setAttribute equivalent to Object.assign(element1, ElementDescription);*/
+            Object.entries(ElementDescription).forEach(function(pair) {
+                element1.setAttribute(pair[0], pair[1]);
+            });
+            return element1;
+            
+        },
     
         linkJsAndDom = function (startElement=document.body) {
             walkTheDomElements(startElement, tryApplyDirectives);
+            return startElement;
         };
     
     // we return a public interface that can be used in the program
@@ -390,6 +415,7 @@ const dom99 = (function (
         fx: functions,  //object to be filled by user defined functions 
         // fx is where dom99 will look for , for data-fx,
         templateRender, // render a clone of template alive
+        createElement2, // enhanced document.createElement
         forgetScope,  // forget scope
         linkJsAndDom // initialization function
     });
