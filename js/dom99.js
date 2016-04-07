@@ -19,6 +19,7 @@ const dom99 = (function (
         variablesSubscribers = {},/*contains arrays of elements , each array 
         contains all elements that listen to the same variable. */
         elements = {},
+        customElements = {},
         templateElementNameFromCustomElementName = {},
         functions = {},
         usingInnerScope = false,
@@ -128,7 +129,7 @@ const dom99 = (function (
                 };
                 
             if (!eventNames || !functionNames) {
-                console.warn('Use data-fx="event1,event2-functionName1,functionName2" format!');
+                console.warn(element, 'Use data-fx="event1,event2-functionName1,functionName2" format!');
                 return;
             }
             
@@ -155,7 +156,7 @@ const dom99 = (function (
                 variablesSubscribersScope = variablesSubscribers;
             
             if (!variableName) {
-                console.warn('Use data-vr="variableName" format!');
+                console.warn(element, 'Use data-vr="variableName" format!');
                 return;
             }
             
@@ -235,7 +236,7 @@ const dom99 = (function (
                 elementsScope = elements;
                 
             if (!elementName) {
-                console.warn('Use data-el="elementName" format!');
+                console.warn(element, 'Use data-el="elementName" format!');
                 return;
             }    
             
@@ -244,7 +245,7 @@ const dom99 = (function (
                 elementsScope = elements[innerScope];
             }
             if (elementsScope[elementName]) {
-                console.warn(`2 elements with the same name, overwriting dom99.el.${elementName}`);
+                console.warn(element, "and", elementsScope[elementName], `2 elements with the same name, overwriting dom99.el.${elementName}`);
             }
             elementsScope[elementName] = element;
             
@@ -255,7 +256,7 @@ const dom99 = (function (
             }
         },
         
-        templateRender = function (templateName, scope, optionalCustomElementDescription) {
+        templateRender = function (templateName, scope) {
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
         the content elements with "data-vr" will share a variable at
@@ -327,6 +328,7 @@ const dom99 = (function (
             delete elements[scope];
             delete variables[scope];
             delete variablesSubscribers[scope];
+            delete customElements[scope];
         },
         
         
@@ -338,7 +340,8 @@ const dom99 = (function (
         },
         
         applyScope = function (element, directiveTokens) {
-            /* stores element for direct access !*/
+            /* looks for an html template to render
+            also calls applyEl with scopeName!*/
             let [scopeName] = directiveTokens,
                 customElementName = getTagName(element),
                 templateName = templateElementNameFromCustomElementName[customElementName];
@@ -349,7 +352,7 @@ const dom99 = (function (
             }
             //warn for duplicate scopes ?
             
-
+            customElements[scopeName] = element;
             renderCustomElement(element, templateName, scopeName);
         },
         
@@ -412,9 +415,9 @@ const dom99 = (function (
     return Object.freeze({
         vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
         el: elements, // preselected elements, basically a short cut for getElementBy...()
+        xel: customElements, // preselected custom elements
         fx: functions,  //object to be filled by user defined functions 
         // fx is where dom99 will look for , for data-fx,
-        templateRender, // render a clone of template alive
         createElement2, // enhanced document.createElement
         forgetScope,  // forget scope
         linkJsAndDom // initialization function

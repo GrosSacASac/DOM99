@@ -25,14 +25,25 @@ const updateMessageElement = function(data, scopeName) {
 };
 
 const renderNewMessageElement = function(data, scopeName) {
-    // 1 create clone and execute directives
-    let clone = D.templateRender( "messageTemplate", scopeName );
+    let customElement;    
     
-    // 2 populate the clone with any data and more
+    // 1 create HTML ELement
+    customElement = D.createElement2({
+        "tagName": "d-message",
+        "data-scope": scopeName,
+    });
+    
+    // 2 link it
+    D.linkJsAndDom(customElement);
+    
+    // 3 populate the clone with any data and more
     updateMessageElement(data, scopeName)
     
-    // 3 insert the clone in the DOM
-    D.el["messagesContainer"].appendChild(clone);
+    // 4 insert the Element that has a clone as a child in the DOM
+    D.el["messagesContainer"].appendChild(customElement);
+    
+
+
 };
 
 const displayNewMessage = function(data) {
@@ -44,7 +55,7 @@ const displayNewMessage = function(data) {
         messageScopes.push(scope);
         
         //do the same rotation in the DOM
-        D.el["messagesContainer"].appendChild(D.el[scope]["message"]);
+        D.el["messagesContainer"].appendChild(D.xel[scope]);
         
         //update
         updateMessageElement(data, scope);

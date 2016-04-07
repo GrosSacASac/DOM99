@@ -47,15 +47,17 @@
         <article data-fx="click-updateJson">
         
         
-            <template data-el="todoTemplate">
+            <template data-el="todoTemplate-d-todo">
                 <!-- Everything here has its own scope  -->
-                <li data-el="todo">
+                <li >
                     <input data-fx="change-updateJson" data-vr="done" type="checkbox">
                     <input data-fx="input-updateJson" data-vr="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
             <h2>To-do List</h2>
-            <ol data-el="todoContainer"></ol>
+            <ol data-el="todoContainer">
+                <!-- d-todo's  -->
+            </ol>
             <button data-fx="click-deleteTodos">Delete finished tasks</button>
             <button data-fx="click-addTodo">Add To-do</button>
             <pre>JSON: <output data-vr="todoAsJson"></output>

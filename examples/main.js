@@ -16,8 +16,8 @@ D.fx.calculate = function (event) {
     //dom.vars variables are Strings by default
     D.vr.result = parseInt(D.vr.a, 10) * parseInt(D.vr.b, 10);
 };
-D.vr.a = 2;
-D.vr.b = 4;
+D.vr.a = 7;
+D.vr.b = 6;
 
 // -- The monologue --
 
@@ -58,15 +58,28 @@ const boolz = {"false": false, "true": true};
 values returned from D.vr are strings*/
 D.fx.addTodo = function (event) {
     let todoScopeName = path + String(i),
-        clone;
+        customElement;
     todoScopeNames.push(todoScopeName);
-    clone = D.templateRender(
-        "todoTemplate",
-        todoScopeName
-    );
+    
+    
+    // 1 create HTML ELement
+    customElement = D.createElement2({
+        "tagName": "d-todo",
+        "data-scope": todoScopeName,
+    });
+    
+    
+    
+    // 3 link it
+    D.linkJsAndDom(customElement);
+    
+    // 2 populate data
     D.vr[todoScopeName]["done"] = false;
     D.vr[todoScopeName]["text"] = "";
-    D.el["todoContainer"].appendChild(clone);
+    
+    // 4 insert the Element that has a clone as a child in the DOM
+    D.el["todoContainer"].appendChild(customElement);
+    
     i += 1;
 };
 
@@ -89,7 +102,7 @@ D.fx.deleteTodos = function (event) {
         newTodoScopeNames.push(todoScopeName);
         return false;
     }).forEach(function(todoScopeName) {
-        D.el[todoScopeName].todo.remove();
+        D.xel[todoScopeName].remove();
         D.forgetScope(todoScopeName);
     });
     todoScopeNames = newTodoScopeNames; //keep todoScopeNames up to date

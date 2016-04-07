@@ -6,13 +6,15 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 
 ##Why use DOM99 ?
 
-DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 4KB minified), has no external dependency and is written respecting modern ES2015 and HTML5 standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
+DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 4KB minified), has no external dependency and is written respecting modern ES and HTML standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
-Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful.
+Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. [Comparisons](documentation/manychoicesforfronted.md)
 
-##Limitations
+##Why not use DOM99 ?
 
- * Old IE browser may not support the `<template>` element natively.
+ * Old IE browser may not support the `<template>` element natively. 
+ * Requires basic JavaScript knowledge to use.
+ * New Framework
 
 ##How to use DOM99 ?
 
@@ -37,7 +39,7 @@ Examples:
     
 The general syntax is 
 
-`<tag data-99-Keyword="details" > bla bla </tag>`
+`<tag data-keyword="token1-token2" > bla bla </tag>`
 
 If you are not using browserify you need to include this script tag in your html **before** other scripts that access dom99.
 
@@ -83,8 +85,8 @@ will remove `<h1 data-el="bigTitle">You can remove me to make space</h1>`
 To compose html with predefined building blocks.
 
     <template data-el="commentTemplate-d-comment">
-        <p data-vr="text">A comment</p>
-        <datetime data-vr="date">06/04/2016</datetime>
+        <p data-vr="text"></p>
+        <datetime data-vr="date"></datetime>
     </template>
 
     <d-comment data-scope="first"></d-comment>
@@ -93,6 +95,7 @@ To compose html with predefined building blocks.
 To edit a comment at run time do this:
 
     D.vr["first"].text = "A new comment";
+    D.vr["first"].date = "Today";
     
     
     
@@ -182,45 +185,37 @@ Our initial JS code looks like this
     D.linkJsAndDom();
     
 [Try templates1.html static template injection](http://rawgit.com/GrosSacASac/DOM99/master/examples/templates1.html) 
+
 [Try templates2.html static+dynamic template injection](http://rawgit.com/GrosSacASac/DOM99/master/examples/templates2.html) 
 
 under construction ...
 
-####Short overview over dynamic template injection
+####Dynamic template injection
 
     <body>
-    <template data-el="templateName">
-        <div data-el="SemanticName">
-        
-            <p data-vr="text" ></p>
-            Any HTML ...
-        </div>
+    <template data-el="templateName-d-tagname">
+        <p data-vr="text" ></p>
+        Any HTML ...
     </template>
     ...
     <div data-el="target"></div>
     </body>
     
-    // JS
-    // 1 create clone and execute directives
-    let clone = D.templateRender( "templateName", "scopeName" );
-    
-    // 2 populate the clone with any data and more
-    D.vr["scopeName"]["text"] = "Anything I want";
-    
-    // 3 insert the clone in the DOM
-    D.el["target"].appendChild(clone);
-    
-    // or 
-    
+    // 0 make a description
+    let customElementDescription = {
+        "tagName": "d-tagname",
+        "data-scope": "scopeName"
+    }
     // 1 create HTML ELement
     let customElement = D.createElement2(customElementDescription);
     
-    // 2 feed data in D.vr 
+    // 2 feed data in D.vr before or after , you have the freedom
+    D.vr["scopeName"]["text"] = "Anything I want";
     // 3 link it
     D.linkJsAndDom(customElement);
     
     // 4 insert the Element that has a clone as a child in the DOM
-    D.el.commentSection.appendChild(customElement);
+    D.el["target"].appendChild(customElement);
     
 ####The details
     
@@ -325,76 +320,6 @@ If you apply the general tips above you know that you have to check if the clien
   4. Use this command `babel js/dom99.js --compact true --remove-comments -o js/dom99.es5.compact.js
   5. Now use dom99.es5.compact.js in your production.
 
-##Some alternatives comparisons with Contras, Pros and some similarities
-
-###Angular.js
-
-Pro:
-
-  * More features
-  * Easily Testable
-  * More browser compatibility
-  
-Contra:
-
-  * Learning curve: wall
-  * Forced to organize code base in the Angular MVC way
-  * Logic in Markup
-  * Heavy components for simple UIs
-  * Heavier
-    
-Some similarities:
-
-  * Declarative Markup
-  * Shared variables are normal js objects
-
-
-###React
-
-Pro:
-
-  * Easier to understand what is happening in large code bases
-  * React native (still a thing ?)
-  * More browser compatibility
-  
-Contra:
-
-  * Encouraged to use JSX, a JavaScript extension syntax
-  * Can be hard to understand how and why to use react
-  * Forced V-V model
-    
-Some similarities:
-
-  * Elegantly populate templates with data 
-  * Focus on the view
-  * Simple by design
- 
-
-###jQuery
-
-Pro:
-
-  * Imperative instructions are easy to understand
-  * Beginner friendly
-  * Best old browser compatibility
-  * Also a non-UI library
-  * One of the best things that happened in the Web Platform
-  
-Contra:
-
-  * Not obvious how organize large code in a clean way
-  * Can do almost everything as easily with browser APIs nowadays
-    
-Some similarities:
-
-  * Freedom
-  * Can be used alongside other JavaScript view frameworks
-  * Simple
-
-
-###Others
-
-There are many other projects that will help you write client side applications. All have their advantages/problems. It will take you weeks/month maybe even years to browse them all and compare them. You have to make a choice at some point.
 
 ##History
 
@@ -413,8 +338,9 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Better documentation
  * Deep HTML composition
  * API harmonization
- * Custom Element Lifecycle declaration
+ * Custom Element Life cycle declaration
  * Better Support for D.vr on all elements 
+ * Waiting for custom-element spec to finalize to update DOM99
 
 ###Abstract directions for the future or Specification
 
@@ -422,6 +348,7 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Simplicity in system and usage
  * Encourage declarative UI programming models
  * Focus on the view
+ * Build on top of web standards
  
 ###DOM99 is not and will never be
 
