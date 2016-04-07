@@ -344,7 +344,7 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Simplicity in system and usage
  * Encourage declarative UI programming models
  * Focus on the view
- * Build on top of web standards
+ * Built on top of web standards
  
 ###DOM99 is not and will never be
 

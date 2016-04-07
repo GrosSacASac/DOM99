@@ -1,8 +1,7 @@
 //dom99.js
 /*uses es2015, es2016
 globals: window, document, console*/
-/*todo  improve system forbid data-el + data-scope because a xel reference is automatic for scope
-allow custom without data-scope
+/*todo  improve system 
 more examples, readme 
 note 
 */
@@ -29,6 +28,11 @@ const dom99 = (function (
         
     const 
         miss = "miss",
+        
+        value = "value",
+        textContent = "textContent",
+        source = "src",
+        checked = "checked",
         
         getValueElseDefaultDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
@@ -60,21 +64,29 @@ const dom99 = (function (
     
         PropertyForTag = getValueElseDefaultDecorator({
             //Input Type : appropriate property name to retrieve and set the value
-            "input": "value",
-            "textarea": "value",
-            miss: "textContent"
+            "input": value,
+            "textarea": value,
+            "progress": value,
+            "img": source,
+            "source": source,
+            "audio": source,
+            "video": source,
+            "track": source,
+            "script": source,
+            "link": "href",
+            miss: textContent
         }),
     
         PropertyForInputType = getValueElseDefaultDecorator({
             //Input Type : appropriate property name to retrieve and set the value
-            "checkbox": "checked",
-            "radio": "checked",
-            miss: "value"
+            "checkbox": checked,
+            "radio": checked,
+            miss: value
         }),
     
         PropertyBooleanList = [
             /* add here all relevant boolean properties*/
-            "checked"
+            checked
         ],
         
         getVisibleProperty = function (tagName, type) {
@@ -347,8 +359,11 @@ const dom99 = (function (
                 templateName = templateElementNameFromCustomElementName[customElementName];
             
             if (!scopeName) {
-                console.warn('Use data-scope="scopeName" format!');
+                console.warn(element, 'Use data-scope="scopeName" format!');
                 return;
+            }
+            if (element.hasAttribute(directiveNameEl)) {
+                console.warn(element, 'Element has both data-scope and data-el. Use only data-scope and get element at D.xel[scopeName]');
             }
             //warn for duplicate scopes ?
             
@@ -371,21 +386,29 @@ const dom99 = (function (
                 let pairs, 
                     customAttributeValue,
                     directiveName,
-                    directiveFunction;
+                    directiveFunction,
+                    tag;
                 for (pairs of functionDirectiveNamePairs) {
                     directiveName = pairs[0];
                     directiveFunction = pairs[1];
                     
                     if (!element.hasAttribute(directiveName)) {
                         continue;
-                    } //else
+                    }
                     customAttributeValue = element.getAttribute(directiveName);
                     if ((customAttributeValue[0] === attributeValueDoneSign)) {
                         continue;
-                    } //else
+                    }
                     directiveFunction(element, customAttributeValue.split(tokenSeparator));
                     // ensure the directive is only applied once
                     element.setAttribute(directiveName, attributeValueDoneSign + customAttributeValue);
+                }
+                if (element.hasAttribute(directiveNameCustomElement)) {
+                    return;
+                }
+                tag = getTagName(element);
+                if (templateElementNameFromCustomElementName.hasOwnProperty(tag)) {
+                    element.appendChild(document.importNode(elements[templateElementNameFromCustomElementName[tag]].content, true));
                 }
             }
         },
@@ -446,6 +469,7 @@ const dom99 = (function (
                     Object.assign(D.vr[scopeName], newObjectValue);
                 }
             }
+            return newObject;
         },
         enumerable: true,
         configurable: false
