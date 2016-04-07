@@ -330,12 +330,8 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
 
  * System improvements
  * Automated test
- * Easier to use
  * Better documentation
- * Deep HTML composition
- * API harmonization
  * Custom Element Life cycle declaration
- * Better Support for D.vr on all elements 
  * Waiting for custom-element spec to finalize to update DOM99
 
 ###Abstract directions for the future or Specification
@@ -345,12 +341,7 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
  * Encourage declarative UI programming models
  * Focus on the view
  * Built on top of web standards
- 
-###DOM99 is not and will never be
-
- * Large library with all utility functions
- * Simplified API for client-server communication
- * A replacement for what CSS does
+ * Not bloatware
 
 This leaves more freedom to combine DOM99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside DOM99 and anything else that is complementary to accelerate the development process.
 
