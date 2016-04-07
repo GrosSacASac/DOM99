@@ -1,7 +1,8 @@
 //dom99.js
 /*uses es2015, es2016
 globals: window, document, console*/
-/*todo  improve system
+/*todo  improve system forbid data-el + data-scope because a xel reference is automatic for scope
+allow custom without data-scope
 more examples, readme 
 note 
 */
@@ -22,8 +23,9 @@ const dom99 = (function (
         customElements = {},
         templateElementNameFromCustomElementName = {},
         functions = {},
-        usingInnerScope = false,
-        innerScope;
+        variablesScope = variables,
+        variablesSubscribersScope = variablesSubscribers,
+        elementsScope = elements;
         
     const 
         miss = "miss",
@@ -152,8 +154,8 @@ const dom99 = (function (
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
             let [variableName] = directiveTokens,
                 temp,
-                variablesScope = variables,
-                variablesSubscribersScope = variablesSubscribers;
+                variablesScopeReference = variablesScope,
+                variablesSubscribersScopeReference = variablesSubscribersScope;
             
             if (!variableName) {
                 console.warn(element, 'Use data-vr="variableName" format!');
@@ -161,10 +163,7 @@ const dom99 = (function (
             }
             
             //for template cloning, we use a grouped scope
-            if (usingInnerScope) {
-                variablesScope = variables[innerScope];
-                variablesSubscribersScope = variablesSubscribers[innerScope];
-            }
+            
             
             /*we check if the user already saved data in variablesScope[variableName]
             before using linkJsAndDom , if that is the case we
@@ -190,7 +189,7 @@ const dom99 = (function (
                         }
                         x = String(newValue);
                         let visibleTextPropertyName;
-                        variablesSubscribersScope[variableName].forEach(function (currentElement) {
+                        variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
                             /*here we change the value of the currentElement in the dom
                             */
                             visibleTextPropertyName = getVisibleProperty(
@@ -223,7 +222,7 @@ const dom99 = (function (
                 EventForTagAndType(`${getTagName(element)}.${element.type}`),
                 function (event) {
                     let visibleTextPropertyName = getVisibleProperty(getTagName(event.target), event.target.type);
-                    variablesScope[variableName] = event.target[visibleTextPropertyName];
+                    variablesScopeReference[variableName] = event.target[visibleTextPropertyName];
             });
         },
     
@@ -232,8 +231,7 @@ const dom99 = (function (
             let [elementName, 
                 customElementTargetNamePrefix,
                 customElementTargetNameAppendix] = directiveTokens,//Destructuring
-                customElementTargetName,
-                elementsScope = elements;
+                customElementTargetName;
                 
             if (!elementName) {
                 console.warn(element, 'Use data-el="elementName" format!');
@@ -241,11 +239,9 @@ const dom99 = (function (
             }    
             
             //for template cloning, we use a grouped scope
-            if (usingInnerScope) {
-                elementsScope = elements[innerScope];
-            }
+            
             if (elementsScope[elementName]) {
-                console.warn(element, "and", elementsScope[elementName], `2 elements with the same name, overwriting dom99.el.${elementName}`);
+                console.warn(element, "and", elementsScope[elementName], `2 elements with the same name, overwriting D.el.${elementName}`);
             }
             elementsScope[elementName] = element;
             
@@ -281,12 +277,13 @@ const dom99 = (function (
             if (!variablesSubscribers.hasOwnProperty(scope)){
                 variablesSubscribers[scope] = {};
             } 
-            /*else {
-                console.warn(`templateRender with scope=${scope} is already taken, you must change the scope if you want to have data not shared between all clones`);
-            }*/
-            usingInnerScope = true;
-            //innerScope is used for the grouped scope
-            innerScope = scope;
+            
+            //usingInnerScope = true;
+            variablesScope = variables[scope];
+            variablesSubscribersScope = variablesSubscribers[scope];
+            elementsScope = elements[scope];
+            
+
             
             //make a clone ,clone is a DocumentFragment object
             let clone = document.importNode(elements[templateName].content, true);
@@ -295,8 +292,11 @@ const dom99 = (function (
            
             // apply dom99 directives with the scope
             linkJsAndDom(clone);
-            usingInnerScope = false;
             
+            //usingInnerScope = false;
+            variablesScope = variables;
+            variablesSubscribersScope = variablesSubscribers;
+            elementsScope = elements;
             
             return clone;
         },
@@ -399,8 +399,8 @@ const dom99 = (function (
             elt.attr = value is good to change the live values
             
             this is the setAttribute equivalent to Object.assign(element1, ElementDescription);*/
-            Object.entries(ElementDescription).forEach(function(pair) {
-                element1.setAttribute(pair[0], pair[1]);
+            Object.keys(ElementDescription).forEach(function(key) {
+                element1.setAttribute(key, ElementDescription[key]);
             });
             return element1;
             
@@ -411,9 +411,8 @@ const dom99 = (function (
             return startElement;
         };
     
-    // we return a public interface that can be used in the program
-    return Object.freeze({
-        vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
+    let dom99PublicInterface = {
+        //vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
         el: elements, // preselected elements, basically a short cut for getElementBy...()
         xel: customElements, // preselected custom elements
         fx: functions,  //object to be filled by user defined functions 
@@ -421,7 +420,40 @@ const dom99 = (function (
         createElement2, // enhanced document.createElement
         forgetScope,  // forget scope
         linkJsAndDom // initialization function
+    };
+    // we can't use D.vr[scope] = object;
+    // use proxies ?
+    Object.defineProperty(dom99PublicInterface, "vr", {
+        get: function () {
+            return variables;
+        },
+        set: function (newObject) {
+            if (!((newObject) && (typeof newObject === 'object'))) {
+                console.warn("D.vr = must be non truethy object");
+                return;
+            }
+            let scopeName,
+                newObjectValue;
+                
+            for (scopeName of Object.keys(newObject)){
+                newObjectValue = newObject[scopeName];
+                if (!(typeof newObjectValue === 'object')) {
+                    variables[scopeName] = newObjectValue
+                } else {
+                    if (!variables[scopeName]) {
+                        D.vr[scopeName] = {};
+                    }
+                    Object.assign(D.vr[scopeName], newObjectValue);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: false
+        //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
     });
+
+    // we return a public interface that can be used in the program
+    return Object.freeze(dom99PublicInterface);
 }());
 
 

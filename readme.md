@@ -16,6 +16,19 @@ Also if you want to teach people JavaScript, without having to spend too much ti
  * Requires basic JavaScript knowledge to use.
  * New Framework
 
+##Downloads:
+
+Direct download (right click, save as ...) 
+
+ * [Development ES2015 with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
+ * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
+
+ 
+or with npm
+
+ * `npm install dom99`
+ 
+ 
 ##How to use DOM99 ?
 
 ###The Basics
@@ -97,16 +110,21 @@ To edit a comment at run time do this:
     D.vr["first"].text = "A new comment";
     D.vr["first"].date = "Today";
     
+    //or (recommended)
+    D.vr = { 
+        first: {
+            text: "A new comment",
+            date: "Today"
+        }
+    };
     
     
 You are ready to use DOM99 ! 
    
-   
 
+##Examples
 
-##Demo file:
-
-Demoes use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
+Examples use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 
 [Basic demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html) 
 
@@ -159,7 +177,8 @@ Both ways are **complementary** and use the same core ideas. To illustrate this 
 
     Note: `<d-comment>` is a valid custom element, `<comment>` is not.
 
-Our initial JS code looks like this    
+Our initial JS code looks like this
+
 
     "use strict";
     const D = dom99;
@@ -180,9 +199,10 @@ Our initial JS code looks like this
     };
 
     // we could also manually assign every property in a complicated for loop
-    Object.assign(D.vr, commentsData);
+    D.vr = commentsData;
 
     D.linkJsAndDom();
+
     
 [Try templates1.html static template injection](http://rawgit.com/GrosSacASac/DOM99/master/examples/templates1.html) 
 
@@ -209,31 +229,33 @@ under construction ...
     // 1 create HTML ELement
     let customElement = D.createElement2(customElementDescription);
     
-    // 2 feed data in D.vr before or after , you have the freedom
-    D.vr["scopeName"]["text"] = "Anything I want";
-    // 3 link it
+    // 2 link it
     D.linkJsAndDom(customElement);
     
-    // 4 insert the Element that has a clone as a child in the DOM
+    // 3 insert the Element that has a clone as a child in the DOM
     D.el["target"].appendChild(customElement);
     
 ####The details
     
-If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that use `D.templateRender(templateName, scopeName)` where `templateName` is the name of the template you found in `data-el`, the second is a scope name. That scope name is useful for dynamic templates, templates that have DOM99 directives inside.
+If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that combine `D.createElement2 and D.linkJsAndDom` as shown above
 
 
-    let clone = D.templateRender( "templateName", "scopeName" );
+    // 1 create HTML ELement
+    let customElement = D.createElement2(customElementDescription);
+    
+    // 2 link it
+    D.linkJsAndDom(customElement);
 
-The `clone` here is the copy of the Document Fragment of the template. All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el D.fx`) by going in the correct scope:
+... All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el`) by going in the correct scope:
   
 
     D.vr["scopeName"]["text"] = "A string"
-    D.fx["scopeName"]["functionText"] = function(event) {...};
+
     D.el["scopeName"]["myElementIWantToChangeClassNameForInstance"].className = ...
 
-The clone is not yet in the document itself. I recommend putting the Fragment in the document last to improve performance. To do that use the appendChild interface on a node that is in the Document. Here we have `<div data-el="target"></div>`. It doesn't need to be a `div`. Use whatever fits semantically and functionally the best for a container.
+I recommend putting the custom element in the document last to improve performance. To do that use the appendChild interface on a node that is in the Document. Here we have `<div data-el="target"></div>`.
   
-    D.el["target"].appendChild(clone);
+    D.el["target"].appendChild(customElement);
 
 At this point you should not need `clone` any more. Use the topmost element node instead. 
 
@@ -244,11 +266,11 @@ If a some point your program continuously uses `D.templateRender` and later `D.e
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
 
-If you accidentally made a mistake, open your console, warnings may give you clues.
+Open your console, handy warnings may appear to help you.
 
 You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
-You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js
+You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js Disabled, because there is a bug with Jsbin
 
 ##Performance
 
@@ -277,22 +299,6 @@ In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Sim
  
 
 
-##Downloads:
-
-If you target older browsers, I recommend the transpiled version. Direct download (right click, save file as ...) 
-
- * [Development ES2015 with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
- * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
-
- 
-or with npm
-
- * `npm install dom99`
-
-##Known issues:
-
-All previously known issues are fixed now. Clear.
-
 ##Security
 
 ###General tips
@@ -310,16 +316,6 @@ All previously known issues are fixed now. Clear.
 DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. `D.vr` uses textContent or value by default. 
 
 If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.
-
-###Transpile to ES5 yourself
-
-
-  1. Download node.js at https://nodejs.org/en/
-  2. Open the node.js command prompt and go in the directory with the dom99.js file
-  3. Download Babel, find out how at http://babeljs.io/docs/usage/cli/.
-  4. Use this command `babel js/dom99.js --compact true --remove-comments -o js/dom99.es5.compact.js
-  5. Now use dom99.es5.compact.js in your production.
-
 
 ##History
 

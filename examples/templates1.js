@@ -17,7 +17,7 @@ let commentsData = {
 };
 
 // we could also manually assign every property in a complicated for loop
-Object.assign(D.vr, commentsData);
+D.vr = commentsData;
 
 D.linkJsAndDom();
 
