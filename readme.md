@@ -2,36 +2,34 @@
 
 ##What is DOM99 ?
 
-DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.[Try the intro playground](http://jsbin.com/migeya/11/edit?html,js,output)
+DOM99 is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) framework to ease the interaction between the [HTML](https://en.wikipedia.org/wiki/HTML) and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.[Try the intro playground](http://jsbin.com/migeya/11/edit?html,js,output)
 
 ##Why use DOM99 ?
 
 DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 4KB minified), has no external dependency and is written respecting modern ES and HTML standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
-Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. [Comparisons](documentation/manychoicesforfronted.md)
+Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. [Comparisons with other frameworks](documentation/manychoicesforfronted.md)
 
 ##Why not use DOM99 ?
 
- * Old IE browser may not support the `<template>` element natively. 
- * Requires basic JavaScript knowledge to use.
+ * Old IE browser may not support the `<template>` element natively
  * New Framework
+ * Fear of the unknown
+
+ 
+##How does DOM99 work ?
+
+dom99.js is a program that exposes an application programming interface for subsequent scripts. Using `dom99.linkJsAndDom();` executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.
 
 ##Downloads:
 
-Direct download (right click, save as ...) 
-
  * [Development ES2015 with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
-
- 
-or with npm
-
  * `npm install dom99`
  
  
 ##How to use DOM99 ?
 
-###The Basics
 
 ###In your HTML:
 
@@ -261,10 +259,12 @@ At this point you should not need `clone` any more. Use the topmost element node
 
 If a some point your program continuously uses `D.templateRender` and later `D.el["scopeName"].ElementName.remove()`, without reusing anything inside the `D.el["scopeName"]` then consider using `D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies.
 
-###Additional tips
+###Additional information
 
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
+
+DOM99 scopes have nothing to do with the JavaScript scope/closures mechanism. ...
 
 Open your console, handy warnings may appear to help you.
 

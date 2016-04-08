@@ -11,23 +11,23 @@
 </head>
 <body>
     <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.js" target="_blank">JS</a>.</p>
-    <main data-el="chat">
-        <h1>Chat example</h1>
-        <template data-el="messageTemplate-d-message">
-            <!-- Everything here has its own scope  -->
-            <li>
-                <span data-vr="authorName"></span>
-                <img data-vr="authorFoto" alt="" src="">
-                <p data-vr="messageText"></p>
-            </li>
-        </template>
-        
-        <ol data-el="messagesContainer">
-        
-        </ol>
-        <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
-        <button data-fx="click-trySendMessage">Send !</button>
-    </main>
+
+    <h1>Chat example</h1>
+    <template data-el="messageTemplate-d-message">
+        <!-- Everything here has its own scope  -->
+        <li>
+            <span data-vr="authorName"></span>
+            <img data-vr="authorFoto" alt="" src="">
+            <p data-vr="messageText"></p>
+        </li>
+    </template>
+    
+    <ol data-el="messagesContainer">
+    
+    </ol>
+    <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
+    <button data-fx="click-trySendMessage">Send !</button>
+
         
 <script src="../js/dom99.es5.min.js"></script>
 <script src="chat_simulation.es5.min.js"></script>

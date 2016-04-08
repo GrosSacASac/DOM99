@@ -337,6 +337,7 @@ const dom99 = (function (
             Internally we just deleted the scope group for every relevant function
             (for instance binds are not scope grouped)
             */
+            // todo: answer could we use Weak Maps here ?
             delete elements[scope];
             delete variables[scope];
             delete variablesSubscribers[scope];
