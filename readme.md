@@ -327,9 +327,7 @@ In march 2016 I decided to share DOM99 after heavy code changes on Github and NP
 
 ###What is coming soon:
 
-
  * System improvements
- * Automated test
  * Better documentation
  * Custom Element Life cycle declaration
  * Waiting for custom-element spec to finalize to update DOM99
