@@ -10,5 +10,8 @@
   "dependencies": {},
   "main": "js/dom99.js",
   "scripts": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "babel": "4.5.0",
+    "uglify-js": "2.6.2"
+   }
 }

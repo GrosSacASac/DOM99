@@ -446,6 +446,7 @@ const dom99 = (function (
     };
     // we can't use D.vr[scope] = object;
     // use proxies ?
+    // allows us to do D.vr = objectX
     Object.defineProperty(dom99PublicInterface, "vr", {
         get: function () {
             return variables;

@@ -1,34 +1,14 @@
 "use strict";
-//Use a shorter name
-const MAX = 10,
-    D = dom99,
-    fakeMessagesFromSister = 
-    ["Hey brother, what is up ?",
-    "Long time not seen",
-    "you should visit my new home",
-    "remember the skateboard races we had when we were kids ?",
-    "Hey answer please :)"],
-    fakeMessagesFromBoss = 
-    ["Nice work kids",
-    "I am going on a trip next week to meet new buisness partners",
-    "Can you finish the project ?"];
+const 
+    MAX = 10,
+    D = dom99;
     
-let messageNumber = 0,
-    messageScopes = [],
-    fakeMessagesFromSisterCurrentIndex = 0,
-    fakeMessagesFromBossCurrentIndex = 0;
+let messageScopes = [];
 
-const updateMessageElement = function(data, scopeName) {
-    D.vr[scopeName]["authorName"] = data.authorName;
-    D.el[scopeName]["authorFoto"].src = data.authorFoto;
-    D.vr[scopeName]["messageText"] = data.messageText;
-};
 
 const renderNewMessageElement = function(data, scopeName) {
-    let customElement;    
-    
     // 1 create HTML ELement
-    customElement = D.createElement2({
+    let customElement = D.createElement2({
         "tagName": "d-message",
         "data-scope": scopeName,
     });
@@ -36,19 +16,20 @@ const renderNewMessageElement = function(data, scopeName) {
     // 2 link it
     D.linkJsAndDom(customElement);
     
-    // 3 populate the clone with any data and more
-    updateMessageElement(data, scopeName)
-    
-    // 4 insert the Element that has a clone as a child in the DOM
+    // 3 insert the Element that has a clone as a child in the DOM
     D.el["messagesContainer"].appendChild(customElement);
-    
-
-
 };
 
 const displayNewMessage = function(data) {
     let scope;
-    if (messageScopes.length >= MAX) {
+    if (messageScopes.length < MAX) {
+        //create a new scope
+        scope = String(messageScopes.length);
+        messageScopes.push(scope); // length += 1
+        
+        //render a new Element retrievable via the scope
+        renderNewMessageElement(data, scope);
+    } else {
         //rotate the first element to end
         scope = messageScopes[0];
         messageScopes = messageScopes.slice(1)
@@ -56,23 +37,13 @@ const displayNewMessage = function(data) {
         
         //do the same rotation in the DOM
         D.el["messagesContainer"].appendChild(D.xel[scope]);
-        
-        //update
-        updateMessageElement(data, scope);
-        
-    } else {
-        //create a new scope string
-        scope = String(messageNumber);
-        messageScopes.push(scope);
-        
-        //render a new Element retrievable via the scope string
-        renderNewMessageElement(data, scope);
-        messageNumber += 1;
     }
+    // Update 
+    Object.assign(D.vr[scopeName], data); // loops over
 };
 
 D.fx.trySendMessage = function(event) {
-    
+    // the data uses the same keys declared in the html
     let data = {
         authorName: "You",
         authorFoto: "../images/you.jpg",
@@ -81,42 +52,15 @@ D.fx.trySendMessage = function(event) {
     // could send data to server here
     displayNewMessage(data);
     D.vr.currentMessage = ""; //reset the inputs
-    D.el.textarea.focus();//reset focus
+    D.el.textarea.focus(); //reset focus
 };
-
-// fake messages can be replaced by something like
-// socket.on( ...displayNewMessage(data); ...)
-
-const fakeSisterSpeak = function() {
-    let data = {
-        authorName: "Sister",
-        authorFoto: "../images/sister.jpg",
-        messageText: fakeMessagesFromSister[fakeMessagesFromSisterCurrentIndex %
-        fakeMessagesFromSister.length    ]
-    };
-    
-    displayNewMessage(data);
-    fakeMessagesFromSisterCurrentIndex += 1;
-    setTimeout(fakeSisterSpeak, 7000);
-};
-const fakeBossSpeak = function() {
-    let data = {
-        authorName: "boss",
-        authorFoto: "../images/boss.jpg",
-        messageText: fakeMessagesFromBoss[fakeMessagesFromBossCurrentIndex %
-        fakeMessagesFromBoss.length    ]
-    };
-    
-    displayNewMessage(data);
-    fakeMessagesFromBossCurrentIndex += 1;
-    setTimeout(fakeBossSpeak, 12120);
-};
-// Link the document and the event handlers
 
 //initialize
-D.vr.currentMessage = "";
+D.vr.currentMessage = ""; //reset the inputs
 D.linkJsAndDom(); //now we listen to all events
-fakeSisterSpeak();
-fakeBossSpeak();
+
+// import * from "chat_simulation.js"
+window.setInterval(fakeSisterSpeak, 7500, displayNewMessage);
+window.setInterval(fakeBossSpeak, 12600, displayNewMessage);
 
 
