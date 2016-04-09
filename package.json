@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "license": "MIT",
   "description": "HTML/DOM manipulation made easier",
   "repository": {
@@ -13,5 +13,5 @@
   "devDependencies": {
     "babel": "4.5.0",
     "uglify-js": "2.6.2"
-   }
+  }
 }
