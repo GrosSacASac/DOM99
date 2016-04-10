@@ -474,7 +474,7 @@ const dom99 = (function (
                     if (!variables[scopeName]) {
                         D.vr[scopeName] = {};
                     }
-                    Object.assign(D.vr[scopeName], newObjectValue);
+                    Object.assign(variables[scopeName], newObjectValue);
                 }
             }
             return newObject;
