@@ -22,6 +22,7 @@ const dom99 = (function (
         customElements = {},
         templateElementNameFromCustomElementName = {},
         functions = {},
+        currentInnerScope = "",
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
         elementsScope = elements,
@@ -130,11 +131,14 @@ const dom99 = (function (
             /*directiveTokens example : ["keyup,click", "calculate"] */
             const [eventNames,
                   functionNames] = directiveTokens,
-                /*functionLookUp allows us to store functions in dom99.fx after 
-                dom99.linkJsAndDom() and use the functions that are in D.fx at that moment.
+                  scope = currentInnerScope,
+                /*functionLookUp allows us to store functions in D.fx after 
+                D.linkJsAndDom() and use the functions that are in D.fx at that moment.
                 we also return what the last function returns*/
                 functionLookUp = function(event) {
                     let last;
+                    event.scope = scope;
+
                     const functionLookUp = function(functionName) {
                         last = functions[functionName](event);
                     };
@@ -161,7 +165,7 @@ const dom99 = (function (
             that holds all elements which share this same "a" variable
             everytime "a" is changed we change all those elements values
             and also 1 private js variable (named x below) 
-            The public dom99.vr.a variable returns this private js variable
+            The public D.vr.a variable returns this private js variable
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
             let [variableName] = directiveTokens,
@@ -196,7 +200,7 @@ const dom99 = (function (
                     },
                     set: function (newValue) {
                         if (newValue === undefined) {
-                            console.warn("dom99.vr.x= string || bool , not undefined!");
+                            console.warn("D.vr.x= string || bool , not undefined!");
                             return;
                         }
                         x = String(newValue);
@@ -268,9 +272,9 @@ const dom99 = (function (
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
         the content elements with "data-vr" will share a variable at
-        dom99.vr[scope][variableName]
+        D.vr[scope][variableName]
         the content elements with "data-el" will have a reference at
-        dom99.el[scope][elementName]
+        D.el[scope][elementName]
         that way you can render a template multiple times, populate clone data
         and have it not shared between all clones.
         
@@ -286,12 +290,10 @@ const dom99 = (function (
             }
             if (!variables.hasOwnProperty(scope)){
                 variables[scope] = {};
-            }
-            if (!variablesSubscribers.hasOwnProperty(scope)){
                 variablesSubscribers[scope] = {};
             } 
             
-            //usingInnerScope = true;
+            currentInnerScope = scope;
             variablesScope = variables[scope];
             variablesSubscribersScope = variablesSubscribers[scope];
             elementsScope = elements[scope];
@@ -310,7 +312,7 @@ const dom99 = (function (
             // apply dom99 directives with the scope
             linkJsAndDom(clone);
             
-            //usingInnerScope = false;
+            currentInnerScope = "";
             variablesScope = variables;
             variablesSubscribersScope = variablesSubscribers;
             elementsScope = elements;
@@ -328,13 +330,13 @@ const dom99 = (function (
             
             It can matter in single page application where you CONSISTENTLY use 
             
-                1. dom99.templateRender 
+                1. D.templateRender 
                 2. populate the result with data
                 3. somewhat later delete the result
                 
             In that case I recommend using an additional step
             
-                4. Use dom99.forgetScope to let the garbage collector free space in memory
+                4. Use D.forgetScope to let the garbage collector free space in memory
                 (can also improve performance but it doesn't matter here, read optimize optimization)
             
             Note: If you have yet another reference to the element in a variable in your program, the element will still exist and we cannot clean it up from here.
