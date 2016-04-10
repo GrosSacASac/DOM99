@@ -3,7 +3,7 @@
 globals: window, document, console*/
 /*todo  improve system 
 more examples, readme 
-note 
+use proxies instead of Object.defineProperty ?
 */
 "use strict";
 const dom99 = (function (
@@ -24,11 +24,11 @@ const dom99 = (function (
         functions = {},
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
-        elementsScope = elements;
+        elementsScope = elements,
+        templateSupported = ('content' in document.createElement('template'));
         
     const 
         miss = "miss",
-        
         value = "value",
         textContent = "textContent",
         source = "src",
@@ -278,6 +278,7 @@ const dom99 = (function (
         
         suggestion: maybe generate automatic scope names internally
         */
+            let clone;
 
             //create the scope
             if (!elements.hasOwnProperty(scope)){
@@ -296,9 +297,13 @@ const dom99 = (function (
             elementsScope = elements[scope];
             
 
-            
+            if (templateSupported) { 
             //make a clone ,clone is a DocumentFragment object
-            let clone = document.importNode(elements[templateName].content, true);
+                clone = document.importNode(elements[templateName].content, true);
+            } else {
+                clone = document.createDocumentFragment();
+                clone.innerHTML = elements[templateName].innerHTML;
+            }
             /* could also use let clone = elements[templateName].content.cloneNode(true);
             from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with document.importNode() it is updated when the nodes are cloned.*/
            
@@ -446,7 +451,6 @@ const dom99 = (function (
         linkJsAndDom // initialization function
     };
     // we can't use D.vr[scope] = object;
-    // use proxies ?
     // allows us to do D.vr = objectX
     Object.defineProperty(dom99PublicInterface, "vr", {
         get: function () {
