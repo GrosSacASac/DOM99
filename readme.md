@@ -8,11 +8,11 @@ DOM99 is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) framework to e
 
 DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 4KB minified), has no external dependency and is written respecting modern ES and HTML standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes.
  
-Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. [Comparisons with other frameworks](documentation/manychoicesforfronted.md)
+Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. [Comparisons with other frameworks](documentation/manychoicesforfrontend.md)
 
 ##Why not use DOM99 ?
 
- * Old IE browser may not support the `<template>` element natively
+ * Not well tested against old browsers
  * New Framework
  * Fear of the unknown
 
