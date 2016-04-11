@@ -9,7 +9,8 @@ You know node.js and npm.
 
     npm install
     npm start
-    open http://localhost:8080/
+    
+open `http://localhost:8080/` in your browser
     
 ##What you can see
 

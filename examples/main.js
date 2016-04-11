@@ -3,21 +3,17 @@
 const D = dom99;
 // -- Hello World --
 
-D.fx.sayHi = function (event) {
-    D.vr.completeName = `${D.vr.firstName} ${D.vr.lastName}`;
-};
-
-D.vr.firstName = "Mr";
-D.vr.lastName = "World";
+D.vr.first = "Mr";
+D.vr.last = "World";
 
 // -- Multiplier --
 
+D.vr.a = 7;
+D.vr.b = 6;
 D.fx.calculate = function (event) {
     //dom.vars variables are Strings by default
     D.vr.result = parseInt(D.vr.a, 10) * parseInt(D.vr.b, 10);
 };
-D.vr.a = 7;
-D.vr.b = 6;
 
 // -- The monologue --
 
@@ -117,6 +113,5 @@ D.fx.deleteTodos = function (event) {
 D.linkJsAndDom(); //now we listen to all events
 
 
-// You can also directly call functions stored in D.fx
+// You can also directly call functions stored in D.fx if they don't depend on event 
 D.fx.calculate();
-D.fx.sayHi();
