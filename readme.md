@@ -54,7 +54,8 @@ The general syntax is
 
 If you are not using browserify you need to include this script tag in your html **before** other scripts that access dom99.
 
-    <script src="js/dom99.js"></script>
+    <script src="js/dom99.js"></script><!-- or -->
+    <script src="node_modules/dom99/js/dom99.js"></script>
     <script src="js/yourJavascriptFile.js"></script>
     
 
@@ -124,11 +125,10 @@ You are ready to use DOM99 !
 
 Examples use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)
 
-[Basic demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html) 
-
-[Chat demo](http://rawgit.com/GrosSacASac/DOM99/master/examples/chat.html) 
-
-[Chat demo explanations](documentation/tutorial1_chat.md) 
+ * [Basic demo](http://rawgit.com/GrosSacASac/DOM99/master/index.html)
+ * [Chat demo](http://rawgit.com/GrosSacASac/DOM99/master/examples/chat.html) 
+ * [Chat demo explanations](documentation/tutorial1_chat.md) 
+ * [Todo List Multi User Realtime with Node.js](examples/todolistmultiuser/) 
 
 
 ##Complete overview
@@ -151,7 +151,7 @@ There are 2 ways to use HTML templates
  * Static Load time template rendering with custom elements
  * Run time template rendering and insertion
  
-Both ways are **complementary** and use the same core ideas. To illustrate this imagine you want to have a web page with an article and comments. When the page loads you want to display the article and already display the 2 last comments, later when the user scrolls down or clicks a button to show more comments we load more comments into the page. We here define a comment as some text and a date. What we want initially is something like this
+Both ways are **complementary** and use the same core ideas. To illustrate this imagine you want to have a web page with an article and comments. When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this
 
 
     <html>
@@ -235,14 +235,7 @@ under construction ...
     
 ####The details
     
-If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. To do that combine `D.createElement2 and D.linkJsAndDom` as shown above
-
-
-    // 1 create HTML ELement
-    let customElement = D.createElement2(customElementDescription);
-    
-    // 2 link it
-    D.linkJsAndDom(customElement);
+If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. 
 
 ... All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el`) by going in the correct scope:
   
@@ -250,14 +243,27 @@ If you have a `<template>` in your page, it is inert and not rendered. However t
     D.vr["scopeName"]["text"] = "A string"
 
     D.el["scopeName"]["myElementIWantToChangeClassNameForInstance"].className = ...
+    
+D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the `event.scope`. Example
 
-I recommend putting the custom element in the document last to improve performance. To do that use the appendChild interface on a node that is in the Document. Here we have `<div data-el="target"></div>`.
-  
-    D.el["target"].appendChild(customElement);
+    <!-- HTML -->
+    <template data-el="templateName-d-tagname">
+        <button data-fx="close" >CLOSE (X)</button>
+        Any HTML ...
+    </template>
+    
+    // JS
+    D.fx.close = function (event) {
+        var scope = event.scope;
+        D.xel[scope].remove(); // remove the custom element from the DOM
+        D.forgetScope(scope); // if you never use it again
+        // ...
+    };
 
-At this point you should not need `clone` any more. Use the topmost element node instead. 
+I recommend putting the custom element in the document last to improve performance. 
 
-If a some point your program continuously uses `D.templateRender` and later `D.el["scopeName"].ElementName.remove()`, without reusing anything inside the `D.el["scopeName"]` then consider using `D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies.
+
+`D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.
 
 ###Additional information
 
