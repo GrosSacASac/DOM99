@@ -2,6 +2,7 @@
 uglifyjs
 test.html
 documentation/personal_notes.txt
+examples/todolistmultiuser/node_modules
 #################
 ## Eclipse
 #################
