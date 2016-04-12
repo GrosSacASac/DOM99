@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "license": "MIT",
   "description": "HTML/DOM manipulation made easier",
   "repository": {
@@ -8,12 +8,22 @@
     "url": "git://github.com/GrosSacASac/DOM99.git"
   },
   "dependencies": {},
-  "main":"js/dom99.js",
+  "main": "js/dom99.js",
   "devDependencies": {
     "babel": "4.5.0",
     "uglify-js": "2.6.2"
   },
   "keywords": [
-    "HTML","DOM","declarative", "ES2015","HTML5","custom","elements","web","component","fast","light"
-    ]
+    "HTML",
+    "DOM",
+    "declarative",
+    "ES2015",
+    "HTML5",
+    "custom",
+    "elements",
+    "web",
+    "component",
+    "fast",
+    "light"
+  ]
 }
