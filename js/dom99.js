@@ -290,6 +290,8 @@ const dom99 = (function (
             }
             if (!variables.hasOwnProperty(scope)){
                 variables[scope] = {};
+            } 
+            if (!variablesSubscribers.hasOwnProperty(scope)){
                 variablesSubscribers[scope] = {};
             } 
             
