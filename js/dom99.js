@@ -460,7 +460,7 @@ const dom99 = (function (
         },
         set: function (newObject) {
             if (!((newObject) && (typeof newObject === 'object'))) {
-                console.warn("D.vr = must be non truethy object");
+                console.warn("D.vr = must be truethy object");
                 return;
             }
             let scopeName,
@@ -472,7 +472,7 @@ const dom99 = (function (
                     variables[scopeName] = newObjectValue
                 } else {
                     if (!variables[scopeName]) {
-                        D.vr[scopeName] = {};
+                        variables[scopeName] = {};
                     }
                     Object.assign(variables[scopeName], newObjectValue);
                 }

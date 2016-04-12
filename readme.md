@@ -54,8 +54,8 @@ The general syntax is
 
 If you are not using browserify you need to include this script tag in your html **before** other scripts that access dom99.
 
-    <script src="js/dom99.js"></script><!-- or -->
-    <script src="node_modules/dom99/js/dom99.js"></script>
+    <script src="js/dom99.js"></script><!-- or 
+    <script src="node_modules/dom99/js/dom99.js"></script> -->
     <script src="js/yourJavascriptFile.js"></script>
     
 
