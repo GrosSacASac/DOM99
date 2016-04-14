@@ -85,10 +85,10 @@ const dom99 = (function (
             miss: value
         }),
     
-        PropertyBooleanList = [
-            /* add here all relevant boolean properties*/
+        /*PropertyBooleanList = [
+            // add here all relevant boolean properties
             checked
-        ],
+        ],*/
         
         getVisibleProperty = function (tagName, type) {
         /*if the element is an <input> its VisibleProperty is "value"
@@ -214,9 +214,11 @@ const dom99 = (function (
                             );
                             //don't overwrite the same
                             if (String(currentElement[visibleTextPropertyName]) !== x) {
-                                if (visibleTextPropertyName in PropertyBooleanList) {
+                        // if you want to add more, use 
+                        // if (PropertyBooleanList.indexOf(visibleTextPropertyName) > -1)
+                                if (visibleTextPropertyName === checked) {
                                     //"false" is truthy ...
-                                    currentElement[visibleTextPropertyName] = !!newValue; 
+                                    currentElement[visibleTextPropertyName] = newValue; 
                                 } else {
                                     currentElement[visibleTextPropertyName] = x;
                                 }
