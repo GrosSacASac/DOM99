@@ -362,8 +362,8 @@ https://github.com/GrosSacASac/DOM99/issues
 
 ####Contributing
 
-documentation/openquestions.md
-documentation/contributing.md
+ * [Contributing](documentation/contributing.md)
+ * [Open questions](documentation/openquestions.md)
 
 ##License
 
