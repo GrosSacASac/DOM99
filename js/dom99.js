@@ -400,6 +400,7 @@ const dom99 = (function (
                     directiveName,
                     directiveFunction,
                     tag;
+                //or functionDirectiveNamePairs.forEach(function(pairs) { ?
                 for (pairs of functionDirectiveNamePairs) {
                     directiveName = pairs[0];
                     directiveFunction = pairs[1];

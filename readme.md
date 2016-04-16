@@ -23,7 +23,7 @@ dom99.js is a program that exposes an application programming interface for subs
 
 ##Downloads:
 
- * [Development ES2015 with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
+ * [Development ESnext with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
  * `npm install dom99`
  
@@ -267,12 +267,13 @@ I recommend putting the custom element in the document last to improve performan
 
 ###Additional information
 
+Play around with the examples, see what they do and look at the source.
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
 
-DOM99 scopes have nothing to do with the JavaScript scope/closures mechanism. ...
+DOM99 scopes have nothing to do with the JavaScript scope/closures mechanism.
 
-Open your console, handy warnings may appear to help you.
+Open your console, handy warnings may appear to help you if use the not minified version.
 
 You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
@@ -358,6 +359,11 @@ https://dystroy.org/miaou/3
 ####Issues reports
 
 https://github.com/GrosSacASac/DOM99/issues
+
+####Contributing
+
+documentation/openquestions.md
+documentation/contributing.md
 
 ##License
 
