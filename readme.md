@@ -26,6 +26,7 @@ dom99.js is a program that exposes an application programming interface for subs
  * [Development ESnext with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
  * `npm install dom99`
+ * `bower install dom99`
  
  
 ##How to use DOM99 ?
@@ -55,7 +56,8 @@ The general syntax is
 If you are not using browserify you need to include this script tag in your html **before** other scripts that access dom99.
 
     <script src="js/dom99.js"></script><!-- or 
-    <script src="node_modules/dom99/js/dom99.js"></script> -->
+    <script src="node_modules/dom99/js/dom99.js"></script> --><!-- or 
+    <script src="bower_components/dom99/js/dom99.js"></script> -->
     <script src="js/yourJavascriptFile.js"></script>
     
 
