@@ -307,7 +307,7 @@ const dom99 = (function (
             //make a clone ,clone is a DocumentFragment object
                 clone = document.importNode(elements[templateName].content, true);
             } else {
-                clone = document.createDocumentFragment();
+                clone = document.createElement("div");
                 clone.innerHTML = elements[templateName].innerHTML;
             }
             /* could also use let clone = elements[templateName].content.cloneNode(true);

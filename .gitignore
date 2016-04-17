@@ -1,5 +1,6 @@
 node_modules/
 uglifyjs
+jses5/
 test.html
 documentation/personal_notes.txt
 examples/todolistmultiuser/node_modules
