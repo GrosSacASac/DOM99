@@ -1,0 +1,8 @@
+article.htmljsandoutput {
+    border: 1px solid;
+}
+
+article.htmljsandoutput > section {
+    display: inline-block;
+    border: 3px solid;
+}
