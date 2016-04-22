@@ -6,3 +6,8 @@ article.htmljsandoutput > section {
     display: inline-block;
     border: 3px solid;
 }
+
+
+template {
+    display: none;
+}

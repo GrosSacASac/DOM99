@@ -4,4 +4,4 @@ Using modernizr to prevent programs with undefined behaviours to run is a good i
 
 ##Complete
 
-let dom99Possible = (Modernizr.template && Object.defineProperty && Object.keys && Object.assign && Object.freeze && Array.isArray && window.document);
+var dom99Possible = (Modernizr.template && Object.defineProperty && Object.keys && Object.assign && Object.freeze && Array.isArray && window.document && Symbol);

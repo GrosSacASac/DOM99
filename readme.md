@@ -237,6 +237,10 @@ under construction ...
     
 ####The details
     
+    
+[Documentation incomplete, work in progress ](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+
+
 If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. 
 
 ... All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el`) by going in the correct scope:

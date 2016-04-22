@@ -3,47 +3,63 @@
 <head>
     <meta charset="utf-8">
     <title>DOM99 Documentation</title>
-    <!-- style -->
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/documentation.css">
-    <!--<link rel="stylesheet" href="css/normalize.css">
-    <link rel="icon" href="images/icons/16.png">-->
-
+    <link rel="icon" href="../images/visual48.png">
 </head>
 <body>
     <h1>DOM99 Documentation</h1>
-    
-    <article class="htmljsandoutput">
-        <h2>Hello World</h2>
-        <section>
-            <pre><code data-vr="helloWorldHtmlSourceDisplay"></code></pre>
-        </section>
-        <section>
-            <pre><code data-vr="helloWorldJsSourceDisplay"></code></pre>
-        </section>
-        <section  data-el="helloWorldHtml"><label>First name: <input data-vr="first" type="text"></label><br>
-<label>Last name: <input data-vr="last" type="text"></label><br>
-
-<p>
-    <output data-vr="first"></output>
-    <output data-vr="last"></output>
-</p></section>
-    </article>
-    
+    <p id="errors"><noscript>Enable JavaScript to view this page.</noscript></p>
+    <p>Work in progress</p>
+    <template data-el="htmlJsAndResultTemplate-d-htmljsresult">
+        <article class="htmljsandoutput">
+            <h2 data-vr="title"></h2>
+            <section>
+                <h3>HTML</h3>
+                <pre><code data-vr="HtmlSourceDisplay"></code></pre>
+            </section>
+            <section>
+                <h3>JS</h3>
+                <pre><code data-vr="JsSourceDisplay"></code></pre>
+            </section>
+            <section>
+                <h3>Result</h3>
+                <pre data-el="ResultDisplay"></pre>
+            </section>
+        </article>
+    </template>
+    <d-htmljsresult data-scope="Hello World"></d-htmljsresult>
+    <d-htmljsresult data-scope="Hello World 2"></d-htmljsresult>
+    <!-- Best place to put the visual ? <img src="../images/visual.png"> -->
+    <p><a href="https://github.com/GrosSacASac/DOM99">Github</a></p>
 <script src="../js/dom99.es5.min.js"></script>
-<script data-el="helloWorldJs">"use strict";
 
+<!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHR -->
+
+<!-- Hello World -->
+<template data-el="helloWorldHtml">
+<span data-vr="first"></span> <span data-vr="last"></span>
+</template>
+<script data-el="helloWorldJs">
+"use strict";
 dom99.vr.first = "Hello";
 dom99.vr.last = "World";
-
-
-dom99.linkJsAndDom();
 </script>
-<script>
+
+<!-- Hello World 2-->
+<template data-el="helloWorldHtml2">
+<label>First name: <input data-vr="first2" type="text"></label>
+<label>Last name: <input data-vr="last2" type="text"></label>
+
+<output data-vr="first2"></output> <output data-vr="last2"></output>
+</template>
+<script data-el="helloWorldJs2">
 "use strict";
-var D = dom99;
-D.vr.helloWorldJsSourceDisplay = D.el.helloWorldJs.textContent;
-D.vr.helloWorldHtmlSourceDisplay = D.el.helloWorldHtml.innerHTML.replace(/☀/gi,"");//this is not the source
+dom99.vr.first2 = "Hello";
+dom99.vr.last2 = "World";
 </script>
+
+<script src="js/documentation.js"></script>
+
 </body>
 </html>
