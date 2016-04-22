@@ -30,6 +30,7 @@
     </template>
     <d-htmljsresult data-scope="Hello World"></d-htmljsresult>
     <d-htmljsresult data-scope="Hello World 2"></d-htmljsresult>
+    <d-htmljsresult data-scope="Multiplier"></d-htmljsresult>
     <!-- Best place to put the visual ? <img src="../images/visual.png"> -->
     <p><a href="https://github.com/GrosSacASac/DOM99">Github</a></p>
 <script src="../js/dom99.es5.min.js"></script>
@@ -37,29 +38,60 @@
 <!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHR -->
 
 <!-- Hello World -->
-<template data-el="helloWorldHtml">
+<template data-el="Hello WorldHtml">
 <span data-vr="first"></span> <span data-vr="last"></span>
 </template>
-<script data-el="helloWorldJs">
+<script data-el="Hello WorldJs">
 "use strict";
 dom99.vr.first = "Hello";
 dom99.vr.last = "World";
 </script>
 
 <!-- Hello World 2-->
-<template data-el="helloWorldHtml2">
+<template data-el="Hello World 2Html">
 <label>First name: <input data-vr="first2" type="text"></label>
 <label>Last name: <input data-vr="last2" type="text"></label>
 
-<output data-vr="first2"></output> <output data-vr="last2"></output>
+<span data-vr="first2"></span> <span data-vr="last2"></span>
 </template>
-<script data-el="helloWorldJs2">
+<script data-el="Hello World 2Js">
 "use strict";
 dom99.vr.first2 = "Hello";
 dom99.vr.last2 = "World";
 </script>
 
-<script src="js/documentation.js"></script>
+<!-- Multiplier-->
+<template data-el="MultiplierHtml">
+<input data-vr="a" data-fx="input-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<span> X </span>
+<input data-vr="b" data-fx="input-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
+</template>
+<script data-el="MultiplierJs">
+"use strict";
+//Use a shorter name
+var D = dom99;
 
+D.fx.calculate = function (event) {
+    //.vr variables are Strings by default
+    D.vr.result = Number(D.vr.a) * Number(D.vr.b);
+};
+
+D.vr.a = 7;
+D.vr.b = 6;
+//invoke event handler to compute the first result
+D.fx.calculate();
+</script>
+
+
+<!-- ToDoList -->
+<template data-el="ToDoListHtml">
+
+</template>
+<script data-el="ToDoListJs">
+
+</script>
+
+<script src="js/documentation.js"></script>
 </body>
 </html>
