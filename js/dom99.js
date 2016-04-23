@@ -8,8 +8,11 @@ use proxies instead of Object.defineProperty ?
 "use strict";
 const dom99 = (function (
         /*you can change the syntax in dom99Configuration*/
-        directiveNameFx="data-fx", directiveNameVr="data-vr", directiveNameEl="data-el",
-        directiveNameCustomElement="data-scope", attributeValueDoneSign="☀", 
+        directiveNameFx="data-fx", 
+        directiveNameVr="data-vr", 
+        directiveNameEl="data-el",
+        directiveNameCustomElement="data-scope",
+        attributeValueDoneSign="☀", 
         tokenSeparator="-", 
         listSeparator=","
         ) {
@@ -101,10 +104,12 @@ const dom99 = (function (
         
         walkTheDomElements = function (element, function1) {
             function1(element);
-            element = element.firstElementChild;
-            while (element) {
-                walkTheDomElements(element, function1);
-                element = element.nextElementSibling;
+            if (element.tagName !== "TEMPLATE") {//IE bug: templates are not inert
+                element = element.firstElementChild;
+                while (element) {
+                    walkTheDomElements(element, function1);
+                    element = element.nextElementSibling;
+                }
             }
         },
         
@@ -189,7 +194,8 @@ const dom99 = (function (
                 temp = variablesScope[variableName];
             }
             
-            if (variablesSubscribersScope[variableName]) {
+            
+            if (variablesSubscribersScope.hasOwnProperty(variableName)) {
                 variablesSubscribersScope[variableName].push(element);
             } else {
                 let x = ""; // holds the value
@@ -334,7 +340,8 @@ const dom99 = (function (
             
             It can matter in single page application where you CONSISTENTLY use 
             
-                1. D.templateRender 
+                0. x = D.createElement2(...)
+                1. D.linkJsAndDom(x)
                 2. populate the result with data
                 3. somewhat later delete the result
                 
@@ -400,25 +407,24 @@ const dom99 = (function (
                     directiveName,
                     directiveFunction,
                     tag;
-                //or functionDirectiveNamePairs.forEach(function(pairs) { ?
-                for (pairs of functionDirectiveNamePairs) {
-                    directiveName = pairs[0];
-                    directiveFunction = pairs[1];
+                functionDirectiveNamePairs.forEach(function(pair) {
+                    [directiveName, directiveFunction] = pair;
                     
                     if (!element.hasAttribute(directiveName)) {
-                        continue;
+                        return;
                     }
                     customAttributeValue = element.getAttribute(directiveName);
                     if ((customAttributeValue[0] === attributeValueDoneSign)) {
-                        continue;
+                        return;
                     }
                     directiveFunction(element, customAttributeValue.split(tokenSeparator));
                     // ensure the directive is only applied once
                     element.setAttribute(directiveName, attributeValueDoneSign + customAttributeValue);
-                }
+                });
                 if (element.hasAttribute(directiveNameCustomElement)) {
                     return;
                 }
+                /*scopeless custom element insertion*/
                 tag = getTagName(element);
                 if (templateElementNameFromCustomElementName.hasOwnProperty(tag)) {
                     element.appendChild(document.importNode(elements[templateElementNameFromCustomElementName[tag]].content, true));
@@ -428,17 +434,17 @@ const dom99 = (function (
         
         createElement2 = function (ElementDescription) {
             
-            let element1 = document.createElement(ElementDescription.tagName);
+            let element = document.createElement(ElementDescription.tagName);
             ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
             delete ElementDescription.tagName; // read only
             /*elt.setAttribute(attr, value) is good to set initial attr like you do in html
             elt.attr = value is good to change the live values
             
-            this is the setAttribute equivalent to Object.assign(element1, ElementDescription);*/
+            this is the setAttribute equivalent to Object.assign(element, ElementDescription);*/
             Object.keys(ElementDescription).forEach(function(key) {
-                element1.setAttribute(key, ElementDescription[key]);
+                element.setAttribute(key, ElementDescription[key]);
             });
-            return element1;
+            return element;
             
         },
     
@@ -470,8 +476,7 @@ const dom99 = (function (
             }
             let scopeName,
                 newObjectValue;
-                
-            for (scopeName of Object.keys(newObject)){
+            Object.keys(newObject).forEach(function(scopeName) {
                 newObjectValue = newObject[scopeName];
                 if (!(typeof newObjectValue === 'object')) {
                     variables[scopeName] = newObjectValue
@@ -481,7 +486,7 @@ const dom99 = (function (
                     }
                     Object.assign(variables[scopeName], newObjectValue);
                 }
-            }
+            });
             return newObject;
         },
         enumerable: true,

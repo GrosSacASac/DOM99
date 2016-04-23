@@ -4,6 +4,7 @@ jses5/
 test.html
 documentation/personal_notes.txt
 examples/todolistmultiuser/node_modules
+exampleses5/todolistmultiuser
 #################
 ## Eclipse
 #################
@@ -220,3 +221,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+documentation/personal_htmltests.html

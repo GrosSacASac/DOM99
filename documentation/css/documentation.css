@@ -1,3 +1,14 @@
+
+body {
+    color: #302f40;
+    font-family: 'Open Sans',Arial,sans-serif;
+}
+
+
+[hidden], template {
+    display: none;
+}
+
 article.htmljsandoutput {
     border: 1px solid;
 }
@@ -7,8 +18,4 @@ article.htmljsandoutput > section {
     border: 3px solid;
 }
 
-
-template {
-    display: none;
-}
 

@@ -23,6 +23,8 @@ dom99.js is a program that exposes an application programming interface for subs
 
 ##Downloads:
 
+Supports for IE10 also requires [ES2015 polyfill](https://github.com/babel/babel/tree/master/packages/babel-polyfill). A copy is included for convenience. The file is named polyfill.min.js
+
  * [Development ESnext with debug console.warn messages dom99.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js)
  * [Production transpiled ES5, minified dom99.es5.min.js](https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js)
  * `npm install dom99`

@@ -24,7 +24,7 @@
             </section>
             <section>
                 <h3>Result</h3>
-                <pre data-el="ResultDisplay"></pre>
+                <div data-el="ResultDisplay"></div>
             </section>
         </article>
     </template>
@@ -33,8 +33,9 @@
     <d-htmljsresult data-scope="Multiplier"></d-htmljsresult>
     <!-- Best place to put the visual ? <img src="../images/visual.png"> -->
     <p><a href="https://github.com/GrosSacASac/DOM99">Github</a></p>
-<script src="../js/dom99.es5.min.js"></script>
 
+<script src="../polyfill.min.js"></script>
+<script src="../js/dom99.es5.min.js"></script>
 <!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHR -->
 
 <!-- Hello World -->
@@ -92,6 +93,6 @@ D.fx.calculate();
 
 </script>
 
-<script src="js/documentation.js"></script>
+<script src="js/documentation.es5.min.js"></script>
 </body>
 </html>

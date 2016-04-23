@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Demo</title>
-    
-    <!-- style -->
+    <title>DOM99 DEMO</title>
     <meta name="viewport" content="width=device-width">
-    <!-- coming 
-    <link rel="stylesheet" href="css/normalize.css">
-    -->
-
+    <link rel="stylesheet" href="examples/css/basics.css">
 </head>
 <body>
-    <h1><img src="images/visual.png"></h1>
-    <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/main.js" target="_blank">JS</a>.</p>
+    <h1><img src="images/visual.png" alt="DOM99"></h1>
+    <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is DOM99 ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/main.js" target="_blank">JS</a>.</p>
     <main>
         <article>
             <h2>Hello World</h2><br>
@@ -44,8 +39,7 @@
             
         </article>
         
-        <article data-fx="click-updateJson">
-        
+        <article >
         
             <template data-el="todoTemplate-d-todo">
                 <!-- Everything here has its own scope  -->
@@ -54,10 +48,11 @@
                     <input data-fx="input-updateJson" data-vr="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
+            
             <h2>To-do List</h2>
-            <ol data-el="todoContainer">
+            <ul data-el="todoContainer">
                 <!-- d-todo's  -->
-            </ol>
+            </ul>
             <button data-fx="click-deleteTodos">Delete finished tasks</button>
             <button data-fx="click-addTodo">Add To-do</button>
             <pre>JSON: <output data-vr="todoAsJson"></output>
@@ -73,9 +68,8 @@
         
     </main>
     
-    
-
+<script src="polyfill.min.js"></script>
 <script src="js/dom99.es5.min.js"></script>
-<script src="examples/main.es5.min.js"></script>
+<script src="exampleses5/main.js"></script>
 </body>
 </html>

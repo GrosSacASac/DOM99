@@ -2,12 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Chat example</title>
+    <title>DOM99 chat example</title>
     <meta name="viewport" content="width=device-width">
-    <style>d-message {
-      border: 1px solid;   margin: 2px;      padding: 2px;
-      display:block;}
-    </style>
+    <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
     <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.js" target="_blank">JS</a>.</p>
@@ -28,9 +26,9 @@
     <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
     <button data-fx="click-trySendMessage">Send !</button>
 
-        
+<script src="../polyfill.min.js"></script>
 <script src="../js/dom99.es5.min.js"></script>
-<script src="chat_simulation.es5.min.js"></script>
-<script src="chat.es5.min.js"></script>
+<script src="../exampleses5/chat_simulation.js"></script>
+<script src="../exampleses5/chat.js"></script>
 </body>
 </html>

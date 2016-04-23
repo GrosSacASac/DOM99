@@ -1,0 +1,11 @@
+
+body {
+    color: #302f40;
+    font-family: 'Open Sans',Arial,sans-serif;
+}
+
+
+[hidden], template {
+    display: none;
+}
+
