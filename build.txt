@@ -1,11 +1,10 @@
 browserify
 
+npm run build
 
-babel js/dom99.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/dom99.es5.min.js
+npm run buildexamples
 
-babel examples/main.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o examples/main.es5.min.js
-
-babel examples/chat.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o examples/chat.es5.min.js & babel examples/chat_simulation.js --compact true --remove-comments | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o examples/chat_simulation.es5.min.js
+npm run builddoc
 
 npm version major|minor|patch
 

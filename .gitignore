@@ -1,8 +1,8 @@
 node_modules/
 uglifyjs
-jses5/
 test.html
 documentation/personal_notes.txt
+documentation/personal_htmltests.html
 examples/todolistmultiuser/node_modules
 exampleses5/todolistmultiuser
 #################
@@ -221,4 +221,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-documentation/personal_htmltests.html

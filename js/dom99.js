@@ -6,18 +6,8 @@ more examples, readme
 use proxies instead of Object.defineProperty ?
 */
 "use strict";
-const dom99 = (function (
-        /*you can change the syntax in dom99Configuration*/
-        directiveNameFx="data-fx", 
-        directiveNameVr="data-vr", 
-        directiveNameEl="data-el",
-        directiveNameCustomElement="data-scope",
-        attributeValueDoneSign="☀", 
-        tokenSeparator="-", 
-        listSeparator=","
-        ) {
+const dom99 = (function () {
     //"use strict";
-    
     let variables = {},
         variablesSubscribers = {},/*contains arrays of elements , each array 
         contains all elements that listen to the same variable. */
@@ -32,6 +22,15 @@ const dom99 = (function (
         templateSupported = ('content' in document.createElement('template'));
         
     const 
+        directives = {/*you can change the syntax in dom99Configuration*/
+            directiveFunction: "data-fx", 
+            directiveVariable: "data-vr", 
+            directiveElement: "data-el",
+            directiveScope: "data-scope",
+            attributeValueDoneSign: "☀", 
+            tokenSeparator: "-", 
+            listSeparator: ","
+        },
         miss = "miss",
         value = "value",
         textContent = "textContent",
@@ -63,6 +62,7 @@ const dom99 = (function (
             "input.text": "input",
             "input.checkbox": "change",
             "input.radio": "change",
+            //input.range : change ? for mobiles and IE ?
             miss: "input"
         }),
     
@@ -132,7 +132,7 @@ const dom99 = (function (
             addEventListener(element, eventName, tempFunction, useCapture);
         },*/
     
-        applyFx = function (element, directiveTokens) {
+        applyDirectiveFunction = function (element, directiveTokens) {
             /*directiveTokens example : ["keyup,click", "calculate"] */
             const [eventNames,
                   functionNames] = directiveTokens,
@@ -147,7 +147,7 @@ const dom99 = (function (
                     const functionLookUp = function(functionName) {
                         last = functions[functionName](event);
                     };
-                    functionNames.split(listSeparator).forEach(functionLookUp);
+                    functionNames.split(directives.listSeparator).forEach(functionLookUp);
                     return last;
                 };
                 
@@ -156,13 +156,13 @@ const dom99 = (function (
                 return;
             }
             
-            eventNames.split(listSeparator).forEach(function (eventName) {
+            eventNames.split(directives.listSeparator).forEach(function (eventName) {
                 addEventListener(element, eventName, functionLookUp);
             });
             
         },
     
-        applyVr = function (element, directiveTokens) {
+        applyDirectiveVariable = function (element, directiveTokens) {
             /* two-way bind
             example : called for <input data-vr="a" >
             in this example the variableName = "a"
@@ -250,7 +250,7 @@ const dom99 = (function (
             });
         },
     
-        applyEl = function (element, directiveTokens) {
+        applyDirectiveElement = function (element, directiveTokens) {
             /* stores element for direct access !*/
             let [elementName, 
                 customElementTargetNamePrefix,
@@ -370,9 +370,9 @@ const dom99 = (function (
             return customElement;
         },
         
-        applyScope = function (element, directiveTokens) {
+        applyDirectiveScope = function (element, directiveTokens) {
             /* looks for an html template to render
-            also calls applyEl with scopeName!*/
+            also calls applyDirectiveElement with scopeName!*/
             let [scopeName] = directiveTokens,
                 customElementName = getTagName(element),
                 templateName = templateElementNameFromCustomElementName[customElementName];
@@ -381,7 +381,7 @@ const dom99 = (function (
                 console.warn(element, 'Use data-scope="scopeName" format!');
                 return;
             }
-            if (element.hasAttribute(directiveNameEl)) {
+            if (element.hasAttribute(directives.directiveElement)) {
                 console.warn(element, 'Element has both data-scope and data-el. Use only data-scope and get element at D.xel[scopeName]');
             }
             //warn for duplicate scopes ?
@@ -390,14 +390,7 @@ const dom99 = (function (
             renderCustomElement(element, templateName, scopeName);
         },
         
-        functionDirectiveNamePairs = [
-        /*order is relevant applyVr being before applyFx,
-        we can use the just changed live variable in the bind function*/
-                [directiveNameEl, applyEl],
-                [directiveNameVr, applyVr],
-                [directiveNameFx, applyFx],
-                [directiveNameCustomElement, applyScope]
-        ],
+        
         
         tryApplyDirectives = function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
@@ -405,23 +398,32 @@ const dom99 = (function (
                 let pairs, 
                     customAttributeValue,
                     directiveName,
-                    directiveFunction,
+                    applyDirective,
                     tag;
+                const functionDirectiveNamePairs = [
+                    /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
+                    we can use the just changed live variable in the bind function
+                    [directiveName, applyDirectiveX]*/
+                    [directives.directiveElement, applyDirectiveElement],
+                    [directives.directiveVariable, applyDirectiveVariable],
+                    [directives.directiveFunction, applyDirectiveFunction],
+                    [directives.directiveScope, applyDirectiveScope]
+                ];
                 functionDirectiveNamePairs.forEach(function(pair) {
-                    [directiveName, directiveFunction] = pair;
+                    [directiveName, applyDirective] = pair;
                     
                     if (!element.hasAttribute(directiveName)) {
                         return;
                     }
                     customAttributeValue = element.getAttribute(directiveName);
-                    if ((customAttributeValue[0] === attributeValueDoneSign)) {
+                    if ((customAttributeValue[0] === directives.attributeValueDoneSign)) {
                         return;
                     }
-                    directiveFunction(element, customAttributeValue.split(tokenSeparator));
+                    applyDirective(element, customAttributeValue.split(directives.tokenSeparator));
                     // ensure the directive is only applied once
-                    element.setAttribute(directiveName, attributeValueDoneSign + customAttributeValue);
+                    element.setAttribute(directiveName, directives.attributeValueDoneSign + customAttributeValue);
                 });
-                if (element.hasAttribute(directiveNameCustomElement)) {
+                if (element.hasAttribute(directives.directiveScope)) {
                     return;
                 }
                 /*scopeless custom element insertion*/
@@ -461,7 +463,8 @@ const dom99 = (function (
         // fx is where dom99 will look for , for data-fx,
         createElement2, // enhanced document.createElement
         forgetScope,  // forget scope
-        linkJsAndDom // initialization function
+        linkJsAndDom,// initialization function
+        directives
     };
     // we can't use D.vr[scope] = object;
     // allows us to do D.vr = objectX
@@ -499,13 +502,8 @@ const dom99 = (function (
 }());
 
 
-/* 
-}(...(window.dom99Configuration || [])));
-in the future when import syntax is recognized use this syntax instead:
-import dom99Configuration from "dom99Configuration"; // todo what happens when the file is not found ?
-dom99Configuration = dom99Configuration || []; */
 /* make it available for browserify style imports
-future export default dom99*/
+also in the future export default dom99*/
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
 }
