@@ -1,6 +1,7 @@
 node_modules/
 uglifyjs
 test.html
+commands.txt
 documentation/personal_notes.txt
 documentation/personal_htmltests.html
 examples/todolistmultiuser/node_modules

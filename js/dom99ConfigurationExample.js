@@ -6,26 +6,27 @@
  4. Change this file according to your needs
  
  Custom configuration examples:*/
-
  
-// Example for more explicit syntax:
 /*
+// Example for more explicit syntax:
 Object.assign(dom99.directives, {
     directiveFunction: "data-function", 
     directiveVariable: "data-variable", 
     directiveElement: "data-function",
-    directiveScope: "data-scope",
+    directiveIn: "data-in",
     attributeValueDoneSign: "☀", 
     tokenSeparator: "-", 
     listSeparator: ","
 });
 */
+
 // Example for more compact syntax:
+// Note omiting data-* is at your own risks (can collide with existing attribute names)
 Object.assign(dom99.directives, {
     directiveFunction: "fx", 
     directiveVariable: "vr", 
     directiveElement: "el",
-    directiveScope: "scope",
+    directiveIn: "in",
     attributeValueDoneSign: "☀", 
     tokenSeparator: "-", 
     listSeparator: ","

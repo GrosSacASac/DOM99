@@ -16,6 +16,15 @@ Also if you want to teach people JavaScript, without having to spend too much ti
  * New Framework
  * Fear of the unknown
 
+
+##Breaking Changes from 1.9.x to 1.10+.x
+
+Less Confusion:
+
+ * `data-scope` becomes `data-in`
+ * `data-scope="scopeName"` becomes `data-in="Key"` (in the documentation)
+ * `event.scope` becomes `event.dKey`
+ * `dom99.directives.directiveScope` becomes `dom99.directives.directiveIn` (if you used a custom syntax)
  
 ##How does DOM99 work ?
 
@@ -41,7 +50,7 @@ DOM99 will browse the DOM and react if an element has one of the following attri
  * data-vr : **vr for variable**: data binding between DOM element and js variable
  * data-el : **el for element**: pre-selecting an element for later usage
  * data-fx : **fx for function** adds an event listener to that element
- * data-scope: (advanced) **scope for scope name** adds the linked template copy at load time
+ * data-in: (advanced) **in for in the object with this key** adds the linked template copy at load time
 
 
 Examples:
@@ -49,7 +58,7 @@ Examples:
     <input data-vr="b" type="text">
     <nav data-el="myNav">Navigation Links</nav>
     <button data-fx="click-deleteFoto">Delete Foto</button>
-    <d-magicbutton data-scope="1"></d-magicbutton>      
+    <d-magicbutton data-in="1"></d-magicbutton>      
     
 The general syntax is 
 
@@ -105,8 +114,8 @@ To compose html with predefined building blocks.
         <datetime data-vr="date"></datetime>
     </template>
 
-    <d-comment data-scope="first"></d-comment>
-    <d-comment data-scope="second"></d-comment>
+    <d-comment data-in="first"></d-comment>
+    <d-comment data-in="second"></d-comment>
     
 To edit a comment at run time do this:
 
@@ -170,8 +179,8 @@ Both ways are **complementary** and use the same core ideas. To illustrate this 
             <datetime data-vr="date"></datetime>
         </template>
         
-        <d-comment data-scope="comment1"></d-comment>
-        <d-comment data-scope="comment2"></d-comment>
+        <d-comment data-in="comment1"></d-comment>
+        <d-comment data-in="comment2"></d-comment>
         
         <button data-fx="click-showNextComment">Show more comments</button>
 
@@ -226,7 +235,7 @@ under construction ...
     // 0 make a description
     let customElementDescription = {
         "tagName": "d-tagname",
-        "data-scope": "scopeName"
+        "data-in": "key"
     }
     // 1 create HTML ELement
     let customElement = D.createElement2(customElementDescription);
@@ -245,14 +254,14 @@ under construction ...
 
 If you have a `<template>` in your page, it is inert and not rendered. However the template itself with a `data-el` can be used to create copies of the content of the template. These copies can be inserted in your document. 
 
-... All DOM99 directives inside, have been applied under the scope name. You can now use all the techniques described above (`D.vr D.el`) by going in the correct scope:
+
   
 
-    D.vr["scopeName"]["text"] = "A string"
+    D.vr["key"]["text"] = "A string"
 
-    D.el["scopeName"]["myElementIWantToChangeClassNameForInstance"].className = ...
+    D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...
     
-D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the `event.scope`. Example
+D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the `event.dKey`. Example
 
     <!-- HTML -->
     <template data-el="templateName-d-tagname">
@@ -262,16 +271,16 @@ D.fx function the other way around. You use the same event handlers for all temp
     
     // JS
     D.fx.close = function (event) {
-        var scope = event.scope;
-        D.xel[scope].remove(); // remove the custom element from the DOM
-        D.forgetScope(scope); // if you never use it again
+        var key = event.dKey;
+        D.xel[key].remove(); // remove the custom element from the DOM
+        D.forgetKey(key); // if you never use it again
         // ...
     };
 
 I recommend putting the custom element in the document last to improve performance. 
 
 
-`D.forgetScope("scopeName");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.
+`D.forgetKey("key");` to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.
 
 ###Additional information
 
@@ -279,13 +288,11 @@ Play around with the examples, see what they do and look at the source.
 
 You can handle new HTML with `D.linkJsAndDom(startNode);`. Already processed elements won't be affected at all because the ☀ is added to the attribute value after that.
 
-DOM99 scopes have nothing to do with the JavaScript scope/closures mechanism.
-
 Open your console, handy warnings may appear to help you if use the not minified version.
 
 You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.
 
-You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js Disabled, because there is a bug with Jsbin
+You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js
 
 ##Performance
 

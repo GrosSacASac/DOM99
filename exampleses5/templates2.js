@@ -20,15 +20,15 @@ var getDataFromFakeServer = function getDataFromFakeServer(commentKey) {
 };
 
 D.fx.showNextComment = function (event) {
-    var scopeName = void 0,
+    var key = void 0,
         customElementDescription = void 0,
         customElement = void 0;
     currentCommentNumber += 1;
-    scopeName = commentPrefix + String(currentCommentNumber);
-    getDataFromFakeServer(scopeName); //get data
+    key = commentPrefix + String(currentCommentNumber);
+    getDataFromFakeServer(key); //get data
     customElementDescription = {
         "tagName": "d-comment",
-        "data-scope": scopeName
+        "data-in": key
     };
     customElement = D.createElement2(customElementDescription);
     D.linkJsAndDom(customElement);

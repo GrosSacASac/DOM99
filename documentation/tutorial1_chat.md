@@ -37,7 +37,7 @@ the text, author and foto
     
 ###Define our functions to display new messages
 
-`data` is an object containing information about the message. The server-side can send data objects. The scope `nameName` is used to separate the different template clones that otherwise share the same `data-vr` and `data-el`. 
+`data` is an object containing information about the message. The server-side can send data objects. The ... is used to separate the different template clones that otherwise share the same `data-vr` and `data-el`. 
 
 ...
 

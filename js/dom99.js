@@ -4,7 +4,7 @@ globals: window, document, console*/
 /*todo  improve system 
 more examples, readme 
 use proxies instead of Object.defineProperty ?
-*/
+data-in and key*/
 "use strict";
 const dom99 = (function () {
     //"use strict";
@@ -15,18 +15,18 @@ const dom99 = (function () {
         customElements = {},
         templateElementNameFromCustomElementName = {},
         functions = {},
-        currentInnerScope = "",
+        currentInnerKey = "",
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
         elementsScope = elements,
-        templateSupported = ('content' in document.createElement('template'));
+        templateSupported = ("content" in document.createElement("template"));
         
     const 
         directives = {/*you can change the syntax in dom99Configuration*/
             directiveFunction: "data-fx", 
             directiveVariable: "data-vr", 
             directiveElement: "data-el",
-            directiveScope: "data-scope",
+            directiveIn: "data-in",
             attributeValueDoneSign: "☀", 
             tokenSeparator: "-", 
             listSeparator: ","
@@ -136,13 +136,13 @@ const dom99 = (function () {
             /*directiveTokens example : ["keyup,click", "calculate"] */
             const [eventNames,
                   functionNames] = directiveTokens,
-                  scope = currentInnerScope,
+                  key = currentInnerKey,
                 /*functionLookUp allows us to store functions in D.fx after 
                 D.linkJsAndDom() and use the functions that are in D.fx at that moment.
                 we also return what the last function returns*/
                 functionLookUp = function(event) {
                     let last;
-                    event.scope = scope;
+                    event.dKey = key;
 
                     const functionLookUp = function(functionName) {
                         last = functions[functionName](event);
@@ -183,7 +183,7 @@ const dom99 = (function () {
                 return;
             }
             
-            //for template cloning, we use a grouped scope
+            //for template cloning, we use a grouped key
             
             
             /*we check if the user already saved data in variablesScope[variableName]
@@ -262,8 +262,6 @@ const dom99 = (function () {
                 return;
             }    
             
-            //for template cloning, we use a grouped scope
-            
             if (elementsScope[elementName]) {
                 console.warn(element, "and", elementsScope[elementName], `2 elements with the same name, overwriting D.el.${elementName}`);
             }
@@ -276,38 +274,39 @@ const dom99 = (function () {
             }
         },
         
-        templateRender = function (templateName, scope) {
+        templateRender = function (templateName, key) {
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
         the content elements with "data-vr" will share a variable at
-        D.vr[scope][variableName]
+        D.vr[key][variableName]
         the content elements with "data-el" will have a reference at
-        D.el[scope][elementName]
+        D.el[key][elementName]
         that way you can render a template multiple times, populate clone data
         and have it not shared between all clones.
         
         returns clone
         
-        suggestion: maybe generate automatic scope names internally
+        suggestion: maybe generate automatic key names internally
         */
             let clone;
 
-            //create the scope
-            if (!elements.hasOwnProperty(scope)){
-                elements[scope] = {};
+            //create the key
+            if (!elements.hasOwnProperty(key)){
+                elements[key] = {};
             }
-            if (!variables.hasOwnProperty(scope)){
-                variables[scope] = {};
+            if (!variables.hasOwnProperty(key)){
+                variables[key] = {};
             } 
-            if (!variablesSubscribers.hasOwnProperty(scope)){
-                variablesSubscribers[scope] = {};
+            if (!variablesSubscribers.hasOwnProperty(key)){
+                variablesSubscribers[key] = {};
             } 
             
-            currentInnerScope = scope;
-            variablesScope = variables[scope];
-            variablesSubscribersScope = variablesSubscribers[scope];
-            elementsScope = elements[scope];
+            currentInnerKey = key;
+            variablesScope = variables[key];
+            variablesSubscribersScope = variablesSubscribers[key];
+            elementsScope = elements[key];
             
+            /*todo warn if elements[templateName] is undefined*/
 
             if (templateSupported) { 
             //make a clone ,clone is a DocumentFragment object
@@ -319,10 +318,10 @@ const dom99 = (function () {
             /* could also use let clone = elements[templateName].content.cloneNode(true);
             from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with document.importNode() it is updated when the nodes are cloned.*/
            
-            // apply dom99 directives with the scope
+            // apply dom99 directives with the key
             linkJsAndDom(clone);
             
-            currentInnerScope = "";
+            currentInnerKey = "";
             variablesScope = variables;
             variablesSubscribersScope = variablesSubscribers;
             elementsScope = elements;
@@ -330,7 +329,7 @@ const dom99 = (function () {
             return clone;
         },
     
-        forgetScope = function (scope) {
+        forgetKey = function (key) {
             /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
             all the element references if you used the underlying nodes in dom99
             A removed element will continue receive invisible automatic updates 
@@ -347,47 +346,47 @@ const dom99 = (function () {
                 
             In that case I recommend using an additional step
             
-                4. Use D.forgetScope to let the garbage collector free space in memory
+                4. Use D.forgetKey to let the garbage collector free space in memory
                 (can also improve performance but it doesn't matter here, read optimize optimization)
             
             Note: If you have yet another reference to the element in a variable in your program, the element will still exist and we cannot clean it up from here.
             
-            Internally we just deleted the scope group for every relevant function
-            (for instance binds are not scope grouped)
+            Internally we just deleted the key group for every relevant function
+            (for instance binds are not key grouped)
             */
             // todo: answer could we use Weak Maps here ?
-            delete elements[scope];
-            delete variables[scope];
-            delete variablesSubscribers[scope];
-            delete customElements[scope];
+            delete elements[key];
+            delete variables[key];
+            delete variablesSubscribers[key];
+            delete customElements[key];
         },
         
         
-        renderCustomElement = function (customElement, templateName, scope) {
+        renderCustomElement = function (customElement, templateName, key) {
         
             // does it make sense to populate the clone here ?
-            customElement.appendChild(templateRender(templateName, scope));
+            customElement.appendChild(templateRender(templateName, key));
             return customElement;
         },
         
-        applyDirectiveScope = function (element, directiveTokens) {
+        applyDirectiveIn = function (element, directiveTokens) {
             /* looks for an html template to render
-            also calls applyDirectiveElement with scopeName!*/
-            let [scopeName] = directiveTokens,
+            also calls applyDirectiveElement with key!*/
+            let [key] = directiveTokens,
                 customElementName = getTagName(element),
                 templateName = templateElementNameFromCustomElementName[customElementName];
             
-            if (!scopeName) {
-                console.warn(element, 'Use data-scope="scopeName" format!');
+            if (!key) {
+                console.warn(element, 'Use data-in="key" format!');
                 return;
             }
             if (element.hasAttribute(directives.directiveElement)) {
-                console.warn(element, 'Element has both data-scope and data-el. Use only data-scope and get element at D.xel[scopeName]');
+                console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
             }
-            //warn for duplicate scopes ?
+            //warn for duplicate keys ?
             
-            customElements[scopeName] = element;
-            renderCustomElement(element, templateName, scopeName);
+            customElements[key] = element;
+            renderCustomElement(element, templateName, key);
         },
         
         
@@ -407,7 +406,7 @@ const dom99 = (function () {
                     [directives.directiveElement, applyDirectiveElement],
                     [directives.directiveVariable, applyDirectiveVariable],
                     [directives.directiveFunction, applyDirectiveFunction],
-                    [directives.directiveScope, applyDirectiveScope]
+                    [directives.directiveIn, applyDirectiveIn]
                 ];
                 functionDirectiveNamePairs.forEach(function(pair) {
                     [directiveName, applyDirective] = pair;
@@ -423,10 +422,10 @@ const dom99 = (function () {
                     // ensure the directive is only applied once
                     element.setAttribute(directiveName, directives.attributeValueDoneSign + customAttributeValue);
                 });
-                if (element.hasAttribute(directives.directiveScope)) {
+                if (element.hasAttribute(directives.directiveIn)) {
                     return;
                 }
-                /*scopeless custom element insertion*/
+                /*keyless custom element insertion*/
                 tag = getTagName(element);
                 if (templateElementNameFromCustomElementName.hasOwnProperty(tag)) {
                     element.appendChild(document.importNode(elements[templateElementNameFromCustomElementName[tag]].content, true));
@@ -462,11 +461,11 @@ const dom99 = (function () {
         fx: functions,  //object to be filled by user defined functions 
         // fx is where dom99 will look for , for data-fx,
         createElement2, // enhanced document.createElement
-        forgetScope,  // forget scope
+        forgetKey,  // forget key
         linkJsAndDom,// initialization function
         directives
     };
-    // we can't use D.vr[scope] = object;
+    // we can't use D.vr[key] = object;
     // allows us to do D.vr = objectX
     Object.defineProperty(dom99PublicInterface, "vr", {
         get: function () {
@@ -477,17 +476,17 @@ const dom99 = (function () {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
-            let scopeName,
+            let key,
                 newObjectValue;
-            Object.keys(newObject).forEach(function(scopeName) {
-                newObjectValue = newObject[scopeName];
+            Object.keys(newObject).forEach(function(key) {
+                newObjectValue = newObject[key];
                 if (!(typeof newObjectValue === 'object')) {
-                    variables[scopeName] = newObjectValue
+                    variables[key] = newObjectValue
                 } else {
-                    if (!variables[scopeName]) {
-                        variables[scopeName] = {};
+                    if (!variables[key]) {
+                        variables[key] = {};
                     }
-                    Object.assign(variables[scopeName], newObjectValue);
+                    Object.assign(variables[key], newObjectValue);
                 }
             });
             return newObject;

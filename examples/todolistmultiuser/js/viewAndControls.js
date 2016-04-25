@@ -5,10 +5,10 @@ var viewAndControls = (function () {
     "use strict";
     var D = dom99,
     
-        newToDoUiElement = function (toDoScopeName) {
+        newToDoUiElement = function (toDoKey) {
             let customElement = D.createElement2({
                 "tagName": "d-todo",
-                "data-scope": toDoScopeName,
+                "data-in": toDoKey,
             });
             
             D.linkJsAndDom(customElement);
@@ -23,7 +23,7 @@ var viewAndControls = (function () {
             for (toDoKey of Object.keys(D.vr)) {
                 if (!newToDos[toDoKey]) {
                     D.xel[toDoKey].remove();
-                    D.forgetScope(toDoKey);
+                    D.forgetKey(toDoKey);
                 }
             }
             // create all UI toDos that are not already existing
@@ -37,11 +37,11 @@ var viewAndControls = (function () {
         };
         
     D.fx.addItem = function (event) {
-        var scopeName = Date.now().toString();
-        while (D.vr[scopeName]) { //don' take same name twice
-            scopeName = Date.now().toString()
+        var key = Date.now().toString();
+        while (D.vr[key]) { //don' take same name twice
+            key = Date.now().toString()
         };
-        newToDoUiElement(scopeName);
+        newToDoUiElement(key);
         bridge.updateServerState(D.vr);
     };
     
@@ -50,9 +50,9 @@ var viewAndControls = (function () {
     };
     
     D.fx.destroy = function (event) {
-        var scope = event.scope;
-        D.xel[scope].remove();
-        D.forgetScope(scope);
+        var key = event.dKey;
+        D.xel[key].remove();
+        D.forgetKey(key);
         bridge.updateServerState(D.vr);
     };
     

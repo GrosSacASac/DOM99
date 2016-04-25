@@ -53,30 +53,30 @@ D.vr.monologueButton = "Hi";
 
 let path = "todo",
     i = 0,
-    todoScopeNames = [];
+    toDoKeys = [];
 
 const boolz = {"false": false, "true": true};
 /* we use boolz to convert string boolean into real boolean
 values returned from D.vr are strings*/
 
 D.fx.updateJson = function (event) {
-    let x = todoScopeNames.map(function(todoScopeName) {
-        return {text: D.vr[todoScopeName]["text"],
-                done: boolz[D.vr[todoScopeName]["done"]]};
+    let x = toDoKeys.map(function(toDoKey) {
+        return {text: D.vr[toDoKey]["text"],
+                done: boolz[D.vr[toDoKey]["done"]]};
     });
     D.vr.todoAsJson = JSON.stringify(x);
 };
 
 D.fx.addTodo = function (event) {
-    let todoScopeName = path + String(i),
+    let toDoKey = path + String(i),
         customElement;
-    todoScopeNames.push(todoScopeName);
+    toDoKeys.push(toDoKey);
     
     
     // 1 create HTML ELement
     customElement = D.createElement2({
         "tagName": "d-todo",
-        "data-scope": todoScopeName,
+        "data-in": toDoKey,
     });
     
     
@@ -85,8 +85,8 @@ D.fx.addTodo = function (event) {
     D.linkJsAndDom(customElement);
     
     // 2 populate data
-    D.vr[todoScopeName]["done"] = false;
-    D.vr[todoScopeName]["text"] = "";
+    D.vr[toDoKey]["done"] = false;
+    D.vr[toDoKey]["text"] = "";
     
     // 4 insert the Element that has a clone as a child in the DOM
     D.el["todoContainer"].appendChild(customElement);
@@ -98,18 +98,18 @@ D.fx.addTodo = function (event) {
 
 D.fx.deleteTodos = function (event) {
     //delete done todos only !
-    let newTodoScopeNames = [];
-    todoScopeNames.filter(function(todoScopeName) {
-        if (boolz[D.vr[todoScopeName]["done"]]) {
+    let newtoDoKeys = [];
+    toDoKeys.filter(function(toDoKey) {
+        if (boolz[D.vr[toDoKey]["done"]]) {
             return true;
         }
-        newTodoScopeNames.push(todoScopeName);
+        newtoDoKeys.push(toDoKey);
         return false;
-    }).forEach(function(todoScopeName) {
-        D.xel[todoScopeName].remove();
-        D.forgetScope(todoScopeName);
+    }).forEach(function(toDoKey) {
+        D.xel[toDoKey].remove();
+        D.forgetKey(toDoKey);
     });
-    todoScopeNames = newTodoScopeNames; //keep todoScopeNames up to date
+    toDoKeys = newtoDoKeys; //keep toDoKeys up to date
     D.fx.updateJson();
 };
 D.fx.updateJson();

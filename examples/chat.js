@@ -3,14 +3,14 @@ const
     MAX = 10,
     D = dom99;
     
-let messageScopes = [];
+let messageKeys = [];
 
 
-const renderNewMessageElement = function(data, scopeName) {
+const renderNewMessageElement = function(data, key) {
     // 1 create HTML ELement
     let customElement = D.createElement2({
         "tagName": "d-message",
-        "data-scope": scopeName,
+        "data-in": key,
     });
     
     // 2 link it
@@ -21,25 +21,25 @@ const renderNewMessageElement = function(data, scopeName) {
 };
 
 const displayNewMessage = function(data) {
-    let scope;
-    if (messageScopes.length < MAX) {
-        //create a new scope
-        scope = String(messageScopes.length);
-        messageScopes.push(scope); // length += 1
+    let key;
+    if (messageKeys.length < MAX) {
+        //create a new key
+        key = String(messageKeys.length);
+        messageKeys.push(key); // length += 1
         
-        //render a new Element retrievable via the scope
-        renderNewMessageElement(data, scope);
+        //render a new Element retrievable via the key
+        renderNewMessageElement(data, key);
     } else {
         //rotate the first element to end
-        scope = messageScopes[0];
-        messageScopes = messageScopes.slice(1)
-        messageScopes.push(scope);
+        key = messageKeys[0];
+        messageKeys = messageKeys.slice(1)
+        messageKeys.push(key);
         
         //do the same rotation in the DOM
-        D.el["messagesContainer"].appendChild(D.xel[scope]);
+        D.el["messagesContainer"].appendChild(D.xel[key]);
     }
     // Update 
-    Object.assign(D.vr[scope], data); // loops over
+    Object.assign(D.vr[key], data); // loops over
 };
 
 D.fx.trySendMessage = function(event) {
