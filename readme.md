@@ -22,9 +22,10 @@ Also if you want to teach people JavaScript, without having to spend too much ti
 Less Confusion:
 
  * `data-scope` becomes `data-in`
- * `data-scope="scopeName"` becomes `data-in="Key"` (in the documentation)
+ * `D.forgetScope` becomes `D.forgetKey`
  * `event.scope` becomes `event.dKey`
  * `dom99.directives.directiveScope` becomes `dom99.directives.directiveIn` (if you used a custom syntax)
+ * `data-scope="scopeName"` becomes `data-in="Key"` (in the documentation)
  
 ##How does DOM99 work ?
 
