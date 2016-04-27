@@ -18,4 +18,8 @@ article.htmljsandoutput > section {
     border: 3px solid;
 }
 
+code {
+    font-size:1.5em;
+}
+
 
