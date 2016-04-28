@@ -57,7 +57,7 @@ const dom99 = (function () {
             });
         },
         
-        EventForTagAndType = getValueElseDefaultDecorator({
+        EventTypeForTagAndType = getValueElseDefaultDecorator({
             //tag.type: eventType
             "input.text": "input",
             "input.checkbox": "change",
@@ -181,7 +181,7 @@ const dom99 = (function () {
     
         applyDirectiveVariable = function (element, directiveTokens) {
             /* two-way bind
-            example : called for <input data-vr="a" >
+            example : called for <input data-vr="a">
             in this example the variableName = "a"
             we push the <input data-vr="a" > element in the array
             that holds all elements which share this same "a" variable
@@ -193,7 +193,9 @@ const dom99 = (function () {
             let [variableName] = directiveTokens,
                 temp,
                 variablesScopeReference = variablesScope,
-                variablesSubscribersScopeReference = variablesSubscribersScope;
+                variablesSubscribersScopeReference = variablesSubscribersScope,
+                tagName = getTagName(element),
+                type = element.type;
             
             if (!variableName) {
                 console.warn(element, 'Use data-vr="variableName" format!');
@@ -210,7 +212,8 @@ const dom99 = (function () {
             if (variablesScope.hasOwnProperty(variableName)) {
                 temp = variablesScope[variableName];
             }
-            
+            //Dom99 VaRiable Property
+            element.DVRP = getVisibleProperty(tagName, type);
             
             if (variablesSubscribersScope.hasOwnProperty(variableName)) {
                 variablesSubscribersScope[variableName].push(element);
@@ -227,23 +230,19 @@ const dom99 = (function () {
                             return;
                         }
                         x = String(newValue);
-                        let visibleTextPropertyName;
                         variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
                             /*here we change the value of the currentElement in the dom
                             */
-                            visibleTextPropertyName = getVisibleProperty(
-                                getTagName(currentElement), 
-                                currentElement.type
-                            );
+                            
                             //don't overwrite the same
-                            if (String(currentElement[visibleTextPropertyName]) !== x) {
+                            if (String(currentElement[currentElement.DVRP]) !== x) {
                         // if you want to add more, use 
-                        // if (PropertyBooleanList.indexOf(visibleTextPropertyName) > -1)
-                                if (visibleTextPropertyName === checked) {
+                        // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1)
+                                if (currentElement.DVRP === checked) {
                                     //"false" is truthy ...
-                                    currentElement[visibleTextPropertyName] = newValue; 
+                                    currentElement[currentElement.DVRP] = newValue; 
                                 } else {
-                                    currentElement[visibleTextPropertyName] = x;
+                                    currentElement[currentElement.DVRP] = x;
                                 }
                             }
                         });
@@ -259,12 +258,11 @@ const dom99 = (function () {
             }
             
             //suggestion: could check if the tagName is in a list with all element that can be changed by the user
-            //todo optimize this, getTagName is called every time ...
             addEventListener(element, 
-                EventForTagAndType(`${getTagName(element)}.${element.type}`),
+                EventTypeForTagAndType(`${tagName}.${type}`),
                 function (event) {
-                    let visibleTextPropertyName = getVisibleProperty(getTagName(event.target), event.target.type);
-                    variablesScopeReference[variableName] = event.target[visibleTextPropertyName];
+                    //wil call setter above to broadcast the value
+                    variablesScopeReference[variableName] = event.target[event.target.DVRP];
             });
         },
     
