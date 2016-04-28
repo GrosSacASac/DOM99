@@ -134,31 +134,48 @@ const dom99 = (function () {
     
         applyDirectiveFunction = function (element, directiveTokens) {
             /*directiveTokens example : ["keyup,click", "calculate"] */
-            const [eventNames,
-                  functionNames] = directiveTokens,
-                  key = currentInnerKey,
+            const 
+                eventNames = directiveTokens[0].split(directives.listSeparator),
+                functionNames = directiveTokens[1].split(directives.listSeparator),
+                key = currentInnerKey;
                 /*functionLookUp allows us to store functions in D.fx after 
                 D.linkJsAndDom() and use the functions that are in D.fx at that moment.
                 we also return what the last function returns*/
-                functionLookUp = function(event) {
-                    let last;
-                    event.dKey = key;
-
-                    const functionLookUp = function(functionName) {
-                        last = functions[functionName](event);
-                    };
-                    functionNames.split(directives.listSeparator).forEach(functionLookUp);
-                    return last;
-                };
+            let functionLookUp;
                 
             if (!eventNames || !functionNames) {
                 console.warn(element, 'Use data-fx="event1,event2-functionName1,functionName2" format!');
                 return;
             }
             
-            eventNames.split(directives.listSeparator).forEach(function (eventName) {
+            if ((eventNames.length === 1) && (functionNames.length === 1)) {
+                /*we only have 1 event type and 1 function*/
+                const 
+                    functionName = functionNames[0],
+                    eventName = eventNames[0];
+                functionLookUp = function(event) {
+                    event.dKey = key;
+                    return functions[functionName](event);
+                };
                 addEventListener(element, eventName, functionLookUp);
-            });
+                
+            } else {
+                functionLookUp = function(event) {
+                    let last;
+                    event.dKey = key;
+
+                    const functionLookUpChain = function(functionName) {
+                        last = functions[functionName](event);
+                    };
+                    functionNames.forEach(functionLookUpChain);
+                    return last;
+                };
+                
+                
+                eventNames.forEach(function (eventName) {
+                    addEventListener(element, eventName, functionLookUp);
+                });
+            }
             
         },
     
@@ -242,6 +259,7 @@ const dom99 = (function () {
             }
             
             //suggestion: could check if the tagName is in a list with all element that can be changed by the user
+            //todo optimize this, getTagName is called every time ...
             addEventListener(element, 
                 EventForTagAndType(`${getTagName(element)}.${element.type}`),
                 function (event) {
@@ -306,8 +324,12 @@ const dom99 = (function () {
             variablesSubscribersScope = variablesSubscribers[key];
             elementsScope = elements[key];
             
-            /*todo warn if elements[templateName] is undefined*/
-
+            
+            if (!elements.hasOwnProperty(templateName)) {
+                console.warn(`the template ${templateName} must be defined, before it is used`);
+                return document.createElement("div");
+            }
+            
             if (templateSupported) { 
             //make a clone ,clone is a DocumentFragment object
                 clone = document.importNode(elements[templateName].content, true);
