@@ -1,8 +1,48 @@
 
 body {
-    color: #302f40;
-    font-family: 'Open Sans',Arial,sans-serif;
+  color: #393840;
+  background: #F8FAF0;
+  font-family: 'Open Sans',Arial,sans-serif;
 }
+
+/*
+.tab-holder {
+
+}*/
+
+.tab-holder > article {
+  display: none;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0 5px 5px 0;
+ }
+
+
+  
+.tab-holder > article:target {
+  display:block;
+ }
+
+.tab-holder > nav > a {
+  /*margin-top: -1rem;
+  float: left;
+  left:50px;
+  padding: 0.3em;*/
+  position: relative;
+  bottom:-30px;
+  margin-right: 0.3em;
+  text-decoration: none;
+  font-size: 1.3rem;
+  border-radius: 5px 5px 0 0;
+  background: #445;
+  color: #dfdfdf;
+ }
+ 
+.tab-holder > nav > a:hover, .tab-holder > nav > a:focus {
+  background: #8AA9B8;
+  color: #f5f5f5;
+ }
+
 
 
 [hidden], template {

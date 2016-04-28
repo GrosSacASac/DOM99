@@ -8,12 +8,27 @@
     <link rel="icon" href="../images/visual48.png">
 </head>
 <body>
-    <h1>DOM99 Documentation</h1>
+    <h1 id="top">DOM99 Documentation</h1>
     <p id="errors"><noscript>Enable JavaScript to view this page.</noscript></p>
     <p>Work in progress</p>
-    
-    <article>
-        <h2>About DOM99</h2>
+<div class="tab-holder">
+
+<nav>
+    <a href="#about">About</a>
+    <a href="#howto">How To</a>
+    <a href="#examples1">Examples</a>
+    <a href="#more">Details</a>
+    <a href="#discussion">Discussion</a>
+    <a href="#license">License</a>
+    <a href="#performance">Performance</a>
+    <a href="#security">Security</a>
+    <a href="#history">History</a>
+    <a href="#patchnotes">Updates</a>
+    <a href="#future">Future</a>
+</nav>    
+
+<article id="about">
+<h2>About DOM99</h2>
 <img alt="DOM99" src="../images/visual.png">
 
 <h2>What is DOM99 ?</h2>
@@ -40,39 +55,19 @@
 <ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug console.warn messages dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
 
 <p>Supports for IE10 also requires <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
-    </article>
-    <article>
-        <h2>Some Examples</h2>
-        <template data-el="htmlJsAndResultTemplate-d-htmljsresult">
-            <article class="htmljsandoutput">
-                <h3 data-vr="title"></h3>
-                <section>
-                    <h4>HTML</h4>
-                    <pre><code data-vr="HtmlSourceDisplay"></code></pre>
-                </section>
-                <section>
-                    <h4>JS</h4>
-                    <pre><code data-vr="JsSourceDisplay"></code></pre>
-                </section>
-                <section>
-                    <h4>Result</h4>
-                    <div data-el="ResultDisplay"></div>
-                </section>
-            </article>
-        </template>
-        <d-htmljsresult data-in="Hello World"></d-htmljsresult>
-        <d-htmljsresult data-in="Hello World 2"></d-htmljsresult>
-        <d-htmljsresult data-in="Multiplier"></d-htmljsresult>
-    <article>
-        <h2>Notes about new versions</h2>
-        <h3>Breaking Changes from 1.9.x to 1.10+.x</h3>
+</article>
+
+<article id="patchnotes">
+<h2>Notes about new versions</h2>
+<h3>Breaking Changes from 1.9.x to 1.10+.x</h3>
 
 <p>Less Confusion:</p>
 
 <ul><li><code>data-scope</code> becomes <code>data-in</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <code>event.dKey</code></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope=&quot;scopeName&quot;</code> becomes <code>data-in=&quot;Key&quot;</code> (in the documentation)</li></ul>
-    </article>
-    <article>
-        <h2>How to use DOM99 ?</h2>
+</article>
+
+<article id="howto">
+<h2>How to use DOM99 ?</h2>
         
 <h3>In your HTML:</h3>
 
@@ -157,8 +152,8 @@ D.vr = {
 <p>Examples use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)</p>
 
 <ul>
-<li><a href="http://rawgit.com/GrosSacASac/DOM99/master/index.html">Basic demo</a></li>
-<li><a href="http://rawgit.com/GrosSacASac/DOM99/master/examples/chat.html">Chat demo</a> </li>
+<li><a href="../index.html">Basic demo</a></li>
+<li><a href="../examples/chat.html">Chat demo</a> </li>
 <li><a href="tutorial1_chat.md">Chat demo explanations</a></li>
 <li><a href="../examples/todolistmultiuser/README.md">Todo List Multi User Realtime with Node.js</a> </li></ul>
 
@@ -228,9 +223,9 @@ D.vr = commentsData;
 
 D.linkJsAndDom();</code></pre>
 
-<p><a href="http://rawgit.com/GrosSacASac/DOM99/master/examples/templates1.html">Try templates1.html static template injection</a> </p>
+<p><a href="../examples/templates1.html">Try templates1.html static template injection</a> </p>
 
-<p><a href="http://rawgit.com/GrosSacASac/DOM99/master/examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
+<p><a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
 
 <p>under construction ...</p>
 
@@ -286,9 +281,33 @@ D.fx.close = function (event) {
 <p>I recommend putting the custom element in the document last to improve performance. </p>
 
 <p><code>D.forgetKey(&quot;key&quot;);</code> to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+</article>
 
+<article id="examples1">
+<h2>Some Examples</h2>
+<template data-el="htmlJsAndResultTemplate-d-htmljsresult">
+    <article class="htmljsandoutput">
+        <h3 data-vr="title"></h3>
+        <section>
+            <h4>HTML</h4>
+            <pre><code data-vr="HtmlSourceDisplay"></code></pre>
+        </section>
+        <section>
+            <h4>JS</h4>
+            <pre><code data-vr="JsSourceDisplay"></code></pre>
+        </section>
+        <section>
+            <h4>Result</h4>
+            <div data-el="ResultDisplay"></div>
+        </section>
     </article>
-    <article>
+</template>
+<d-htmljsresult data-in="Hello World"></d-htmljsresult>
+<d-htmljsresult data-in="Hello World 2"></d-htmljsresult>
+<d-htmljsresult data-in="Multiplier"></d-htmljsresult>
+</article>
+
+<article id="more">
 <h3>Additional information</h3>
 
 <p>Play around with the examples, see what they do and look at the source.</p>
@@ -300,35 +319,31 @@ D.fx.close = function (event) {
 <p>You can add a class to your app element container like &quot;not-ready&quot;. Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the &quot;not-ready&quot; class name.</p>
 
 <p>You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
+</article>
 
-
-
-
-
-    </article>
-    <article>
+<article  id="discussion">
 <h2>Discussion</h2>
 
 <h4>Chat</h4>
 
-<p>https://dystroy.org/miaou/3</p>
+<p><a href="https://dystroy.org/miaou/3">Chat (need a Github account)</a></p>
 
 <h4>Issues reports</h4>
 
-<p>https://github.com/GrosSacASac/DOM99/issues</p>
+<p><a href="https://github.com/GrosSacASac/DOM99/issues">Issues report</a></p>
 
 <h4>Contributing</h4>
 
 <ul><li><a href="contributing.md">Contributing</a></li><li><a href="openquestions.md">Open questions</a></li></ul>
+</article>
 
-    </article>
-    <article>
+<article id="license">
 <h2>License</h2>
 
-<p>https://opensource.org/licenses/MIT</p>
+<p><a href="https://opensource.org/licenses/MIT">MIT LICENSE</a></p>
 
-    </article>
-    <article>
+</article>
+<article id="performance">
 <h2>Performance</h2>
 
 <h3>General Tips</h3>
@@ -341,7 +356,8 @@ D.fx.close = function (event) {
 
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
 </article>
-    <article>
+
+<article id="security">
 <h2>Security</h2>
 
 <h3>General tips</h3>
@@ -354,14 +370,16 @@ D.fx.close = function (event) {
 
 <p>If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.</p>
 </article>
-    <article>
+
+<article id="history">
 <h2>History</h2>
 
 <p>The first version of DOM99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
 
 <p>In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.</p>
 </article>
-    <article>
+
+<article id="future">
 <h2>Future</h2>
 
 <h3>What is coming soon:</h3>
@@ -374,11 +392,7 @@ D.fx.close = function (event) {
 
 <p>This leaves more freedom to combine DOM99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside DOM99 and anything else that is complementary to accelerate the development process.</p>
 </article>
-    <article>
-    <!-- Best place to put the visual ? <img src="../images/visual.png"> -->
-    <p><a href="https://github.com/GrosSacASac/DOM99">Github</a></p>
-
-    <article>
+</div>
 <script src="../polyfill.min.js"></script>
 <script src="../js/dom99.es5.min.js"></script>
 <!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHRs Also not indented first for pre tags -->

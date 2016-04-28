@@ -1,7 +1,8 @@
 ![DOM99](images/visual.png)
 
-##[Official Website](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+##[Official Website](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
 
+You can also open doucmentation/doucmentation.html if you downloaded DOM99
 
 ##What is DOM99 ?
 
