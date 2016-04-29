@@ -18,8 +18,7 @@ const dom99 = (function () {
         currentInnerKey = "",
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
-        elementsScope = elements,
-        templateSupported = ("content" in document.createElement("template"));
+        elementsScope = elements;
         
     const 
         directives = {/*you can change the syntax in dom99Configuration*/
@@ -31,6 +30,8 @@ const dom99 = (function () {
             tokenSeparator: "-", 
             listSeparator: ","
         },
+        doc = document,
+        templateSupported = ("content" in doc.createElement("template")),
         miss = "miss",
         value = "value",
         textContent = "textContent",
@@ -150,23 +151,21 @@ const dom99 = (function () {
             
             if ((eventNames.length === 1) && (functionNames.length === 1)) {
                 /*we only have 1 event type and 1 function*/
-                const 
-                    functionName = functionNames[0],
-                    eventName = eventNames[0];
                 functionLookUp = function(event) {
                     event.dKey = key;
-                    return functions[functionName](event);
+                    return functions[functionNames[0]](event);
                 };
-                addEventListener(element, eventName, functionLookUp);
+                
+                addEventListener(element, eventNames[0], functionLookUp);
                 
             } else {
                 functionLookUp = function(event) {
                     let last;
                     event.dKey = key;
-
                     const functionLookUpChain = function(functionName) {
                         last = functions[functionName](event);
                     };
+                    
                     functionNames.forEach(functionLookUpChain);
                     return last;
                 };
@@ -290,6 +289,17 @@ const dom99 = (function () {
             }
         },
         
+        cloneTemplate = function(templateElement) {
+            if (templateSupported) { 
+            //make a clone ,clone is a DocumentFragment object
+                clone = doc.importNode(templateElement.content, true);
+            } else {
+                clone = doc.createElement("div");
+                clone.innerHTML = templateElement.innerHTML;
+            }
+            return clone
+        },
+        
         templateRender = function (templateName, key) {
         /*takes a template element name as argument, usually linking to a <template>
         clones the content and returns that clone
@@ -325,18 +335,14 @@ const dom99 = (function () {
             
             if (!elements.hasOwnProperty(templateName)) {
                 console.warn(`the template ${templateName} must be defined, before it is used`);
-                return document.createElement("div");
+                return doc.createElement("div");
             }
             
-            if (templateSupported) { 
-            //make a clone ,clone is a DocumentFragment object
-                clone = document.importNode(elements[templateName].content, true);
-            } else {
-                clone = document.createElement("div");
-                clone.innerHTML = elements[templateName].innerHTML;
-            }
+            
+            clone = cloneTemplate(elements[templateName]);
+            
             /* could also use let clone = elements[templateName].content.cloneNode(true);
-            from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with document.importNode() it is updated when the nodes are cloned.*/
+            from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with doc.importNode() it is updated when the nodes are cloned.*/
            
             // apply dom99 directives with the key
             linkJsAndDom(clone);
@@ -414,8 +420,7 @@ const dom99 = (function () {
         tryApplyDirectives = function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
             if (element.hasAttribute) {
-                let pairs, 
-                    customAttributeValue,
+                let customAttributeValue,
                     directiveName,
                     applyDirective,
                     tag;
@@ -448,14 +453,14 @@ const dom99 = (function () {
                 /*keyless custom element insertion*/
                 tag = getTagName(element);
                 if (templateElementNameFromCustomElementName.hasOwnProperty(tag)) {
-                    element.appendChild(document.importNode(elements[templateElementNameFromCustomElementName[tag]].content, true));
+                    element.appendChild(cloneTemplate(elements[templateElementNameFromCustomElementName[tag]]));
                 }
             }
         },
         
         createElement2 = function (ElementDescription) {
             
-            let element = document.createElement(ElementDescription.tagName);
+            let element = doc.createElement(ElementDescription.tagName);
             ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
             delete ElementDescription.tagName; // read only
             /*elt.setAttribute(attr, value) is good to set initial attr like you do in html
@@ -469,7 +474,7 @@ const dom99 = (function () {
             
         },
     
-        linkJsAndDom = function (startElement=document.body) {
+        linkJsAndDom = function (startElement=doc.body) {
             walkTheDomElements(startElement, tryApplyDirectives);
             return startElement;
         };
@@ -480,7 +485,7 @@ const dom99 = (function () {
         xel: customElements, // preselected custom elements
         fx: functions,  //object to be filled by user defined functions 
         // fx is where dom99 will look for , for data-fx,
-        createElement2, // enhanced document.createElement
+        createElement2, // enhanced doc.createElement
         forgetKey,  // forget key
         linkJsAndDom,// initialization function
         directives
@@ -496,8 +501,7 @@ const dom99 = (function () {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
-            let key,
-                newObjectValue;
+            let newObjectValue;
             Object.keys(newObject).forEach(function(key) {
                 newObjectValue = newObject[key];
                 if (!(typeof newObjectValue === 'object')) {
