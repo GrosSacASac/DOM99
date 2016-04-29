@@ -290,6 +290,7 @@ const dom99 = (function () {
         },
         
         cloneTemplate = function(templateElement) {
+            let clone;
             if (templateSupported) { 
             //make a clone ,clone is a DocumentFragment object
                 clone = doc.importNode(templateElement.content, true);
@@ -380,7 +381,8 @@ const dom99 = (function () {
             Internally we just deleted the key group for every relevant function
             (for instance binds are not key grouped)
             */
-            // todo: answer could we use Weak Maps here ?
+            // we cannot use Weak Maps here because it needs an object as the key not a String
+            // or we need to change the API a bit
             delete elements[key];
             delete variables[key];
             delete variablesSubscribers[key];
@@ -501,9 +503,8 @@ const dom99 = (function () {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
-            let newObjectValue;
             Object.keys(newObject).forEach(function(key) {
-                newObjectValue = newObject[key];
+                let newObjectValue = newObject[key];
                 if (!(typeof newObjectValue === 'object')) {
                     variables[key] = newObjectValue
                 } else {
