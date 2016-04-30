@@ -465,8 +465,8 @@ const dom99 = (function () {
             let element = doc.createElement(ElementDescription.tagName);
             ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
             delete ElementDescription.tagName; // read only
-            /*elt.setAttribute(attr, value) is good to set initial attr like you do in html
-            elt.attr = value is good to change the live values
+            /*element.setAttribute(attr, value) is good to set initial attr like you do in html
+            element.attr = value is good to change the live values
             
             this is the setAttribute equivalent to Object.assign(element, ElementDescription);*/
             Object.keys(ElementDescription).forEach(function(key) {

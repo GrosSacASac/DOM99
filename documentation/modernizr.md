@@ -2,7 +2,6 @@ Use a polyfill
 
 <script src="polyfill.min.js"></script>
 
-
 Using modernizr to prevent programs with undefined behaviours to run is a good idea. https://modernizr.com/
 
 ##Use dom99Possible in an if statement to decide if you want to run DOM99 or not
