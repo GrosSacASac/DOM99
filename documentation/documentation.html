@@ -32,7 +32,7 @@
 
 <h2>What is DOM99 ?</h2>
 
-<p>DOM99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a> and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.<a href="http://jsbin.com/migeya/11/edit?html,js,output">Try the intro playground</a></p>
+<p>DOM99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a> and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.<a href="http://jsbin.com/kepohibavo/1/edit?html,js,output">Try the intro playground</a></p>
 
 <h2>Why use DOM99 ?</h2>
 
@@ -51,7 +51,7 @@
 <h2>Downloads:</h2>
 
 
-<ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug console.warn messages dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
+<ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
 
 <p>Supports for IE10 also requires <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
 </article>
@@ -99,8 +99,9 @@
 <pre><code>//Use a shorter name
 const D = dom99;
 //to start using dom99 use this statement
-D.linkJsAndDom(); </code></pre>
+D.linkJsAndDom();</code></pre>
 
+<h3>Use data-fx and D.fx for event listeners</h3>
 <p>Store your functions in the D.fx object</p>
 
 <pre><code>D.fx.functionName = aFunction;</code></pre>
@@ -110,12 +111,15 @@ D.linkJsAndDom(); </code></pre>
 <pre><code>&lt;button data-fx=&quot;click-functionName&quot;&gt;Action&lt;/button&gt;
 //Note we wrote functionName not aFunction</code></pre>
 
+
+<h3>Use data-vr and D.vr for live variables</h3>
 <p>To changes the text of <code>&lt;p data-vr=&quot;talkings&quot;&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
 
 <pre><code>D.vr.talkings = &quot;Hi&quot;;</code></pre>
 
 <p>Use the same data-vr=&quot;talkings&quot; on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
+<h3>Use data-el and D.el for direct element manipulation</h3>
 <p>To use a preselected element</p>
 
 <pre><code>D.el.bigTitle //An element reference, we can do what we want with it
@@ -123,14 +127,17 @@ D.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>will remove <code>&lt;h1 data-el=&quot;bigTitle&quot;&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
+<h3>Use data-el to declare html templates</h3>
 <p>To compose html with predefined building blocks.</p>
 
 <pre><code>&lt;template data-el=&quot;commentTemplate-d-comment&quot;&gt;
     &lt;p data-vr=&quot;text&quot;&gt;&lt;/p&gt;
     &lt;datetime data-vr=&quot;date&quot;&gt;&lt;/datetime&gt;
-&lt;/template&gt;
+&lt;/template&gt;</code></pre>
 
-&lt;d-comment data-in=&quot;first&quot;&gt;&lt;/d-comment&gt;
+
+<h3>Use data-in to put html templates copies</h3>
+<pre><code>&lt;d-comment data-in=&quot;first&quot;&gt;&lt;/d-comment&gt;
 &lt;d-comment data-in=&quot;second&quot;&gt;&lt;/d-comment&gt;</code></pre>
 
 <p>To edit a comment at run time do this:</p>
@@ -226,11 +233,58 @@ D.linkJsAndDom();</code></pre>
 
 <p><a href="../examples/templates1.html">Try templates1.html static template injection</a> </p>
 
-<p><a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
+<h3>Part 2</h3>
+<pre><code>
+"use strict";
+const D = dom99,
+    commentPrefix = "comment";
 
-<p>under construction ...</p>
+let currentCommentNumber = 2;
 
-<h4>Dynamic template injection</h4>
+const update = function(commentKey,commentObject) {
+    Object.assign(D.vr[commentKey], commentObject);
+};
+
+const getDataFromFakeServer = function(commentKey) {
+    const fakeData = {
+        text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
+        date: "just now"
+    };
+    window.setTimeout(function () {
+        update(commentKey, fakeData);
+    }, 2000);
+};
+
+D.fx.showNextComment = function(event) {
+    let key,
+        customElementDescription,
+        customElement;
+    currentCommentNumber += 1;
+    key = commentPrefix + String(currentCommentNumber);
+    getDataFromFakeServer(key);//get data
+    customElementDescription = {
+        "tagName": "d-comment",
+        "data-in": key
+    }
+    customElement = D.createElement2(customElementDescription);
+    D.linkJsAndDom(customElement);
+    D.el.commentSection.appendChild(customElement);
+};
+
+let commentsData = { //intial
+    comment1: {
+        text: "I am the first to comment, well written! Bravo!",
+        date: "In the year 2016"
+    },
+    comment2: {
+        text: "I really appreciate your work",
+        date: "yesterday" 
+    }
+};
+D.vr = commentsData;
+D.linkJsAndDom();</pre></code>
+<p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
+<h4>Dynamic template injection in general</h4>
 
 <pre><code>&lt;body&gt;
 &lt;template data-el=&quot;templateName-d-tagname&quot;&gt;
@@ -254,10 +308,10 @@ D.linkJsAndDom(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
 D.el[&quot;target&quot;].appendChild(customElement);</code></pre>
-
+<p>I encourage you to encapsulate what changes in functions.</p>
 <h4>The details</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-el</code> can be used to create copies of the content of the template. These copies can be inserted in your document. </p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-el</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-in is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
 <pre><code>D.vr[&quot;key&quot;][&quot;text&quot;] = &quot;A string&quot;
 
@@ -279,9 +333,7 @@ D.fx.close = function (event) {
     // ...
 };</code></pre>
 
-<p>I recommend putting the custom element in the document last to improve performance. </p>
-
-<p><code>D.forgetKey(&quot;key&quot;);</code> to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <code>D.forgetKey(&quot;key&quot;);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
