@@ -15,6 +15,7 @@
     <a href="#about">About</a>
     <a href="#howto">How To</a>
     <a href="#examples1">Examples</a>
+    <a href="#domgood">DOM</a>
     <a href="#more">Details</a>
     <a href="#discussion">Discussion</a>
     <a href="#license">License</a>
@@ -41,7 +42,7 @@
 
 <h2>Why not use DOM99 ?</h2>
 
-<ul><li>Not well tested against old browsers</li><li>New Framework</li><li>Fear of the unknown</li></ul>
+<ul><li>No support for some old browsers</li><li>New Framework</li><li>Fear of the unknown</li><li>You have already a working codebase that is mantainable</li></ul>
 
 <h2>How does DOM99 work ?</h2>
 
@@ -52,7 +53,13 @@
 
 <ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
 
-<p>Supports for IE10 also requires <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
+<h2>Browser Support</h2>
+<li>Google Chrome</li>
+<li>Mozilla Firefox</li>
+<li>Opera</li>
+<li>Safari*</li>
+<li>Internet Explorer 10+*</li>
+<p>*supports also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
 </article>
 
 <article id="patchnotes">
@@ -358,6 +365,12 @@ D.fx.close = function (event) {
 <d-htmljsresult data-in="Hello World"></d-htmljsresult>
 <d-htmljsresult data-in="Hello World 2"></d-htmljsresult>
 <d-htmljsresult data-in="Multiplier"></d-htmljsresult>
+</article>
+
+<article id="domgood">
+<h2>The Document Object Model, the good parts</h2>
+<p>appendChild</p>
+
 </article>
 
 <article id="more">
