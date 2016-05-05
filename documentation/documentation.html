@@ -64,6 +64,7 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-vr="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-vr optimization</p>
 <p>In 1.10.2 data-fx with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
@@ -164,10 +165,10 @@ D.vr = {
 
 <h2>Examples</h2>
 
-<p>Examples use the transpiled dom99 file. (Tested with Firefox 47+ and Chrome 48+)</p>
+<p>Examples use the transpiled dom99 file.</p>
 
 <ul>
-<li><a href="../index.html">Basic demo</a></li>
+<li><a href="../examples/index.html">Basic demo</a></li>
 <li><a href="../examples/chat.html">Chat demo</a> </li>
 <li><a href="tutorial1_chat.md">Chat demo explanations</a></li>
 <li><a href="../examples/todolistmultiuser/README.md">Todo List Multi User Realtime with Node.js</a> </li></ul>

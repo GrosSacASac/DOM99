@@ -36,6 +36,10 @@ const dom99 = (function () {
         source = "src",
         checked = "checked",
         
+        booleanFromBooleanString = function (booleanString) {
+            return (booleanString === "true");
+        },
+        
         getValueElseDefaultDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
             Decorated object must have a miss key with the default value associated
@@ -51,14 +55,13 @@ const dom99 = (function () {
             return (function (key) {
                 if (object1.hasOwnProperty(key)) {
                     return object1[key];
-                } // else
+                }
                 return object1[miss];
             });
         },
         
         EventTypeForTagAndType = getValueElseDefaultDecorator({
             //tag.type: eventType
-            "input.text": "input",
             "input.checkbox": "change",
             "input.radio": "change",
             "input.range" : "change", 
@@ -235,7 +238,7 @@ const dom99 = (function () {
                             //don't overwrite the same
                             if (String(currentElement[currentElement.DVRP]) !== x) {
                         // if you want to add more, use 
-                        // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1)
+                        // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1) or .includes
                                 if (currentElement.DVRP === checked) {
                                     //"false" is truthy ...
                                     currentElement[currentElement.DVRP] = newValue; 
@@ -489,7 +492,8 @@ const dom99 = (function () {
         createElement2, // enhanced doc.createElement
         forgetKey,  // forget key
         linkJsAndDom,// initialization function
-        directives
+        directives,
+        bool: booleanFromBooleanString
     };
     // we can't use D.vr[key] = object;
     // allows us to do D.vr = objectX

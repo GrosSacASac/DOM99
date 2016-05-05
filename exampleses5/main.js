@@ -54,14 +54,14 @@ var path = "todo",
     i = 0,
     toDoKeys = [];
 
-var boolz = { "false": false, "true": true };
-/* we use boolz to convert string boolean into real boolean
-values returned from D.vr are strings*/
+var bool = D.bool;
+/* we use bool to convert string boolean into real boolean
+values returned from D.vr are always strings*/
 
 D.fx.updateJson = function (event) {
     var x = toDoKeys.map(function (toDoKey) {
         return { text: D.vr[toDoKey]["text"],
-            done: boolz[D.vr[toDoKey]["done"]] };
+            done: bool(D.vr[toDoKey]["done"]) };
     });
     D.vr.todoAsJson = JSON.stringify(x);
 };
@@ -95,7 +95,7 @@ D.fx.deleteTodos = function (event) {
     //delete done todos only !
     var newtoDoKeys = [];
     toDoKeys.filter(function (toDoKey) {
-        if (boolz[D.vr[toDoKey]["done"]]) {
+        if (bool(D.vr[toDoKey]["done"])) {
             return true;
         }
         newtoDoKeys.push(toDoKey);
