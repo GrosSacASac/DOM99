@@ -467,25 +467,23 @@ D.fx.close = function (event) {
 
 <!-- Hello World -->
 <template data-el="Hello WorldHtml">
-<span data-vr="first"></span> <span data-vr="last"></span>
+<span data-vr="first"></span>
+<span data-vr="last"></span>
 </template>
+
 <script data-el="Hello WorldJs">
-"use strict";
 dom99.vr.first = "Hello";
 dom99.vr.last = "World";
 </script>
 
 <!-- Hello World 2-->
 <template data-el="Hello World 2Html">
-<label>First name: <input data-vr="first2" type="text"></label>
-<label>Last name: <input data-vr="last2" type="text"></label>
-
-<span data-vr="first2"></span> <span data-vr="last2"></span>
+<input data-vr="text"><br>
+<span data-vr="text"></span>
 </template>
+
 <script data-el="Hello World 2Js">
-"use strict";
-dom99.vr.first2 = "Hello";
-dom99.vr.last2 = "World";
+dom99.vr.text = "Hello DOM99";
 </script>
 
 <!-- Multiplier-->

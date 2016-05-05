@@ -1,5 +1,5 @@
 body {
-  color: #393840;
+  color: #292831;
   background: #f8fAf0;
   font-family: 'Open Sans',Arial,sans-serif;
   margin: 0;
@@ -9,20 +9,18 @@ code {
   font-size:1.5em;
 }
 
+p {
+  max-width: 900px;/*easier to read ?*/
+  margin-left: 4px;
+}
+
 [hidden], template {
   display: none;
 }
 
-/*
-.tab-holder {
-
-}*/
-
 .tab-holder > article {
   display: none;
   width: 100%;
-  padding: 1rem;
-  border-radius: 0 5px 5px 0;
 }
 
 .tab-holder > article:target {
@@ -30,19 +28,17 @@ code {
 }
 
 .tab-holder > nav > a {
-  position: relative;
-  bottom:-30px;
   margin-right: 0.3em;
   text-decoration: none;
   font-size: 1.3rem;
-  border-radius: 5px 5px 0 0;
-  background: #444455;
+  border-radius: 4px 4px 0 0;
+  background: #404255;
   color: #dfdfdf;
 }
  
 .tab-holder > nav > a:hover,
 .tab-holder > nav > a:focus {
-  background: #8aa9b8;
+  background: #8bb9b4;
   color: #f5f5f5;
 }
 
@@ -52,7 +48,7 @@ code {
   margin-bottom:0.5ex;
 }
 
-/*examples*/
+
 d-htmljsresult {
   border: 1px solid;
   display:block;
@@ -61,4 +57,8 @@ d-htmljsresult {
 d-htmljsresult section {
   display: inline-block;
   border: 3px solid;
+}
+d-htmljsresult * {
+  margin-bottom:1px;
+  margin-top:1px;
 }
