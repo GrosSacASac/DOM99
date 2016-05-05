@@ -2,9 +2,7 @@
 /*uses es2015, es2016
 globals: window, document, console*/
 /*todo  improve system 
-more examples, readme 
-use proxies instead of Object.defineProperty ?
-data-in and key*/
+*/
 "use strict";
 const dom99 = (function () {
     //"use strict";
@@ -63,7 +61,8 @@ const dom99 = (function () {
             "input.text": "input",
             "input.checkbox": "change",
             "input.radio": "change",
-            //input.range : change ? for mobiles and IE ?
+            "input.range" : "change", 
+            /* the <input type="range"> fires legit input events, but in practice it can fire hundreds of those in a second, the change events fires when only when the input value has finished been changed. todo: are there more edge cases ?*/ 
             miss: "input"
         }),
     

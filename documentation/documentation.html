@@ -64,6 +64,7 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-vr optimization</p>
 <p>In 1.10.2 data-fx with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
 <h3>Breaking Changes from 1.9.x to 1.10+.x</h3>
@@ -488,9 +489,9 @@ dom99.vr.text = "Hello DOM99";
 
 <!-- Multiplier-->
 <template data-el="MultiplierHtml">
-<input data-vr="a" data-fx="input-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<input data-vr="a" data-fx="change-calculate" type="range" min="-1.0" max="25.0" step="1.0">
 <span> X </span>
-<input data-vr="b" data-fx="input-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<input data-vr="b" data-fx="change-calculate" type="range" min="-1.0" max="25.0" step="1.0">
 <span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
 </template>
 <script data-el="MultiplierJs">
