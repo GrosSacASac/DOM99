@@ -10,10 +10,9 @@
 ##To do
 
  * Answer [Open questions](openquestions.md)
- * Create a better documentation in html format
+ * Create a better documentation experience
  * Write more tests
- * Setup a better build process with the new Babel + polyfills
- * Make dom99.es5.min.js real ES5 code
+ * Make events for data-vr customizable
  
 
  
