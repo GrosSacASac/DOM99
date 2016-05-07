@@ -24,6 +24,7 @@ const dom99 = (function () {
             directiveVariable: "data-vr", 
             directiveElement: "data-el",
             directiveIn: "data-in",
+            directiveList: "data-list",
             attributeValueDoneSign: "☀", 
             tokenSeparator: "-", 
             listSeparator: ","
@@ -80,6 +81,7 @@ const dom99 = (function () {
             "video": source,
             "track": source,
             "script": source,
+            "option": value,
             "link": "href",
             miss: textContent
         }),
@@ -103,6 +105,22 @@ const dom99 = (function () {
                 return PropertyForInputType(type); 
             } // else
             return PropertyForTag(tagName);
+        },
+        
+        createElement2 = function (ElementDescription) {
+            
+            let element = doc.createElement(ElementDescription.tagName);
+            ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
+            delete ElementDescription.tagName; // read only
+            /*element.setAttribute(attr, value) is good to set initial attr like you do in html
+            element.attr = value is good to change the live values
+            
+            this is the setAttribute equivalent to Object.assign(element, ElementDescription);*/
+            Object.keys(ElementDescription).forEach(function(key) {
+                element.setAttribute(key, ElementDescription[key]);
+            });
+            return element;
+            
         },
         
         walkTheDomElements = function (element, function1) {
@@ -266,7 +284,70 @@ const dom99 = (function () {
                     variablesScopeReference[variableName] = event.target[event.target.DVRP];
             });
         },
-    
+        
+        applyDirectiveList = function (element, directiveTokens) {
+            /* js array --> DOM list
+            data-list="..." */
+            let [variableName, elementListItem] = directiveTokens,
+                temp,
+                variablesSubscribersScopeReference = variablesSubscribersScope;
+            
+            if (!variableName || !elementListItem) {
+                console.warn(element, 'Format: <ul data-list="list1-li">');
+                return;
+            }
+            //Dom99 VaRiable Property for List items
+            element.DVRPL = getVisibleProperty(elementListItem, "");
+            //for template cloning, we use a grouped key
+            
+            
+            /*we check if the user already saved data in variablesScope[variableName]
+            before using linkJsAndDom , if that is the case we
+            initialize variablesScope[variableName] with that same data once we defined
+            our custom property*/
+            if (variablesScope.hasOwnProperty(variableName)) {
+                temp = variablesScope[variableName];
+            }
+            
+            if (variablesSubscribersScope.hasOwnProperty(variableName)) {
+                variablesSubscribersScope[variableName].push(element);
+            } else {
+                let list;
+                variablesSubscribersScope[variableName] = [element];
+                Object.defineProperty(variablesScope, variableName, {
+                    get: function () {
+                        return list;
+                    },
+                    set: function (newList) {
+                        if (newList === undefined) {
+                            //todo check isArray 
+                            console.warn("undefined!");
+                            return;
+                        }
+                        list = newList;
+                        variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
+                            //todo don't overwrite the same !!!
+                            currentElement.innerHTML = "";
+                            let fragment = doc.createDocumentFragment();
+                            list.forEach(function (value) {
+                                let listItem = doc.createElement(elementListItem);
+                                listItem[element.DVRPL] = value;
+                                fragment.appendChild(listItem);
+                            });
+                            currentElement.appendChild(fragment);
+                        });
+                    },
+                    enumerable: true,
+                    configurable: false
+                    //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
+                });
+            }
+            
+            if (temp !== undefined) {
+                variablesScope[variableName] = temp; //calls the set once
+            }
+        },
+        
         applyDirectiveElement = function (element, directiveTokens) {
             /* stores element for direct access !*/
             let [elementName, 
@@ -435,7 +516,8 @@ const dom99 = (function () {
                     [directives.directiveElement, applyDirectiveElement],
                     [directives.directiveVariable, applyDirectiveVariable],
                     [directives.directiveFunction, applyDirectiveFunction],
-                    [directives.directiveIn, applyDirectiveIn]
+                    [directives.directiveIn, applyDirectiveIn],
+                    [directives.directiveList, applyDirectiveList]
                 ];
                 functionDirectiveNamePairs.forEach(function(pair) {
                     [directiveName, applyDirective] = pair;
@@ -460,22 +542,6 @@ const dom99 = (function () {
                     element.appendChild(cloneTemplate(elements[templateElementNameFromCustomElementName[tag]]));
                 }
             }
-        },
-        
-        createElement2 = function (ElementDescription) {
-            
-            let element = doc.createElement(ElementDescription.tagName);
-            ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
-            delete ElementDescription.tagName; // read only
-            /*element.setAttribute(attr, value) is good to set initial attr like you do in html
-            element.attr = value is good to change the live values
-            
-            this is the setAttribute equivalent to Object.assign(element, ElementDescription);*/
-            Object.keys(ElementDescription).forEach(function(key) {
-                element.setAttribute(key, ElementDescription[key]);
-            });
-            return element;
-            
         },
     
         linkJsAndDom = function (startElement=doc.body) {

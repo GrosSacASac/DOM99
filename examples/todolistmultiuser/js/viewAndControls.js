@@ -12,7 +12,6 @@ var viewAndControls = (function () {
             });
             
             D.linkJsAndDom(customElement);
-            
             D.el.toDoList.appendChild(customElement);
         },
         
