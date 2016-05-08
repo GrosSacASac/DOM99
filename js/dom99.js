@@ -55,11 +55,9 @@ const dom99 = (function () {
         },
         
         EventTypeForInputType = getValueElseDefaultDecorator({
-            //tag.type: eventType
             "checkbox": "change",
             "radio": "change",
             "range" : "change", 
-            /* the <input type="range"> fires legit input events, but in practice it can fire hundreds of those in a second, the change events fires when only when the input value has finished been changed. todo: are there more edge cases ?*/ 
             miss: "input"
         }),
     
@@ -96,7 +94,7 @@ const dom99 = (function () {
             attributeValueDoneSign: "☀", 
             tokenSeparator: "-", 
             listSeparator: ",",
-            directives: {/*you can change the syntax in dom99Configuration*/
+            directives: {
                 directiveFunction: "data-fx", 
                 directiveVariable: "data-vr", 
                 directiveElement: "data-el",
@@ -104,13 +102,15 @@ const dom99 = (function () {
             },
             
             variablePropertyFromTagAndType: function (tagName, type) {
-            /*if the element is an <input> its VisibleProperty is "value"
-            for other elements like <p> it is "textContent*/
                 if (tagName === "input") {
                     return propertyFromInputType(type); 
-                } // else
+                }
                 return propertyFromTag(tagName);
             },
+            elementsForUserInputList: [
+                "input",
+                "textarea"
+            ]
         },
         
         createElement2 = function (ElementDescription) {
@@ -206,36 +206,24 @@ const dom99 = (function () {
         
         applyDirectiveList = function (element, directiveTokens) {
             /* js array --> DOM list
-            "var-element"
-            todo optimization and is this interface good ?*/
+            <ul data-vr="var-li"></ul>
+            todo optimization*/
             let [variableName, elementListItem] = directiveTokens,
-                temp,
                 list;
             
             //Dom99 VaRiable Property for List items
             element.DVRPL = options.variablePropertyFromTagAndType(elementListItem, "");
-            
-            /*todo deduplicate what is in common with data-vr single items, ... we check if the user already saved data in variablesScope[variableName]
-            before using linkJsAndDom , if that is the case we
-            initialize variablesScope[variableName] with that same data once we defined
-            our custom property*/
-            if (variablesScope.hasOwnProperty(variableName)) {
-                temp = variablesScope[variableName];
-            }
-            
+
             Object.defineProperty(variablesScope, variableName, {
                 get: function () {
                     return list;
                 },
                 set: function (newList) {
                     if (newList === undefined) {
-                        //todo check isArray or check if it has forEach
-                        // maybe use for of so that it works with any iterable
                         console.warn("undefined!");
                         return;
                     }
                     list = newList;
-                    //todo don't overwrite the same !!!
                     element.innerHTML = "";
                     let fragment = doc.createDocumentFragment();
                     list.forEach(function (value) {
@@ -249,10 +237,6 @@ const dom99 = (function () {
                 enumerable: true,
                 configurable: false
             });
-        
-            if (temp !== undefined) {
-                variablesScope[variableName] = temp; //calls the set once
-            }
         },
     
         applyDirectiveVariable = function (element, directiveTokens) {
@@ -279,14 +263,6 @@ const dom99 = (function () {
                 return;
             }
             
-            if (elementListItem) {
-                applyDirectiveList(element, directiveTokens);
-                return;
-            }
-            
-            //for template cloning, we use a grouped key
-            
-            
             /*we check if the user already saved data in variablesScope[variableName]
             before using linkJsAndDom , if that is the case we
             initialize variablesScope[variableName] with that same data once we defined
@@ -294,57 +270,63 @@ const dom99 = (function () {
             if (variablesScope.hasOwnProperty(variableName)) {
                 temp = variablesScope[variableName];
             }
-            //Dom99 VaRiable Property
-            element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
             
-            if (variablesSubscribersScope.hasOwnProperty(variableName)) {
-                variablesSubscribersScope[variableName].push(element);
+            if (elementListItem) {
+                applyDirectiveList(element, directiveTokens);
             } else {
-                let x = ""; // holds the value
-                variablesSubscribersScope[variableName] = [element];
-                Object.defineProperty(variablesScope, variableName, {
-                    get: function () {
-                        return x;
-                    },
-                    set: function (newValue) {
-                        if (newValue === undefined) {
-                            console.warn("D.vr.x= string || bool , not undefined!");
-                            return;
-                        }
-                        x = String(newValue);
-                        variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
-                            /*here we change the value of the currentElement in the dom
-                            */
-                            
-                            //don't overwrite the same
-                            if (String(currentElement[currentElement.DVRP]) !== x) {
-                        // if you want to add more, use 
-                        // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1) or .includes
-                                if (currentElement.DVRP === checked) {
-                                    //"false" is truthy ...
-                                    currentElement[currentElement.DVRP] = newValue; 
-                                } else {
-                                    currentElement[currentElement.DVRP] = x;
-                                }
+                //Dom99 VaRiable Property
+                element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
+                
+                if (variablesSubscribersScope.hasOwnProperty(variableName)) {
+                    variablesSubscribersScope[variableName].push(element);
+                } else {
+                    let x = ""; // holds the value
+                    variablesSubscribersScope[variableName] = [element];
+                    Object.defineProperty(variablesScope, variableName, {
+                        get: function () {
+                            return x;
+                        },
+                        set: function (newValue) {
+                            if (newValue === undefined) {
+                                console.warn("D.vr.x= string || bool , not undefined!");
+                                return;
                             }
-                        });
-                    },
-                    enumerable: true,
-                    configurable: false
-                });
+                            x = String(newValue);
+                            variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
+                                /*here we change the value of the currentElement in the dom
+                                */
+                                
+                                //don't overwrite the same
+                                if (String(currentElement[currentElement.DVRP]) !== x) {
+                            // if you want to add more, use 
+                            // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1) or .includes
+                                    if (currentElement.DVRP === checked) {
+                                        //"false" is truthy ...
+                                        currentElement[currentElement.DVRP] = newValue; 
+                                    } else {
+                                        currentElement[currentElement.DVRP] = x;
+                                    }
+                                }
+                            });
+                        },
+                        enumerable: true,
+                        configurable: false
+                    });
+                }
+            
+                if (options.elementsForUserInputList.includes(tagName)) {
+                    addEventListener(element, 
+                        EventTypeForInputType(type),
+                        function (event) {
+                            //wil call setter above to broadcast the value
+                            variablesScopeReference[variableName] = event.target[event.target.DVRP];
+                    });
+                }
             }
             
             if (temp !== undefined) {
                 variablesScope[variableName] = temp; //calls the set once
             }
-            
-            //suggestion: could check if the tagName is in a list with all element that can be changed by the user, but what about contenteditable attribute
-            addEventListener(element, 
-                EventTypeForInputType(type),
-                function (event) {
-                    //wil call setter above to broadcast the value
-                    variablesScopeReference[variableName] = event.target[event.target.DVRP];
-            });
         },
         
         applyDirectiveElement = function (element, directiveTokens) {
@@ -611,9 +593,4 @@ also in the future export default dom99*/
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
 }
-/*Additional Explanations to understand dom99.js file :
-
-custom attribute names must start with "data-" see
-https://docs.webplatform.org/wiki/html/attributes/data-* 
-https://w3c.github.io/webcomponents/spec/custom/
-*/
+//https://w3c.github.io/webcomponents/spec/custom/

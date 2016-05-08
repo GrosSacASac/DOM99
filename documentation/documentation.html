@@ -53,6 +53,9 @@
 
 <ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
 
+<h2>Github</h2>
+<p><a href="https://github.com/GrosSacASac/DOM99">https://github.com/GrosSacASac/DOM99</a></p>
+
 <h2>Browser Support</h2>
 <li>Google Chrome</li>
 <li>Mozilla Firefox</li>
@@ -64,6 +67,7 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h3>Breaking Changes from 1.12.x to 1.15+.x</h3>
 <p>1.15.1 <li>You can now use data-vr="x-li" on a ol for example to display the x array as multiple li elements see examples/test.html</li><li>Changed the way to configure DOM99</li><li>You can now control what gets changed with data-vr</li></p>
 <p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-vr="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
@@ -519,8 +523,7 @@ D.fx.calculate();
 
 <!-- Lists -->
 <template data-el="ListsHtml">
-<ul data-vr="fruits-li">
-</ul>
+<ul data-vr="fruits-li"></ul>
 </template>
 <script data-el="ListsJs">
 /*const D = dom99;*/

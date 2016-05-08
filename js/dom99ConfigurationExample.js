@@ -19,6 +19,10 @@ Object.assign(dom99.options.directives, {
 
 // Example for more compact syntax:
 // Note omiting data-* is at your own risks (can collide with existing or future attribute names)
+
+custom attribute names must start with "data-" see
+https://docs.webplatform.org/wiki/html/attributes/data-* 
+
 Object.assign(dom99.options.directives, {
     directiveFunction: "fx", 
     directiveVariable: "vr", 
