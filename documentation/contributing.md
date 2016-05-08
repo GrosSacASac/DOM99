@@ -6,6 +6,7 @@
  * Fork + make changes + Pull request (recommended)
  * OR Copy + make changes + send changed files via email (old school)
  * Open issues
+ * Tell me what could be better
  
 ##To do
 

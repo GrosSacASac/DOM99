@@ -16,19 +16,12 @@ const dom99 = (function () {
         currentInnerKey = "",
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
-        elementsScope = elements;
+        elementsScope = elements,
+        variablesScopeParent,
+        variablesSubscribersScopeParent,
+        elementsScopeParent;
         
-    const 
-        directives = {/*you can change the syntax in dom99Configuration*/
-            directiveFunction: "data-fx", 
-            directiveVariable: "data-vr", 
-            directiveElement: "data-el",
-            directiveIn: "data-in",
-            directiveList: "data-list",
-            attributeValueDoneSign: "☀", 
-            tokenSeparator: "-", 
-            listSeparator: ","
-        },
+    const
         doc = document,
         templateSupported = ("content" in doc.createElement("template")),
         miss = "miss",
@@ -61,16 +54,16 @@ const dom99 = (function () {
             });
         },
         
-        EventTypeForTagAndType = getValueElseDefaultDecorator({
+        EventTypeForInputType = getValueElseDefaultDecorator({
             //tag.type: eventType
-            "input.checkbox": "change",
-            "input.radio": "change",
-            "input.range" : "change", 
+            "checkbox": "change",
+            "radio": "change",
+            "range" : "change", 
             /* the <input type="range"> fires legit input events, but in practice it can fire hundreds of those in a second, the change events fires when only when the input value has finished been changed. todo: are there more edge cases ?*/ 
             miss: "input"
         }),
     
-        PropertyForTag = getValueElseDefaultDecorator({
+        propertyFromTag = getValueElseDefaultDecorator({
             //Input Type : appropriate property name to retrieve and set the value
             "input": value,
             "textarea": value,
@@ -86,25 +79,38 @@ const dom99 = (function () {
             miss: textContent
         }),
     
-        PropertyForInputType = getValueElseDefaultDecorator({
-            //Input Type : appropriate property name to retrieve and set the value
-            "checkbox": checked,
-            "radio": checked,
-            miss: value
-        }),
-    
         /*PropertyBooleanList = [
             // add here all relevant boolean properties
             checked
         ],*/
         
-        getVisibleProperty = function (tagName, type) {
-        /*if the element is an <input> its VisibleProperty is "value"
-        for other elements like <p> it is "textContent*/
-            if (tagName === "input" && type) {
-                return PropertyForInputType(type); 
-            } // else
-            return PropertyForTag(tagName);
+        
+        propertyFromInputType = getValueElseDefaultDecorator({
+            //Input Type : appropriate property name to retrieve and set the value
+            "checkbox": checked,
+            "radio": checked,
+            miss: value
+        }),
+        
+        options = {
+            attributeValueDoneSign: "☀", 
+            tokenSeparator: "-", 
+            listSeparator: ",",
+            directives: {/*you can change the syntax in dom99Configuration*/
+                directiveFunction: "data-fx", 
+                directiveVariable: "data-vr", 
+                directiveElement: "data-el",
+                directiveIn: "data-in"
+            },
+            
+            variablePropertyFromTagAndType: function (tagName, type) {
+            /*if the element is an <input> its VisibleProperty is "value"
+            for other elements like <p> it is "textContent*/
+                if (tagName === "input") {
+                    return propertyFromInputType(type); 
+                } // else
+                return propertyFromTag(tagName);
+            },
         },
         
         createElement2 = function (ElementDescription) {
@@ -156,8 +162,8 @@ const dom99 = (function () {
         applyDirectiveFunction = function (element, directiveTokens) {
             /*directiveTokens example : ["keyup,click", "calculate"] */
             const 
-                eventNames = directiveTokens[0].split(directives.listSeparator),
-                functionNames = directiveTokens[1].split(directives.listSeparator),
+                eventNames = directiveTokens[0].split(options.listSeparator),
+                functionNames = directiveTokens[1].split(options.listSeparator),
                 key = currentInnerKey;
                 /*functionLookUp allows us to store functions in D.fx after 
                 D.linkJsAndDom() and use the functions that are in D.fx at that moment.
@@ -197,6 +203,57 @@ const dom99 = (function () {
             }
             
         },
+        
+        applyDirectiveList = function (element, directiveTokens) {
+            /* js array --> DOM list
+            "var-element"
+            todo optimization and is this interface good ?*/
+            let [variableName, elementListItem] = directiveTokens,
+                temp,
+                list;
+            
+            //Dom99 VaRiable Property for List items
+            element.DVRPL = options.variablePropertyFromTagAndType(elementListItem, "");
+            
+            /*todo deduplicate what is in common with data-vr single items, ... we check if the user already saved data in variablesScope[variableName]
+            before using linkJsAndDom , if that is the case we
+            initialize variablesScope[variableName] with that same data once we defined
+            our custom property*/
+            if (variablesScope.hasOwnProperty(variableName)) {
+                temp = variablesScope[variableName];
+            }
+            
+            Object.defineProperty(variablesScope, variableName, {
+                get: function () {
+                    return list;
+                },
+                set: function (newList) {
+                    if (newList === undefined) {
+                        //todo check isArray or check if it has forEach
+                        // maybe use for of so that it works with any iterable
+                        console.warn("undefined!");
+                        return;
+                    }
+                    list = newList;
+                    //todo don't overwrite the same !!!
+                    element.innerHTML = "";
+                    let fragment = doc.createDocumentFragment();
+                    list.forEach(function (value) {
+                        let listItem = doc.createElement(elementListItem);
+                        listItem[element.DVRPL] = value;
+                        fragment.appendChild(listItem);
+                    });
+                    
+                    element.appendChild(fragment);
+                },
+                enumerable: true,
+                configurable: false
+            });
+        
+            if (temp !== undefined) {
+                variablesScope[variableName] = temp; //calls the set once
+            }
+        },
     
         applyDirectiveVariable = function (element, directiveTokens) {
             /* two-way bind
@@ -209,7 +266,8 @@ const dom99 = (function () {
             The public D.vr.a variable returns this private js variable
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-            let [variableName] = directiveTokens,
+            let [variableName, 
+                elementListItem] = directiveTokens,
                 temp,
                 variablesScopeReference = variablesScope,
                 variablesSubscribersScopeReference = variablesSubscribersScope,
@@ -218,6 +276,11 @@ const dom99 = (function () {
             
             if (!variableName) {
                 console.warn(element, 'Use data-vr="variableName" format!');
+                return;
+            }
+            
+            if (elementListItem) {
+                applyDirectiveList(element, directiveTokens);
                 return;
             }
             
@@ -232,7 +295,7 @@ const dom99 = (function () {
                 temp = variablesScope[variableName];
             }
             //Dom99 VaRiable Property
-            element.DVRP = getVisibleProperty(tagName, type);
+            element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
             
             if (variablesSubscribersScope.hasOwnProperty(variableName)) {
                 variablesSubscribersScope[variableName].push(element);
@@ -268,7 +331,6 @@ const dom99 = (function () {
                     },
                     enumerable: true,
                     configurable: false
-                    //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
                 });
             }
             
@@ -276,76 +338,13 @@ const dom99 = (function () {
                 variablesScope[variableName] = temp; //calls the set once
             }
             
-            //suggestion: could check if the tagName is in a list with all element that can be changed by the user
+            //suggestion: could check if the tagName is in a list with all element that can be changed by the user, but what about contenteditable attribute
             addEventListener(element, 
-                EventTypeForTagAndType(`${tagName}.${type}`),
+                EventTypeForInputType(type),
                 function (event) {
                     //wil call setter above to broadcast the value
                     variablesScopeReference[variableName] = event.target[event.target.DVRP];
             });
-        },
-        
-        applyDirectiveList = function (element, directiveTokens) {
-            /* js array --> DOM list
-            data-list="..." */
-            let [variableName, elementListItem] = directiveTokens,
-                temp,
-                variablesSubscribersScopeReference = variablesSubscribersScope;
-            
-            if (!variableName || !elementListItem) {
-                console.warn(element, 'Format: <ul data-list="list1-li">');
-                return;
-            }
-            //Dom99 VaRiable Property for List items
-            element.DVRPL = getVisibleProperty(elementListItem, "");
-            //for template cloning, we use a grouped key
-            
-            
-            /*we check if the user already saved data in variablesScope[variableName]
-            before using linkJsAndDom , if that is the case we
-            initialize variablesScope[variableName] with that same data once we defined
-            our custom property*/
-            if (variablesScope.hasOwnProperty(variableName)) {
-                temp = variablesScope[variableName];
-            }
-            
-            if (variablesSubscribersScope.hasOwnProperty(variableName)) {
-                variablesSubscribersScope[variableName].push(element);
-            } else {
-                let list;
-                variablesSubscribersScope[variableName] = [element];
-                Object.defineProperty(variablesScope, variableName, {
-                    get: function () {
-                        return list;
-                    },
-                    set: function (newList) {
-                        if (newList === undefined) {
-                            //todo check isArray 
-                            console.warn("undefined!");
-                            return;
-                        }
-                        list = newList;
-                        variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
-                            //todo don't overwrite the same !!!
-                            currentElement.innerHTML = "";
-                            let fragment = doc.createDocumentFragment();
-                            list.forEach(function (value) {
-                                let listItem = doc.createElement(elementListItem);
-                                listItem[element.DVRPL] = value;
-                                fragment.appendChild(listItem);
-                            });
-                            currentElement.appendChild(fragment);
-                        });
-                    },
-                    enumerable: true,
-                    configurable: false
-                    //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
-                });
-            }
-            
-            if (temp !== undefined) {
-                variablesScope[variableName] = temp; //calls the set once
-            }
         },
         
         applyDirectiveElement = function (element, directiveTokens) {
@@ -372,16 +371,49 @@ const dom99 = (function () {
             }
         },
         
-        cloneTemplate = function(templateElement) {
-            let clone;
+        cloneTemplate = (function() {
             if (templateSupported) { 
-            //make a clone ,clone is a DocumentFragment object
-                clone = doc.importNode(templateElement.content, true);
+                return (function (templateElement) {
+                    //make a clone ,clone is a DocumentFragment object
+                    return doc.importNode(templateElement.content, true);
+                });
             } else {
-                clone = doc.createElement("div");
-                clone.innerHTML = templateElement.innerHTML;
+                return (function (templateElement) {
+                    let clone = doc.createElement("div");
+                    clone.innerHTML = templateElement.innerHTML;
+                    return clone;
+                });
             }
-            return clone
+        }()),
+        
+        enterObject = function (key) {
+            //create the key
+            if (!elementsScope.hasOwnProperty(key)){
+                elementsScope[key] = {};
+            }
+            if (!variablesScope.hasOwnProperty(key)){
+                variablesScope[key] = {};
+            } 
+            if (!variablesSubscribersScope.hasOwnProperty(key)){
+                variablesSubscribersScope[key] = {};
+            } 
+            
+            
+            elementsScopeParent = elementsScope;
+            variablesScopeParent = variablesScope;
+            variablesSubscribersScopeParent = variablesSubscribersScope;
+            elementsScope = elementsScope[key];
+            variablesScope = variablesScope[key];
+            variablesSubscribersScope = variablesSubscribersScope[key];
+            
+            currentInnerKey = key;
+        },
+        
+        leaveObject = function () {
+            currentInnerKey = "";
+            elementsScope = elementsScopeParent;
+            variablesScope = variablesScopeParent;
+            variablesSubscribersScope = variablesSubscribersScopeParent;
         },
         
         templateRender = function (templateName, key) {
@@ -400,28 +432,11 @@ const dom99 = (function () {
         */
             let clone;
 
-            //create the key
-            if (!elements.hasOwnProperty(key)){
-                elements[key] = {};
-            }
-            if (!variables.hasOwnProperty(key)){
-                variables[key] = {};
-            } 
-            if (!variablesSubscribers.hasOwnProperty(key)){
-                variablesSubscribers[key] = {};
-            } 
-            
-            currentInnerKey = key;
-            variablesScope = variables[key];
-            variablesSubscribersScope = variablesSubscribers[key];
-            elementsScope = elements[key];
-            
-            
             if (!elements.hasOwnProperty(templateName)) {
-                console.warn(`the template ${templateName} must be defined, before it is used`);
-                return doc.createElement("div");
+                throw new Error(`the template ${templateName} must be defined, before it is used`);
             }
             
+            enterObject(key);
             
             clone = cloneTemplate(elements[templateName]);
             
@@ -431,11 +446,7 @@ const dom99 = (function () {
             // apply dom99 directives with the key
             linkJsAndDom(clone);
             
-            currentInnerKey = "";
-            variablesScope = variables;
-            variablesSubscribersScope = variablesSubscribers;
-            elementsScope = elements;
-            
+            leaveObject();
             return clone;
         },
     
@@ -491,7 +502,7 @@ const dom99 = (function () {
                 console.warn(element, 'Use data-in="key" format!');
                 return;
             }
-            if (element.hasAttribute(directives.directiveElement)) {
+            if (element.hasAttribute(options.directives.directiveElement)) {
                 console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
             }
             //warn for duplicate keys ?
@@ -513,11 +524,10 @@ const dom99 = (function () {
                     /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
                     we can use the just changed live variable in the bind function
                     [directiveName, applyDirectiveX]*/
-                    [directives.directiveElement, applyDirectiveElement],
-                    [directives.directiveVariable, applyDirectiveVariable],
-                    [directives.directiveFunction, applyDirectiveFunction],
-                    [directives.directiveIn, applyDirectiveIn],
-                    [directives.directiveList, applyDirectiveList]
+                    [options.directives.directiveElement, applyDirectiveElement],
+                    [options.directives.directiveVariable, applyDirectiveVariable],
+                    [options.directives.directiveFunction, applyDirectiveFunction],
+                    [options.directives.directiveIn, applyDirectiveIn]
                 ];
                 functionDirectiveNamePairs.forEach(function(pair) {
                     [directiveName, applyDirective] = pair;
@@ -526,14 +536,14 @@ const dom99 = (function () {
                         return;
                     }
                     customAttributeValue = element.getAttribute(directiveName);
-                    if ((customAttributeValue[0] === directives.attributeValueDoneSign)) {
+                    if ((customAttributeValue[0] === options.attributeValueDoneSign)) {
                         return;
                     }
-                    applyDirective(element, customAttributeValue.split(directives.tokenSeparator));
+                    applyDirective(element, customAttributeValue.split(options.tokenSeparator));
                     // ensure the directive is only applied once
-                    element.setAttribute(directiveName, directives.attributeValueDoneSign + customAttributeValue);
+                    element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
                 });
-                if (element.hasAttribute(directives.directiveIn)) {
+                if (element.hasAttribute(options.directives.directiveIn)) {
                     return;
                 }
                 /*keyless custom element insertion*/
@@ -547,20 +557,21 @@ const dom99 = (function () {
         linkJsAndDom = function (startElement=doc.body) {
             walkTheDomElements(startElement, tryApplyDirectives);
             return startElement;
+        },
+        
+        
+        dom99PublicInterface = {
+            //vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
+            el: elements, // preselected elements, basically a short cut for getElementBy...()
+            xel: customElements, // preselected custom elements
+            fx: functions,  //object to be filled by user defined functions 
+            // fx is where dom99 will look for , for data-fx,
+            createElement2, // enhanced doc.createElement
+            forgetKey,  // forget key
+            linkJsAndDom,// initialization function
+            options, // public options
+            bool: booleanFromBooleanString
         };
-    
-    let dom99PublicInterface = {
-        //vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
-        el: elements, // preselected elements, basically a short cut for getElementBy...()
-        xel: customElements, // preselected custom elements
-        fx: functions,  //object to be filled by user defined functions 
-        // fx is where dom99 will look for , for data-fx,
-        createElement2, // enhanced doc.createElement
-        forgetKey,  // forget key
-        linkJsAndDom,// initialization function
-        directives,
-        bool: booleanFromBooleanString
-    };
     // we can't use D.vr[key] = object;
     // allows us to do D.vr = objectX
     Object.defineProperty(dom99PublicInterface, "vr", {

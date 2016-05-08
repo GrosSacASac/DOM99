@@ -64,7 +64,8 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
-<p>1.13.0 new directive available: data-list. Works like data-vr but it is one way bind only. Implementation is still an experiment. See examples/test.html. Usefull for displaying a list in the DOM</p>
+<h3>Breaking Changes from 1.12.x to 1.15+.x</h3>
+<p>1.15.1 <li>You can now use data-vr="x-li" on a ol for example to display the x array as multiple li elements see examples/test.html</li><li>Changed the way to configure DOM99</li><li>You can now control what gets changed with data-vr</li></p>
 <p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-vr="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-vr optimization</p>
@@ -368,6 +369,7 @@ D.fx.close = function (event) {
 <d-htmljsresult data-in="Hello World"></d-htmljsresult>
 <d-htmljsresult data-in="Hello World 2"></d-htmljsresult>
 <d-htmljsresult data-in="Multiplier"></d-htmljsresult>
+<d-htmljsresult data-in="Lists"></d-htmljsresult>
 </article>
 
 <article id="domgood">
@@ -515,12 +517,14 @@ D.fx.calculate();
 </script>
 
 
-<!-- ToDoList -->
-<template data-el="ToDoListHtml">
-
+<!-- Lists -->
+<template data-el="ListsHtml">
+<ul data-vr="fruits-li">
+</ul>
 </template>
-<script data-el="ToDoListJs">
-
+<script data-el="ListsJs">
+/*const D = dom99;*/
+D.vr.fruits = ["apple", "kiwi", "banana", "orange"];
 </script>
 
 <script src="js/documentation.es5.min.js"></script>

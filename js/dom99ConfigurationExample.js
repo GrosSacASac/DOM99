@@ -9,25 +9,22 @@
  
 /*
 // Example for more explicit syntax:
-Object.assign(dom99.directives, {
+Object.assign(dom99.options.directives, {
     directiveFunction: "data-function", 
     directiveVariable: "data-variable", 
     directiveElement: "data-function",
     directiveIn: "data-in",
-    attributeValueDoneSign: "☀", 
-    tokenSeparator: "-", 
-    listSeparator: ","
 });
-*/
+
 
 // Example for more compact syntax:
-// Note omiting data-* is at your own risks (can collide with existing attribute names)
-Object.assign(dom99.directives, {
+// Note omiting data-* is at your own risks (can collide with existing or future attribute names)
+Object.assign(dom99.options.directives, {
     directiveFunction: "fx", 
     directiveVariable: "vr", 
     directiveElement: "el",
     directiveIn: "in",
-    attributeValueDoneSign: "☀", 
-    tokenSeparator: "-", 
-    listSeparator: ","
 });
+
+you can also change dom99.options.variablePropertyFromTagAndType with a new function
+that takes (tagName, type) as parameters. type is only present for inputs*/
