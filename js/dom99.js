@@ -32,6 +32,10 @@ const dom99 = (function () {
         source = "src",
         checked = "checked",
         
+        isObject = function (x) {
+            return (typeof x === "object");
+        },
+        
         booleanFromBooleanString = function (booleanString) {
             return (booleanString === "true");
         },
@@ -53,6 +57,7 @@ const dom99 = (function () {
             "input": value,
             "textarea": value,
             "progress": value,
+            "select": value,
             "img": source,
             "source": source,
             "audio": source,
@@ -64,7 +69,7 @@ const dom99 = (function () {
             miss: textContent
         }),
     
-        /*PropertyBooleanList = [
+        /*booleanProperties = [
             // add here all relevant boolean properties
             checked
         ],*/
@@ -77,6 +82,18 @@ const dom99 = (function () {
             miss: value
         }),
         
+        inputEventFromType = valueElseMissDecorator({
+            "checkbox": "change",
+            "radio": "change",
+            "range" : "change", 
+            miss: "input"
+        }),
+        
+        eventFromTag = valueElseMissDecorator({
+            "select": "change",
+            miss: "input"
+        }),
+        
         options = {
             attributeValueDoneSign: "☀", 
             tokenSeparator: "-", 
@@ -85,6 +102,7 @@ const dom99 = (function () {
                 directiveFunction: "data-fx", 
                 directiveVariable: "data-vr", 
                 directiveElement: "data-el",
+                directiveList: "data-list",
                 directiveIn: "data-in"
             },
             
@@ -95,15 +113,17 @@ const dom99 = (function () {
                 return propertyFromTag(tagName);
             },
         
-            eventFromInputType: valueElseMissDecorator({
-                "checkbox": "change",
-                "radio": "change",
-                "range" : "change", 
-                miss: "input"
-            }),
+            eventFromTagAndType: function (tagName, type) {
+                if (tagName === "input") {
+                    return inputEventFromType(type);
+                }
+                return eventFromTag(tagName);
+            },
+            
             elementsForUserInputList: [
                 "input",
-                "textarea"
+                "textarea",
+                "select"
             ]
         },
         
@@ -135,7 +155,6 @@ const dom99 = (function () {
         },
     
         addEventListener = function (element, eventName, function1, useCapture=false) {
-            //add here attachEvent ?
             element.addEventListener(eventName, function1, useCapture);
         },
     
@@ -200,8 +219,21 @@ const dom99 = (function () {
             <ul data-vr="var-li"></ul>
             todo optimization*/
             let [variableName, elementListItem] = directiveTokens,
-                list;
+                list,
+                temp;
             
+            if (!variableName) {
+                console.warn(element, 'Use data-vr="variableName" format!');
+                return;
+            }
+            
+            /*we check if the user already saved data in variablesScope[variableName]
+            before using linkJsAndDom , if that is the case we
+            initialize variablesScope[variableName] with that same data once we defined
+            our custom property*/
+            if (variablesScope.hasOwnProperty(variableName)) {
+                temp = variablesScope[variableName];
+            }
             //Dom99 VaRiable Property for List items
             element.DVRPL = options.variablePropertyFromTagAndType(elementListItem, "");
 
@@ -215,7 +247,13 @@ const dom99 = (function () {
                     let fragment = doc.createDocumentFragment();
                     list.forEach(function (value) {
                         let listItem = doc.createElement(elementListItem);
-                        listItem[element.DVRPL] = value;
+                        if (isObject(value)) {
+                            Object.keys(value).forEach(function (key) {
+                                listItem[key] = value[key];
+                            });
+                        } else {
+                            listItem[element.DVRPL] = value;
+                        }
                         fragment.appendChild(listItem);
                     });
                     
@@ -224,6 +262,10 @@ const dom99 = (function () {
                 enumerable: true,
                 configurable: false
             });
+            
+            if (temp !== undefined) {
+                variablesScope[variableName] = temp; //calls the set once
+            }
         },
     
         applyDirectiveVariable = function (element, directiveTokens) {
@@ -237,8 +279,7 @@ const dom99 = (function () {
             The public D.vr.a variable returns this private js variable
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-            let [variableName, 
-                elementListItem] = directiveTokens,
+            let [variableName] = directiveTokens,
                 temp,
                 variablesScopeReference = variablesScope,
                 variablesSubscribersScopeReference = variablesSubscribersScope,
@@ -258,58 +299,56 @@ const dom99 = (function () {
                 temp = variablesScope[variableName];
             }
             
-            if (elementListItem) {
-                applyDirectiveList(element, directiveTokens);
-            } else {
-                //Dom99 VaRiable Property
-                element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
-                
-                if (variablesSubscribersScope.hasOwnProperty(variableName)) {
-                    variablesSubscribersScope[variableName].push(element);
-                } else {
-                    let x = ""; // holds the value
-                    variablesSubscribersScope[variableName] = [element];
-                    Object.defineProperty(variablesScope, variableName, {
-                        get: function () {
-                            return x;
-                        },
-                        set: function (newValue) {
-                            if (newValue === undefined) {
-                                console.warn("D.vr.x= string || bool , not undefined!");
-                                return;
-                            }
-                            x = String(newValue);
-                            variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
-                                /*here we change the value of the currentElement in the dom
-                                */
-                                
-                                //don't overwrite the same
-                                if (String(currentElement[currentElement.DVRP]) !== x) {
-                            // if you want to add more, use 
-                            // if (PropertyBooleanList.indexOf(currentElement.DVRP) > -1) or .includes
-                                    if (currentElement.DVRP === checked) {
-                                        //"false" is truthy ...
-                                        currentElement[currentElement.DVRP] = newValue; 
-                                    } else {
-                                        currentElement[currentElement.DVRP] = x;
-                                    }
-                                }
-                            });
-                        },
-                        enumerable: true,
-                        configurable: false
-                    });
-                }
+            //Dom99 VaRiable Property
+            element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
             
-                if (options.elementsForUserInputList.includes(tagName)) {
-                    addEventListener(element, 
-                        options.eventFromInputType(type),
-                        function (event) {
-                            //wil call setter above to broadcast the value
-                            variablesScopeReference[variableName] = event.target[event.target.DVRP];
-                    });
-                }
+            if (variablesSubscribersScope.hasOwnProperty(variableName)) {
+                variablesSubscribersScope[variableName].push(element);
+            } else {
+                let x = ""; // holds the value
+                variablesSubscribersScope[variableName] = [element];
+                Object.defineProperty(variablesScope, variableName, {
+                    get: function () {
+                        return x;
+                    },
+                    set: function (newValue) {
+                        if (newValue === undefined) {
+                            console.warn("D.vr.x= string || bool , not undefined!");
+                            return;
+                        }
+                        x = String(newValue);
+                        variablesSubscribersScopeReference[variableName].forEach(function (currentElement) {
+                            /*here we change the value of the currentElement in the dom
+                            */
+                            
+                            //don't overwrite the same
+                            if (String(currentElement[currentElement.DVRP]) !== x) {
+                        // add more than checked, use if (booleanProperties.includes(currentElement.DVRP))
+
+                                if (currentElement.DVRP === checked) {
+                                    currentElement[currentElement.DVRP] = newValue; 
+                                } else {
+                                    currentElement[currentElement.DVRP] = x;
+                                }
+                            }
+                        });
+                    },
+                    enumerable: true,
+                    configurable: false
+                });
             }
+        
+            if (options.elementsForUserInputList.includes(tagName)) {
+                addEventListener(element, 
+                    options.eventFromTagAndType(tagName, type),
+                    function (event) {
+                        //wil call setter to broadcast the value
+                        variablesScopeReference[variableName] = event.target[event.target.DVRP];
+                });
+            }
+            
+            
+            
             
             if (temp !== undefined) {
                 variablesScope[variableName] = temp; //calls the set once
@@ -354,7 +393,6 @@ const dom99 = (function () {
         }()),
         
         enterObject = function (key) {
-            //create the key
             if (!elementsScope.hasOwnProperty(key)){
                 elementsScope[key] = {};
             }
@@ -460,41 +498,44 @@ const dom99 = (function () {
         
         tryApplyDirectives = function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
-            if (element.hasAttribute) {
-                let customAttributeValue,
-                    directiveName,
-                    applyDirective,
-                    tag;
-                [
-                    /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
-                    we can use the just changed live variable in the bind function*/
-                    [options.directives.directiveElement, applyDirectiveElement],
-                    [options.directives.directiveVariable, applyDirectiveVariable],
-                    [options.directives.directiveFunction, applyDirectiveFunction],
-                    [options.directives.directiveIn, applyDirectiveIn]
-                ].forEach(function(pair) {
-                    [directiveName, applyDirective] = pair;
-                    
-                    if (!element.hasAttribute(directiveName)) {
-                        return;
-                    }
-                    customAttributeValue = element.getAttribute(directiveName);
-                    if ((customAttributeValue[0] === options.attributeValueDoneSign)) {
-                        return;
-                    }
-                    applyDirective(element, customAttributeValue.split(options.tokenSeparator));
-                    // ensure the directive is only applied once
-                    element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
-                });
-                if (element.hasAttribute(options.directives.directiveIn)) {
+            if (!element.hasAttribute) {
+                return;
+            }
+            let customAttributeValue,
+                directiveName,
+                applyDirective,
+                tag;
+            [
+                /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
+                we can use the just changed live variable in the bind function*/
+                [options.directives.directiveElement, applyDirectiveElement],
+                [options.directives.directiveVariable, applyDirectiveVariable],
+                [options.directives.directiveFunction, applyDirectiveFunction],
+                [options.directives.directiveList, applyDirectiveList],
+                [options.directives.directiveIn, applyDirectiveIn]
+            ].forEach(function(pair) {
+                [directiveName, applyDirective] = pair;
+                
+                if (!element.hasAttribute(directiveName)) {
                     return;
                 }
-                /*using a custom element without data-in*/
-                tag = getTagName(element);
-                if (templateElementFromCustomElementName.hasOwnProperty(tag)) {
-                    element.appendChild(cloneTemplate(templateElementFromCustomElementName[tag]));
+                customAttributeValue = element.getAttribute(directiveName);
+                if ((customAttributeValue[0] === options.attributeValueDoneSign)) {
+                    return;
                 }
+                applyDirective(element, customAttributeValue.split(options.tokenSeparator));
+                // ensure the directive is only applied once
+                element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
+            });
+            if (element.hasAttribute(options.directives.directiveIn)) {
+                return;
             }
+            /*using a custom element without data-in*/
+            tag = getTagName(element);
+            if (templateElementFromCustomElementName.hasOwnProperty(tag)) {
+                element.appendChild(cloneTemplate(templateElementFromCustomElementName[tag]));
+            }
+        
         },
     
         linkJsAndDom = function (startElement=doc.body) {
@@ -503,31 +544,30 @@ const dom99 = (function () {
         },
         
         dom99PublicInterface = {
-            //vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
-            el: elements, // preselected elements, basically a short cut for getElementBy...()
-            xel: customElements, // preselected custom elements
-            fx: functions,  //object to be filled by user defined functions 
-            // fx is where dom99 will look for , for data-fx,
-            createElement2, // enhanced doc.createElement
-            forgetKey,  // forget key
-            linkJsAndDom,// initialization function
-            options, // public options
+            //vr: variables,
+            el: elements,
+            xel: customElements, 
+            fx: functions,
+            createElement2,
+            forgetKey, 
+            linkJsAndDom,
+            options,
             bool: booleanFromBooleanString
         };
-    // we can't use D.vr[key] = object;
-    // allows us to do D.vr = objectX
+
+
     Object.defineProperty(dom99PublicInterface, "vr", {
         get: function () {
             return variables;
         },
         set: function (newObject) {
-            if (!((newObject) && (typeof newObject === 'object'))) {
+            if (!((newObject) && isObject(newObject))) {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
             Object.keys(newObject).forEach(function(key) {
                 let newObjectValue = newObject[key];
-                if (!(typeof newObjectValue === 'object')) {
+                if (!isObject(newObjectValue)) {
                     variables[key] = newObjectValue
                 } else {
                     if (!variables[key]) {

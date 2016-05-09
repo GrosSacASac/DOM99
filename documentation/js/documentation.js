@@ -6,7 +6,7 @@ if (dom99Possible) {
     /*Display*/
     var D = dom99;
     D.linkJsAndDom();
-    var demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists"];
+    var demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
     var displayHtmlJsAndResult = function(name) {
         D.vr[name].title = name;
         D.vr[name].JsSourceDisplay = (D.el[name+"Js"].textContent.trim() + "\ndom99.linkJsAndDom();");

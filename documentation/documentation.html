@@ -67,9 +67,11 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<h3>Breaking Changes with 1.17.*</h3>
+<p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-vr because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
 <p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h3>Breaking Changes from 1.12.x to 1.15+.x</h3>
-<p>1.15.1 <li>You can now use data-vr="x-li" on a ol for example to display the x array as multiple li elements see examples/test.html</li><li>Changed the way to configure DOM99</li><li>You can now control what gets changed with data-vr</li></p>
+<p>1.15.1 <li>You can now use <del>data-vr="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li><li>Changed the way to configure DOM99</li><li>You can now control what gets changed with data-vr</li></p>
 <p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-vr="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-vr optimization</p>
@@ -88,7 +90,7 @@
 
 <p>DOM99 will browse the DOM and react if an element has one of the following attributes</p>
 
-<ul><li>data-vr : <strong>vr for variable</strong>: data binding between DOM element and js variable</li><li>data-el : <strong>el for element</strong>: pre-selecting an element for later usage</li><li>data-fx : <strong>fx for function</strong> adds an event listener to that element</li><li>data-in: (advanced) <strong>in for in the object with this key</strong> adds the linked template copy at load time</li></ul>
+<ul><li>data-vr : <strong>vr for variable</strong>: data binding between DOM element and js variable</li><li>data-list : <strong>list is a synonym for array</strong>: display a js array as a list in the DOM</li><li>data-el : <strong>el for element</strong>: pre-selecting an element for later usage</li><li>data-fx : <strong>fx for function</strong> adds an event listener to that element</li><li>data-in: (advanced) <strong>in for in the object with this key</strong> adds the linked template copy at load time</li></ul>
 
 <p>Examples:</p>
 
@@ -133,7 +135,7 @@ D.linkJsAndDom();</code></pre>
 
 <p>Use the same data-vr=&quot;talkings&quot; on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
-<h3>Use data-vr="x-li" to display a list</h3>
+<h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
 <h3>Use data-el and D.el for direct element manipulation</h3>
 <p>To use a preselected element</p>
@@ -376,6 +378,7 @@ D.fx.close = function (event) {
 <d-htmljsresult data-in="Hello World 2"></d-htmljsresult>
 <d-htmljsresult data-in="Multiplier"></d-htmljsresult>
 <d-htmljsresult data-in="Lists"></d-htmljsresult>
+<d-htmljsresult data-in="Lists2"></d-htmljsresult>
 </article>
 
 <article id="domgood">
@@ -383,8 +386,9 @@ D.fx.close = function (event) {
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild</a> to insert or move an element</li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove</a> to remove an element</li>
-<li>element.className</li>
-<li>element.classList</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events">Events</a></li>
 </ul>
 </article>
 
@@ -501,9 +505,9 @@ dom99.vr.text = "Hello DOM99";
 
 <!-- Multiplier-->
 <template data-el="MultiplierHtml">
-<input data-vr="a" data-fx="change-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<input data-vr="a" data-fx="change-calculate" type="range" min="-1.0" max="12.0" step="1.0">
 <span> X </span>
-<input data-vr="b" data-fx="change-calculate" type="range" min="-1.0" max="25.0" step="1.0">
+<input data-vr="b" data-fx="change-calculate" type="range" min="-1.0" max="12.0" step="1.0">
 <span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
 </template>
 <script data-el="MultiplierJs">
@@ -525,11 +529,37 @@ D.fx.calculate();
 
 <!-- Lists -->
 <template data-el="ListsHtml">
-<ul data-vr="fruits-li"></ul>
+<ul data-list="fruits-li"></ul>
 </template>
 <script data-el="ListsJs">
 /*const D = dom99;*/
 D.vr.fruits = ["apple", "kiwi", "banana", "orange"];
+</script>
+
+<!-- Lists2 -->
+<template data-el="Lists2Html">
+<img data-vr="image" alt="">
+<select data-vr="image" data-list="images-option" name="image"></select>
+<p>You selected <span data-vr="image"></span></p>
+
+</template>
+<script data-el="Lists2Js">
+/*const D = dom99;*/
+D.vr.images = [
+    {
+        textContent: "you",
+        value: "../images/you.jpg"
+    },
+    {
+        textContent: "boss",
+        value: "../images/boss.jpg"
+    },
+    {
+        textContent: "sister",
+        value: "../images/sister.jpg"
+    }
+];
+D.vr.image = D.vr.images[0].value;
 </script>
 
 <script src="js/documentation.es5.min.js"></script>
