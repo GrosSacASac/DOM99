@@ -7,23 +7,24 @@ globals: window, document, console*/
 const dom99 = (function () {
     //"use strict";
     let variables = {},
-        variablesSubscribers = {},/*contains arrays of elements , each array 
-        contains all elements that listen to the same variable. */
+        variablesSubscribers = {},
         elements = {},
         customElements = {},
         templateElementNameFromCustomElementName = {},
         functions = {},
+        
         currentInnerKey = "",
+        
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
         elementsScope = elements,
+        
         variablesScopeParent,
         variablesSubscribersScopeParent,
         elementsScopeParent;
         
     const
         doc = document,
-        templateSupported = ("content" in doc.createElement("template")),
         miss = "miss",
         value = "value",
         textContent = "textContent",
@@ -37,14 +38,6 @@ const dom99 = (function () {
         getValueElseDefaultDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
             Decorated object must have a miss key with the default value associated
-            
-            traditional use: 
-                let a = objectName[c];
-            getValueElseDefaultDecorator use
-                let objectNameElseDefault = getValueElseDefaultDecorator(objectName);
-                ...
-                let a = objectNameElseDefault(c); 
-                
             */
             return (function (key) {
                 if (object1.hasOwnProperty(key)) {
@@ -354,7 +347,7 @@ const dom99 = (function () {
         },
         
         cloneTemplate = (function() {
-            if (templateSupported) { 
+            if ("content" in doc.createElement("template")) { 
                 return (function (templateElement) {
                     //make a clone ,clone is a DocumentFragment object
                     return doc.importNode(templateElement.content, true);

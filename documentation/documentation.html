@@ -133,6 +133,8 @@ D.linkJsAndDom();</code></pre>
 
 <p>Use the same data-vr=&quot;talkings&quot; on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
+<h3>Use data-vr="x-li" to display a list</h3>
+<p>See examples</p>
 <h3>Use data-el and D.el for direct element manipulation</h3>
 <p>To use a preselected element</p>
 
@@ -323,7 +325,7 @@ D.linkJsAndDom(customElement);
 // 3 insert the Element that has a clone as a child in the DOM
 D.el[&quot;target&quot;].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
-<h4>The details</h4>
+<h4>About templates</h4>
 
 <p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-el</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-in is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
