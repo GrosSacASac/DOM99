@@ -2,15 +2,16 @@
 /*uses es2015, es2016
 globals: window, document, console*/
 /*todo  improve system 
+enable deep html composition
+to make it possible we have to rethink forgetKey
 */
 "use strict";
 const dom99 = (function () {
-    //"use strict";
     let variables = {},
         variablesSubscribers = {},
         elements = {},
         customElements = {},
-        templateElementNameFromCustomElementName = {},
+        templateElementFromCustomElementName = {},
         functions = {},
         
         currentInnerKey = "",
@@ -35,7 +36,7 @@ const dom99 = (function () {
             return (booleanString === "true");
         },
         
-        getValueElseDefaultDecorator = function (object1) {
+        valueElseMissDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
             Decorated object must have a miss key with the default value associated
             */
@@ -46,15 +47,8 @@ const dom99 = (function () {
                 return object1[miss];
             });
         },
-        
-        EventTypeForInputType = getValueElseDefaultDecorator({
-            "checkbox": "change",
-            "radio": "change",
-            "range" : "change", 
-            miss: "input"
-        }),
     
-        propertyFromTag = getValueElseDefaultDecorator({
+        propertyFromTag = valueElseMissDecorator({
             //Input Type : appropriate property name to retrieve and set the value
             "input": value,
             "textarea": value,
@@ -76,7 +70,7 @@ const dom99 = (function () {
         ],*/
         
         
-        propertyFromInputType = getValueElseDefaultDecorator({
+        propertyFromInputType = valueElseMissDecorator({
             //Input Type : appropriate property name to retrieve and set the value
             "checkbox": checked,
             "radio": checked,
@@ -100,6 +94,13 @@ const dom99 = (function () {
                 }
                 return propertyFromTag(tagName);
             },
+        
+            eventFromInputType: valueElseMissDecorator({
+                "checkbox": "change",
+                "radio": "change",
+                "range" : "change", 
+                miss: "input"
+            }),
             elementsForUserInputList: [
                 "input",
                 "textarea"
@@ -107,19 +108,15 @@ const dom99 = (function () {
         },
         
         createElement2 = function (ElementDescription) {
-            
             let element = doc.createElement(ElementDescription.tagName);
             ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
             delete ElementDescription.tagName; // read only
             /*element.setAttribute(attr, value) is good to set initial attr like you do in html
-            element.attr = value is good to change the live values
-            
-            this is the setAttribute equivalent to Object.assign(element, ElementDescription);*/
+            element.attr = value is good to change the live values    */
             Object.keys(ElementDescription).forEach(function(key) {
                 element.setAttribute(key, ElementDescription[key]);
             });
             return element;
-            
         },
         
         walkTheDomElements = function (element, function1) {
@@ -138,7 +135,7 @@ const dom99 = (function () {
         },
     
         addEventListener = function (element, eventName, function1, useCapture=false) {
-            //add here attachEvent for old IE if you want
+            //add here attachEvent ?
             element.addEventListener(eventName, function1, useCapture);
         },
     
@@ -158,9 +155,9 @@ const dom99 = (function () {
                 eventNames = directiveTokens[0].split(options.listSeparator),
                 functionNames = directiveTokens[1].split(options.listSeparator),
                 key = currentInnerKey;
-                /*functionLookUp allows us to store functions in D.fx after 
-                D.linkJsAndDom() and use the functions that are in D.fx at that moment.
-                we also return what the last function returns*/
+            /*functionLookUp allows us to store functions in D.fx after 
+            D.linkJsAndDom() and use the functions that are in D.fx at that moment.
+            we also return what the last function returns*/
             let functionLookUp;
                 
             if (!eventNames || !functionNames) {
@@ -170,9 +167,10 @@ const dom99 = (function () {
             
             if ((eventNames.length === 1) && (functionNames.length === 1)) {
                 /*we only have 1 event type and 1 function*/
+                let functionName = functionNames[0];
                 functionLookUp = function(event) {
                     event.dKey = key;
-                    return functions[functionNames[0]](event);
+                    return functions[functionName](event);
                 };
                 
                 addEventListener(element, eventNames[0], functionLookUp);
@@ -212,10 +210,6 @@ const dom99 = (function () {
                     return list;
                 },
                 set: function (newList) {
-                    if (newList === undefined) {
-                        console.warn("undefined!");
-                        return;
-                    }
                     list = newList;
                     element.innerHTML = "";
                     let fragment = doc.createDocumentFragment();
@@ -309,7 +303,7 @@ const dom99 = (function () {
             
                 if (options.elementsForUserInputList.includes(tagName)) {
                     addEventListener(element, 
-                        EventTypeForInputType(type),
+                        options.eventFromInputType(type),
                         function (event) {
                             //wil call setter above to broadcast the value
                             variablesScopeReference[variableName] = event.target[event.target.DVRP];
@@ -326,7 +320,7 @@ const dom99 = (function () {
             /* stores element for direct access !*/
             let [elementName, 
                 customElementTargetNamePrefix,
-                customElementTargetNameAppendix] = directiveTokens,//Destructuring
+                customElementTargetNameAppendix] = directiveTokens,
                 customElementTargetName;
                 
             if (!elementName) {
@@ -340,16 +334,14 @@ const dom99 = (function () {
             elementsScope[elementName] = element;
             
             if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
-                //it is a template for a custom element
                 customElementTargetName = `${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`;
-                templateElementNameFromCustomElementName[customElementTargetName] = elementName;
+                templateElementFromCustomElementName[customElementTargetName] = element;
             }
         },
         
         cloneTemplate = (function() {
             if ("content" in doc.createElement("template")) { 
                 return (function (templateElement) {
-                    //make a clone ,clone is a DocumentFragment object
                     return doc.importNode(templateElement.content, true);
                 });
             } else {
@@ -391,36 +383,19 @@ const dom99 = (function () {
             variablesSubscribersScope = variablesSubscribersScopeParent;
         },
         
-        templateRender = function (templateName, key) {
-        /*takes a template element name as argument, usually linking to a <template>
+        templateRender = function (templateElement, key) {
+        /*takes a template element as argument, usually linking to a <template>
         clones the content and returns that clone
         the content elements with "data-vr" will share a variable at
         D.vr[key][variableName]
         the content elements with "data-el" will have a reference at
         D.el[key][elementName]
-        that way you can render a template multiple times, populate clone data
-        and have it not shared between all clones.
-        
-        returns clone
-        
-        suggestion: maybe generate automatic key names internally
-        */
-            let clone;
 
-            if (!elements.hasOwnProperty(templateName)) {
-                throw new Error(`the template ${templateName} must be defined, before it is used`);
-            }
-            
+        returns clone
+        */
+            let clone;            
             enterObject(key);
-            
-            clone = cloneTemplate(elements[templateName]);
-            
-            /* could also use let clone = elements[templateName].content.cloneNode(true);
-            from the doc: ...[the] difference between these two APIs is when the node document is updated: with cloneNode() it is updated when the nodes are appended with appendChild(), with doc.importNode() it is updated when the nodes are cloned.*/
-           
-            // apply dom99 directives with the key
-            linkJsAndDom(clone);
-            
+            clone = linkJsAndDom(cloneTemplate(templateElement));
             leaveObject();
             return clone;
         },
@@ -459,19 +434,15 @@ const dom99 = (function () {
         },
         
         
-        renderCustomElement = function (customElement, templateName, key) {
-        
-            // does it make sense to populate the clone here ?
-            customElement.appendChild(templateRender(templateName, key));
+        renderCustomElement = function (customElement, templateElement, key) {
+            customElement.appendChild(templateRender(templateElement, key));
             return customElement;
         },
         
         applyDirectiveIn = function (element, directiveTokens) {
             /* looks for an html template to render
             also calls applyDirectiveElement with key!*/
-            let [key] = directiveTokens,
-                customElementName = getTagName(element),
-                templateName = templateElementNameFromCustomElementName[customElementName];
+            let [key] = directiveTokens;
             
             if (!key) {
                 console.warn(element, 'Use data-in="key" format!');
@@ -480,10 +451,9 @@ const dom99 = (function () {
             if (element.hasAttribute(options.directives.directiveElement)) {
                 console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
             }
-            //warn for duplicate keys ?
             
             customElements[key] = element;
-            renderCustomElement(element, templateName, key);
+            renderCustomElement(element, templateElementFromCustomElementName[getTagName(element)], key);
         },
         
         
@@ -495,16 +465,14 @@ const dom99 = (function () {
                     directiveName,
                     applyDirective,
                     tag;
-                const functionDirectiveNamePairs = [
+                [
                     /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
-                    we can use the just changed live variable in the bind function
-                    [directiveName, applyDirectiveX]*/
+                    we can use the just changed live variable in the bind function*/
                     [options.directives.directiveElement, applyDirectiveElement],
                     [options.directives.directiveVariable, applyDirectiveVariable],
                     [options.directives.directiveFunction, applyDirectiveFunction],
                     [options.directives.directiveIn, applyDirectiveIn]
-                ];
-                functionDirectiveNamePairs.forEach(function(pair) {
+                ].forEach(function(pair) {
                     [directiveName, applyDirective] = pair;
                     
                     if (!element.hasAttribute(directiveName)) {
@@ -521,10 +489,10 @@ const dom99 = (function () {
                 if (element.hasAttribute(options.directives.directiveIn)) {
                     return;
                 }
-                /*keyless custom element insertion*/
+                /*using a custom element without data-in*/
                 tag = getTagName(element);
-                if (templateElementNameFromCustomElementName.hasOwnProperty(tag)) {
-                    element.appendChild(cloneTemplate(elements[templateElementNameFromCustomElementName[tag]]));
+                if (templateElementFromCustomElementName.hasOwnProperty(tag)) {
+                    element.appendChild(cloneTemplate(templateElementFromCustomElementName[tag]));
                 }
             }
         },
@@ -533,7 +501,6 @@ const dom99 = (function () {
             walkTheDomElements(startElement, tryApplyDirectives);
             return startElement;
         },
-        
         
         dom99PublicInterface = {
             //vr: variables,  /* variables shared between UI and program. var is a reserved keyword*/
@@ -573,17 +540,11 @@ const dom99 = (function () {
         },
         enumerable: true,
         configurable: false
-        //doesn't make sense to have a value property: __value__ because the get and set is a logical value in a way
     });
 
-    // we return a public interface that can be used in the program
     return Object.freeze(dom99PublicInterface);
 }());
 
-
-/* make it available for browserify style imports
-also in the future export default dom99*/
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = dom99;
 }
-//https://w3c.github.io/webcomponents/spec/custom/

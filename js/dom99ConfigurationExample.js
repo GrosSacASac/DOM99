@@ -30,5 +30,19 @@ Object.assign(dom99.options.directives, {
     directiveIn: "in",
 });
 
-you can also change dom99.options.variablePropertyFromTagAndType with a new function
-that takes (tagName, type) as parameters. type is only present for inputs*/
+you can also customize with an assignement
+
+ * dom99.options.attributeValueDoneSign: with a single character string like "☀"
+ 
+ * dom99.options.tokenSeparator: with a single character string like "-"
+ 
+ * dom99.options.listSeparator: with a single character string like ","
+ 
+ * dom99.options.eventFromInputType: with a function
+    parameters (type) . type is only present for inputs with a type attribute
+    
+ * dom99.options.elementsForUserInputList: with a list like ["input", "textarea"]
+ 
+ * dom99.options.variablePropertyFromTagAndType with a function
+    parameters (tagName, type) . type is only present for inputs
+*/
