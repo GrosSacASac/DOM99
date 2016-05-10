@@ -400,9 +400,19 @@ const dom99 = (function () {
                 });
             } else {
                 return (function (templateElement) {
+                    /*here we have a div too much (messes up css)*/
                     let clone = doc.createElement("div");
                     clone.innerHTML = templateElement.innerHTML;
                     return clone;
+                    /*does not wok at all but no idea why, todo invest time to find out*/
+                    /*let childNodes = templateElement.childNodes,
+                        length = childNodes.length,
+                        clone = document.createDocumentFragment(),
+                        i;
+                    for (i = 0; i < length; i += 1) {
+                        clone.appendChild(childNodes[i].cloneNode(true));
+                    }
+                    return clone;*/
                 });
             }
         }()),
