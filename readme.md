@@ -1,8 +1,8 @@
 ![DOM99](images/visual.png)
 
-##[Official Website](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+##[Official Website](https://cdn.rawgit.com/GrosSacASac/DOM99/1.18.2/documentation/documentation.html)
 
-[documentation.html](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+[documentation.html](https://cdn.rawgit.com/GrosSacASac/DOM99/1.18.2/documentation/documentation.html)
 You can also open documentation/documentation.html locally if you downloaded DOM99. It is static HTML.
 
 ##What is DOM99 ?
