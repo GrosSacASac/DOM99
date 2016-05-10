@@ -3,7 +3,7 @@
 ##[Official Website](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
 
 [documentation.html](http://rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
-You can also open doucmentation/doucmentation.html locally if you downloaded DOM99. It is static HTML.
+You can also open documentation/documentation.html locally if you downloaded DOM99. It is static HTML.
 
 ##What is DOM99 ?
 
