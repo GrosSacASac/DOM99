@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width">
+    <style></style>
+</head>
+<body>    
+    <p>below an ul element with data-vr="list1-li"</p>
+    <ul data-list="list1-li"></ul>
+    
+    <p></p>
+    
+    <template data-el="xrowTemplate-d-xrow">
+        <pre>xxxxx</pre>
+    </template>
+    
+    <template data-el="xsquareTemplate-d-xsquare">
+        <d-xrow></d-xrow>
+        <d-xrow></d-xrow>
+        <d-xrow></d-xrow>
+        <d-xrow></d-xrow>
+        <d-xrow></d-xrow>
+    </template>
+    
+    <d-xsquare></d-xsquare>
+
+    
+<script src="../js/dom99.js"></script>
+<script>
+"use strict";
+const D = dom99;
+
+
+D.vr.list1 = ["a","b","c","d"];
+D.vr.list1.push("gg");
+D.vr.list1 = D.vr.list1;//force update
+
+
+
+D.linkJsAndDom();
+
+
+</script>
+</body>
+</html>

@@ -2,27 +2,27 @@
 /*uses es2015, es2016
 globals: window, document, console*/
 /*todo  improve system 
-enable deep html composition
-to make it possible we have to rethink forgetKey
 */
 "use strict";
 const dom99 = (function () {
-    let variables = {},
+    let templateElementFromCustomElementName = {},
+        functions = {},
+        currentInnerKey = "",
+        
+        variables = {},
         variablesSubscribers = {},
         elements = {},
         customElements = {},
-        templateElementFromCustomElementName = {},
-        functions = {},
-        
-        currentInnerKey = "",
         
         variablesScope = variables,
         variablesSubscribersScope = variablesSubscribers,
         elementsScope = elements,
+        customElementsScope = customElements,
         
         variablesScopeParent,
         variablesSubscribersScopeParent,
-        elementsScopeParent;
+        elementsScopeParent,
+        customElementsScopeParent;
         
     const
         doc = document,
@@ -34,6 +34,23 @@ const dom99 = (function () {
         
         isObject = function (x) {
             return (typeof x === "object");
+        },
+        
+        deepAssignX = function(objectTarget, objectSource) {
+            Object.keys(objectSource).forEach(function(key) {
+                if (!isObject(objectSource[key])) {
+                    objectTarget[key] = objectSource[key];
+                } else {
+                    if (!objectTarget.hasOwnProperty(key)) {
+                        if (Array.isArray(objectSource[key])) {
+                            objectTarget[key] = [];
+                        } else { // strict object
+                            objectTarget[key] = {};
+                        }
+                    }
+                    deepAssignX(objectTarget[key], objectSource[key]);
+                }
+            });
         },
         
         booleanFromBooleanString = function (booleanString) {
@@ -73,7 +90,6 @@ const dom99 = (function () {
             // add here all relevant boolean properties
             checked
         ],*/
-        
         
         propertyFromInputType = valueElseMissDecorator({
             //Input Type : appropriate property name to retrieve and set the value
@@ -169,6 +185,8 @@ const dom99 = (function () {
         },*/
     
         applyDirectiveFunction = function (element, directiveTokens) {
+        /* This is not strictly compatible with multiple levels of deep html composition
+        because the event.dKey only describes the current level of nesting, it is however sufficient if you use data-in with custom elements at the same level (normal case)*/
             /*directiveTokens example : ["keyup,click", "calculate"] */
             const 
                 eventNames = directiveTokens[0].split(options.listSeparator),
@@ -367,9 +385,6 @@ const dom99 = (function () {
                 return;
             }    
             
-            if (elementsScope[elementName]) {
-                console.warn(element, "and", elementsScope[elementName], `2 elements with the same name, overwriting D.el.${elementName}`);
-            }
             elementsScope[elementName] = element;
             
             if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
@@ -396,6 +411,9 @@ const dom99 = (function () {
             if (!elementsScope.hasOwnProperty(key)){
                 elementsScope[key] = {};
             }
+            if (!customElementsScope.hasOwnProperty(key)){
+                customElementsScope[key] = {};
+            }
             if (!variablesScope.hasOwnProperty(key)){
                 variablesScope[key] = {};
             } 
@@ -405,9 +423,12 @@ const dom99 = (function () {
             
             
             elementsScopeParent = elementsScope;
+            customElementsScopeParent = customElementsScope;
             variablesScopeParent = variablesScope;
             variablesSubscribersScopeParent = variablesSubscribersScope;
+            
             elementsScope = elementsScope[key];
+            customElementsScope = customElementsScope[key];
             variablesScope = variablesScope[key];
             variablesSubscribersScope = variablesSubscribersScope[key];
             
@@ -417,6 +438,7 @@ const dom99 = (function () {
         leaveObject = function () {
             currentInnerKey = "";
             elementsScope = elementsScopeParent;
+            customElementsScope = customElementsScopeParent;
             variablesScope = variablesScopeParent;
             variablesSubscribersScope = variablesSubscribersScopeParent;
         },
@@ -438,7 +460,7 @@ const dom99 = (function () {
             return clone;
         },
     
-        forgetKey = function (key) {
+        forgetKey = (function () {
             /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
             all the element references if you used the underlying nodes in dom99
             A removed element will continue receive invisible automatic updates 
@@ -465,11 +487,22 @@ const dom99 = (function () {
             */
             // we cannot use Weak Maps here because it needs an object as the key not a String
             // or we need to change the API a bit
-            delete elements[key];
-            delete variables[key];
-            delete variablesSubscribers[key];
-            delete customElements[key];
-        },
+
+            let followPathAndDelete = function(object1, keys) {
+                let target = object1,
+                    lastKey = keys.pop();
+                keys.forEach(function(key) {
+                    target = target[key];
+                });
+                delete target[lastKey];
+            };
+            return (function (...keys) {
+                followPathAndDelete(elements, keys);
+                followPathAndDelete(variables, keys);
+                followPathAndDelete(variablesSubscribers, keys);
+                followPathAndDelete(customElements, keys);
+            });
+        }()),
         
         
         renderCustomElement = function (customElement, templateElement, key) {
@@ -490,8 +523,8 @@ const dom99 = (function () {
                 console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
             }
             
-            customElements[key] = element;
             renderCustomElement(element, templateElementFromCustomElementName[getTagName(element)], key);
+            customElementsScope[key] = element;
         },
         
         
@@ -565,18 +598,8 @@ const dom99 = (function () {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
-            Object.keys(newObject).forEach(function(key) {
-                let newObjectValue = newObject[key];
-                if (!isObject(newObjectValue)) {
-                    variables[key] = newObjectValue
-                } else {
-                    if (!variables[key]) {
-                        variables[key] = {};
-                    }
-                    Object.assign(variables[key], newObjectValue);
-                }
-            });
-            return newObject;
+            deepAssignX(variables, newObject);
+            return newObject; // ?
         },
         enumerable: true,
         configurable: false
