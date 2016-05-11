@@ -2,8 +2,8 @@
 
 ##[Official Website](https://cdn.rawgit.com/GrosSacASac/DOM99/1.18.2/documentation/documentation.html)
 
-[documentation.html](https://cdn.rawgit.com/GrosSacASac/DOM99/1.18.2/documentation/documentation.html)
-You can also open documentation/documentation.html locally if you downloaded DOM99. It is static HTML.
+[Open](https://cdn.rawgit.com/GrosSacASac/DOM99/1.18.2/documentation/documentation.html)
+
 
 ##What is DOM99 ?
 
@@ -12,13 +12,9 @@ DOM99 is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) framework to e
 
 ###Discussion
 
-####Chat
+[Chat](https://dystroy.org/miaou/3)
 
-https://dystroy.org/miaou/3
-
-####Issues reports
-
-https://github.com/GrosSacASac/DOM99/issues
+[Issues reports](https://github.com/GrosSacASac/DOM99/issues)
 
 ####Contributing
 
@@ -27,4 +23,4 @@ https://github.com/GrosSacASac/DOM99/issues
 
 ##License
 
-https://opensource.org/licenses/MIT
+[MIT](https://opensource.org/licenses/MIT)
