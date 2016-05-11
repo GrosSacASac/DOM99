@@ -33,7 +33,7 @@ const dom99 = (function () {
         checked = "checked",
         
         isObject = function (x) {
-            return (typeof x === "object");
+            return (x !== null && typeof x === "object");
         },
         
         deepAssignX = function(objectTarget, objectSource) {
@@ -253,7 +253,7 @@ const dom99 = (function () {
                 temp = variablesScope[variableName];
             }
             //Dom99 VaRiable Property for List items
-            element.DVRPL = options.variablePropertyFromTagAndType(elementListItem, "");
+            element.DVRPL = options.variablePropertyFromTagAndType(elementListItem);
 
             Object.defineProperty(variablesScope, variableName, {
                 get: function () {
