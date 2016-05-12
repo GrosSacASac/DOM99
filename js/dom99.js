@@ -5,9 +5,7 @@ globals: window, document, console*/
 */
 "use strict";
 const dom99 = (function () {
-    let templateElementFromCustomElementName = {},
-        functions = {},
-        currentInnerKey = "",
+    let currentInnerKey = "",
         
         variables = {},
         variablesSubscribers = {},
@@ -25,6 +23,8 @@ const dom99 = (function () {
         customElementsScopeParent;
         
     const
+        functions = {},
+        templateElementFromCustomElementName = {},
         doc = document,
         miss = "miss",
         value = "value",
@@ -144,7 +144,7 @@ const dom99 = (function () {
         },
         
         createElement2 = function (ElementDescription) {
-            let element = doc.createElement(ElementDescription.tagName);
+            const element = doc.createElement(ElementDescription.tagName);
             ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
             delete ElementDescription.tagName; // read only
             /*element.setAttribute(attr, value) is good to set initial attr like you do in html
@@ -195,7 +195,6 @@ const dom99 = (function () {
             /*functionLookUp allows us to store functions in D.fx after 
             D.linkJsAndDom() and use the functions that are in D.fx at that moment.
             we also return what the last function returns*/
-            let functionLookUp;
                 
             if (!eventNames || !functionNames) {
                 console.warn(element, 'Use data-fx="event1,event2-functionName1,functionName2" format!');
@@ -204,8 +203,8 @@ const dom99 = (function () {
             
             if ((eventNames.length === 1) && (functionNames.length === 1)) {
                 /*we only have 1 event type and 1 function*/
-                let functionName = functionNames[0];
-                functionLookUp = function(event) {
+                const functionName = functionNames[0];
+                const functionLookUp = function(event) {
                     event.dKey = key;
                     return functions[functionName](event);
                 };
@@ -213,7 +212,7 @@ const dom99 = (function () {
                 addEventListener(element, eventNames[0], functionLookUp);
                 
             } else {
-                functionLookUp = function(event) {
+                const functionLookUp = function(event) {
                     let last;
                     event.dKey = key;
                     const functionLookUpChain = function(functionName) {
@@ -236,8 +235,8 @@ const dom99 = (function () {
             /* js array --> DOM list
             <ul data-vr="var-li"></ul>
             todo optimization*/
-            let [variableName, elementListItem] = directiveTokens,
-                list,
+            const [variableName, elementListItem] = directiveTokens;
+            let list,
                 temp;
             
             if (!variableName) {
@@ -260,11 +259,11 @@ const dom99 = (function () {
                     return list;
                 },
                 set: function (newList) {
+                    const fragment = doc.createDocumentFragment();
                     list = newList;
                     element.innerHTML = "";
-                    let fragment = doc.createDocumentFragment();
                     list.forEach(function (value) {
-                        let listItem = doc.createElement(elementListItem);
+                        const listItem = doc.createElement(elementListItem);
                         if (isObject(value)) {
                             Object.keys(value).forEach(function (key) {
                                 listItem[key] = value[key];
@@ -297,12 +296,10 @@ const dom99 = (function () {
             The public D.vr.a variable returns this private js variable
             
             undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-            let [variableName] = directiveTokens,
-                temp,
-                variablesScopeReference = variablesScope,
-                variablesSubscribersScopeReference = variablesSubscribersScope,
+            const [variableName] = directiveTokens,
                 tagName = getTagName(element),
                 type = element.type;
+            let temp;
             
             if (!variableName) {
                 console.warn(element, 'Use data-vr="variableName" format!');
@@ -323,6 +320,7 @@ const dom99 = (function () {
             if (variablesSubscribersScope.hasOwnProperty(variableName)) {
                 variablesSubscribersScope[variableName].push(element);
             } else {
+                const variablesSubscribersScopeReference = variablesSubscribersScope;
                 let x = ""; // holds the value
                 variablesSubscribersScope[variableName] = [element];
                 Object.defineProperty(variablesScope, variableName, {
@@ -357,6 +355,7 @@ const dom99 = (function () {
             }
         
             if (options.elementsForUserInputList.includes(tagName)) {
+                const variablesScopeReference = variablesScope;
                 addEventListener(element, 
                     options.eventFromTagAndType(tagName, type),
                     function (event) {
@@ -375,10 +374,9 @@ const dom99 = (function () {
         
         applyDirectiveElement = function (element, directiveTokens) {
             /* stores element for direct access !*/
-            let [elementName, 
+            const [elementName, 
                 customElementTargetNamePrefix,
-                customElementTargetNameAppendix] = directiveTokens,
-                customElementTargetName;
+                customElementTargetNameAppendix] = directiveTokens;
                 
             if (!elementName) {
                 console.warn(element, 'Use data-el="elementName" format!');
@@ -388,8 +386,7 @@ const dom99 = (function () {
             elementsScope[elementName] = element;
             
             if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
-                customElementTargetName = `${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`;
-                templateElementFromCustomElementName[customElementTargetName] = element;
+                templateElementFromCustomElementName[`${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`] = element;
             }
         },
         
@@ -401,7 +398,7 @@ const dom99 = (function () {
             } else {
                 return (function (templateElement) {
                     /*here we have a div too much (messes up css)*/
-                    let clone = doc.createElement("div");
+                    const clone = doc.createElement("div");
                     clone.innerHTML = templateElement.innerHTML;
                     return clone;
                     /*does not wok at all but no idea why, todo invest time to find out*/
@@ -463,9 +460,9 @@ const dom99 = (function () {
 
         returns clone
         */
-            let clone;            
+         
             enterObject(key);
-            clone = linkJsAndDom(cloneTemplate(templateElement));
+            const clone = linkJsAndDom(cloneTemplate(templateElement));
             leaveObject();
             return clone;
         },
@@ -498,7 +495,7 @@ const dom99 = (function () {
             // we cannot use Weak Maps here because it needs an object as the key not a String
             // or we need to change the API a bit
 
-            let followPathAndDelete = function(object1, keys) {
+            const followPathAndDelete = function(object1, keys) {
                 let target = object1,
                     lastKey = keys.pop();
                 keys.forEach(function(key) {
@@ -523,7 +520,7 @@ const dom99 = (function () {
         applyDirectiveIn = function (element, directiveTokens) {
             /* looks for an html template to render
             also calls applyDirectiveElement with key!*/
-            let [key] = directiveTokens;
+            const [key] = directiveTokens;
             
             if (!key) {
                 console.warn(element, 'Use data-in="key" format!');
