@@ -1,6 +1,6 @@
 //dom99.js
 /*uses es2015, es2016
-globals: window, document, console*/
+globals: document, console*/
 /*todo  improve system 
 */
 "use strict";
@@ -338,14 +338,15 @@ const dom99 = (function () {
                             */
                             
                             //don't overwrite the same
-                            if (String(currentElement[currentElement.DVRP]) !== x) {
+                            if (String(currentElement[currentElement.DVRP]) === x) {
+                                return;
+                            }
                         // add more than checked, use if (booleanProperties.includes(currentElement.DVRP))
 
-                                if (currentElement.DVRP === checked) {
-                                    currentElement[currentElement.DVRP] = newValue; 
-                                } else {
-                                    currentElement[currentElement.DVRP] = x;
-                                }
+                            if (currentElement.DVRP === checked) {
+                                currentElement[currentElement.DVRP] = newValue; 
+                            } else {
+                                currentElement[currentElement.DVRP] = x;
                             }
                         });
                     },
