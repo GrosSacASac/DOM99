@@ -188,17 +188,24 @@ const dom99 = (function () {
         /* This is not strictly compatible with multiple levels of deep html composition
         because the event.dKey only describes the current level of nesting, it is however sufficient if you use data-in with custom elements at the same level (normal case)*/
             /*directiveTokens example : ["keyup,click", "calculate"] */
-            const 
-                eventNames = directiveTokens[0].split(options.listSeparator),
-                functionNames = directiveTokens[1].split(options.listSeparator),
-                key = currentInnerKey;
+            let eventNames,
+                functionNames;
+            const key = currentInnerKey;
             /*functionLookUp allows us to store functions in D.fx after 
             D.linkJsAndDom() and use the functions that are in D.fx at that moment.
             we also return what the last function returns*/
                 
-            if (!eventNames || !functionNames) {
-                console.warn(element, 'Use data-fx="event1,event2-functionName1,functionName2" format!');
-                return;
+            if (!directiveTokens[0] || !directiveTokens[1]) {
+                if (!directiveTokens[0] && !directiveTokens[1]) {
+                    console.warn(element, `Use data-fx="event1,event2-functionName1,functionName2" format! or 
+"functionName1"`);
+                    return;
+                }
+                functionNames = directiveTokens[0].split(options.listSeparator);
+                eventNames = [options.eventFromTagAndType(getTagName(element), element.type)];
+            } else {
+                eventNames = directiveTokens[0].split(options.listSeparator);
+                functionNames = directiveTokens[1].split(options.listSeparator);
             }
             
             if ((eventNames.length === 1) && (functionNames.length === 1)) {

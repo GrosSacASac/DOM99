@@ -25,6 +25,15 @@
     </template>
     
     <d-xsquare></d-xsquare>
+    
+
+<input data-vr="a" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
+<span> X </span>
+<input data-vr="b" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
+<span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
+
+
+
 
     
 <script src="../js/dom99.js"></script>
@@ -37,7 +46,15 @@ D.vr.list1 = ["a","b","c","d"];
 D.vr.list1.push("gg");
 D.vr.list1 = D.vr.list1;//force update
 
+D.fx.calculate = function (event) {
+    //.vr variables are Strings by default
+    D.vr.result = Number(D.vr.a) * Number(D.vr.b);
+};
 
+D.vr.a = 7;
+D.vr.b = 6;
+//invoke event handler to compute the first result
+D.fx.calculate();
 
 D.linkJsAndDom();
 

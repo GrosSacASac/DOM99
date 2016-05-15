@@ -67,6 +67,7 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.19.0: data-fx can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
 <p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-in in a template.</p>
 <h3>Breaking Changes with 1.17.*</h3>
 <p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-vr because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
@@ -340,7 +341,7 @@ D.el[&quot;key&quot;][&quot;myElementIWantToChangeClassNameForInstance&quot;].cl
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-el=&quot;templateName-d-tagname&quot;&gt;
-    &lt;button data-fx=&quot;close&quot; &gt;CLOSE (X)&lt;/button&gt;
+    &lt;button data-fx=&quot;click-close&quot; &gt;CLOSE (X)&lt;/button&gt;
     Any HTML ...
 &lt;/template&gt;
 
@@ -506,9 +507,9 @@ dom99.vr.text = "Hello DOM99";
 
 <!-- Multiplier-->
 <template data-el="MultiplierHtml">
-<input data-vr="a" data-fx="change-calculate" type="range" min="-1.0" max="12.0" step="1.0">
+<input data-vr="a" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
 <span> X </span>
-<input data-vr="b" data-fx="change-calculate" type="range" min="-1.0" max="12.0" step="1.0">
+<input data-vr="b" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
 <span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
 </template>
 <script data-el="MultiplierJs">

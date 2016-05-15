@@ -23,9 +23,9 @@
         <article >
         
             <h2>Multiplier</h2><br>
-            <input data-vr="a" data-fx="input-calculate" type="number">
+            <input data-vr="a" data-fx="calculate" type="number">
             <span> X </span>
-            <input data-vr="b" data-fx="input-calculate" type="number">
+            <input data-vr="b" data-fx="calculate" type="number">
             <span> = </span>
             <span data-vr="result"></span>
             
@@ -44,8 +44,8 @@
             <template data-el="todoTemplate-d-todo">
                 <!-- Everything here has its own scope  -->
                 <li >
-                    <input data-fx="change-updateJson" data-vr="done" type="checkbox">
-                    <input data-fx="input-updateJson" data-vr="text" type="text" placeholder="What to do ?">
+                    <input data-fx="updateJson" data-vr="done" type="checkbox">
+                    <input data-fx="updateJson" data-vr="text" type="text" placeholder="What to do ?">
                 </li>
             </template>
             
