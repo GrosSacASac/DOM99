@@ -68,14 +68,14 @@ D.fx.updateJson = function (event) {
 };
 
 D.fx.addTodo = function (event) {
-    let toDoKey = path + String(i),
-        customElement;
+    let toDoKey = path + String(i);
+    
     toDoKeys.push(toDoKey);
     
-    
     // 1 create HTML ELement
-    customElement = D.createElement2({
-        "tagName": "d-todo",
+    const customElement = D.createElement2({
+        "tagName": "li",
+        "is": "d-todo",
         "data-in": toDoKey,
     });
     

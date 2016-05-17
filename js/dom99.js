@@ -57,6 +57,11 @@ const dom99 = (function () {
             return (booleanString === "true");
         },
         
+        customElementNameFromElement = function (element) {
+            return element.getAttribute("is") || getTagName(element);
+        },
+        
+        
         valueElseMissDecorator = function (object1) {
             /*Decorator function around an Object to provide a default value
             Decorated object must have a miss key with the default value associated
@@ -521,7 +526,6 @@ const dom99 = (function () {
             /* looks for an html template to render
             also calls applyDirectiveElement with key!*/
             const [key] = directiveTokens;
-            
             if (!key) {
                 console.warn(element, 'Use data-in="key" format!');
                 return;
@@ -530,7 +534,7 @@ const dom99 = (function () {
                 console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
             }
             
-            renderCustomElement(element, templateElementFromCustomElementName[getTagName(element)], key);
+            renderCustomElement(element, templateElementFromCustomElementName[customElementNameFromElement(element)], key);
             customElementsScope[key] = element;
         },
         
@@ -543,8 +547,7 @@ const dom99 = (function () {
             }
             let customAttributeValue,
                 directiveName,
-                applyDirective,
-                tag;
+                applyDirective;
             [
                 /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
                 we can use the just changed live variable in the bind function*/
@@ -571,9 +574,9 @@ const dom99 = (function () {
                 return;
             }
             /*using a custom element without data-in*/
-            tag = getTagName(element);
-            if (templateElementFromCustomElementName.hasOwnProperty(tag)) {
-                element.appendChild(cloneTemplate(templateElementFromCustomElementName[tag]));
+            let customElementName = customElementNameFromElement(element);
+            if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
+                element.appendChild(cloneTemplate(templateElementFromCustomElementName[customElementName]));
             }
         
         },
