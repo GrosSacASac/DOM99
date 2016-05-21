@@ -21,6 +21,7 @@ const dom99 = (function () {
     let customElementsScopeParent;
 
     let currentInnerKey = "";
+    let directiveSyntaxFunctionPairs;
 
     const functions = {};
     const templateElementFromCustomElementName = {};
@@ -399,7 +400,9 @@ const dom99 = (function () {
         elementsScope[elementName] = element;
 
         if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
-            templateElementFromCustomElementName[`${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`] = element;
+            templateElementFromCustomElementName[
+                `${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`
+            ] = element;
         }
     };
 
@@ -490,7 +493,7 @@ const dom99 = (function () {
             4. Use D.forgetKey to let the garbage collector free space in memory
             (can also improve performance but it doesn't matter here, read optimize optimization)
 
-        Note: If you have yet another reference to the element in a variable in your program, 
+        Note: If you have yet another reference to the element in a variable in your program,
         the element will still exist and we cannot clean it up from here.
 
         Internally we just deleted the key group for every relevant function
@@ -533,7 +536,9 @@ const dom99 = (function () {
 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
         }
 
-        renderCustomElement(element, templateElementFromCustomElementName[customElementNameFromElement(element)], key);
+        renderCustomElement(element, 
+            templateElementFromCustomElementName[customElementNameFromElement(element)],
+            key);
         customElementsScope[key] = element;
     };
 
@@ -542,16 +547,20 @@ const dom99 = (function () {
         if (!element.hasAttribute) {
             return;
         }
-        //todo not build array everytime but also use up to date options ? they should not reset twice
-        [
-            /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
-            we can use the just changed live variable in the bind function*/
-            [options.directives.directiveElement, applyDirectiveElement],
-            [options.directives.directiveVariable, applyDirectiveVariable],
-            [options.directives.directiveFunction, applyDirectiveFunction],
-            [options.directives.directiveList, applyDirectiveList],
-            [options.directives.directiveIn, applyDirectiveIn]
-        ].forEach(function (pair) {
+        //build array everytime but also use up to date options, they should not reset twice
+        if (!directiveSyntaxFunctionPairs) {
+            directiveSyntaxFunctionPairs = [
+                /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
+                we can use the just changed live variable in the bind function*/
+                [options.directives.directiveElement, applyDirectiveElement],
+                [options.directives.directiveVariable, applyDirectiveVariable],
+                [options.directives.directiveFunction, applyDirectiveFunction],
+                [options.directives.directiveList, applyDirectiveList],
+                [options.directives.directiveIn, applyDirectiveIn]
+            ];
+        }
+
+        directiveSyntaxFunctionPairs.forEach(function (pair) {
             const [directiveName, applyDirective] = pair;
 
             if (!element.hasAttribute(directiveName)) {
