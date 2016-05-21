@@ -32,13 +32,13 @@ const dom99 = (function () {
     const source = "src";
     const checked = "checked";
 
-    const isObject = function (x) {
+    const isNotNullObject = function (x) {
         return (x !== null && typeof x === "object");
     };
 
     const deepAssignX = function (objectTarget, objectSource) {
         Object.keys(objectSource).forEach(function (key) {
-            if (!isObject(objectSource[key])) {
+            if (!isNotNullObject(objectSource[key])) {
                 objectTarget[key] = objectSource[key];
             } else {
                 if (!objectTarget.hasOwnProperty(key)) {
@@ -277,7 +277,7 @@ const dom99 = (function () {
                 element.innerHTML = "";
                 list.forEach(function (value) {
                     const listItem = doc.createElement(elementListItem);
-                    if (isObject(value)) {
+                    if (isNotNullObject(value)) {
                         Object.keys(value).forEach(function (key) {
                             listItem[key] = value[key];
                         });
@@ -609,7 +609,7 @@ const dom99 = (function () {
             return variables;
         },
         set: function (newObject) {
-            if (!((newObject) && isObject(newObject))) {
+            if (!((newObject) && isNotNullObject(newObject))) {
                 console.warn("D.vr = must be truethy object");
                 return;
             }
