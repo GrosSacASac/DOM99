@@ -2,14 +2,13 @@
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
-"use strict";
 const dom99 = (function () {
-    let currentInnerKey = "";
+    "use strict";
 
-    let variables = {};
-    let variablesSubscribers = {};
-    let elements = {};
-    let customElements = {};
+    const variables = {};
+    const variablesSubscribers = {};
+    const elements = {};
+    const customElements = {};
 
     let variablesScope = variables;
     let variablesSubscribersScope = variablesSubscribers;
@@ -20,6 +19,8 @@ const dom99 = (function () {
     let variablesSubscribersScopeParent;
     let elementsScopeParent;
     let customElementsScopeParent;
+
+    let currentInnerKey = "";
 
     const functions = {};
     const templateElementFromCustomElementName = {};
@@ -54,8 +55,6 @@ const dom99 = (function () {
     const booleanFromBooleanString = function (booleanString) {
         return (booleanString === "true");
     };
-
-
 
     const valueElseMissDecorator = function (object1) {
         /*Decorator function around an Object to provide a default value
@@ -167,12 +166,12 @@ const dom99 = (function () {
         }
     };
 
-    const getTagName = function (element) {
+    const tagFromElement = function (element) {
         return element.tagName.toLowerCase();
     };
 
     const customElementNameFromElement = function (element) {
-        return element.getAttribute("is") || getTagName(element);
+        return element.getAttribute("is") || tagFromElement(element);
     };
 
     const addEventListener = function (element, eventName, function1, useCapture = false) {
@@ -205,11 +204,11 @@ const dom99 = (function () {
         if (!directiveTokens[0] || !directiveTokens[1]) {
             if (!directiveTokens[0] && !directiveTokens[1]) {
                 console.warn(element,
-                        'Use data-fx="event1,event2-functionName1,functionName2" format! or "functionName1"');
+'Use data-fx="event1,event2-functionName1,functionName2" format! or "functionName1"');
                 return;
             }
             functionNames = directiveTokens[0].split(options.listSeparator);
-            eventNames = [options.eventFromTagAndType(getTagName(element), element.type)];
+            eventNames = [options.eventFromTagAndType(tagFromElement(element), element.type)];
         } else {
             eventNames = directiveTokens[0].split(options.listSeparator);
             functionNames = directiveTokens[1].split(options.listSeparator);
@@ -242,7 +241,6 @@ const dom99 = (function () {
                 addEventListener(element, eventName, functionLookUp);
             });
         }
-
     };
 
     const applyDirectiveList = function (element, directiveTokens) {
@@ -311,7 +309,7 @@ const dom99 = (function () {
 
         undefined assignment are ignored, instead use empty string( more DOM friendly)*/
         const [variableName] = directiveTokens;
-        const tagName = getTagName(element);
+        const tagName = tagFromElement(element);
         const type = element.type;
         let temp;
 
@@ -382,9 +380,6 @@ const dom99 = (function () {
             });
         }
 
-
-
-
         if (temp !== undefined) {
             variablesScope[variableName] = temp; //calls the set once
         }
@@ -413,15 +408,14 @@ const dom99 = (function () {
             return function (templateElement) {
                 return doc.importNode(templateElement.content, true);
             };
-        } else {
-
-            return function (templateElement) {
-                /*here we have a div too much (messes up css)*/
-                const clone = doc.createElement("div");
-                clone.innerHTML = templateElement.innerHTML;
-                return clone;
-            };
         }
+
+        return function (templateElement) {
+            /*here we have a div too much (messes up css)*/
+            const clone = doc.createElement("div");
+            clone.innerHTML = templateElement.innerHTML;
+            return clone;
+        };
     }());
 
     const enterObject = function (key) {
@@ -470,7 +464,6 @@ const dom99 = (function () {
 
     returns clone
     */
-
         enterObject(key);
         const clone = linkJsAndDom(cloneTemplate(templateElement));
         leaveObject();
@@ -497,7 +490,8 @@ const dom99 = (function () {
             4. Use D.forgetKey to let the garbage collector free space in memory
             (can also improve performance but it doesn't matter here, read optimize optimization)
 
-        Note: If you have yet another reference to the element in a variable in your program, the element will still exist and we cannot clean it up from here.
+        Note: If you have yet another reference to the element in a variable in your program, 
+        the element will still exist and we cannot clean it up from here.
 
         Internally we just deleted the key group for every relevant function
         (for instance binds are not key grouped)
@@ -506,9 +500,9 @@ const dom99 = (function () {
         // or we need to change the API a bit
 
         const followPathAndDelete = function (object1, keys) {
-            let target = object1,
-                lastKey = keys.pop();
-            keys.forEach(function(key) {
+            let target = object1;
+            let lastKey = keys.pop();
+            keys.forEach(function (key) {
                 target = target[key];
             });
             delete target[lastKey];
@@ -520,7 +514,6 @@ const dom99 = (function () {
             followPathAndDelete(customElements, keys);
         };
     }());
-
 
     const renderCustomElement = function (customElement, templateElement, key) {
         customElement.appendChild(templateRender(templateElement, key));
@@ -536,14 +529,13 @@ const dom99 = (function () {
             return;
         }
         if (element.hasAttribute(options.directives.directiveElement)) {
-            console.warn(element, 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
+            console.warn(element,
+'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
         }
 
         renderCustomElement(element, templateElementFromCustomElementName[customElementNameFromElement(element)], key);
         customElementsScope[key] = element;
     };
-
-
 
     const tryApplyDirectives = function (element) {
     /* looks if the element has dom99 specific attributes and tries to handle it*/
@@ -571,7 +563,8 @@ const dom99 = (function () {
             }
             applyDirective(element, customAttributeValue.split(options.tokenSeparator));
             // ensure the directive is only applied once
-            element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
+            element.setAttribute(directiveName,
+                options.attributeValueDoneSign + customAttributeValue);
         });
         if (element.hasAttribute(options.directives.directiveIn)) {
             return;
@@ -579,9 +572,10 @@ const dom99 = (function () {
         /*using a custom element without data-in*/
         let customElementName = customElementNameFromElement(element);
         if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
-            element.appendChild(cloneTemplate(templateElementFromCustomElementName[customElementName]));
+            element.appendChild(
+                cloneTemplate(templateElementFromCustomElementName[customElementName])
+            );
         }
-
     };
 
     const linkJsAndDom = function (startElement = doc.body) {
@@ -601,7 +595,6 @@ const dom99 = (function () {
         bool: booleanFromBooleanString
     };
 
-
     Object.defineProperty(dom99PublicInterface, "vr", {
         get: function () {
             return variables;
@@ -612,7 +605,7 @@ const dom99 = (function () {
                 return;
             }
             deepAssignX(variables, newObject);
-            return newObject; // ?
+            return newObject;
         },
         enumerable: true,
         configurable: false
