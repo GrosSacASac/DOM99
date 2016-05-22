@@ -373,12 +373,13 @@ const dom99 = (function () {
 
         if (options.elementsForUserInputList.includes(tagName)) {
             const variablesScopeReference = variablesScope;
+            const broadcastValue = function (event) {
+                //wil call setter to broadcast the value
+                variablesScopeReference[variableName] = event.target[event.target.DVRP];
+            };
             addEventListener(element,
                     options.eventFromTagAndType(tagName, type),
-                    function (event) {
-                    //wil call setter to broadcast the value
-                        variablesScopeReference[variableName] = event.target[event.target.DVRP];
-            });
+                    broadcastValue);
         }
 
         if (temp !== undefined) {
@@ -389,8 +390,8 @@ const dom99 = (function () {
     const applyDirectiveElement = function (element, directiveTokens) {
         /* stores element for direct access !*/
         const [elementName,
-            customElementTargetNamePrefix,
-            customElementTargetNameAppendix] = directiveTokens;
+                customElementTargetNamePrefix,
+                customElementTargetNameAppendix] = directiveTokens;
 
         if (!elementName) {
             console.warn(element, 'Use data-el="elementName" format!');
@@ -536,9 +537,9 @@ const dom99 = (function () {
 'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
         }
 
-        renderCustomElement(element, 
-            templateElementFromCustomElementName[customElementNameFromElement(element)],
-            key);
+        renderCustomElement(element,
+                templateElementFromCustomElementName[customElementNameFromElement(element)],
+                key);
         customElementsScope[key] = element;
     };
 
@@ -573,7 +574,7 @@ const dom99 = (function () {
             applyDirective(element, customAttributeValue.split(options.tokenSeparator));
             // ensure the directive is only applied once
             element.setAttribute(directiveName,
-                options.attributeValueDoneSign + customAttributeValue);
+                    options.attributeValueDoneSign + customAttributeValue);
         });
         if (element.hasAttribute(options.directives.directiveIn)) {
             return;
