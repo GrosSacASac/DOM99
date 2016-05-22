@@ -189,30 +189,29 @@ const dom99 = (function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    const applyDirectiveFunction = function (element, directiveTokens) {
+    const applyDirectiveFunction = function (element, eventNames, functionNames) {
     /* This is not strictly compatible with multiple levels of deep html composition
     because the event.dKey only describes the current level of nesting, it is however
     sufficient if you use data-in with custom elements at the same level (normal case)*/
-        /*directiveTokens example : ["keyup,click", "calculate"] */
-        let eventNames;
-        let functionNames;
         let functionLookUp;
         const key = currentInnerKey;
         /*functionLookUp allows us to store functions in D.fx after
         D.linkJsAndDom() and use the functions that are in D.fx at that moment.
         we also return what the last function returns*/
 
-        if (!directiveTokens[0] || !directiveTokens[1]) {
-            if (!directiveTokens[0] && !directiveTokens[1]) {
+        if (!eventNames || !functionNames) {
+            if (!eventNames && !functionNames) {
                 console.warn(element,
 'Use data-fx="event1,event2-functionName1,functionName2" format! or "functionName1"');
                 return;
             }
-            functionNames = directiveTokens[0].split(options.listSeparator);
+            // used short hand syntax
+            functionNames = eventNames.split(options.listSeparator);
             eventNames = [options.eventFromTagAndType(tagFromElement(element), element.type)];
         } else {
-            eventNames = directiveTokens[0].split(options.listSeparator);
-            functionNames = directiveTokens[1].split(options.listSeparator);
+            //explicit syntax used
+            eventNames = eventNames.split(options.listSeparator);
+            functionNames = functionNames.split(options.listSeparator);
         }
 
         if ((eventNames.length === 1) && (functionNames.length === 1)) {
@@ -244,11 +243,10 @@ const dom99 = (function () {
         }
     };
 
-    const applyDirectiveList = function (element, directiveTokens) {
+    const applyDirectiveList = function (element, variableName, elementListItem) {
         /* js array --> DOM list
-        <ul data-vr="var-li"></ul>
+        <ul data-list="var-li"></ul>
         todo optimization*/
-        const [variableName, elementListItem] = directiveTokens;
         let list;
         let temp;
 
@@ -298,7 +296,7 @@ const dom99 = (function () {
         }
     };
 
-    const applyDirectiveVariable = function (element, directiveTokens) {
+    const applyDirectiveVariable = function (element, variableName) {
         /* two-way bind
         example : called for <input data-vr="a">
         in this example the variableName = "a"
@@ -309,7 +307,6 @@ const dom99 = (function () {
         The public D.vr.a variable returns this private js variable
 
         undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-        const [variableName] = directiveTokens;
         const tagName = tagFromElement(element);
         const type = element.type;
         let temp;
@@ -387,11 +384,10 @@ const dom99 = (function () {
         }
     };
 
-    const applyDirectiveElement = function (element, directiveTokens) {
+    const applyDirectiveElement = function (element,
+            elementName, customElementTargetNamePrefix,
+            customElementTargetNameAppendix) {
         /* stores element for direct access !*/
-        const [elementName,
-                customElementTargetNamePrefix,
-                customElementTargetNameAppendix] = directiveTokens;
 
         if (!elementName) {
             console.warn(element, 'Use data-el="elementName" format!');
@@ -524,10 +520,9 @@ const dom99 = (function () {
         return customElement;
     };
 
-    const applyDirectiveIn = function (element, directiveTokens) {
+    const applyDirectiveIn = function (element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
-        const [key] = directiveTokens;
         if (!key) {
             console.warn(element, 'Use data-in="key" format!');
             return;
@@ -571,7 +566,7 @@ const dom99 = (function () {
             if (customAttributeValue[0] === options.attributeValueDoneSign) {
                 return;
             }
-            applyDirective(element, customAttributeValue.split(options.tokenSeparator));
+            applyDirective(element, ...(customAttributeValue.split(options.tokenSeparator)));
             // ensure the directive is only applied once
             element.setAttribute(directiveName,
                     options.attributeValueDoneSign + customAttributeValue);
