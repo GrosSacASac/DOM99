@@ -67,6 +67,7 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.21.0: Changed, the event object for data-fx. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for D.vr and D.el, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-el if you still need the custom elements reference.</p>
 <p>1.20.0: It is now possible to use custom elements with the standard is attribute. Check examples/index.html and examples/main.js to see how to</p>
 <p>1.19.0: data-fx can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
 <p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-in in a template.</p>
@@ -83,7 +84,7 @@
 
 <p>Less Confusion:</p>
 
-<ul><li><code>data-scope</code> becomes <code>data-in</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <code>event.dKey</code></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope=&quot;scopeName&quot;</code> becomes <code>data-in=&quot;Key&quot;</code> (in the documentation)</li></ul>
+<ul><li><code>data-scope</code> becomes <code>data-in</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope=&quot;scopeName&quot;</code> becomes <code>data-in=&quot;Key&quot;</code> (in the documentation)</li></ul>
 </article>
 
 <article id="howto">
@@ -338,7 +339,7 @@ D.el[&quot;target&quot;].appendChild(customElement);</code></pre>
 
 D.el[&quot;key&quot;][&quot;myElementIWantToChangeClassNameForInstance&quot;].className = ...</code></pre>
 
-<p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <code>event.dKey</code>. Example</p>
+<p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <code>event.dKeys and event.dIn</code>. Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-el=&quot;templateName-d-tagname&quot;&gt;
@@ -348,10 +349,7 @@ D.el[&quot;key&quot;][&quot;myElementIWantToChangeClassNameForInstance&quot;].cl
 
 // JS
 D.fx.close = function (event) {
-    var key = event.dKey;
-    D.xel[key].remove(); // remove the custom element from the DOM
-    D.forgetKey(key); // if you never use it again
-    // ...
+    //see examples this API is changing
 };</code></pre>
 
 <p>If you want to remove a custom element, also use <code>D.forgetKey(&quot;key&quot;);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>

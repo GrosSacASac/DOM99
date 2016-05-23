@@ -2,25 +2,21 @@
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
+/*todo MAYBE add another event property to select the custom element directly*/
 const dom99 = (function () {
     "use strict";
 
+    //root collections
     const variables = {};
     const variablesSubscribers = {};
     const elements = {};
-    const customElements = {};
+    
+    let pathIn = [];
 
-    let variablesScope = variables;
-    let variablesSubscribersScope = variablesSubscribers;
-    let elementsScope = elements;
-    let customElementsScope = customElements;
+    let variablesPointer = variables;
+    let variablesSubscribersPointer = variablesSubscribers;
+    let elementsPointer = elements;
 
-    let variablesScopeParent;
-    let variablesSubscribersScopeParent;
-    let elementsScopeParent;
-    let customElementsScopeParent;
-
-    let currentInnerKey = "";
     let directiveSyntaxFunctionPairs;
 
     const functions = {};
@@ -36,6 +32,10 @@ const dom99 = (function () {
         return (x !== null && typeof x === "object");
     };
 
+    const copyArrayFlat = function (array1) {
+        return array1.map(x => x);
+    };
+    
     const deepAssignX = function (objectTarget, objectSource) {
         Object.keys(objectSource).forEach(function (key) {
             if (!isNotNullObject(objectSource[key])) {
@@ -190,11 +190,12 @@ const dom99 = (function () {
     };*/
 
     const applyDirectiveFunction = function (element, eventNames, functionNames) {
-    /* This is not strictly compatible with multiple levels of deep html composition
-    because the event.dKey only describes the current level of nesting, it is however
-    sufficient if you use data-in with custom elements at the same level (normal case)*/
         let functionLookUp;
-        const key = currentInnerKey;
+        const currentLevelPointers = {
+            vr: variablesPointer,
+            el: elementsPointer
+        };
+        const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
         /*functionLookUp allows us to store functions in D.fx after
         D.linkJsAndDom() and use the functions that are in D.fx at that moment.
         we also return what the last function returns*/
@@ -218,7 +219,8 @@ const dom99 = (function () {
             /*we only have 1 event type and 1 function*/
             const functionName = functionNames[0];
             functionLookUp = function (event) {
-                event.dKey = key;
+                event.dKeys = currentLevelPointersAccessPath;
+                event.dIn = currentLevelPointers;
                 return functions[functionName](event);
             };
 
@@ -227,7 +229,8 @@ const dom99 = (function () {
         } else {
             functionLookUp = function (event) {
                 let last;
-                event.dKey = key;
+                event.dKeys = currentLevelPointersAccessPath;
+                event.dIn = currentLevelPointers;
                 const functionLookUpChain = function (functionName) {
                     last = functions[functionName](event);
                 };
@@ -255,17 +258,17 @@ const dom99 = (function () {
             return;
         }
 
-        /*we check if the user already saved data in variablesScope[variableName]
+        /*we check if the user already saved data in variablesPointer[variableName]
         before using linkJsAndDom , if that is the case we
-        initialize variablesScope[variableName] with that same data once we defined
+        initialize variablesPointer[variableName] with that same data once we defined
         our custom property*/
-        if (variablesScope.hasOwnProperty(variableName)) {
-            temp = variablesScope[variableName];
+        if (variablesPointer.hasOwnProperty(variableName)) {
+            temp = variablesPointer[variableName];
         }
         //Dom99 VaRiable Property for List items
         element.DVRPL = options.variablePropertyFromTagAndType(elementListItem);
 
-        Object.defineProperty(variablesScope, variableName, {
+        Object.defineProperty(variablesPointer, variableName, {
             get: function () {
                 return list;
             },
@@ -292,7 +295,7 @@ const dom99 = (function () {
         });
 
         if (temp !== undefined) {
-            variablesScope[variableName] = temp; //calls the set once
+            variablesPointer[variableName] = temp; //calls the set once
         }
     };
 
@@ -316,24 +319,24 @@ const dom99 = (function () {
             return;
         }
 
-        /*we check if the user already saved data in variablesScope[variableName]
+        /*we check if the user already saved data in variablesPointer[variableName]
         before using linkJsAndDom , if that is the case we
-        initialize variablesScope[variableName] with that same data once we defined
+        initialize variablesPointer[variableName] with that same data once we defined
         our custom property*/
-        if (variablesScope.hasOwnProperty(variableName)) {
-            temp = variablesScope[variableName];
+        if (variablesPointer.hasOwnProperty(variableName)) {
+            temp = variablesPointer[variableName];
         }
 
         //Dom99 VaRiable Property
         element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
 
-        if (variablesSubscribersScope.hasOwnProperty(variableName)) {
-            variablesSubscribersScope[variableName].push(element);
+        if (variablesSubscribersPointer.hasOwnProperty(variableName)) {
+            variablesSubscribersPointer[variableName].push(element);
         } else {
-            const variablesSubscribersScopeReference = variablesSubscribersScope;
+            const variablesSubscribersPointerReference = variablesSubscribersPointer;
             let x = ""; // holds the value
-            variablesSubscribersScope[variableName] = [element];
-            Object.defineProperty(variablesScope, variableName, {
+            variablesSubscribersPointer[variableName] = [element];
+            Object.defineProperty(variablesPointer, variableName, {
                 get: function () {
                     return x;
                 },
@@ -343,7 +346,7 @@ const dom99 = (function () {
                         return;
                     }
                     x = String(newValue);
-                    variablesSubscribersScopeReference[variableName].forEach(
+                    variablesSubscribersPointerReference[variableName].forEach(
                         function (currentElement) {
                         /*here we change the value of the currentElement in the dom
                         */
@@ -369,10 +372,10 @@ const dom99 = (function () {
         }
 
         if (options.elementsForUserInputList.includes(tagName)) {
-            const variablesScopeReference = variablesScope;
+            const variablesPointerReference = variablesPointer;
             const broadcastValue = function (event) {
                 //wil call setter to broadcast the value
-                variablesScopeReference[variableName] = event.target[event.target.DVRP];
+                variablesPointerReference[variableName] = event.target[event.target.DVRP];
             };
             addEventListener(element,
                     options.eventFromTagAndType(tagName, type),
@@ -380,7 +383,7 @@ const dom99 = (function () {
         }
 
         if (temp !== undefined) {
-            variablesScope[variableName] = temp; //calls the set once
+            variablesPointer[variableName] = temp; //calls the set once
         }
     };
 
@@ -394,7 +397,7 @@ const dom99 = (function () {
             return;
         }
 
-        elementsScope[elementName] = element;
+        elementsPointer[elementName] = element;
 
         if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
             templateElementFromCustomElementName[
@@ -419,39 +422,37 @@ const dom99 = (function () {
     }());
 
     const enterObject = function (key) {
-        if (!elementsScope.hasOwnProperty(key)) {
-            elementsScope[key] = {};
+        pathIn.push(key);
+
+        if (!elementsPointer.hasOwnProperty(key)) {
+            elementsPointer[key] = {};
         }
-        if (!customElementsScope.hasOwnProperty(key)) {
-            customElementsScope[key] = {};
+        if (!variablesPointer.hasOwnProperty(key)) {
+            variablesPointer[key] = {};
         }
-        if (!variablesScope.hasOwnProperty(key)) {
-            variablesScope[key] = {};
-        }
-        if (!variablesSubscribersScope.hasOwnProperty(key)) {
-            variablesSubscribersScope[key] = {};
+        if (!variablesSubscribersPointer.hasOwnProperty(key)) {
+            variablesSubscribersPointer[key] = {};
         }
 
+        elementsPointer = elementsPointer[key];
+        variablesPointer = variablesPointer[key];
+        variablesSubscribersPointer = variablesSubscribersPointer[key];
+    };
 
-        elementsScopeParent = elementsScope;
-        customElementsScopeParent = customElementsScope;
-        variablesScopeParent = variablesScope;
-        variablesSubscribersScopeParent = variablesSubscribersScope;
-
-        elementsScope = elementsScope[key];
-        customElementsScope = customElementsScope[key];
-        variablesScope = variablesScope[key];
-        variablesSubscribersScope = variablesSubscribersScope[key];
-
-        currentInnerKey = key;
+    const followPath = function (root, keys) {
+        let innerObject = root;
+        keys.forEach(function (key) {
+            innerObject = innerObject[key];
+        });
+        return innerObject;
     };
 
     const leaveObject = function () {
-        currentInnerKey = "";
-        elementsScope = elementsScopeParent;
-        customElementsScope = customElementsScopeParent;
-        variablesScope = variablesScopeParent;
-        variablesSubscribersScope = variablesSubscribersScopeParent;
+        pathIn.pop();
+
+        elementsPointer = followPath(elements, pathIn);
+        variablesPointer = followPath(variables, pathIn);
+        variablesSubscribersPointer = followPath(variablesSubscribers, pathIn);
     };
 
     const templateRender = function (templateElement, key) {
@@ -507,11 +508,13 @@ const dom99 = (function () {
             });
             delete target[lastKey];
         };
-        return function (...keys) {
+        return function (keys) {
+            if (!Array.isArray(keys)) {
+                keys = [keys];
+            }
             followPathAndDelete(elements, keys);
             followPathAndDelete(variables, keys);
             followPathAndDelete(variablesSubscribers, keys);
-            followPathAndDelete(customElements, keys);
         };
     }());
 
@@ -527,33 +530,16 @@ const dom99 = (function () {
             console.warn(element, 'Use data-in="key" format!');
             return;
         }
-        if (element.hasAttribute(options.directives.directiveElement)) {
-            console.warn(element,
-'Element has both data-in and data-el. Use only data-in and get element at D.xel[key]');
-        }
 
         renderCustomElement(element,
                 templateElementFromCustomElementName[customElementNameFromElement(element)],
                 key);
-        customElementsScope[key] = element;
     };
 
     const tryApplyDirectives = function (element) {
     /* looks if the element has dom99 specific attributes and tries to handle it*/
         if (!element.hasAttribute) {
             return;
-        }
-        //build array everytime but also use up to date options, they should not reset twice
-        if (!directiveSyntaxFunctionPairs) {
-            directiveSyntaxFunctionPairs = [
-                /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
-                we can use the just changed live variable in the bind function*/
-                [options.directives.directiveElement, applyDirectiveElement],
-                [options.directives.directiveVariable, applyDirectiveVariable],
-                [options.directives.directiveFunction, applyDirectiveFunction],
-                [options.directives.directiveList, applyDirectiveList],
-                [options.directives.directiveIn, applyDirectiveIn]
-            ];
         }
 
         directiveSyntaxFunctionPairs.forEach(function (pair) {
@@ -584,23 +570,35 @@ const dom99 = (function () {
     };
 
     const linkJsAndDom = function (startElement = doc.body) {
+        //build array only once and use up to date options, they should not reset twice
+        if (!directiveSyntaxFunctionPairs) {
+            directiveSyntaxFunctionPairs = [
+                /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
+                we can use the just changed live variable in the bind function*/
+                [options.directives.directiveElement, applyDirectiveElement],
+                [options.directives.directiveVariable, applyDirectiveVariable],
+                [options.directives.directiveFunction, applyDirectiveFunction],
+                [options.directives.directiveList, applyDirectiveList],
+                [options.directives.directiveIn, applyDirectiveIn]
+            ];
+        }
         walkTheDomElements(startElement, tryApplyDirectives);
         return startElement;
     };
 
-    const dom99PublicInterface = {
+    const publicInterface = {
         //vr: variables,
         el: elements,
-        xel: customElements,
         fx: functions,
         createElement2,
         forgetKey,
         linkJsAndDom,
         options,
+        followPath,
         bool: booleanFromBooleanString
     };
 
-    Object.defineProperty(dom99PublicInterface, "vr", {
+    Object.defineProperty(publicInterface, "vr", {
         get: function () {
             return variables;
         },
@@ -616,7 +614,7 @@ const dom99 = (function () {
         configurable: false
     });
 
-    return Object.freeze(dom99PublicInterface);
+    return Object.freeze(publicInterface);
 }());
 
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {

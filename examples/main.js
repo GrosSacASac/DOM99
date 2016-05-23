@@ -53,7 +53,8 @@ D.vr.monologueButton = "Hi";
 
 let path = "todo",
     i = 0,
-    toDoKeys = [];
+    toDoKeys = [],
+    element = "element";
 
 const bool = D.bool;
 /* we use bool to convert string boolean into real boolean
@@ -77,6 +78,7 @@ D.fx.addTodo = function (event) {
         "tagName": "li",
         "is": "d-todo",
         "data-in": toDoKey,
+        "data-el": element + toDoKey
     });
     
     
@@ -106,7 +108,7 @@ D.fx.deleteTodos = function (event) {
         newtoDoKeys.push(toDoKey);
         return false;
     }).forEach(function(toDoKey) {
-        D.xel[toDoKey].remove();
+        D.el[element + toDoKey].remove();
         D.forgetKey(toDoKey);
     });
     toDoKeys = newtoDoKeys; //keep toDoKeys up to date

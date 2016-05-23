@@ -4,12 +4,14 @@ var MAX = 10,
     D = dom99;
 
 var messageKeys = [];
+var element = "element";
 
 var renderNewMessageElement = function renderNewMessageElement(data, key) {
     // 1 create HTML ELement
     var customElement = D.createElement2({
         "tagName": "d-message",
-        "data-in": key
+        "data-in": key,
+        "data-el": element + key
     });
 
     // 2 link it
@@ -35,7 +37,7 @@ var displayNewMessage = function displayNewMessage(data) {
         messageKeys.push(key);
 
         //do the same rotation in the DOM
-        D.el["messagesContainer"].appendChild(D.xel[key]);
+        D.el["messagesContainer"].appendChild(D.el[element + key]);
     }
     // Update
     Object.assign(D.vr[key], data); // loops over

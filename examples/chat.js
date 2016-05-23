@@ -4,6 +4,7 @@ const
     D = dom99;
     
 let messageKeys = [];
+let element = "element";
 
 
 const renderNewMessageElement = function(data, key) {
@@ -11,6 +12,7 @@ const renderNewMessageElement = function(data, key) {
     let customElement = D.createElement2({
         "tagName": "d-message",
         "data-in": key,
+        "data-el": element + key
     });
     
     // 2 link it
@@ -36,7 +38,7 @@ const displayNewMessage = function(data) {
         messageKeys.push(key);
         
         //do the same rotation in the DOM
-        D.el["messagesContainer"].appendChild(D.xel[key]);
+        D.el["messagesContainer"].appendChild(D.el[element + key]);
     }
     // Update 
     Object.assign(D.vr[key], data); // loops over
