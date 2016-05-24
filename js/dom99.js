@@ -508,9 +508,9 @@ const dom99 = (function () {
             if (!Array.isArray(keys)) {
                 keys = [keys];
             }
-            followPathAndDelete(elements, keys);
-            followPathAndDelete(variables, keys);
-            followPathAndDelete(variablesSubscribers, keys);
+            followPathAndDelete(elements, copyArrayFlat(keys));
+            followPathAndDelete(variables, copyArrayFlat(keys));
+            followPathAndDelete(variablesSubscribers, copyArrayFlat(keys));
         };
     }());
 
