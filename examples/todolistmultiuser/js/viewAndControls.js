@@ -25,7 +25,7 @@ var viewAndControls = (function () {
         // remove from UI and memory all toDos that are not in newToDos
         for (toDoKey of Object.keys(D.vr)) {
             if (!newToDos[toDoKey]) {
-                D.xel[toDoKey].remove();
+                D.el[elementPrefix + toDoKey].remove();
                 D.forgetKey(toDoKey);
             }
         }
@@ -56,10 +56,7 @@ var viewAndControls = (function () {
         //we have access to event.dKeys and event.dIn and event.dHost
         var keys = event.dKeys;
         // remove the custom element from the DOM
-        console.log(event.dHost);
         event.dHost.remove();
-        //var key = keys.pop();//parent
-        // or D.followPath(D.el, keys)[elementPrefix + key].remove(); 
         D.forgetKey(keys);
         bridge.updateServerState(D.vr);
     };
