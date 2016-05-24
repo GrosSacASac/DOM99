@@ -8,9 +8,8 @@
     <link rel="icon" href="../images/visual48.png">
 </head>
 <body>
-    <h1 id="main-title">DOM99</h1>
+<h1 id="main-title">DOM99</h1>
 <div class="tab-holder">
-
 <nav>
     <a href="#about">About</a>
     <a href="#howto">How To</a>
@@ -67,8 +66,9 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<p>1.22.0: Added event.dHost for the event object for data-fx. This is the host element with data-in or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
 <p>1.21.0: Changed, the event object for data-fx. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for D.vr and D.el, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-el if you still need the custom elements reference.</p>
-<p>1.20.0: It is now possible to use custom elements with the standard is attribute. Check examples/index.html and examples/main.js to see how to</p>
+<p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
 <p>1.19.0: data-fx can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
 <p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-in in a template.</p>
 <h3>Breaking Changes with 1.17.*</h3>

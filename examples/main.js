@@ -51,10 +51,10 @@ D.vr.monologueButton = "Hi";
 
 // -- The Todo --
 
-let path = "todo",
-    i = 0,
-    toDoKeys = [],
-    element = "element";
+let path = "todo";
+let i = 0;
+let toDoKeys = [];
+let element = "element";
 
 const bool = D.bool;
 /* we use bool to convert string boolean into real boolean
@@ -70,9 +70,9 @@ D.fx.updateJson = function (event) {
 
 D.fx.addTodo = function (event) {
     let toDoKey = path + String(i);
-    
+
     toDoKeys.push(toDoKey);
-    
+
     // 1 create HTML ELement
     const customElement = D.createElement2({
         "tagName": "li",
@@ -80,9 +80,8 @@ D.fx.addTodo = function (event) {
         "data-in": toDoKey,
         "data-el": element + toDoKey
     });
-    
-    
-    
+
+
     // 3 link it
     D.linkJsAndDom(customElement);
     

@@ -10,7 +10,7 @@ const dom99 = (function () {
     const variables = {};
     const variablesSubscribers = {};
     const elements = {};
-    
+
     let pathIn = [];
 
     let variablesPointer = variables;
@@ -35,7 +35,7 @@ const dom99 = (function () {
     const copyArrayFlat = function (array1) {
         return array1.map(x => x);
     };
-    
+
     const deepAssignX = function (objectTarget, objectSource) {
         Object.keys(objectSource).forEach(function (key) {
             if (!isNotNullObject(objectSource[key])) {
@@ -189,16 +189,14 @@ const dom99 = (function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    const applyDirectiveFunction = function (element, eventNames, functionNames) {
+    const applyDirectiveFunction = function (element, hostElement, eventNames, functionNames) {
         let functionLookUp;
         const currentLevelPointers = {
             vr: variablesPointer,
             el: elementsPointer
         };
         const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
-        /*functionLookUp allows us to store functions in D.fx after
-        D.linkJsAndDom() and use the functions that are in D.fx at that moment.
-        we also return what the last function returns*/
+        /*functionLookUp allows us to change functions in D.fx at runtime*/
 
         if (!eventNames || !functionNames) {
             if (!eventNames && !functionNames) {
@@ -221,6 +219,7 @@ const dom99 = (function () {
             functionLookUp = function (event) {
                 event.dKeys = currentLevelPointersAccessPath;
                 event.dIn = currentLevelPointers;
+                event.dHost = hostElement;
                 return functions[functionName](event);
             };
 
@@ -231,6 +230,7 @@ const dom99 = (function () {
                 let last;
                 event.dKeys = currentLevelPointersAccessPath;
                 event.dIn = currentLevelPointers;
+                event.dHost = hostElement;
                 const functionLookUpChain = function (functionName) {
                     last = functions[functionName](event);
                 };
@@ -319,10 +319,6 @@ const dom99 = (function () {
             return;
         }
 
-        /*we check if the user already saved data in variablesPointer[variableName]
-        before using linkJsAndDom , if that is the case we
-        initialize variablesPointer[variableName] with that same data once we defined
-        our custom property*/
         if (variablesPointer.hasOwnProperty(variableName)) {
             temp = variablesPointer[variableName];
         }
@@ -455,7 +451,7 @@ const dom99 = (function () {
         variablesSubscribersPointer = followPath(variablesSubscribers, pathIn);
     };
 
-    const templateRender = function (templateElement, key) {
+    const templateRender = function (templateElement, key, hostElement) {
     /*takes a template element as argument, usually linking to a <template>
     clones the content and returns that clone
     the content elements with "data-vr" will share a variable at
@@ -466,7 +462,7 @@ const dom99 = (function () {
     returns clone
     */
         enterObject(key);
-        const clone = linkJsAndDom(cloneTemplate(templateElement));
+        const clone = linkJsAndDom(cloneTemplate(templateElement), hostElement);
         leaveObject();
         return clone;
     };
@@ -519,7 +515,7 @@ const dom99 = (function () {
     }());
 
     const renderCustomElement = function (customElement, templateElement, key) {
-        customElement.appendChild(templateRender(templateElement, key));
+        customElement.appendChild(templateRender(templateElement, key, customElement));
         return customElement;
     };
 
@@ -536,40 +532,48 @@ const dom99 = (function () {
                 key);
     };
 
-    const tryApplyDirectives = function (element) {
-    /* looks if the element has dom99 specific attributes and tries to handle it*/
-        if (!element.hasAttribute) {
-            return;
-        }
-
-        directiveSyntaxFunctionPairs.forEach(function (pair) {
-            const [directiveName, applyDirective] = pair;
-
-            if (!element.hasAttribute(directiveName)) {
+    const tryApplyDirectives = function (hostElement) {
+        return function (element) {
+        /* looks if the element has dom99 specific attributes and tries to handle it*/
+            if (!element.hasAttribute) {
                 return;
             }
-            const customAttributeValue = element.getAttribute(directiveName);
-            if (customAttributeValue[0] === options.attributeValueDoneSign) {
+
+            directiveSyntaxFunctionPairs.forEach(function (pair) {
+                const [directiveName, applyDirective] = pair;
+
+                if (!element.hasAttribute(directiveName)) {
+                    return;
+                }
+                const customAttributeValue = element.getAttribute(directiveName);
+                if (customAttributeValue[0] === options.attributeValueDoneSign) {
+                    return;
+                }
+                if (applyDirective === applyDirectiveFunction) {
+                    applyDirective(element, hostElement,
+                            ...(customAttributeValue.split(options.tokenSeparator)));
+                } else {
+                    applyDirective(element,
+                            ...(customAttributeValue.split(options.tokenSeparator)));
+                }
+                // ensure the directive is only applied once
+                element.setAttribute(directiveName,
+                        options.attributeValueDoneSign + customAttributeValue);
+            });
+            if (element.hasAttribute(options.directives.directiveIn)) {
                 return;
             }
-            applyDirective(element, ...(customAttributeValue.split(options.tokenSeparator)));
-            // ensure the directive is only applied once
-            element.setAttribute(directiveName,
-                    options.attributeValueDoneSign + customAttributeValue);
-        });
-        if (element.hasAttribute(options.directives.directiveIn)) {
-            return;
-        }
-        /*using a custom element without data-in*/
-        let customElementName = customElementNameFromElement(element);
-        if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
-            element.appendChild(
-                cloneTemplate(templateElementFromCustomElementName[customElementName])
-            );
-        }
+            /*using a custom element without data-in*/
+            let customElementName = customElementNameFromElement(element);
+            if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
+                element.appendChild(
+                    cloneTemplate(templateElementFromCustomElementName[customElementName])
+                );
+            }
+        };
     };
 
-    const linkJsAndDom = function (startElement = doc.body) {
+    const linkJsAndDom = function (startElement = doc.body, hostElement = startElement) {
         //build array only once and use up to date options, they should not reset twice
         if (!directiveSyntaxFunctionPairs) {
             directiveSyntaxFunctionPairs = [
@@ -582,7 +586,7 @@ const dom99 = (function () {
                 [options.directives.directiveIn, applyDirectiveIn]
             ];
         }
-        walkTheDomElements(startElement, tryApplyDirectives);
+        walkTheDomElements(startElement, tryApplyDirectives(hostElement));
         return startElement;
     };
 

@@ -53,11 +53,13 @@ var viewAndControls = (function () {
     };
 
     D.fx.destroy = function (event) {
-        //we have access to event.dKeys and event.dIn
+        //we have access to event.dKeys and event.dIn and event.dHost
         var keys = event.dKeys;
-        var key = keys.pop();//parent
-        D.followPath(D.el, keys)[elementPrefix + key].remove(); 
         // remove the custom element from the DOM
+        console.log(event.dHost);
+        event.dHost.remove();
+        //var key = keys.pop();//parent
+        // or D.followPath(D.el, keys)[elementPrefix + key].remove(); 
         D.forgetKey(keys);
         bridge.updateServerState(D.vr);
     };
