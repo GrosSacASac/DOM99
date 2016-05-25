@@ -33,7 +33,7 @@ const dom99 = (function () {
     };
 
     const copyArrayFlat = function (array1) {
-        return array1.map(x => x);
+        return array1.map((x) => x);
     };
 
     const deepAssignX = function (objectTarget, objectSource) {
@@ -526,7 +526,7 @@ const dom99 = (function () {
                 key);
     };
 
-    const tryApplyDirectives = function (hostElement) {
+    const tryApplyDirectivesCreator = function (hostElement) {
         return function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
             if (!element.hasAttribute) {
@@ -580,7 +580,7 @@ const dom99 = (function () {
                 [options.directives.directiveIn, applyDirectiveIn]
             ];
         }
-        walkTheDomElements(startElement, tryApplyDirectives(hostElement));
+        walkTheDomElements(startElement, tryApplyDirectivesCreator(hostElement));
         return startElement;
     };
 

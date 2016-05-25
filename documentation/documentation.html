@@ -350,7 +350,14 @@ D.el[&quot;key&quot;][&quot;myElementIWantToChangeClassNameForInstance&quot;].cl
 
 // JS
 D.fx.close = function (event) {
-    //see examples this API is changing
+    //you can access variables that are at the same level with 
+    D.followPath(D.vr, event.dKeys).text
+    //access preselected elements at the same level with
+    D.followPath(D.el, event.dKeys).myElementIWantToChangeClassNameForInstance
+    event.dHost// is the host element (the one with data-in)
+    //this looks verbose but it works for any kind of deep html composition.
+    //If you want to target a specific element or variable you can directly write
+    D.vr[&quot;key&quot;][&quot;text&quot;];
 };</code></pre>
 
 <p>If you want to remove a custom element, also use <code>D.forgetKey(&quot;key&quot;);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
