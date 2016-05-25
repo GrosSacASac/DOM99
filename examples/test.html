@@ -7,33 +7,38 @@
     <style></style>
 </head>
 <body>    
-    <p>below an ul element with data-vr="list1-li"</p>
-    <ul data-list="list1-li"></ul>
-    
-    <p></p>
-    
-    <template data-el="xrowTemplate-d-xrow">
-        <pre>xxxxx</pre>
-    </template>
-    
-    <template data-el="xsquareTemplate-d-xsquare">
-        <d-xrow></d-xrow>
-        <d-xrow></d-xrow>
-        <d-xrow></d-xrow>
-        <d-xrow></d-xrow>
-        <d-xrow></d-xrow>
-    </template>
-    
-    <d-xsquare></d-xsquare>
-    
+<p>below an ul element with data-vr="list1-li"</p>
+<ul data-list="list1-li"></ul>
 
-<input data-vr="a" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
-<span> X </span>
-<input data-vr="b" data-fx="calculate" type="range" min="-1.0" max="12.0" step="1.0">
-<span data-vr="a"></span> X <span data-vr="b"></span><span> = </span><output data-vr="result"></output>
+<p>simple deep composition without variables</p>
+
+<template data-el="xrowTemplate-d-xrow">
+    <pre>xxxxx</pre>
+</template>
+
+<template data-el="xsquareTemplate-d-xsquare">
+    <d-xrow></d-xrow>
+    <d-xrow></d-xrow>
+</template>
+
+<d-xsquare></d-xsquare>
+
+<p>simple deep composition with variables</p>
+
+<template data-el="searchTemplate-d-search">
+    <label>Search<input data-vr="search" data-fx="trySearch" type="search" placeholder="search"></label>
+    <label>Filters<input type="text" placeholder="filter" disabled></label>
+</template>
+
+<template data-el="explorerTemplate-d-explorer">
+    <d-search data-in="search"></d-search>
+    <p data-vr="message"></p>
+    <ul data-list="files-li"></ul>
+</template>
 
 
 
+<d-explorer data-in="explorer1"></d-explorer>
 
     
 <script src="../js/dom99.js"></script>
@@ -56,7 +61,21 @@ D.vr.b = 6;
 //invoke event handler to compute the first result
 D.fx.calculate();
 
+var files = ["beach.jpg","letterforjohan.txt","leterforsintia.txt","recipe.md","readme.md"];
+D.fx.trySearch = function (event) {
+    var search = D.followPath(D.vr, event.dKeys).search
+    event.dKeys.pop();
+    //console.log(event.dKeys);
+    //event.dIn.vr.message = event.dIn.vr.search.search; does nothing because Object.defineProperty doesn spread to other objects with same pointer
+    D.followPath(D.vr, event.dKeys).message = search ? "searching: " +  search : "Displaying all files";
+    D.followPath(D.vr, event.dKeys).files = files.filter(function (file) {
+        return file.match(search);
+    });
+    D.followPath(D.vr, event.dKeys).files
+};
+//
 D.linkJsAndDom();
+D.vr.explorer1.files = files;
 
 
 </script>

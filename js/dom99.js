@@ -2,7 +2,7 @@
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
-/*todo MAYBE add another event property to select the custom element directly*/
+/**/
 const dom99 = (function () {
     "use strict";
 
@@ -191,10 +191,6 @@ const dom99 = (function () {
 
     const applyDirectiveFunction = function (element, hostElement, eventNames, functionNames) {
         let functionLookUp;
-        const currentLevelPointers = {
-            vr: variablesPointer,
-            el: elementsPointer
-        };
         const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
         /*functionLookUp allows us to change functions in D.fx at runtime*/
 
@@ -217,8 +213,7 @@ const dom99 = (function () {
             /*we only have 1 event type and 1 function*/
             const functionName = functionNames[0];
             functionLookUp = function (event) {
-                event.dKeys = currentLevelPointersAccessPath;
-                event.dIn = currentLevelPointers;
+                event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
                 event.dHost = hostElement;
                 return functions[functionName](event);
             };
@@ -228,8 +223,7 @@ const dom99 = (function () {
         } else {
             functionLookUp = function (event) {
                 let last;
-                event.dKeys = currentLevelPointersAccessPath;
-                event.dIn = currentLevelPointers;
+                event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
                 event.dHost = hostElement;
                 const functionLookUpChain = function (functionName) {
                     last = functions[functionName](event);
