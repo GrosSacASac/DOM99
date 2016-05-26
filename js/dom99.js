@@ -190,6 +190,7 @@ const dom99 = (function () {
     };*/
 
     const applyDirectiveFunction = function (element, hostElement, eventNames, functionNames) {
+        /*todo maybe not copyArrayFlat at each event*/
         let functionLookUp;
         const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
         /*functionLookUp allows us to change functions in D.fx at runtime*/

@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>Demo</title>
     <meta name="viewport" content="width=device-width">
-    <style></style>
+    <style>.grey{background:#ddd;}</style>
+    <link rel="stylesheet" href="css/basics.css">
 </head>
 <body>    
 <p>below an ul element with data-vr="list1-li"</p>
@@ -40,11 +41,12 @@
 
 <d-explorer data-in="explorer1"></d-explorer>
 
-    
-<script src="../js/dom99.js"></script>
+<script src="../polyfill.min.js"></script>
+<script src="../js/dom99.es5.min.js"></script> 
+<!--<script src="../js/dom99.js"></script>-->
 <script>
 "use strict";
-const D = dom99;
+var D = dom99;
 
 
 D.vr.list1 = ["a","b","c","d"];
@@ -61,7 +63,7 @@ D.vr.b = 6;
 //invoke event handler to compute the first result
 D.fx.calculate();
 
-var files = ["beach.jpg","letterforjohan.txt","leterforsintia.txt","recipe.md","readme.md"];
+var files = ["beach.jpg","letterforjohan.txt","letterforsintia.txt","recipe.md","readme.md"];
 D.fx.trySearch = function (event) {
     var search = D.followPath(D.vr, event.dKeys).search
     event.dKeys.pop();
@@ -72,7 +74,7 @@ D.fx.trySearch = function (event) {
         return file.match(search);
     });
     D.followPath(D.vr, event.dKeys).files
-    event.dHost.style = "background:blue;";
+    event.dHost.className = "grey";
 };
 //
 D.linkJsAndDom();
