@@ -13,7 +13,9 @@
  * Answer [Open questions](openquestions.md)
  * Create a better documentation experience
  * Write more tests
- * Make events for data-vr customizable
+ * Define typical process of creating and composing with custom elements
+ * Start version 2.0 where
+ * data-fx is too permissive certain optimization can not be 
  
 
  
