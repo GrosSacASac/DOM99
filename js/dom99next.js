@@ -21,6 +21,7 @@ const dom99 = (function () {
     let directiveSyntaxFunctionPairs;
 
     const functions = {};
+    callBackFunctionSubscribers = {};
     const templateElementFromCustomElementName = {};
     const doc = document;
     const miss = "miss";
@@ -51,6 +52,15 @@ const dom99 = (function () {
                 }
                 deepAssignX(objectTarget[key], objectSource[key]);
             }
+        });
+    };
+
+    const defineSetterGetter = function (targetObject, propertyString, setter, getter) {
+        Object.defineProperty(targetObject, propertyString, {
+            get: getter,
+            set: setter,
+            enumerable: true,
+            configurable: false
         });
     };
 
@@ -118,6 +128,7 @@ const dom99 = (function () {
         listSeparator: ",",
         directives: {
             directiveFunction: "data-function",
+            directiveFunctionWithContext: "data-function-context",
             directiveVariable: "data-variable",
             directiveElement: "data-element",
             directiveList: "data-list",
@@ -190,37 +201,93 @@ const dom99 = (function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    const applyDirectiveFunction = function (element, hostElement, eventName, functionName) {
-        /*todo maybe not copyArrayFlat at each event
-        add context boolean to data-function
-        remove event listener if undefined is give
-        use direct function, add an optional context into the data-fx construct*/
-        let functionLookUp;
-        const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
-        /*functionLookUp allows us to change functions in D.functions at runtime*/
-
-        if (!eventName || !functionName) {
-            if (!eventName) {
-                console.warn(element,
-'Use data-function="event1,event2-functionName1,functionName2" format! or "functionName1"');
-                return;
+    const commonFunctionDirectiveDecorator = function (variableFunction) {
+        /*applyDirectiveFunction and applyDirectiveFunctionWithContext are almost the same*/
+        return function (element, hostElement, eventName, functionName) {
+            if (!eventName || !functionName) {
+                if (!eventName) {
+                    console.warn(element,
+    'Use data-function="event-functionName" or "functionName1"');
+                    return;
+                }
+                // used short hand syntax
+                functionName = eventName;
+                eventName = options.eventFromTagAndType(tagFromElement(element), element.type);
             }
-            // used short hand syntax
-            functionName = eventName;
-            eventName = options.eventFromTagAndType(tagFromElement(element), element.type);
-        }
-
-
-
-        functionLookUp = function (event) {
-            event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
-            event.dHost = hostElement;
-            return functions[functionName](event);
+            let temp;
+            if (functions.hasOwnProperty(functionName)) {
+                temp = functions[functionName];
+            }
+            variableFunction(element, hostElement, eventName, functionName);
+            
+            if (temp !== undefined) {
+                functions[functionName] = temp; //calls the set once
+            }
         };
-
-        addEventListener(element, eventName, functionLookUp);
-
     };
+    
+    const applyDirectiveFunction = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName) {
+
+        if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
+            callBackFunctionSubscribers[functionName].push(element);
+        } else {
+            let callBackFunction;
+            callBackFunctionSubscribers[functionName] = [element];
+            defineSetterGetter(functions, functionName,
+                function () {
+                    return callBackFunction;
+                },
+                function (newFunction) {
+                    if (newFunction === callBackFunction) {
+                        return;
+                    }
+                    callBackFunctionSubscribers[functionName].forEach(function (currentElement) {
+                        currentElement.removeEventListener(eventName, callBackFunction, false);
+                        if (newFunction) {
+                            addEventListener(currentElement, eventName, newFunction);
+                        }
+                        callBackFunction = newFunction;
+                    });
+                });
+        }
+    });
+
+    const applyDirectiveFunctionWithContext = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName) {
+
+        const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
+        
+
+        if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
+            callBackFunctionSubscribers[functionName].push(element);
+        } else {
+            let callBackFunction;
+            let functionLookUp;
+            callBackFunctionSubscribers[functionName] = [element];
+            defineSetterGetter(functions, functionName,
+                function () {
+                    return callBackFunction;
+                },
+                function (newFunction) {
+                    if (newFunction === callBackFunction) {
+                        return;
+                    }
+                    functionLookUp = function (event) {
+                        event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
+                        event.dHost = hostElement;
+                        return newFunction(event);
+                    };
+                    callBackFunctionSubscribers[functionName].forEach(function (currentElement) {
+                        currentElement.removeEventListener(eventName, callBackFunction, false);
+                        if (newFunction) {
+                                
+                            addEventListener(currentElement, eventName, functionLookUp);
+                        }
+                        callBackFunction = newFunction;
+                    });
+                }
+            );
+        }
+    });
 
     const applyDirectiveList = function (element, variableName, elementListItem) {
         /* js array --> DOM list
@@ -243,12 +310,11 @@ const dom99 = (function () {
         }
         //Dom99 VaRiable Property for List items
         element.DVRPL = options.variablePropertyFromTagAndType(elementListItem);
-
-        Object.defineProperty(variablesPointer, variableName, {
-            get: function () {
+        defineSetterGetter(variablesPointer, variableName,
+            function () {
                 return list;
             },
-            set: function (newList) {
+            function (newList) {
                 const fragment = doc.createDocumentFragment();
                 list = newList;
                 element.innerHTML = "";
@@ -265,10 +331,7 @@ const dom99 = (function () {
                 });
 
                 element.appendChild(fragment);
-            },
-            enumerable: true,
-            configurable: false
-        });
+            });
 
         if (temp !== undefined) {
             variablesPointer[variableName] = temp; //calls the set once
@@ -308,11 +371,11 @@ const dom99 = (function () {
             const variablesSubscribersPointerReference = variablesSubscribersPointer;
             let x = ""; // holds the value
             variablesSubscribersPointer[variableName] = [element];
-            Object.defineProperty(variablesPointer, variableName, {
-                get: function () {
+            defineSetterGetter(variablesPointer, variableName,
+                function () {
                     return x;
                 },
-                set: function (newValue) {
+                function (newValue) {
                     if (newValue === undefined) {
                         console.warn("D.variables.x= string || bool , not undefined!");
                         return;
@@ -337,10 +400,7 @@ const dom99 = (function () {
                             }
                         }
                     );
-                },
-                enumerable: true,
-                configurable: false
-            });
+                });
         }
 
         if (options.elementsForUserInputList.includes(tagName)) {
@@ -484,6 +544,9 @@ const dom99 = (function () {
             if (!Array.isArray(keys)) {
                 keys = [keys];
             }
+            //todo delete callBackFunctionSubscribers[functionName][5?]
+            //because it is in a template maybe store adresses only in applyDirectiveFun
+            // and do the rest like variables
             followPathAndDelete(elements, copyArrayFlat(keys));
             followPathAndDelete(variables, copyArrayFlat(keys));
             followPathAndDelete(variablesSubscribers, copyArrayFlat(keys));
@@ -558,6 +621,7 @@ const dom99 = (function () {
                 [options.directives.directiveElement, applyDirectiveElement],
                 [options.directives.directiveVariable, applyDirectiveVariable],
                 [options.directives.directiveFunction, applyDirectiveFunction],
+                [options.directives.directiveFunctionWithContext, applyDirectiveFunctionWithContext]
                 [options.directives.directiveList, applyDirectiveList],
                 [options.directives.directiveIn, applyDirectiveIn]
             ];
@@ -577,22 +641,18 @@ const dom99 = (function () {
         followPath,
         bool: booleanFromBooleanString
     };
-
-    Object.defineProperty(publicInterface, "variables", {
-        get: function () {
+    defineSetterGetter(publicInterface, "variables",
+       function () {
             return variables;
         },
-        set: function (newObject) {
+        function (newObject) {
             if (!((newObject) && isNotNullObject(newObject))) {
                 console.warn("D.variables = must be truethy object");
                 return;
             }
             deepAssignX(variables, newObject);
             return newObject;
-        },
-        enumerable: true,
-        configurable: false
-    });
+        });
 
     return Object.freeze(publicInterface);
 }());
