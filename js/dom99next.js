@@ -24,7 +24,6 @@ const dom99 = (function () {
     let directiveSyntaxFunctionPairs;
 
     const functions = {};
-    callBackFunctionSubscribers = {};
     const templateElementFromCustomElementName = {};
     const doc = document;
     const miss = "miss";
@@ -58,7 +57,7 @@ const dom99 = (function () {
         });
     };
 
-    const defineSetterGetter = function (targetObject, propertyString, setter, getter) {
+    const defineSetterGetter = function (targetObject, propertyString, getter, setter) {
         Object.defineProperty(targetObject, propertyString, {
             get: getter,
             set: setter,
@@ -207,10 +206,11 @@ const dom99 = (function () {
     const commonFunctionDirectiveDecorator = function (variableFunction) {
         /*applyDirectiveFunction and applyDirectiveFunctionWithContext are almost the same*/
         return function (element, hostElement, eventName, functionName) {
+            console.log(element, hostElement, eventName, functionName);
             if (!eventName || !functionName) {
                 if (!eventName) {
                     console.warn(element,
-    'Use data-function="event-functionName" or "functionName1"');
+    'Use data-function="event-functionName" or "functionName"');//todo update warning
                     return;
                 }
                 // used short hand syntax
@@ -221,82 +221,121 @@ const dom99 = (function () {
             if (functions.hasOwnProperty(functionName)) {
                 temp = functions[functionName];
             }
-            variableFunction(element, hostElement, eventName, functionName);
-            
+            const pathJoined = pathIn.join("");
+            if (functionSubscribersFromKey.hasOwnProperty(pathJoined)) {
+                if (functionSubscribersFromKey[pathJoined].hasOwnProperty(functionName)) {
+                    functionSubscribersFromKey[pathJoined][functionName].push([element, eventName]);
+                } else {
+                    functionSubscribersFromKey[pathJoined][functionName] = [[element, eventName]]
+                }
+                
+            } else {
+                //[] for the computed functionName
+                functionSubscribersFromKey[pathJoined] = {[functionName]: [[element, eventName]]};
+            }
+            let setterExists;
+            if (!isfunctionSetterFromFunctionName[functionName]) {
+                //console.log(element, hostElement, eventName, functionName);
+                isfunctionSetterFromFunctionName[functionName] = true;
+                setterExists = false;
+            } else {
+                setterExists = true;
+            }
+            variableFunction(element, hostElement, eventName, functionName, setterExists);
             if (temp !== undefined) {
                 functions[functionName] = temp; //calls the set once
             }
         };
     };
-    const forDelete = {};
-    const applyDirectiveFunction = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName) {
 
-        if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
-            forDelete[copyArrayFlat(pathIn).join("")].push([functionName, callBackFunctionSubscribers[functionName].length]);
-            callBackFunctionSubscribers[functionName].push([element, eventName]);
-        } else {
-            let callBackFunction;
-            forDelete[copyArrayFlat(pathIn).join("")] =  [[functionName, 0]];
-            callBackFunctionSubscribers[functionName] = [[element, eventName]];
-            defineSetterGetter(functions, functionName,
-                function () {
-                    return callBackFunction;
-                },
-                function (newFunction) {
-                    if (newFunction === callBackFunction) {
-                        return;
-                    }
-                    callBackFunctionSubscribers[functionName].forEach(function (elementEventNamePair) {
-                        // todo try catch
-                        let currentElement = elementEventNamePair[0];
-                        let currentEvent = elementEventNamePair[1];
-                        currentElement.removeEventListener(currentEvent, callBackFunction, false);
-                        if (newFunction) {
-                            addEventListener(currentElement, currentEvent, newFunction);
-                        }
-                    });
-                    callBackFunction = newFunction;
-                });
+    const functionSubscribersFromKey = {};//todo find better name
+    const isfunctionSetterFromFunctionName = {};
+    
+    const applyDirectiveFunction = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName, setterExists) {
+        if (setterExists) {
+            return;
         }
+        let callBackFunction;
+        defineSetterGetter(functions, functionName,
+            function () {
+                return callBackFunction;
+            },
+            function (newFunction) {
+                /* this optimization is a logic error,
+                after the first, elements with data-function will not receive the event listeners, we should check element.has eventlistener but how ?
+                if (newFunction === callBackFunction) {
+                    return;
+                }*/
+                Object.keys(functionSubscribersFromKey).forEach(function (key) {
+                    const functionSubscribers = functionSubscribersFromKey[key];
+                    Object.keys(functionSubscribers).forEach(function (currentFunctionName) {
+                        if (currentFunctionName !== functionName) {
+                            return;
+                        }
+                        functionSubscribers[currentFunctionName].forEach(function (elementEventNamePair) {
+                            const currentElement = elementEventNamePair[0];
+                            const currentEvent = elementEventNamePair[1];
+                            currentElement.removeEventListener(currentEvent, callBackFunction, false); // no try catch needed
+                            if (newFunction) {
+                                addEventListener(currentElement, currentEvent, newFunction);
+                            }
+                        });
+                    });
+                });
+                callBackFunction = newFunction;
+        });
+        
     });
 
-    const applyDirectiveFunctionWithContext = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName) {
+    const contextParametersFromElement = new WeakMap();
+    const previousCallBackWithContextCallerFromElement = new WeakMap();
+    const callBackWithContextCallerFactory = function(eventHandler, key, hostElement) {
+        return function (event) {
+            return eventHandler(event,
+                copyArrayFlat(key),
+                hostElement);
+        };
+    };
+    const applyDirectiveFunctionWithContext = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName, setterExists) {
+    
+        contextParametersFromElement.set(element, [copyArrayFlat(pathIn), hostElement]);
+        if (setterExists) {
+            return;
+        }        
 
-        const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
+        let callBackFunction;
+        let callBackWithContextCaller;
         
-        if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
-            callBackFunctionSubscribers[functionName].push(element);
-        } else {
-            let callBackFunction;
-            let callBackWithContextCaller;
-            let previousCallBackWithContextCaller;
-            callBackFunctionSubscribers[functionName] = [element]; 
-            //todo make single (optimization)
-            defineSetterGetter(functions, functionName,
-                function () {
-                    return callBackFunction;
-                },
-                function (newFunction) {
-                    if (newFunction === callBackFunction) {
-                        return;
-                    }
-                    callBackWithContextCaller = function (event) {
-                        return newFunction(event,
-                                copyArrayFlat(currentLevelPointersAccessPath),
-                                hostElement);
-                    };
-                    callBackFunctionSubscribers[functionName].forEach(function (currentElement) {
-                        // todo try catch
-                        currentElement.removeEventListener(eventName, previousCallBackWithContextCaller, false);
-                        if (newFunction) {
-                            addEventListener(currentElement, eventName, callBackWithContextCaller);
+
+        //todo make single (optimization)
+        defineSetterGetter(functions, functionName,
+            function () {
+                return callBackFunction;
+            },
+            function (newFunction) {
+                
+                            
+                Object.keys(functionSubscribersFromKey).forEach(function (key) {
+                    const functionSubscribers = functionSubscribersFromKey[key];
+                    Object.keys(functionSubscribers).forEach(function (currentFunctionName) {
+                        if (currentFunctionName !== functionName) {
+                            return;
                         }
+                        functionSubscribers[currentFunctionName].forEach(function (elementEventNamePair) {
+                            const currentElement = elementEventNamePair[0];
+                            const currentEvent = elementEventNamePair[1];
+                            currentElement.removeEventListener(currentEvent, previousCallBackWithContextCallerFromElement.get(currentElement), false); // no try catch needed
+                            if (newFunction) {
+                                callBackWithContextCaller = callBackWithContextCallerFactory(newFunction, ...contextParametersFromElement.get(currentElement));
+                                addEventListener(currentElement, currentEvent, callBackWithContextCaller);
+                                previousCallBackWithContextCallerFromElement.set(currentElement, callBackWithContextCaller);
+                            }
+                        });
                     });
-                    callBackFunction = newFunction;
-                    previousCallBackWithContextCaller = callBackWithContextCaller;
-                }
-            );
-        }
+                });
+                callBackFunction = newFunction;
+            }
+        );
     });
 
     const applyDirectiveList = function (element, variableName, elementListItem) {
@@ -554,19 +593,7 @@ const dom99 = (function () {
             if (!Array.isArray(keys)) {
                 keys = [keys];
             }
-            //todo delete callBackFunctionSubscribers[functionName][5?]
-            //because it is in a template maybe store adresses only in applyDirectiveFun
-            // and do the rest like variables
-            forDelete[keys.join("")].forEach(function (pair) {
-                const functionName = pair[0];
-                const index = pair[1];
-                callBackFunctionSubscribers[functionName].splice(index, 1);
-            });
-            delete forDelete[keys.join("")];
-            
-            //todo switch completly to ES2015+
-            // use weak maps...
-            /*the problem here is that callBackFunctionSubscribers[functionName] array is messed up which makes next for forDelete[keys.join("")] have false information*/
+            delete functionSubscribersFromKey[keys.join("")];
             
             followPathAndDelete(elements, copyArrayFlat(keys));
             followPathAndDelete(variables, copyArrayFlat(keys));
@@ -609,7 +636,7 @@ const dom99 = (function () {
                 if (customAttributeValue[0] === options.attributeValueDoneSign) {
                     return;
                 }
-                if (applyDirective === applyDirectiveFunction) {
+                if ((applyDirective === applyDirectiveFunction) || (applyDirective === applyDirectiveFunctionWithContext)) {
                     applyDirective(element, hostElement,
                             ...(customAttributeValue.split(options.tokenSeparator)));
                 } else {
@@ -642,7 +669,7 @@ const dom99 = (function () {
                 [options.directives.directiveElement, applyDirectiveElement],
                 [options.directives.directiveVariable, applyDirectiveVariable],
                 [options.directives.directiveFunction, applyDirectiveFunction],
-                [options.directives.directiveFunctionWithContext, applyDirectiveFunctionWithContext]
+                [options.directives.directiveFunctionWithContext, applyDirectiveFunctionWithContext],
                 [options.directives.directiveList, applyDirectiveList],
                 [options.directives.directiveIn, applyDirectiveIn]
             ];

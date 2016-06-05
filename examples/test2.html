@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width">
+    <style>.grey{background:#ddd;}</style>
+    <link rel="stylesheet" href="css/basics.css">
+</head>
+<body>    
+<p>below an ul element with data-variable="list1-li"</p>
+<ul data-list="list1-li"></ul>
+
+<p>simple deep composition without variables</p>
+
+<template data-element="xrowTemplate-d-xrow">
+    <pre>xxxxx</pre>
+</template>
+
+<template data-element="xsquareTemplate-d-xsquare">
+    <d-xrow></d-xrow>
+    <d-xrow></d-xrow>
+</template>
+
+<d-xsquare></d-xsquare>
+
+<p>simple deep composition with variables</p>
+
+<template data-element="searchTemplate-d-search">
+    <label>Search<input data-variable="search" data-function-context="trySearch" type="search" placeholder="search"></label>
+    <label>Filters<input type="text" placeholder="filter" disabled></label>
+</template>
+
+<template data-element="explorerTemplate-d-explorer">
+    <d-search data-in="search"></d-search>
+    <p data-variable="message"></p>
+    <ul data-list="files-li"></ul>
+</template>
+
+
+
+<d-explorer data-in="explorer1"></d-explorer>
+<p>also need test data-function-context</p>
+<!--<script src="../polyfill.min.js"></script>-->
+<script src="../js/dom99next.js"></script> 
+<!--<script src="../js/dom99.js"></script>-->
+<script>
+"use strict";
+var D = dom99;
+
+
+D.variables.list1 = ["a","b","c","d"];
+D.variables.list1.push("gg");
+D.variables.list1 = D.variables.list1;//force update
+
+D.functions.calculate = function (event) {
+    //.vr variables are Strings by default
+    D.variables.result = Number(D.variables.a) * Number(D.variables.b);
+};
+
+D.variables.a = 7;
+D.variables.b = 6;
+//invoke event handler to compute the first result
+D.functions.calculate();
+
+var files = ["beach.jpg","letterforjohan.txt","letterforsintia.txt","recipe.md","readme.md"];
+D.functions.trySearch = function (event, keys, host) {
+    //todo this functions takes 3 params
+    var search = D.followPath(D.variables, keys).search
+    keys.pop();
+    //console.log(keys);
+    //event.dIn.vr.message = event.dIn.vr.search.search; does nothing because Object.defineProperty doesn spread to other objects with same pointer
+    D.followPath(D.variables, keys).message = search ? "searching: " +  search : "Displaying all files";
+    D.followPath(D.variables, keys).files = files.filter(function (file) {
+        return file.match(search);
+    });
+    D.followPath(D.variables, keys).files
+    host.className = "grey";
+};
+//
+D.linkJsAndDom();
+D.variables.explorer1.files = files;
+
+
+</script>
+</body>
+</html>
