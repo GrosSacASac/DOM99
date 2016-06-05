@@ -1,9 +1,12 @@
-//dom99next.js  experiment
+//dom99next.js  experimental, in progress DO NOT USE !!!
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
 /*updates more explicit APIs,
-simplified data-fx*/
+simplified data-fx
+todo rename and redefine workflow, add data-x spelling checker
+i18n
+use es2015+ for proxies, weak maps*/
 const dom99 = (function () {
     "use strict";
 
@@ -225,14 +228,16 @@ const dom99 = (function () {
             }
         };
     };
-    
+    const forDelete = {};
     const applyDirectiveFunction = commonFunctionDirectiveDecorator(function (element, hostElement, eventName, functionName) {
 
         if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
-            callBackFunctionSubscribers[functionName].push(element);
+            forDelete[copyArrayFlat(pathIn).join("")].push([functionName, callBackFunctionSubscribers[functionName].length]);
+            callBackFunctionSubscribers[functionName].push([element, eventName]);
         } else {
             let callBackFunction;
-            callBackFunctionSubscribers[functionName] = [element];
+            forDelete[copyArrayFlat(pathIn).join("")] =  [[functionName, 0]];
+            callBackFunctionSubscribers[functionName] = [[element, eventName]];
             defineSetterGetter(functions, functionName,
                 function () {
                     return callBackFunction;
@@ -241,13 +246,16 @@ const dom99 = (function () {
                     if (newFunction === callBackFunction) {
                         return;
                     }
-                    callBackFunctionSubscribers[functionName].forEach(function (currentElement) {
-                        currentElement.removeEventListener(eventName, callBackFunction, false);
+                    callBackFunctionSubscribers[functionName].forEach(function (elementEventNamePair) {
+                        // todo try catch
+                        let currentElement = elementEventNamePair[0];
+                        let currentEvent = elementEventNamePair[1];
+                        currentElement.removeEventListener(currentEvent, callBackFunction, false);
                         if (newFunction) {
-                            addEventListener(currentElement, eventName, newFunction);
+                            addEventListener(currentElement, currentEvent, newFunction);
                         }
-                        callBackFunction = newFunction;
                     });
+                    callBackFunction = newFunction;
                 });
         }
     });
@@ -256,13 +264,14 @@ const dom99 = (function () {
 
         const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
         
-
         if (callBackFunctionSubscribers.hasOwnProperty(functionName)) {
             callBackFunctionSubscribers[functionName].push(element);
         } else {
             let callBackFunction;
-            let functionLookUp;
-            callBackFunctionSubscribers[functionName] = [element];
+            let callBackWithContextCaller;
+            let previousCallBackWithContextCaller;
+            callBackFunctionSubscribers[functionName] = [element]; 
+            //todo make single (optimization)
             defineSetterGetter(functions, functionName,
                 function () {
                     return callBackFunction;
@@ -271,19 +280,20 @@ const dom99 = (function () {
                     if (newFunction === callBackFunction) {
                         return;
                     }
-                    functionLookUp = function (event) {
-                        event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
-                        event.dHost = hostElement;
-                        return newFunction(event);
+                    callBackWithContextCaller = function (event) {
+                        return newFunction(event,
+                                copyArrayFlat(currentLevelPointersAccessPath),
+                                hostElement);
                     };
                     callBackFunctionSubscribers[functionName].forEach(function (currentElement) {
-                        currentElement.removeEventListener(eventName, callBackFunction, false);
+                        // todo try catch
+                        currentElement.removeEventListener(eventName, previousCallBackWithContextCaller, false);
                         if (newFunction) {
-                                
-                            addEventListener(currentElement, eventName, functionLookUp);
+                            addEventListener(currentElement, eventName, callBackWithContextCaller);
                         }
-                        callBackFunction = newFunction;
                     });
+                    callBackFunction = newFunction;
+                    previousCallBackWithContextCaller = callBackWithContextCaller;
                 }
             );
         }
@@ -547,6 +557,17 @@ const dom99 = (function () {
             //todo delete callBackFunctionSubscribers[functionName][5?]
             //because it is in a template maybe store adresses only in applyDirectiveFun
             // and do the rest like variables
+            forDelete[keys.join("")].forEach(function (pair) {
+                const functionName = pair[0];
+                const index = pair[1];
+                callBackFunctionSubscribers[functionName].splice(index, 1);
+            });
+            delete forDelete[keys.join("")];
+            
+            //todo switch completly to ES2015+
+            // use weak maps...
+            /*the problem here is that callBackFunctionSubscribers[functionName] array is messed up which makes next for forDelete[keys.join("")] have false information*/
+            
             followPathAndDelete(elements, copyArrayFlat(keys));
             followPathAndDelete(variables, copyArrayFlat(keys));
             followPathAndDelete(variablesSubscribers, copyArrayFlat(keys));
@@ -630,6 +651,10 @@ const dom99 = (function () {
         return startElement;
     };
 
+    const restart = function () {
+        //todo
+    };
+    
     const publicInterface = {
         //variables,
         elements,
@@ -639,6 +664,7 @@ const dom99 = (function () {
         linkJsAndDom,
         options,
         followPath,
+        restart,
         bool: booleanFromBooleanString
     };
     defineSetterGetter(publicInterface, "variables",
