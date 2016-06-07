@@ -6,7 +6,9 @@
 simplified data-fx
 todo rename and redefine workflow, add data-x spelling checker
 i18n
-use es2015+ for proxies, weak maps*/
+use es2015+ for proxies, weak maps
+todo see notes in other computer, .startswith can cause brother components to be removed
+might not need weak maps if we have the object*/
 const dom99 = (function () {
     "use strict";
 
@@ -351,7 +353,7 @@ const dom99 = (function () {
         }
 
         /*we check if the user already saved data in variablesPointer[variableName]
-        before using linkJsAndDom , if that is the case we
+        before using readDirectives , if that is the case we
         initialize variablesPointer[variableName] with that same data once we defined
         our custom property*/
         if (variablesPointer.hasOwnProperty(variableName)) {
@@ -547,7 +549,7 @@ const dom99 = (function () {
     returns clone
     */
         enterObject(key);
-        const clone = linkJsAndDom(cloneTemplate(templateElement), hostElement);
+        const clone = readDirectives(cloneTemplate(templateElement), hostElement);
         leaveObject();
         return clone;
     };
@@ -563,7 +565,7 @@ const dom99 = (function () {
         It can matter in single page application where you CONSISTENTLY use
 
             0. x = D.createElement2(...)
-            1. D.linkJsAndDom(x)
+            1. D.readDirectives(x)
             2. populate the result with data
             3. somewhat later delete the result
 
@@ -593,8 +595,13 @@ const dom99 = (function () {
             if (!Array.isArray(keys)) {
                 keys = [keys];
             }
-            delete functionSubscribersFromKey[keys.join("")];
             
+            let joinedKeys1 = keys.join("");
+            Object.keys(functionSubscribersFromKey).forEach(function (joinedKeys2) {
+                if (joinedKeys2.startsWith(joinedKeys1)) {//also deletes descendant subscribers
+                    delete functionSubscribersFromKey[joinedKeys2];
+                }
+            });
             followPathAndDelete(elements, copyArrayFlat(keys));
             followPathAndDelete(variables, copyArrayFlat(keys));
             followPathAndDelete(variablesSubscribers, copyArrayFlat(keys));
@@ -660,7 +667,7 @@ const dom99 = (function () {
         };
     };
 
-    const linkJsAndDom = function (startElement = doc.body, hostElement = startElement) {
+    const readDirectives = function (startElement = doc.body, hostElement = startElement) {
         //build array only once and use up to date options, they should not reset twice
         if (!directiveSyntaxFunctionPairs) {
             directiveSyntaxFunctionPairs = [
@@ -688,7 +695,7 @@ const dom99 = (function () {
         functions,
         createElement2,
         forgetKey,
-        linkJsAndDom,
+        readDirectives,
         options,
         followPath,
         restart,
