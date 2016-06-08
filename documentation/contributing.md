@@ -16,6 +16,8 @@
  * Define typical process of creating and composing with custom elements
  * Start version 2.0 where
  * data-fx is too permissive certain optimization can not be 
+ * define typycal custom element creation flow
+ * allow extension for input type="file"
  
 
  
