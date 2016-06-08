@@ -103,6 +103,7 @@ const dom99 = (function () {
         "checkbox": "change",
         "radio": "change",
         "range": "change",
+        "file": "change",
         miss: "input"
     });
 
