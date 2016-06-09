@@ -17,7 +17,8 @@
  * Start version 2.0 where
  * data-fx is too permissive certain optimization can not be 
  * define typycal custom element creation flow
- * allow extension for input type="file"
+ * make doc about how to create components (and share them)
+ * better describe what a component really is
  
 
  

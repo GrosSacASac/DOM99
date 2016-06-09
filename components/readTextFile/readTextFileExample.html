@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>readTextFile Example</title>
+</head>
+<body>
+    <a href="readme.md">Instructions</a>
+    <button data-fx="click-tryReadTextFile">Try readTextFile</button>
+    <!-- required --><div data-el="readTextFileContainer"></div>
+    <pre data-vr="result"></pre>
+
+
+
+<script src="../../js/dom99.js"></script>
+<script src="readTextFile.js"></script>
+<script>
+"use strict";
+dom99.linkJsAndDom();
+
+dom99.fx.tryReadTextFile = function (event) {
+    readTextFile().then(function (value) {
+        dom99.vr.result = value;
+    }).catch(function (reason) {
+        dom99.vr.result = "Error: " + reason;
+    });
+};
+
+</script>
+</body>
+</html>
