@@ -86,7 +86,7 @@
 
 <p>Less Confusion:</p>
 
-<ul><li><code>data-scope</code> becomes <code>data-in</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope=&quot;scopeName&quot;</code> becomes <code>data-in=&quot;Key&quot;</code> (in the documentation)</li></ul>
+<ul><li><code>data-scope</code> becomes <code>data-in</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-in="Key"</code> (in the documentation)</li></ul>
 </article>
 
 <article id="howto">
@@ -100,21 +100,21 @@
 
 <p>Examples:</p>
 
-<pre><code>&lt;input data-vr=&quot;b&quot; type=&quot;text&quot;&gt;
-&lt;nav data-el=&quot;myNav&quot;&gt;Navigation Links&lt;/nav&gt;
-&lt;button data-fx=&quot;click-deleteFoto&quot;&gt;Delete Foto&lt;/button&gt;
-&lt;d-magicbutton data-in=&quot;1&quot;&gt;&lt;/d-magicbutton&gt;      </code></pre>
+<pre><code>&lt;input data-vr="b" type="text"&gt;
+&lt;nav data-el="myNav"&gt;Navigation Links&lt;/nav&gt;
+&lt;button data-fx="click-deleteFoto"&gt;Delete Foto&lt;/button&gt;
+&lt;d-magicbutton data-in="1"&gt;&lt;/d-magicbutton&gt;      </code></pre>
 
 <p>The general syntax is </p>
 
-<p><code>&lt;tag data-keyword=&quot;token1-token2&quot; &gt; bla bla &lt;/tag&gt;</code></p>
+<p><code>&lt;tag data-keyword="token1-token2" &gt; bla bla &lt;/tag&gt;</code></p>
 
 <p>If you are not using browserify you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
-<pre><code>&lt;script src=&quot;js/dom99.js&quot;&gt;&lt;/script&gt;&lt;!-- or 
-&lt;script src=&quot;node_modules/dom99/js/dom99.js&quot;&gt;&lt;/script&gt; --&gt;&lt;!-- or 
-&lt;script src=&quot;bower_components/dom99/js/dom99.js&quot;&gt;&lt;/script&gt; --&gt;
-&lt;script src=&quot;js/yourJavascriptFile.js&quot;&gt;&lt;/script&gt;</code></pre>
+<pre><code>&lt;script src="js/dom99.js"&gt;&lt;/script&gt;&lt;!-- or 
+&lt;script src="node_modules/dom99/js/dom99.js"&gt;&lt;/script&gt; --&gt;&lt;!-- or 
+&lt;script src="bower_components/dom99/js/dom99.js"&gt;&lt;/script&gt; --&gt;
+&lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
 
 <h3>In your JavaScript:</h3>
 
@@ -130,16 +130,16 @@ D.linkJsAndDom();</code></pre>
 
 <p>aFunction is called when you click this button</p>
 
-<pre><code>&lt;button data-fx=&quot;click-functionName&quot;&gt;Action&lt;/button&gt;
+<pre><code>&lt;button data-fx="click-functionName"&gt;Action&lt;/button&gt;
 //Note we wrote functionName not aFunction</code></pre>
 
 
 <h3>Use data-vr and D.vr for live variables</h3>
-<p>To changes the text of <code>&lt;p data-vr=&quot;talkings&quot;&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
+<p>To changes the text of <code>&lt;p data-vr="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
 
-<pre><code>D.vr.talkings = &quot;Hi&quot;;</code></pre>
+<pre><code>D.vr.talkings = "Hi";</code></pre>
 
-<p>Use the same data-vr=&quot;talkings&quot; on <code>&lt;input&gt;</code> elements for two way data bindings</p>
+<p>Use the same data-vr="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
@@ -149,31 +149,31 @@ D.linkJsAndDom();</code></pre>
 <pre><code>D.el.bigTitle //An element reference, we can do what we want with it
 D.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
-<p>will remove <code>&lt;h1 data-el=&quot;bigTitle&quot;&gt;You can remove me to make space&lt;/h1&gt;</code></p>
+<p>will remove <code>&lt;h1 data-el="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
 <h3>Use data-el to declare html templates</h3>
 <p>To compose html with predefined building blocks.</p>
 
-<pre><code>&lt;template data-el=&quot;commentTemplate-d-comment&quot;&gt;
-    &lt;p data-vr=&quot;text&quot;&gt;&lt;/p&gt;
-    &lt;datetime data-vr=&quot;date&quot;&gt;&lt;/datetime&gt;
+<pre><code>&lt;template data-el="commentTemplate-d-comment"&gt;
+    &lt;p data-vr="text"&gt;&lt;/p&gt;
+    &lt;datetime data-vr="date"&gt;&lt;/datetime&gt;
 &lt;/template&gt;</code></pre>
 
 
 <h3>Use data-in to put html templates copies</h3>
-<pre><code>&lt;d-comment data-in=&quot;first&quot;&gt;&lt;/d-comment&gt;
-&lt;d-comment data-in=&quot;second&quot;&gt;&lt;/d-comment&gt;</code></pre>
+<pre><code>&lt;d-comment data-in="first"&gt;&lt;/d-comment&gt;
+&lt;d-comment data-in="second"&gt;&lt;/d-comment&gt;</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
-<pre><code>D.vr[&quot;first&quot;].text = &quot;A new comment&quot;;
-D.vr[&quot;first&quot;].date = &quot;Today&quot;;
+<pre><code>D.vr["first"].text = "A new comment";
+D.vr["first"].date = "Today";
 
 //or (recommended)
 D.vr = { 
     first: {
-        text: &quot;A new comment&quot;,
-        date: &quot;Today&quot;
+        text: "A new comment",
+        date: "Today"
     }
 };</code></pre>
 
@@ -216,15 +216,15 @@ D.linkJsAndDom();</code></pre>
     &lt;/article&gt;
 
     &lt;!-- a comment is some text and a date --&gt;
-    &lt;template data-el=&quot;commentTemplate-d-comment&quot;&gt;
-        &lt;p data-vr=&quot;text&quot;&gt;&lt;/p&gt;
-        &lt;datetime data-vr=&quot;date&quot;&gt;&lt;/datetime&gt;
+    &lt;template data-el="commentTemplate-d-comment"&gt;
+        &lt;p data-vr="text"&gt;&lt;/p&gt;
+        &lt;datetime data-vr="date"&gt;&lt;/datetime&gt;
     &lt;/template&gt;
 
-    &lt;d-comment data-in=&quot;comment1&quot;&gt;&lt;/d-comment&gt;
-    &lt;d-comment data-in=&quot;comment2&quot;&gt;&lt;/d-comment&gt;
+    &lt;d-comment data-in="comment1"&gt;&lt;/d-comment&gt;
+    &lt;d-comment data-in="comment2"&gt;&lt;/d-comment&gt;
 
-    &lt;button data-fx=&quot;click-showNextComment&quot;&gt;Show more comments&lt;/button&gt;
+    &lt;button data-fx="click-showNextComment"&gt;Show more comments&lt;/button&gt;
 
 &lt;/html&gt;
 
@@ -232,7 +232,7 @@ Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</
 
 <p>Our initial JS code looks like this</p>
 
-<pre><code>&quot;use strict&quot;;
+<pre><code>"use strict";
 const D = dom99;
 
 D.fx.showNextComment = function(event) {
@@ -241,12 +241,12 @@ D.fx.showNextComment = function(event) {
 
 let commentsData = {
     comment1: {
-        text: &quot;I am the first to comment, well written! Bravo!&quot;,
-        date: &quot;In the year 2016&quot;
+        text: "I am the first to comment, well written! Bravo!",
+        date: "In the year 2016"
     },
     comment2: {
-        text: &quot;I really appreciate your work&quot;,
-        date: &quot;just now&quot; 
+        text: "I really appreciate your work",
+        date: "just now" 
     }
 };
 
@@ -311,18 +311,18 @@ D.linkJsAndDom();</pre></code>
 <h4>Dynamic template injection in general</h4>
 
 <pre><code>&lt;body&gt;
-&lt;template data-el=&quot;templateName-d-tagname&quot;&gt;
-    &lt;p data-vr=&quot;text&quot; &gt;&lt;/p&gt;
+&lt;template data-el="templateName-d-tagname"&gt;
+    &lt;p data-vr="text" &gt;&lt;/p&gt;
     Any HTML ...
 &lt;/template&gt;
 ...
-&lt;div data-el=&quot;target&quot;&gt;&lt;/div&gt;
+&lt;div data-el="target"&gt;&lt;/div&gt;
 &lt;/body&gt;
 
 // 0 make a description
 let customElementDescription = {
-    &quot;tagName&quot;: &quot;d-tagname&quot;,
-    &quot;data-in&quot;: &quot;key&quot;
+    "tagName": "d-tagname",
+    "data-in": "key"
 }
 // 1 create HTML ELement
 let customElement = D.createElement2(customElementDescription);
@@ -331,21 +331,21 @@ let customElement = D.createElement2(customElementDescription);
 D.linkJsAndDom(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
-D.el[&quot;target&quot;].appendChild(customElement);</code></pre>
+D.el["target"].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
 <p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-el</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-in is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>D.vr[&quot;key&quot;][&quot;text&quot;] = &quot;A string&quot;
+<pre><code>D.vr["key"]["text"] = "A string"
 
-D.el[&quot;key&quot;][&quot;myElementIWantToChangeClassNameForInstance&quot;].className = ...</code></pre>
+D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
 
 <p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <code>event.dKeys and event.dIn</code>. Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
-&lt;template data-el=&quot;templateName-d-tagname&quot;&gt;
-    &lt;button data-fx=&quot;click-close&quot; &gt;CLOSE (X)&lt;/button&gt;
+&lt;template data-el="templateName-d-tagname"&gt;
+    &lt;button data-fx="click-close" &gt;CLOSE (X)&lt;/button&gt;
     Any HTML ...
 &lt;/template&gt;
 
@@ -358,10 +358,10 @@ D.fx.close = function (event) {
     event.dHost// is the host element (the one with data-in)
     //this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    D.vr[&quot;key&quot;][&quot;text&quot;];
+    D.vr["key"]["text"];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <code>D.forgetKey(&quot;key&quot;);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <code>D.forgetKey(event.dKeys);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
@@ -411,7 +411,7 @@ D.fx.close = function (event) {
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
-<p>You can add a class to your app element container like &quot;not-ready&quot;. Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the &quot;not-ready&quot; class name.</p>
+<p>You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
 
 <p>You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
 </article>

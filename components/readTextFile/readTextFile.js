@@ -8,6 +8,12 @@
 const readTextFile = (function (D) {
     "use strict";
 
+    const fileInputDescription = {
+        "tagName": "input",
+        "type": "file",
+        "data-fx": "xReadFileStart"
+    };
+    
     const readerOnLoadPrepare = function(fileObject, inputElement) {
         return function(event) {
             inputElement.remove();
@@ -23,11 +29,7 @@ const readTextFile = (function (D) {
     };
     
     const readFileSetup = function(resolve, reject) {
-        var fileInput = D.createElement2({
-            "tagName": "input",
-            "type": "file",
-            "data-fx": "xReadFileStart"
-        });
+        var fileInput = D.createElement2(fileInputDescription);
         fileInput.readFileResolve = resolve;
         fileInput.readFileReject = reject;
         D.linkJsAndDom(fileInput);

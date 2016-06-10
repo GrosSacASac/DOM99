@@ -19,6 +19,7 @@
  * define typycal custom element creation flow
  * make doc about how to create components (and share them)
  * better describe what a component really is
+ * todo initialize DOM shared variable with "" (now they are undefined)
  
 
  

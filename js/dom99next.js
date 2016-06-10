@@ -7,7 +7,9 @@ simplified data-fx
 todo rename and redefine workflow, add data-x spelling checker
 i18n
 use es2015+ for proxies, weak maps
-todo see notes in other computer, .startswith can cause brother components to be removed
+todo see notes in other computer, .startswith can cause sister components to be removed
+about the readFile component, the input stays in the event listener subscribers solution:
+make it a custom element with data-in to be able to forget it
 might not need weak maps if we have the object*/
 const dom99 = (function () {
     "use strict";
