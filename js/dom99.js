@@ -145,14 +145,14 @@ const dom99 = (function () {
         ]
     };
 
-    const createElement2 = function (ElementDescription) {
-        const element = doc.createElement(ElementDescription.tagName);
-        ElementDescription = Object.assign({}, ElementDescription);//avoid side effects
-        delete ElementDescription.tagName; // read only
+    const createElement2 = function (elementDescription) {
+        const element = doc.createElement(elementDescription.tagName);
         /*element.setAttribute(attr, value) is good to set initial attr like you do in html
         element.attr = value is good to change the live values    */
-        Object.keys(ElementDescription).forEach(function (key) {
-            element.setAttribute(key, ElementDescription[key]);
+        Object.keys(elementDescription).forEach(function (key) {
+            if (key !== "tagName") {
+                element.setAttribute(key, elementDescription[key]);
+            }
         });
         return element;
     };
