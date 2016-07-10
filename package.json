@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "1.23.19",
+  "version": "1.23.20",
   "license": "MIT",
   "description": "HTML/DOM manipulation made easier",
   "repository": {
@@ -30,7 +30,8 @@
     "web",
     "component",
     "fast",
-    "light"
+    "light",
+    "browser"
   ],
   "homepage": "https://cdn.rawgit.com/GrosSacASac/DOM99/1.23.2/documentation/documentation.html"
 }

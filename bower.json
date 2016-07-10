@@ -17,7 +17,8 @@
     "web",
     "component",
     "fast",
-    "light"
+    "light",
+    "browser"
   ],
   "homepage": "https://github.com/GrosSacASac/DOM99",
   "ignore": [

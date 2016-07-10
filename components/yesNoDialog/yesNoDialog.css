@@ -1,0 +1,13 @@
+/**/
+
+/*body*/.dialogactive *:not(.dialog) * {
+  display: none;
+}
+
+/*body*/.dialogactive .dialog {
+  display: block;
+}
+
+.dialog {
+  display: none;
+}
