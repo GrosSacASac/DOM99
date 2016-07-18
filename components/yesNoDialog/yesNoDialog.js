@@ -7,7 +7,7 @@
     Promise
 */
 "use strict";
-const D = dom99 || require("dom99");
+const D = require("dom99");
 
 D.fx.answerYesNo = function (event) {
     answerYesNoResolve(event.target === D.el.answerYesNoYesElement);
@@ -27,8 +27,6 @@ const yesNoDialog = function (question, yesText, noText) {
     });
 };
 
-if (module) {
-    module.exports = {
-        yesNoDialog
-    };
-}
+module.exports = {
+    yesNoDialog
+};

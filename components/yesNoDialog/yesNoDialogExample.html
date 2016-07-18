@@ -6,21 +6,25 @@
     <link rel="stylesheet" href="yesNoDialog.css">
 </head>
 <body class="">
-    <a href="readme.md">Instructions</a>
-
-
-    <!-- This needs to be included -->
-    <div class="dialog">
-        <p data-vr="answerYesNoQuestionText">The text or question of the dialog</p>
-        <button data-vr="answerYesNoYesText" data-el="answerYesNoYesElement" data-fx="click-answerYesNo">Yes (the true button )</button>
-        <button data-vr="answerYesNoNoText" data-fx="click-answerYesNo">No (the false button)</button>
-    </div>
+    <a href="readme.md">Direct child of the body, stays, see Instructions</a>
     
+    <div>
+        <p class="">Goes away during the dialog. See <a href="readme.md">Instructions</a></p>
+    </div>
+
     <div>
         <p>This is NOT a dialog</p>
         <button data-fx="click-try">try</button>
         <p>You answered: <span data-vr="result"></span></p>
     </div>
+
+    <!-- This needs to be included -->
+    <div class="dialog">
+        <p data-vr="answerYesNoQuestionText"></p>
+        <button data-vr="answerYesNoYesText" data-el="answerYesNoYesElement" data-fx="click-answerYesNo"></button>
+        <button data-vr="answerYesNoNoText" data-fx="click-answerYesNo"></button>
+    </div>
+    
 
 <script src="../../js/dom99.js"></script>
 <script src="yesNoDialog.js"></script>
@@ -36,8 +40,6 @@ D.fx.try = function (event) {
         D.vr.result = String(answer);
     });
 };
-
-
 
 </script>
 </body>
