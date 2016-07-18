@@ -8,7 +8,7 @@
 
 ##API
 
-yesNoDialog(question, yesText, noText)
+yesNoDialog.yesNoDialog(question, yesText, noText)
 
 ##Description
 
@@ -20,4 +20,4 @@ The native prompt function cannot be styled by css and blocks the main thread. p
 
 ##Limitations
 
-**First draft**, cannot use other dom99 directives with answerYesNo, else there is a risk of variable clash. Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see yesNoDialogExample.html. Cannot use the class Name dialog in other HTML elements. Direct child elements of the body element will not be hidden during the dialog. This is avoidable with proper div section and article usage.
+Cannot use other dom99 directives with answerYesNo, else there is a risk of variable clash. Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see yesNoDialogExample.html. Cannot use the class Name dialog in other HTML elements. Direct child elements of the body element will not be hidden during the dialog. This is avoidable with proper div section and article usage. Can be used to display the title of application. Does not scroll back at the same scroll position. Cannot be used again before the previous yesNoDialog has been resolved.
