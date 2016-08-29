@@ -148,7 +148,8 @@ const dom99 = (function () {
     const createElement2 = function (elementDescription) {
         const element = doc.createElement(elementDescription.tagName);
         /*element.setAttribute(attr, value) is good to set initial attr like you do in html
-        element.attr = value is good to change the live values    */
+        setAttribute won t change the current .value, for instance, setAttribute is the correct choice for creation
+        element.attr = value is good to change the live values*/
         Object.keys(elementDescription).forEach(function (key) {
             if (key !== "tagName") {
                 element.setAttribute(key, elementDescription[key]);
