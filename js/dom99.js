@@ -29,7 +29,8 @@ const dom99 = (function () {
     const checked = "checked";
 
     const isNotNullObject = function (x) {
-        return (x !== null && typeof x === "object");
+        /*array or object*/
+        return (typeof x === "object" && x !== null && !(x instanceof String));
     };
 
     const copyArrayFlat = function (array1) {
