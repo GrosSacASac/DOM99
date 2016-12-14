@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>yesNoDialog Example</title>
+    <link rel="stylesheet" href="../yesNoDialog.css">
+</head>
+<body>    
+    <!-- This needs to be included -->
+    <div class="dialog">
+        <p data-vr="answerYesNoQuestionText"></p>
+        <button data-vr="answerYesNoYesText" data-el="answerYesNoYesElement" data-fx="click-answerYesNo"></button>
+        <button data-vr="answerYesNoNoText" data-fx="click-answerYesNo"></button>
+    </div>
+    
+    <a href="../readme.md">Direct child of the body, stays, see Instructions</a>
+    
+    <div>
+        <p>Refresh to restart. See <a href="../readme.md">Instructions</a></p>
+    </div>
+
+    <div>
+
+    <pre data-vr="result"></pre>
+    </div>
+
+
+    
+
+    <script src="requirebundle.js"></script>
+    <script src="yesNoDialogExampleMulti.js"></script>
+
+</body>
+</html>
