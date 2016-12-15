@@ -45,6 +45,11 @@ Maybe obsoleted by `<dialog>` element. (Future)
 ##Changelog
 
 
+##Todo
+
+ * Add keyboard shortcut alternative to click Yes No with Enter ESC 
+ * Make Button bigger
+
 ###14/12/2016
 
 
