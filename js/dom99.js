@@ -490,10 +490,12 @@ const dom99 = (function () {
 
         Internally we just deleted the key group for every relevant function
         (for instance binds are not key grouped)
+        
+         we cannot use Weak Maps here because it needs an object as the key not a String
+         or we need to change the API a bit
+         
+         todo optimize and make benchmarks
         */
-        // we cannot use Weak Maps here because it needs an object as the key not a String
-        // or we need to change the API a bit
-
         const followPathAndDelete = function (object1, keys) {
             let target = object1;
             let lastKey = keys.pop();
