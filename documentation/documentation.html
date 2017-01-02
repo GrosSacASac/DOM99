@@ -41,7 +41,9 @@
 
 <h2>Why not use DOM99 ?</h2>
 
-<ul><li>No support for some old browsers</li><li>New Framework</li><li>Fear of the unknown</li><li>You have already a working codebase that is mantainable</li><li>You need to learn about HTML and JS first</li><li>You need a comprehensive framework that has all the tool you need out of the box.(DOM99 is not batteries included)</li></ul>
+<ul>
+<li>No support for some old browsers</li><li>New Framework</li><li>Fear of the unknown</li><li>You have already a working codebase that is mantainable</li><li>You need to learn about HTML and JS first</li><li>You need a comprehensive framework that has all the tool you need out of the box.(DOM99 is not batteries included)</li><li>No built in server side rendering mechanism</li>
+</ul>
 
 <h2>How does DOM99 work ?</h2>
 
@@ -415,9 +417,10 @@ D.fx.close = function (event) {
 <p>You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
 
 <p>You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
+<p>Server side rendering is compatible with DOM99, but you have to glue it together yourself. A future version will make this built in with a node extension.</p>
 </article>
 
-<article  id="discussion">
+<article id="discussion">
 <h2>Discussion</h2>
 
 <h4>Chat</h4>
