@@ -545,6 +545,9 @@ const dom99 = (function () {
                 if (!element.hasAttribute(directiveName)) {
                     return;
                 }
+                /* todo see if it is worth using .dataVariable instead of 
+                .getAttribute("data-variable")
+                https://jsperf.com/dataset-vs-getattribute-and-setattribute/3*/
                 const customAttributeValue = element.getAttribute(directiveName);
                 if (customAttributeValue[0] === options.attributeValueDoneSign) {
                     return;
