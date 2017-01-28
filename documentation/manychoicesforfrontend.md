@@ -29,16 +29,14 @@ Some similarities:
 Pro:
 
   * Easier to understand what is happening in large code bases
-  * React native (still a thing ?)
+  * React native
   * More browser compatibility
-  * Pushed people to create new awesome frameworks like Cycle js
   
 Contra:
 
   * Logic in Markup
   * Encouraged to use JSX, a JavaScript extension syntax
   * Can be hard to understand how and why to use react
-  * Forced V-V model
     
 Some similarities:
 
