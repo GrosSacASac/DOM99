@@ -68,6 +68,35 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<h3>Version 2.0.0</h3>
+<p>Switched to SEMVER versioning</p>
+<p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
+<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object
+<pre>
+{
+    el,
+    vr,
+    baseEl
+}
+</pre></p>
+<p>New function syntax for multiple listeners data-fx="event1-function1,event2-function2"</p>
+<p>D.fx must now be populated before D.linkJsAndDom() is called</p>
+<p>
+    eventFromTagAndType
+        changed into eventNameFromElement
+  </p>
+<p>  
+    variablePropertyFromTagAndType
+        changed into variablePropertyFromElement
+  </p>
+<p>      
+    elementsForUserInputList
+        changed into tagNamesForUserInput</p>
+<p>      
+        data-template="d-name" added
+    data-el="template-d-name" removed</p>
+
+<hr>
 <p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
 <p>1.23.10 start working on v2.0,</p>
 <p>1.23.0: Removed event.dIn. Use D.followPath(D.vr, event.dKeys) or similar instead.</p>
@@ -99,7 +128,14 @@
 
 <p>DOM99 will browse the DOM and react if an element has one of the following attributes</p>
 
-<ul><li>data-vr : <strong>vr for variable</strong>: data binding between DOM element and js variable</li><li>data-list : <strong>list is a synonym for array</strong>: display a js array as a list in the DOM</li><li>data-el : <strong>el for element</strong>: pre-selecting an element for later usage</li><li>data-fx : <strong>fx for function</strong> adds an event listener to that element</li><li>data-in: (advanced) <strong>in for in the object with this key</strong> adds the linked template copy at load time</li></ul>
+<ul>
+    <li>data-vr : <strong>vr for variable</strong>: data binding between DOM element and js variable</li>
+    <li>data-list : <strong>list is a synonym for array</strong>: display a js array as a list in the DOM</li>
+    <li>data-el : <strong>el for element</strong>: pre-selecting an element for later usage</li>
+    <li>data-fx : <strong>fx for function</strong> adds an event listener to that element</li>
+    <li>data-template : (advanced) Declare a html template to build components</li>
+    <li>data-in: (advanced) <strong>in for encapsulation</strong> adds the chosen template inside an encapsulated context</li>
+</ul>
 
 <p>Examples:</p>
 
@@ -154,10 +190,10 @@ D.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>will remove <code>&lt;h1 data-el="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
-<h3>Use data-el to declare html templates</h3>
+<h3>Use data-template to declare html templates</h3>
 <p>To compose html with predefined building blocks.</p>
 
-<pre><code>&lt;template data-el="commentTemplate-d-comment"&gt;
+<pre><code>&lt;template data-template="d-comment"&gt;
     &lt;p data-vr="text"&gt;&lt;/p&gt;
     &lt;datetime data-vr="date"&gt;&lt;/datetime&gt;
 &lt;/template&gt;</code></pre>
@@ -219,7 +255,7 @@ D.linkJsAndDom();</code></pre>
     &lt;/article&gt;
 
     &lt;!-- a comment is some text and a date --&gt;
-    &lt;template data-el="commentTemplate-d-comment"&gt;
+    &lt;template data-template="d-comment"&gt;
         &lt;p data-vr="text"&gt;&lt;/p&gt;
         &lt;datetime data-vr="date"&gt;&lt;/datetime&gt;
     &lt;/template&gt;
@@ -314,7 +350,7 @@ D.linkJsAndDom();</pre></code>
 <h4>Dynamic template injection in general</h4>
 
 <pre><code>&lt;body&gt;
-&lt;template data-el="templateName-d-tagname"&gt;
+&lt;template data-template="d-tagname"&gt;
     &lt;p data-vr="text" &gt;&lt;/p&gt;
     Any HTML ...
 &lt;/template&gt;
@@ -338,7 +374,7 @@ D.el["target"].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-el</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-in is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-in is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
 <pre><code>D.vr["key"]["text"] = "A string"
 
@@ -347,7 +383,7 @@ D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code>
 <p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <code>event.dKeys and event.dIn</code>. Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
-&lt;template data-el="templateName-d-tagname"&gt;
+&lt;template data-template="d-tagname"&gt;
     &lt;button data-fx="click-close" &gt;CLOSE (X)&lt;/button&gt;
     Any HTML ...
 &lt;/template&gt;
@@ -370,7 +406,7 @@ D.fx.close = function (event) {
 <article id="examples1">
 <h2>Some Examples</h2>
 <p id="errors"><noscript>Enable JavaScript to view certain part of this page.</noscript></p>
-<template data-el="htmlJsAndResultTemplate-d-htmljsresult">
+<template data-template="d-htmljsresult">
     <article class="htmljsandoutput">
         <h3 data-vr="title"></h3>
         <section>
@@ -399,7 +435,7 @@ D.fx.close = function (event) {
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild</a> to insert or move an element</li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove</a> to remove an element</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
+<li hidden><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/Events">Events</a></li>
 </ul>

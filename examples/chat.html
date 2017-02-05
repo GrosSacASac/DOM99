@@ -11,7 +11,7 @@
     <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.js" target="_blank">JS</a>.</p>
 
     <h1>Chat example</h1>
-    <template data-el="messageTemplate-d-message">
+    <template data-template="d-message">
         <!-- Everything here has its own key path  -->
         <li>
             <span data-vr="authorName"></span>
@@ -20,9 +20,8 @@
         </li>
     </template>
     
-    <ol data-el="messagesContainer">
+    <ol data-el="messagesContainer"></ol>
     
-    </ol>
     <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
     <button data-fx="click-trySendMessage">Send !</button>
 

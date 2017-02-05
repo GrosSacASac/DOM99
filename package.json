@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "1.23.38",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "HTML/DOM manipulation made easier",
   "repository": {
@@ -15,7 +15,9 @@
     "uglify-js": "2.6.2"
   },
   "scripts": {
-    "build": "babel js/dom99.js | uglifyjs - --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/dom99.es5.min.js",
+    "buildes5": "babel js/dom99.js > js/dom99.es5.js",
+    "buildminify": "uglifyjs js/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/dom99.es5.min.js",
+    "build": "npm run buildes5 && npm run buildminify",
     "buildexamples": "babel examples -d exampleses5",
     "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
     "buildyesnodialogexample": "browserify -r ./js/dom99.js:dom99 -r ./components/yesNoDialog/yesNoDialog.js:yesNoDialog > components/yesNoDialog/examples/requirebundle.js"

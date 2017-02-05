@@ -4,7 +4,7 @@
     es6, maxerr: 15, browser, devel, fudge, maxlen: 100
 */
 /*global
-    Promise
+    Promise, require
 */
 "use strict";
 const D = require("dom99");

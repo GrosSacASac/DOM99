@@ -2,7 +2,24 @@
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
-/**/
+/*
+    need to update all examples and docs
+        
+
+        
+    document DVRP, DVRPL, CONTEXT element extension,
+    use WeakMap instead where supported
+    
+    
+    decide when to use event
+        .target
+        .orignialTarget
+        .currentTarget
+    
+    
+    when to use is="" syntax
+    think about overlying framework
+*/
 const dom99 = (function () {
     "use strict";
 
@@ -10,7 +27,9 @@ const dom99 = (function () {
     const variables = {};
     const variablesSubscribers = {};
     const elements = {};
-
+    const functions = {};
+    
+    const templateElementFromCustomElementName = {};
     let pathIn = [];
 
     let variablesPointer = variables;
@@ -19,21 +38,16 @@ const dom99 = (function () {
 
     let directiveSyntaxFunctionPairs;
 
-    const functions = {};
-    const templateElementFromCustomElementName = {};
-    const doc = document;
-    const miss = "miss";
-    const value = "value";
-    const textContent = "textContent";
-    const source = "src";
-    const checked = "checked";
+    const MISS = "MISS";
 
     const isNotNullObject = function (x) {
         /*array or object*/
-        return (typeof x === "object" && x !== null && !(x instanceof String));
+        return (typeof x === "object" && x !== null);
     };
 
     const copyArrayFlat = function (array1) {
+        // stop using this
+        // its not GC friendly
         return array1.map((x) => x);
     };
 
@@ -54,50 +68,42 @@ const dom99 = (function () {
         });
     };
 
-    const booleanFromBooleanString = function (booleanString) {
-        return (booleanString === "true");
-    };
-
     const valueElseMissDecorator = function (object1) {
         /*Decorator function around an Object to provide a default value
-        Decorated object must have a miss key with the default value associated
+        Decorated object must have a MISS key with the default value associated
         Arrays are also objects
         */
         return function (key) {
             if (object1.hasOwnProperty(key)) {
                 return object1[key];
             }
-            return object1[miss];
+            return object1[MISS];
         };
     };
 
     const propertyFromTag = valueElseMissDecorator({
         //Input Type : appropriate property name to retrieve and set the value
-        "input": value,
-        "textarea": value,
-        "progress": value,
-        "select": value,
-        "img": source,
-        "source": source,
-        "audio": source,
-        "video": source,
-        "track": source,
-        "script": source,
-        "option": value,
-        "link": "href",
-        miss: textContent
+        "INPUT": "value",
+        "TEXTAREA": "value",
+        "PROGRESS": "value",
+        "SELECT": "value",
+        "IMG": "src",
+        "SOURCE": "src",
+        "AUDIO": "src",
+        "VIDEO": "src",
+        "TRACK": "src",
+        "SCRIPT": "src",
+        "OPTION": "value",
+        "LINK": "href",
+        "DETAILS": "open",
+        MISS: "textContent"
     });
-
-    /*booleanProperties = [
-        // add here all relevant boolean properties
-        checked
-    ],*/
 
     const propertyFromInputType = valueElseMissDecorator({
         //Input Type : appropriate property name to retrieve and set the value
-        "checkbox": checked,
-        "radio": checked,
-        miss: value
+        "checkbox": "checked",
+        "radio": "checked",
+        MISS: "value"
     });
 
     const inputEventFromType = valueElseMissDecorator({
@@ -105,12 +111,12 @@ const dom99 = (function () {
         "radio": "change",
         "range": "change",
         "file": "change",
-        miss: "input"
+        MISS: "input"
     });
 
     const eventFromTag = valueElseMissDecorator({
-        "select": "change",
-        miss: "input"
+        "SELECT": "change",
+        MISS: "input"
     });
 
     const options = {
@@ -122,32 +128,36 @@ const dom99 = (function () {
             directiveVariable: "data-vr",
             directiveElement: "data-el",
             directiveList: "data-list",
-            directiveIn: "data-in"
+            directiveIn: "data-in",
+            directiveTemplate: "data-template"
         },
 
-        variablePropertyFromTagAndType: function (tagName, type) {
-            if (tagName === "input") {
-                return propertyFromInputType(type);
+        variablePropertyFromElement: function (element) {
+            const tagName = element.tagName || element;
+            if (tagName === "INPUT") {
+                return propertyFromInputType(element.type || 'text');
             }
             return propertyFromTag(tagName);
         },
 
-        eventFromTagAndType: function (tagName, type) {
-            if (tagName === "input") {
-                return inputEventFromType(type);
+        eventNameFromElement: function (element) {
+            const tagName = element.tagName;
+            if (tagName === "INPUT") {
+                return inputEventFromType(element.type);
             }
             return eventFromTag(tagName);
         },
 
-        elementsForUserInputList: [
-            "input",
-            "textarea",
-            "select"
+        tagNamesForUserInput: [
+            "INPUT",
+            "TEXTAREA",
+            "SELECT",
+            "DETAILS"
         ]
     };
 
     const createElement2 = function (elementDescription) {
-        const element = doc.createElement(elementDescription.tagName);
+        const element = document.createElement(elementDescription.tagName);
         /*element.setAttribute(attr, value) is good to set initial attr like you do in html
         setAttribute won t change the current .value, for instance, setAttribute is the correct choice for creation
         element.attr = value is good to change the live values*/
@@ -170,12 +180,8 @@ const dom99 = (function () {
         }
     };
 
-    const tagFromElement = function (element) {
-        return element.tagName.toLowerCase();
-    };
-
     const customElementNameFromElement = function (element) {
-        return element.getAttribute("is") || tagFromElement(element);
+        return element.getAttribute("is") || element.tagName.toLowerCase();
     };
 
     const addEventListener = function (element, eventName, function1, useCapture = false) {
@@ -192,62 +198,42 @@ const dom99 = (function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    const applyDirectiveFunction = function (element, hostElement, eventNames, functionNames) {
-        /*todo maybe not copyArrayFlat at each event*/
-        let functionLookUp;
-        const currentLevelPointersAccessPath = copyArrayFlat(pathIn);
-        /*functionLookUp allows us to change functions in D.fx at runtime*/
-
-        if (!eventNames || !functionNames) {
-            if (!eventNames && !functionNames) {
-                console.warn(element,
-'Use data-fx="event1,event2-functionName1,functionName2" format! or "functionName1"');
-                return;
+    const tryApplyDirectiveFunction = function (element, customAttributeValue) {
+        /* todo add warnings for syntax*/
+        customAttributeValue.split(options.listSeparator).forEach(
+            function (customAttributeValueSplit) {
+                const tokens = customAttributeValueSplit.split(options.tokenSeparator);
+                if (tokens.length === 1) {
+                    const functionName = tokens[0];
+                    const eventName = options.eventNameFromElement(element);
+                    applyDirectiveFunction(element, eventName, functionName);
+                } else {
+                    const [eventName, functionName] = tokens;
+                    applyDirectiveFunction(element, eventName, functionName);
+                }
             }
-            // used short hand syntax
-            functionNames = eventNames.split(options.listSeparator);
-            eventNames = [options.eventFromTagAndType(tagFromElement(element), element.type)];
-        } else {
-            //explicit syntax used
-            eventNames = eventNames.split(options.listSeparator);
-            functionNames = functionNames.split(options.listSeparator);
+        );
+    };
+    
+    const applyDirectiveFunction = function (element, eventName, functionName) {
+        if (!functions[functionName]) {
+            console.error(`Event listener ${functionName} not found.`);
+            return;
         }
-
-        if ((eventNames.length === 1) && (functionNames.length === 1)) {
-            /*we only have 1 event type and 1 function*/
-            const functionName = functionNames[0];
-            functionLookUp = function (event) {
-                event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
-                event.dHost = hostElement;
-                return functions[functionName](event);
-            };
-
-            addEventListener(element, eventNames[0], functionLookUp);
-
-        } else {
-            functionLookUp = function (event) {
-                let last;
-                event.dKeys = copyArrayFlat(currentLevelPointersAccessPath);
-                event.dHost = hostElement;
-                const functionLookUpChain = function (functionName) {
-                    last = functions[functionName](event);
-                };
-
-                functionNames.forEach(functionLookUpChain);
-                return last;
-            };
-
-
-            eventNames.forEach(function (eventName) {
-                addEventListener(element, eventName, functionLookUp);
-            });
-        }
+        addEventListener(element, eventName, functions[functionName]);
     };
 
-    const applyDirectiveList = function (element, variableName, elementListItem) {
+    const applyDirectiveList = function (element, customAttributeValue) {
         /* js array --> DOM list
         <ul data-list="var-li"></ul>
-        todo optimization*/
+        todo optimization
+        always throws away the entire dom list, let user of dom99 opt in in updates strategies such as
+            same length, different content
+            same content, different length
+            key based identification
+            */
+        const [variableName, elementListItem] = customAttributeValue
+            .split(options.tokenSeparator);
         let list;
         let temp;
 
@@ -264,18 +250,20 @@ const dom99 = (function () {
             temp = variablesPointer[variableName];
         }
         //Dom99 VaRiable Property for List items
-        element.DVRPL = options.variablePropertyFromTagAndType(elementListItem);
+        // expects an element not tagName !
+        element.DVRPL = options.variablePropertyFromElement(elementListItem.toUpperCase());
+        
 
         Object.defineProperty(variablesPointer, variableName, {
             get: function () {
                 return list;
             },
             set: function (newList) {
-                const fragment = doc.createDocumentFragment();
+                const fragment = document.createDocumentFragment();
                 list = newList;
                 element.innerHTML = "";
                 list.forEach(function (value) {
-                    const listItem = doc.createElement(elementListItem);
+                    const listItem = document.createElement(elementListItem);
                     if (isNotNullObject(value)) {
                         Object.keys(value).forEach(function (key) {
                             listItem[key] = value[key];
@@ -308,25 +296,25 @@ const dom99 = (function () {
         The public D.vr.a variable returns this private js variable
 
         undefined assignment are ignored, instead use empty string( more DOM friendly)*/
-        const tagName = tagFromElement(element);
-        const type = element.type;
-        let temp;
 
         if (!variableName) {
             console.warn(element, 'Use data-vr="variableName" format!');
             return;
         }
 
-        if (variablesPointer.hasOwnProperty(variableName)) {
-            temp = variablesPointer[variableName];
-        }
+
 
         //Dom99 VaRiable Property
-        element.DVRP = options.variablePropertyFromTagAndType(tagName, type);
+        element.DVRP = options.variablePropertyFromElement(element);
 
         if (variablesSubscribersPointer.hasOwnProperty(variableName)) {
             variablesSubscribersPointer[variableName].push(element);
+            element[element.DVRP] = variablesPointer[variableName]; //has latest
         } else {
+            let initialValue;
+            if (variablesPointer.hasOwnProperty(variableName)) {
+                initialValue = variablesPointer[variableName];
+            }
             const variablesSubscribersPointerReference = variablesSubscribersPointer;
             let x = ""; // holds the value
             variablesSubscribersPointer[variableName] = [element];
@@ -336,56 +324,49 @@ const dom99 = (function () {
                 },
                 set: function (newValue) {
                     if (newValue === undefined) {
-                        console.warn("D.vr.x= string || bool , not undefined!");
+                        console.warn("D.vr.x = string || bool , not undefined!");
+                    }
+                    if (x === newValue) {
+                        //don't overwrite the same
                         return;
                     }
-                    x = String(newValue);
+                    x = newValue;
                     variablesSubscribersPointerReference[variableName].forEach(
                         function (currentElement) {
                         /*here we change the value of the currentElement in the dom
                         */
+                        currentElement[currentElement.DVRP] = x;
 
-                        //don't overwrite the same
-                            if (String(currentElement[currentElement.DVRP]) === x) {
-                                return;
-                            }
-                        // add more than checked, use if
-                        //(booleanProperties.includes(currentElement.DVRP))
-
-                            if (currentElement.DVRP === checked) {
-                                currentElement[currentElement.DVRP] = newValue;
-                            } else {
-                                currentElement[currentElement.DVRP] = x;
-                            }
                         }
                     );
                 },
                 enumerable: true,
                 configurable: false
             });
+            
+            
+            if (initialValue !== undefined) {
+                variablesPointer[variableName] = initialValue; //calls the set once
+            }
         }
 
-        if (options.elementsForUserInputList.includes(tagName)) {
+        if (options.tagNamesForUserInput.includes(element.tagName)) {
             const variablesPointerReference = variablesPointer;
             const broadcastValue = function (event) {
                 //wil call setter to broadcast the value
                 variablesPointerReference[variableName] = event.target[event.target.DVRP];
             };
             addEventListener(element,
-                    options.eventFromTagAndType(tagName, type),
+                    options.eventNameFromElement(element),
                     broadcastValue);
         }
 
-        if (temp !== undefined) {
-            variablesPointer[variableName] = temp; //calls the set once
-        }
     };
 
-    const applyDirectiveElement = function (element,
-            elementName, customElementTargetNamePrefix,
-            customElementTargetNameAppendix) {
+    const applyDirectiveElement = function (element, customAttributeValue) {
         /* stores element for direct access !*/
-
+        const elementName = customAttributeValue;
+        
         if (!elementName) {
             console.warn(element, 'Use data-el="elementName" format!');
             return;
@@ -393,23 +374,34 @@ const dom99 = (function () {
 
         elementsPointer[elementName] = element;
 
-        if (customElementTargetNamePrefix && customElementTargetNameAppendix) {
-            templateElementFromCustomElementName[
-                `${customElementTargetNamePrefix}-${customElementTargetNameAppendix}`
-            ] = element;
+    };
+    
+    const applyDirectiveTemplate = function (element, customAttributeValue) {
+        /* stores a template element for later reuse !*/
+
+        
+        if (!customAttributeValue) {
+            console.warn(element, 'Use data-template="d-name" format!');
+            return;
         }
+
+        templateElementFromCustomElementName[customAttributeValue] = element;
+        
     };
 
     const cloneTemplate = (function () {
-        if ("content" in doc.createElement("template")) {
+        if ("content" in document.createElement("template")) {
             return function (templateElement) {
-                return doc.importNode(templateElement.content, true);
+                if (!templateElement) {
+                    console.error(`To use reusable template use <template data-template="d-name">Template Content</template>`);
+                }
+                return document.importNode(templateElement.content, true);
             };
         }
 
         return function (templateElement) {
             /*here we have a div too much (messes up css)*/
-            const clone = doc.createElement("div");
+            const clone = document.createElement("div");
             clone.innerHTML = templateElement.innerHTML;
             return clone;
         };
@@ -444,12 +436,13 @@ const dom99 = (function () {
     const leaveObject = function () {
         pathIn.pop();
 
+        // replace followPath with = previousPointer or ParentPointer
         elementsPointer = followPath(elements, pathIn);
         variablesPointer = followPath(variables, pathIn);
         variablesSubscribersPointer = followPath(variablesSubscribers, pathIn);
     };
 
-    const templateRender = function (templateElement, key, hostElement) {
+    // const templateRender = function (templateElement, key) {
     /*takes a template element as argument, usually linking to a <template>
     clones the content and returns that clone
     the content elements with "data-vr" will share a variable at
@@ -459,11 +452,11 @@ const dom99 = (function () {
 
     returns clone
     */
-        enterObject(key);
-        const clone = linkJsAndDom(cloneTemplate(templateElement), hostElement);
-        leaveObject();
-        return clone;
-    };
+        // enterObject(key);
+        // const clone = linkJsAndDom(cloneTemplate(templateElement));
+        // leaveObject();
+        // return clone;
+    // };
 
     const forgetKey = (function () {
         /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
@@ -514,11 +507,6 @@ const dom99 = (function () {
         };
     }());
 
-    const renderCustomElement = function (customElement, templateElement, key) {
-        customElement.appendChild(templateRender(templateElement, key, customElement));
-        return customElement;
-    };
-
     const applyDirectiveIn = function (element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
@@ -526,57 +514,74 @@ const dom99 = (function () {
             console.warn(element, 'Use data-in="key" format!');
             return;
         }
-
-        renderCustomElement(element,
-                templateElementFromCustomElementName[customElementNameFromElement(element)],
-                key);
-    };
-
-    const tryApplyDirectivesCreator = function (hostElement) {
-        return function (element) {
-        /* looks if the element has dom99 specific attributes and tries to handle it*/
-            if (!element.hasAttribute) {
-                return;
-            }
-
-            directiveSyntaxFunctionPairs.forEach(function (pair) {
-                const [directiveName, applyDirective] = pair;
-
-                if (!element.hasAttribute(directiveName)) {
-                    return;
-                }
-                /* todo see if it is worth using .dataVariable instead of 
-                .getAttribute("data-variable")
-                https://jsperf.com/dataset-vs-getattribute-and-setattribute/3*/
-                const customAttributeValue = element.getAttribute(directiveName);
-                if (customAttributeValue[0] === options.attributeValueDoneSign) {
-                    return;
-                }
-                if (applyDirective === applyDirectiveFunction) {
-                    applyDirective(element, hostElement,
-                            ...(customAttributeValue.split(options.tokenSeparator)));
-                } else {
-                    applyDirective(element,
-                            ...(customAttributeValue.split(options.tokenSeparator)));
-                }
-                // ensure the directive is only applied once
-                element.setAttribute(directiveName,
-                        options.attributeValueDoneSign + customAttributeValue);
-            });
-            if (element.hasAttribute(options.directives.directiveIn)) {
-                return;
-            }
-            /*using a custom element without data-in*/
-            let customElementName = customElementNameFromElement(element);
-            if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
-                element.appendChild(
-                    cloneTemplate(templateElementFromCustomElementName[customElementName])
-                );
-            }
+        
+        const templateElement = templateElementFromCustomElementName[
+            customElementNameFromElement(element)
+        ];
+        
+        
+        enterObject(key);
+        const templateClone = linkJsAndDom(cloneTemplate(templateElement));
+        element.CONTEXT = {
+            el: elementsPointer,
+            vr: variablesPointer,
+            baseEl: element
         };
+        leaveObject();
+        element.appendChild(templateClone);
     };
 
-    const linkJsAndDom = function (startElement = doc.body, hostElement = startElement) {
+    const tryApplyDirectives = function (element) {
+        /* looks if the element has dom99 specific attributes and tries to handle it*/
+        if (!element.hasAttribute) {
+            return;
+        }
+
+        directiveSyntaxFunctionPairs.forEach(function (pair) {
+            const [directiveName, applyDirective] = pair;
+
+            if (!element.hasAttribute(directiveName)) {
+                return;
+            }
+            /* todo see if it is worth using .dataVariable instead of 
+            .getAttribute("data-variable")
+            https://jsperf.com/dataset-vs-getattribute-and-setattribute/3*/
+            const customAttributeValue = element.getAttribute(directiveName);
+            if (customAttributeValue[0] === options.attributeValueDoneSign) {
+                return;
+            }
+
+            applyDirective(element, customAttributeValue);
+            
+            // ensure the directive is only applied once
+            element.setAttribute(directiveName,
+                    options.attributeValueDoneSign + customAttributeValue);
+        });
+        if (element.hasAttribute(options.directives.directiveIn)) {
+            return;
+        }
+        /*using a custom element without data-in*/
+        let customElementName = customElementNameFromElement(element);
+        if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
+            element.appendChild(
+                cloneTemplate(templateElementFromCustomElementName[customElementName])
+            );
+        }
+    
+    };
+    
+    const getParentContext = function (element) {
+        const parentElement = element.parentNode;
+        if (!parentElement) {
+            throw new Error("element has no parent context");
+        } else if (parentElement.hasOwnProperty("CONTEXT")) {
+            return parentElement.CONTEXT;
+        } else {
+            return getParentContext(parentElement);
+        }
+    };
+    
+    const linkJsAndDom = function (startElement = document.body) {
         //build array only once and use up to date options, they should not reset twice
         if (!directiveSyntaxFunctionPairs) {
             directiveSyntaxFunctionPairs = [
@@ -584,12 +589,14 @@ const dom99 = (function () {
                 we can use the just changed live variable in the bind function*/
                 [options.directives.directiveElement, applyDirectiveElement],
                 [options.directives.directiveVariable, applyDirectiveVariable],
-                [options.directives.directiveFunction, applyDirectiveFunction],
+                [options.directives.directiveFunction, tryApplyDirectiveFunction],
                 [options.directives.directiveList, applyDirectiveList],
-                [options.directives.directiveIn, applyDirectiveIn]
+                [options.directives.directiveIn, applyDirectiveIn],
+                [options.directives.directiveTemplate, applyDirectiveTemplate]
+                
             ];
         }
-        walkTheDomElements(startElement, tryApplyDirectivesCreator(hostElement));
+        walkTheDomElements(startElement, tryApplyDirectives);
         return startElement;
     };
 
@@ -601,8 +608,7 @@ const dom99 = (function () {
         forgetKey,
         linkJsAndDom,
         options,
-        followPath,
-        bool: booleanFromBooleanString
+        getParentContext
     };
 
     Object.defineProperty(publicInterface, "vr", {

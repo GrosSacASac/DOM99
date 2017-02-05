@@ -26,4 +26,4 @@ This was usefull for the following reasons. An event handler could be replaced a
 
 In the new model the event handler will be attached directly with no context provided. Switching the event handler will be more costly by calling remove event listener directly. This allows for a 0 cost abstraction layer however in all scenarios, while still letiing the possibility to add context and change the listener changing mechanism in user land.
 
-In the new system all the benefit of the old system can still be reused in user code, but in case where it is not necessary it will not cost anything anymore.
+In the new system all the benefit of the old system can still be reused in user code, but in case where it is not necessary, it will not cost anything.

@@ -13,11 +13,11 @@
 
 <p>simple deep composition without variables</p>
 
-<template data-el="xrowTemplate-d-xrow">
+<template data-template="d-xrow">
     <pre>xxxxx</pre>
 </template>
 
-<template data-el="xsquareTemplate-d-xsquare">
+<template data-template="d-xsquare">
     <d-xrow></d-xrow>
     <d-xrow></d-xrow>
 </template>
@@ -26,24 +26,30 @@
 
 <p>simple deep composition with variables</p>
 
-<template data-el="searchTemplate-d-search">
-    <label>Search<input data-vr="search" data-fx="trySearch" type="search" placeholder="search"></label>
-    <label>Filters<input type="text" placeholder="filter" disabled></label>
+<template data-template="d-search">
+    <label>Search
+        <input data-vr="search" data-fx="trySearch" type="search" placeholder="search">
+    </label>
+    <label>
+        Filters
+        <input type="text" placeholder="filter" disabled>
+    </label>
+    <p data-vr="message"></p>
 </template>
 
-<template data-el="explorerTemplate-d-explorer">
-    <d-search data-in="search"></d-search>
-    <p data-vr="message"></p>
+<template data-template="d-explorer">
+    <d-search data-in="dsearch"></d-search>
     <ul data-list="files-li"></ul>
 </template>
 
 
 
-<d-explorer data-in="explorer1"></d-explorer>
+<d-explorer data-el="exporer1container" data-in="explorer1"></d-explorer>
+<d-explorer data-el="exporer2container" data-in="explorer2"></d-explorer>
 
 <script src="../polyfill.min.js"></script>
-<script src="../js/dom99.es5.min.js"></script> 
-<!--<script src="../js/dom99.js"></script>-->
+<!-- <script src="../js/dom99.es5.min.js"></script>  -->
+<script src="../js/dom99.js"></script>
 <script>
 "use strict";
 var D = dom99;
@@ -64,21 +70,41 @@ D.vr.b = 6;
 D.fx.calculate();
 
 var files = ["beach.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
+var files2 = ["za.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
+
 D.fx.trySearch = function (event) {
-    var search = D.followPath(D.vr, event.dKeys).search
-    event.dKeys.pop();
-    //console.log(event.dKeys);
-    //event.dIn.vr.message = event.dIn.vr.search.search; does nothing because Object.defineProperty doesn spread to other objects with same pointer
-    D.followPath(D.vr, event.dKeys).message = search ? "searching: " +  search : "Displaying all files";
-    D.followPath(D.vr, event.dKeys).files = files.filter(function (file) {
+    const dSearchContext = D.getParentContext(event.target);
+    const dSearchElement = dSearchContext.baseEl;
+    const dExplorerContext = D.getParentContext(dSearchElement);
+    
+    var search = dSearchContext.vr.search
+
+
+    if (search) {
+        dSearchContext.vr.message = "searching: " +  search;
+        dSearchElement.className = "grey";
+    } else {
+        dSearchContext.vr.message = "Displaying all files";
+        dSearchElement.className = "";
+    }
+    
+    //console.log(dExplorerContext);
+
+    dExplorerContext.vr.files = dExplorerContext.vr.originalFiles.filter(function (file) {
         return file.match(search);
     });
-    D.followPath(D.vr, event.dKeys).files
-    event.dHost.className = "grey";
+    
+    
 };
-//
+
+D.vr.explorer2 = {};
+D.vr.explorer2.originalFiles = files2;
+D.vr.explorer2.files = D.vr.explorer2.originalFiles;
+
 D.linkJsAndDom();
+
 D.vr.explorer1.files = files;
+D.vr.explorer1.originalFiles = files;
 
 
 </script>

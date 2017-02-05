@@ -11,12 +11,11 @@ Pro:
   
 Contra:
 
-  * Learning curve: wall
   * Forced to organize code base in the Angular MVC way
   * Logic in Markup
   * Heavy components for simple UIs
   * Heavier
-  * Take everything or go home
+  * Take all or nothing
     
 Some similarities:
 
@@ -28,7 +27,6 @@ Some similarities:
 
 Pro:
 
-  * Easier to understand what is happening in large code bases
   * React native
   * More browser compatibility
   
@@ -36,7 +34,6 @@ Contra:
 
   * Logic in Markup
   * Encouraged to use JSX, a JavaScript extension syntax
-  * Can be hard to understand how and why to use react
     
 Some similarities:
 
@@ -70,3 +67,5 @@ Some similarities:
 ###Others
 
 There are many other projects that will help you write client side applications. All have their advantages/problems. It will take you weeks/month maybe even years to browse them all and compare them. You have to make a choice at some point.
+
+todo how well do framework scale, as the number of dom nodes grow ?

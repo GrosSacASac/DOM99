@@ -51,25 +51,25 @@ D.vr.monologueButton = "Hi";
 
 // -- The Todo --
 
-let path = "todo";
+let componentName = "todo";
 let i = 0;
 let toDoKeys = [];
 let element = "element";
 
-const bool = D.bool;
-/* we use bool to convert string boolean into real boolean
-values returned from D.vr are always strings*/
+
 
 D.fx.updateJson = function (event) {
-    let x = toDoKeys.map(function(toDoKey) {
-        return {text: D.vr[toDoKey]["text"],
-                done: bool(D.vr[toDoKey]["done"])};
+    let dataObject = toDoKeys.map(function(toDoKey) {
+        return {
+            text: D.vr[toDoKey]["text"],
+            done: D.vr[toDoKey]["done"]
+        };
     });
-    D.vr.todoAsJson = JSON.stringify(x);
+    D.vr.todoAsJson = JSON.stringify(dataObject);
 };
 
 D.fx.addTodo = function (event) {
-    let toDoKey = path + String(i);
+    let toDoKey = componentName + String(i);
 
     toDoKeys.push(toDoKey);
 
@@ -89,7 +89,7 @@ D.fx.addTodo = function (event) {
     D.vr[toDoKey]["done"] = false;
     D.vr[toDoKey]["text"] = "";
     
-    // 4 insert the Element that has a clone as a child in the DOM
+    // 4 insert the Element in the DOM
     D.el["todoContainer"].appendChild(customElement);
     
     i += 1;
@@ -101,7 +101,7 @@ D.fx.deleteTodos = function (event) {
     //delete done todos only !
     let newtoDoKeys = [];
     toDoKeys.filter(function(toDoKey) {
-        if (bool(D.vr[toDoKey]["done"])) {
+        if (D.vr[toDoKey]["done"]) {
             return true;
         }
         newtoDoKeys.push(toDoKey);
