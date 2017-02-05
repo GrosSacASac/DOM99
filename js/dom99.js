@@ -6,7 +6,8 @@
     need to update all examples and docs
         
 
-        
+    update readme, make a link to the new docs
+    
     document DVRP, DVRPL, CONTEXT element extension,
     use WeakMap instead where supported
     

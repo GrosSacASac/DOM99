@@ -1,17 +1,16 @@
-![DOM99](images/visual.png)
-
-##Official Website
-
-[Open](https://cdn.rawgit.com/GrosSacASac/DOM99/1.23.31/documentation/documentation.html)
+![DOM99](images/visual2.jpg)
 
 
 ##What is DOM99 ?
 
-DOM99 is a [JavaScript](https://en.wikipedia.org/wiki/JavaScript) framework to ease the interaction between the [HTML](https://en.wikipedia.org/wiki/HTML) and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.[Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
+DOM99 is a JavaScript framework to ease the interaction between the HTML and your program. Declaratively select HTML elements, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.
 
-###Info
 
-Version 2.0 in under progress, with Doc Internationalization, Debugging tools, More Examples, better API, Plugins, Web Components and optimizations.
+##Open all the docs
+
+ * Locally in /documentation/documentation.html#howto
+ * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/2.0.0/documentation/documentation.html)
+
 
 
 ###Discussion
