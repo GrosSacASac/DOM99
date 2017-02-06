@@ -4,9 +4,12 @@
 */
 /*
     need to update all examples and docs
-        
+    
+    forget should work on templates
 
     update readme, make a link to the new docs
+
+    remake intro play ground [Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
     
     document DVRP, DVRPL, CONTEXT element extension,
     use WeakMap instead where supported

@@ -9,7 +9,7 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 ##Open all the docs
 
  * Locally in /documentation/documentation.html#howto
- * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/2.0.0/documentation/documentation.html)
+ * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/2.0.0/documentation/documentation.html#howto)
 
 
 
