@@ -43,7 +43,12 @@ const dom99 = (function () {
     let directiveSyntaxFunctionPairs;
 
     const MISS = "MISS";
+    const CONTEXT = "CONTEXT";
+    const DVRPL = "DVRPL";
+    const DVRP = "DVRP";
 
+    const hasOwnProperty = Object.prototype.hasOwnProperty;
+    
     const isNotNullObject = function (x) {
         /*array or object*/
         return (typeof x === "object" && x !== null);
@@ -60,7 +65,7 @@ const dom99 = (function () {
             if (!isNotNullObject(objectSource[key])) {
                 objectTarget[key] = objectSource[key];
             } else {
-                if (!objectTarget.hasOwnProperty(key)) {
+                if (!hasOwnProperty.call(objectTarget, key)) {
                     if (Array.isArray(objectSource[key])) {
                         objectTarget[key] = [];
                     } else { // strict object
@@ -78,7 +83,7 @@ const dom99 = (function () {
         Arrays are also objects
         */
         return function (key) {
-            if (object1.hasOwnProperty(key)) {
+            if (hasOwnProperty.call(object1, key)) {
                 return object1[key];
             }
             return object1[MISS];
@@ -250,12 +255,12 @@ const dom99 = (function () {
         before using linkJsAndDom , if that is the case we
         initialize variablesPointer[variableName] with that same data once we defined
         our custom property*/
-        if (variablesPointer.hasOwnProperty(variableName)) {
+        if (hasOwnProperty.call(variablesPointer, variableName)) {
             temp = variablesPointer[variableName];
         }
         //Dom99 VaRiable Property for List items
         // expects an element not tagName !
-        element.DVRPL = options.variablePropertyFromElement(elementListItem.toUpperCase());
+        element[DVRPL] = options.variablePropertyFromElement(elementListItem.toUpperCase());
         
 
         Object.defineProperty(variablesPointer, variableName, {
@@ -273,7 +278,7 @@ const dom99 = (function () {
                             listItem[key] = value[key];
                         });
                     } else {
-                        listItem[element.DVRPL] = value;
+                        listItem[element[DVRPL]] = value;
                     }
                     fragment.appendChild(listItem);
                 });
@@ -309,14 +314,14 @@ const dom99 = (function () {
 
 
         //Dom99 VaRiable Property
-        element.DVRP = options.variablePropertyFromElement(element);
+        element[DVRP] = options.variablePropertyFromElement(element);
 
-        if (variablesSubscribersPointer.hasOwnProperty(variableName)) {
+        if (hasOwnProperty.call(variablesSubscribersPointer, variableName)) {
             variablesSubscribersPointer[variableName].push(element);
-            element[element.DVRP] = variablesPointer[variableName]; //has latest
+            element[element[DVRP]] = variablesPointer[variableName]; //has latest
         } else {
             let initialValue;
-            if (variablesPointer.hasOwnProperty(variableName)) {
+            if (hasOwnProperty.call(variablesPointer, variableName)) {
                 initialValue = variablesPointer[variableName];
             }
             const variablesSubscribersPointerReference = variablesSubscribersPointer;
@@ -339,7 +344,7 @@ const dom99 = (function () {
                         function (currentElement) {
                         /*here we change the value of the currentElement in the dom
                         */
-                        currentElement[currentElement.DVRP] = x;
+                        currentElement[currentElement[DVRP]] = x;
 
                         }
                     );
@@ -358,7 +363,7 @@ const dom99 = (function () {
             const variablesPointerReference = variablesPointer;
             const broadcastValue = function (event) {
                 //wil call setter to broadcast the value
-                variablesPointerReference[variableName] = event.target[event.target.DVRP];
+                variablesPointerReference[variableName] = event.target[event.target[DVRP]];
             };
             addEventListener(element,
                     options.eventNameFromElement(element),
@@ -414,13 +419,13 @@ const dom99 = (function () {
     const enterObject = function (key) {
         pathIn.push(key);
 
-        if (!elementsPointer.hasOwnProperty(key)) {
+        if (!hasOwnProperty.call(elementsPointer, key)) {
             elementsPointer[key] = {};
         }
-        if (!variablesPointer.hasOwnProperty(key)) {
+        if (!hasOwnProperty.call(variablesPointer, key)) {
             variablesPointer[key] = {};
         }
-        if (!variablesSubscribersPointer.hasOwnProperty(key)) {
+        if (!hasOwnProperty.call(variablesSubscribersPointer, key)) {
             variablesSubscribersPointer[key] = {};
         }
 
@@ -566,7 +571,7 @@ const dom99 = (function () {
         }
         /*using a custom element without data-in*/
         let customElementName = customElementNameFromElement(element);
-        if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
+        if (hasOwnProperty.call(templateElementFromCustomElementName, customElementName)) {
             element.appendChild(
                 cloneTemplate(templateElementFromCustomElementName[customElementName])
             );
@@ -578,8 +583,8 @@ const dom99 = (function () {
         const parentElement = element.parentNode;
         if (!parentElement) {
             throw new Error("element has no parent context");
-        } else if (parentElement.hasOwnProperty("CONTEXT")) {
-            return parentElement.CONTEXT;
+        } else if (hasOwnProperty.call(parentElement, CONTEXT)) {
+            return parentElement[CONTEXT];
         } else {
             return getParentContext(parentElement);
         }
