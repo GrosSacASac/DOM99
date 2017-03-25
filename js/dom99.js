@@ -227,7 +227,6 @@ const dom99 = (function () {
     const applyDirectiveFunction = function (element, eventName, functionName) {
         if (!functions[functionName]) {
             console.error(`Event listener ${functionName} not found.`);
-            return;
         }
         addEventListener(element, eventName, functions[functionName]);
     };
@@ -248,7 +247,6 @@ const dom99 = (function () {
 
         if (!variableName) {
             console.warn(element, 'Use data-vr="variableName" format!');
-            return;
         }
 
         /*we check if the user already saved data in variablesPointer[variableName]
@@ -308,7 +306,6 @@ const dom99 = (function () {
 
         if (!variableName) {
             console.warn(element, 'Use data-vr="variableName" format!');
-            return;
         }
 
 
@@ -378,7 +375,6 @@ const dom99 = (function () {
         
         if (!elementName) {
             console.warn(element, 'Use data-el="elementName" format!');
-            return;
         }
 
         elementsPointer[elementName] = element;
@@ -391,7 +387,6 @@ const dom99 = (function () {
         
         if (!customAttributeValue) {
             console.warn(element, 'Use data-template="d-name" format!');
-            return;
         }
 
         templateElementFromCustomElementName[customAttributeValue] = element;
@@ -521,7 +516,6 @@ const dom99 = (function () {
         also calls applyDirectiveElement with key!*/
         if (!key) {
             console.warn(element, 'Use data-in="key" format!');
-            return;
         }
         
         const templateElement = templateElementFromCustomElementName[
@@ -627,7 +621,6 @@ const dom99 = (function () {
         set: function (newObject) {
             if (!((newObject) && isNotNullObject(newObject))) {
                 console.warn("D.vr = must be truethy object");
-                return;
             }
             deepAssignX(variables, newObject);
             return newObject;

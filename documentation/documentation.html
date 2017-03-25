@@ -68,6 +68,9 @@
 
 <article id="patchnotes">
 <h2>Notes about new versions</h2>
+<h3>Version 3.0.1</h3>
+<p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
+<p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
 <h3>Version 2.0.0</h3>
 <p>Switched to SEMVER versioning</p>
 <p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
