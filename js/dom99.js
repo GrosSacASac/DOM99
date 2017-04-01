@@ -198,6 +198,7 @@ const dom99 = (function () {
     };
 
     /*not used, tested yet
+    alternative use the new third argument options, once
     const onceAddEventListener = function (element, eventName, function1, useCapture=false) {
         let tempFunction = function (event) {
             //called once only
