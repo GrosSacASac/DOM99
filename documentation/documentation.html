@@ -67,6 +67,8 @@
 </article>
 
 <article id="patchnotes">
+<h3>Version 3.0.3</h3>
+<p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
 <h2>Notes about new versions</h2>
 <h3>Version 3.0.1</h3>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
@@ -233,12 +235,14 @@ D.vr = {
 
 <h2>Complete overview</h2>
 
-<h3>Start with</h3>
+<h3><del>Start with</del></h3>
+
 
 <pre><code>const D = dom99;
 // creates an alias
 D.linkJsAndDom();</code></pre>
 
+<p>Use linkJsAndDom after having stored all the event handlers in D.fx, and before using references to nodes stored in D.el. and before changing variables in D.vr</p>
 <p>This will look the for DOM99 directives in the document tree.</p>
 
 <p>Initialize variables with <code>D.vr.yourtarget = ...;</code>. Next store event listener functions in <code>D.fx</code>. You can use nodes references in <code>D.el</code>.</p>
