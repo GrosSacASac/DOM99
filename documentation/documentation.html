@@ -58,11 +58,13 @@
 <p><a href="https://github.com/GrosSacASac/DOM99">https://github.com/GrosSacASac/DOM99</a></p>
 
 <h2>Browser Support</h2>
-<li>Google Chrome</li>
-<li>Mozilla Firefox</li>
-<li>Opera</li>
-<li>Safari*</li>
-<li>Internet Explorer 10+*</li>
+<ul>
+    <li>Google Chrome</li>
+    <li>Mozilla Firefox</li>
+    <li>Opera</li>
+    <li>Safari*</li>
+    <li>Internet Explorer 10+*</li>
+</ul>
 <p>*supports also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
 </article>
 
@@ -76,14 +78,14 @@
 <h3>Version 2.0.0</h3>
 <p>Switched to SEMVER versioning</p>
 <p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
-<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object
+<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
 <pre>
 {
     el,
     vr,
     baseEl
 }
-</pre></p>
+</pre>
 <p>New function syntax for multiple listeners data-fx="event1-function1,event2-function2"</p>
 <p>D.fx must now be populated before D.linkJsAndDom() is called</p>
 <p>
@@ -114,7 +116,12 @@
 <p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-vr because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
 <p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h3>Breaking Changes from 1.12.x to 1.15+.x</h3>
-<p>1.15.1 <li>You can now use <del>data-vr="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li><li>Changed the way to configure DOM99</li><li>You can now control what gets changed with data-vr</li></p>
+<p>1.15.1 </p>
+<ul>
+    <li>You can now use <del>data-vr="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
+    <li>Changed the way to configure DOM99</li>
+    <li>You can now control what gets changed with data-vr</li>
+   </ul>
 <p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-vr="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-vr optimization</p>
@@ -352,7 +359,7 @@ let commentsData = { //intial
     }
 };
 D.vr = commentsData;
-D.linkJsAndDom();</pre></code>
+D.linkJsAndDom();</code></pre>
 <p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
 <h4>Dynamic template injection in general</h4>
 
@@ -387,7 +394,7 @@ D.el["target"].appendChild(customElement);</code></pre>
 
 D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
 
-<p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <code>event.dKeys and event.dIn</code>. Example</p>
+<p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <del><code>event.dKeys and event.dIn</code>.</del> Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-template="d-tagname"&gt;
@@ -407,7 +414,7 @@ D.fx.close = function (event) {
     D.vr["key"]["text"];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <code>D.forgetKey(event.dKeys);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <del><code>D.forgetKey(event.dKeys);</code></del> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
