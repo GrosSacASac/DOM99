@@ -125,7 +125,9 @@ const dom99 = (function () {
 
     const eventFromTag = valueElseMissDecorator({
         "SELECT": "change",
-        MISS: "input"
+        "INPUT": "input",
+        "BUTTON": "click",
+        MISS: "click"
     });
 
     const options = {
