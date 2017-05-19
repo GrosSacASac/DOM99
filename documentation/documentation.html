@@ -519,6 +519,8 @@ D.fx.close = function (event) {
 <p>DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>D.vr</code> uses textContent or value by default. </p>
 
 <p>If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.</p>
+
+<p>If you are letting, user write HTML make sure to whitelist a finite set of safe html tags and attributes, as data-attributes could interfere.</p>
 </article>
 
 <article id="history">

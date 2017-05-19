@@ -243,13 +243,19 @@ const dom99 = (function () {
             same content, different length
             key based identification
             */
-        const [variableName, elementListItem] = customAttributeValue
+        const [variableName, elementListItem, optional] = customAttributeValue
             .split(options.tokenSeparator);
         let list;
         let temp;
+        let fullName = "-";
 
         if (!variableName) {
-            console.warn(element, 'Use data-vr="variableName" format!');
+            console.warn(element, 'Use data-list="var-li" format!');
+        }
+        
+        if (optional) {
+            // for custom elements
+            fullName = `${elementListItem}-${optional}`
         }
 
         /*we check if the user already saved data in variablesPointer[variableName]
@@ -272,17 +278,28 @@ const dom99 = (function () {
                 const fragment = document.createDocumentFragment();
                 list = newList;
                 element.innerHTML = "";
-                list.forEach(function (value) {
-                    const listItem = document.createElement(elementListItem);
-                    if (isNotNullObject(value)) {
-                        Object.keys(value).forEach(function (key) {
-                            listItem[key] = value[key];
-                        });
-                    } else {
-                        listItem[element[DVRPL]] = value;
-                    }
-                    fragment.appendChild(listItem);
-                });
+                if (hasOwnProperty.call(templateElementFromCustomElementName, fullName)) {
+                    // composing with custom element
+                    const templateElement = templateElementFromCustomElementName[fullName];
+                    enterObject(variableName);
+                    list.forEach(function (value, i) {
+                        enterObject(String(i));
+                        const templateClone = linkJsAndDom(cloneTemplate(templateElement));
+                        leaveObject();
+                        fragment.appendChild(templateClone);
+                    });
+                    leaveObject();
+                } else {
+                    list.forEach(function (value) {
+                        const listItem = document.createElement(elementListItem);
+                        if (isNotNullObject(value)) {
+                            Object.assign(value, listItem);
+                        } else {
+                            listItem[element[DVRPL]] = value;
+                        }
+                        fragment.appendChild(listItem);
+                    });
+                }
 
                 element.appendChild(fragment);
             },
