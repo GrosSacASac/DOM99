@@ -12,17 +12,10 @@
 <div class="tab-holder">
 <nav>
     <a href="#about">About</a>
-    <a href="#howto">How To</a>
     <a href="#examples1">Examples</a>
-    <a href="#domgood">DOM</a>
+    <a href="#howto">Documentation</a>
     <a href="#more">Details</a>
-    <a href="#discussion">Discussion</a>
-    <a href="#license">License</a>
-    <a href="#performance">Performance</a>
-    <a href="#security">Security</a>
-    <a href="#history">History</a>
-    <a href="#patchnotes">Updates</a>
-    <a href="#future">Future</a>
+    <a href="#timeline">Time-Line</a>
 </nav>    
 
 <article id="about">
@@ -66,72 +59,23 @@
     <li>Internet Explorer 10+*</li>
 </ul>
 <p>*supports also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
-</article>
 
-<article id="patchnotes">
-<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
-<h3>Version 3.0.3</h3>
-<p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
-<h2>Notes about new versions</h2>
-<h3>Version 3.0.1</h3>
-<p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
-<p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
-<h3>Version 2.0.0</h3>
-<p>Switched to SEMVER versioning</p>
-<p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
-<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
-<pre>
-{
-    el,
-    vr,
-    baseEl
-}
-</pre>
-<p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>D.fx must now be populated before D.linkJsAndDom() is called</p>
-<p>
-    eventFromTagAndType
-        changed into eventNameFromElement
-  </p>
-<p>  
-    variablePropertyFromTagAndType
-        changed into variablePropertyFromElement
-  </p>
-<p>      
-    elementsForUserInputList
-        changed into tagNamesForUserInput</p>
-<p>      
-        data-template="d-name" added
-    data-element="template-d-name" removed</p>
+<h2>License</h2>
+<p><a href="https://opensource.org/licenses/MIT">MIT LICENSE</a></p>
 
-<hr>
-<p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
-<p>1.23.10 start working on v2.0,</p>
-<p>1.23.0: Removed event.dIn. Use D.followPath(D.vr, event.dKeys) or similar instead.</p>
-<p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
-<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for D.vr and D.el, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
-<p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
-<p>1.19.0: data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
-<p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
-<h3>Breaking Changes with 1.17.*</h3>
-<p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
-<p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
-<h3>Breaking Changes from 1.12.x to 1.15+.x</h3>
-<p>1.15.1 </p>
-<ul>
-    <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
-    <li>Changed the way to configure DOM99</li>
-    <li>You can now control what gets changed with data-variable</li>
-   </ul>
-<p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
-<p>1.11.0 input type="range" now uses the change event</p>
-<p>In 1.10.3 data-variable optimization</p>
-<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
-<h3>Breaking Changes from 1.9.x to 1.10+.x</h3>
+<h2>Discussion</h2>
 
-<p>Less Confusion:</p>
+<h4>Chat</h4>
 
-<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-inside="Key"</code> (in the documentation)</li></ul>
+<p><a href="https://dystroy.org/miaou/3">Chat (need a Github account)</a></p>
+
+<h4>Issues reports</h4>
+
+<p><a href="https://github.com/GrosSacASac/DOM99/issues">Issues report</a></p>
+
+<h4>Contributing</h4>
+
+<ul><li><a href="contributing.md">Contributing</a></li><li><a href="openquestions.md">Open questions</a></li></ul>
 </article>
 
 <article id="howto">
@@ -445,21 +389,12 @@ D.fx.close = function (event) {
 <d-htmljsresult data-inside="Lists2"></d-htmljsresult>
 </article>
 
-<article id="domgood">
-<h2>The Document Object Model, the good parts</h2>
-<ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild</a> to insert or move an element</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove</a> to remove an element</li>
-<li hidden><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events">Events</a></li>
-</ul>
-</article>
+
 
 <article id="more">
-<h3>Additional information</h3>
 
-<p>Play around with the examples, see what they do and look at the source.</p>
+<article id="extra tips">
+<h3>Extra Tips</h3>
 
 <p>You can handle new HTML with <code>D.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the ☀ is added to the attribute value after that.</p>
 
@@ -471,28 +406,17 @@ D.fx.close = function (event) {
 <p>Server side rendering is compatible with DOM99, but you have to glue it together yourself. A future version will make this built in with a node extension.</p>
 </article>
 
-<article id="discussion">
-<h2>Discussion</h2>
-
-<h4>Chat</h4>
-
-<p><a href="https://dystroy.org/miaou/3">Chat (need a Github account)</a></p>
-
-<h4>Issues reports</h4>
-
-<p><a href="https://github.com/GrosSacASac/DOM99/issues">Issues report</a></p>
-
-<h4>Contributing</h4>
-
-<ul><li><a href="contributing.md">Contributing</a></li><li><a href="openquestions.md">Open questions</a></li></ul>
+<article id="domgood">
+<h2>The Document Object Model, the good parts</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild</a> to insert or move an element</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove</a> to remove an element</li>
+<li hidden><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Events">Events</a></li>
+</ul>
 </article>
 
-<article id="license">
-<h2>License</h2>
-
-<p><a href="https://opensource.org/licenses/MIT">MIT LICENSE</a></p>
-
-</article>
 <article id="performance">
 <h2>Performance</h2>
 
@@ -522,30 +446,93 @@ D.fx.close = function (event) {
 
 <p>If you are letting, user write HTML make sure to whitelist a finite set of safe html tags and attributes, as data-attributes could interfere.</p>
 </article>
-
-<article id="history">
-<h2>History</h2>
-
-<p>The first version of DOM99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
-
-<p>In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.</p>
 </article>
 
-<article id="future">
-<h2>Future</h2>
 
-<h3>What is coming soon:</h3>
 
-<ul><li>System improvements</li><li>Better documentation</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update DOM99</li></ul>
 
-<h3>Abstract directions for the future or Specification</h3>
+<article id="timeline">
+<h2>Time-Line</h2>
 
+<article id="patchnotes">
+<h3>Patch Notes</h3>
+<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
+<h4>Version 3.0.3</h4>
+<p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
+<h4>Version 3.0.1</h4>
+<p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
+<p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
+<h4>Version 2.0.0</h4>
+<p>Switched to SEMVER versioning</p>
+<p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
+<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
+<pre>
+{
+    el,
+    vr,
+    baseEl
+}
+</pre>
+<p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
+<p>D.fx must now be populated before D.linkJsAndDom() is called</p>
+<p>
+    eventFromTagAndType
+        changed into eventNameFromElement
+  </p>
+<p>  
+    variablePropertyFromTagAndType
+        changed into variablePropertyFromElement
+  </p>
+<p>      
+    elementsForUserInputList
+        changed into tagNamesForUserInput</p>
+<p>data-template="d-name" added
+    data-element="template-d-name" removed</p>
+
+<hr>
+<p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
+<p>1.23.10 start working on v2.0,</p>
+<p>1.23.0: Removed event.dIn. Use D.followPath(D.vr, event.dKeys) or similar instead.</p>
+<p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
+<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for D.vr and D.el, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
+<p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
+<p>1.19.0: data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
+<p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
+<h4>Breaking Changes with 1.17.*</h4>
+<p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
+<p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
+<h4>Breaking Changes from 1.12.x to 1.15+.x</h4>
+<p>1.15.1 </p>
+<ul>
+    <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
+    <li>Changed the way to configure DOM99</li>
+    <li>You can now control what gets changed with data-variable</li>
+   </ul>
+<p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
+<p>1.11.0 input type="range" now uses the change event</p>
+<p>In 1.10.3 data-variable optimization</p>
+<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
+<h4>Breaking Changes from 1.9.x to 1.10+.x</h4>
+<p>Less Confusion:</p>
+<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-inside="Key"</code> (in the documentation)</li></ul>
+</article>
+
+<article>
+<h3>Future</h3>
+<h4>What is coming soon:</h4>
+<ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update DOM99</li></ul>
+<h4>Abstract directions for the future or Specification</h4>
 <ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloatware</li></ul>
-
 <p>This leaves more freedom to combine DOM99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside DOM99 and anything else that is complementary to accelerate the development process.</p>
-<h3>Design Notes about the incoming v2</h3>
+</article>
 
-<p>V2 will trade expressiveness for control. The developer using DOM99 v2 will have more granular control about what happens, using the APIs, at the cost of having to more documentation to read. Sane defaults will exist to allow soft transition from v1 to v2</p>
+<article id="history">
+<h3>History</h3>
+<p>The first version of DOM99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
+<p>In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.</p>
+<p>Late 2017, new design decisions based on new experience aquired since then. The version is a major change. For older version look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a></p>
+</article>
+
 </article>
 </div>
 <script src="../polyfill.min.js"></script>
