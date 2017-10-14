@@ -1,4 +1,6 @@
 /*dom99ConfigurationExample.js
+warning, needs revisit,
+
 
  1. Make a copy of this file
  2. Rename the copy dom99Configuration.js for convenience

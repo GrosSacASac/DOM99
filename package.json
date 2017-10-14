@@ -1,23 +1,29 @@
 {
   "name": "dom99",
-  "version": "6.0.0",
-  "license": "MIT",
+  "version": "7.0.0",
+  "license": "bsl-1.0",
+  "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
   "description": "HTML/DOM manipulation made easier",
+  "main": "built/dom99Require.js",
+  "module": "built/dom99Module.js",
+  "browser": "js/dom99.js",
+  "browserES5": "built/dom99.es5.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
   },
   "dependencies": {},
-  "main": "js/dom99.js",
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-preset-es2015": "^6.6.0",
-    "uglify-js": "2.6.2"
+    "uglify-js": "2.6.2",
+    "utilsac": "^2.0.0"
   },
   "scripts": {
-    "buildes5": "babel js/dom99.js > js/dom99.es5.js",
-    "buildminify": "uglifyjs js/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o js/dom99.es5.min.js",
-    "build": "npm run buildes5 && npm run buildminify",
+    "buildes5": "babel js/dom99.js > built/dom99.es5.js",
+    "buildminify": "uglifyjs built/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
+    "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
+    "build": "npm run buildes5 && npm run buildminify && npm run buildModuleAndRequire",
     "buildexamples": "babel examples -d exampleses5",
     "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
     "buildyesnodialogexample": "browserify -r ./js/dom99.js:dom99 -r ./components/yesNoDialog/yesNoDialog.js:yesNoDialog > components/yesNoDialog/examples/requirebundle.js"
@@ -26,7 +32,6 @@
     "HTML",
     "DOM",
     "declarative",
-    "HTML5",
     "custom",
     "elements",
     "web",

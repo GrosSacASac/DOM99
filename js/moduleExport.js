@@ -1,1 +1,1 @@
-export default D;
+export default d;

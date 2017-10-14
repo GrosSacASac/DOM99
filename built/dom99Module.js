@@ -586,3 +586,4 @@ const d = (function () {
         options
     });
 }());
+export default d;
