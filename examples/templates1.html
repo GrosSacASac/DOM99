@@ -15,14 +15,14 @@
 
 <!-- a comment is some text and a date -->
 <template data-template="d-comment">
-    <p data-vr="text"></p>
-    <datetime data-vr="date"></datetime>
+    <p data-variable="text"></p>
+    <datetime data-variable="date"></datetime>
 </template>
 
-<d-comment data-in="comment1"></d-comment>
-<d-comment data-in="comment2"></d-comment>
+<d-comment data-inside="comment1"></d-comment>
+<d-comment data-inside="comment2"></d-comment>
 
-<button data-fx="click-showNextComment" disabled>Show more comments</button>
+<button data-function="click-showNextComment" disabled>Show more comments</button>
     
 <script src="../polyfill.min.js"></script>
 <script src="../js/dom99.es5.min.js"></script>

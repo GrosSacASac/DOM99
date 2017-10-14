@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HTML TEMPLATE</title>
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+    
+<template data-template="d-static">
+    <ul>
+        <li data-variable="x"> always</li>
+        <li data-variable="z"> same</li>
+    </ul>
+</template>
+
+<template data-template="d-inner">
+    <ul>
+        <li data-variable="a"> data-variable="a"</li>
+        <li data-variable="b"> data-variable="b"</li>
+    </ul>
+</template>
+
+<template data-template="d-listinside">
+    <h4 data-variable="listtitle"></h4>
+    <ol data-list="listinisde-li"></ol>
+</template>
+
+<template data-template="d-outer">
+    <input data-variable="globalCopy" data-function="globalSet">
+    <span data-variable="globalCopy"></span>
+    <button data-function="globalIncrement">increment global</button><br>
+    <input data-variable="local">
+    <span data-variable="local" data-elementement="span"></span>
+    <button data-function="localIncrement">increment local</button><br>
+    <button data-function="listremake">display list size of global, with value local</button><br>
+    <div data-list="innerlist-d-inner">data-list="innerlist-d-inner"</div>
+</template>
+
+<div data-list="outerList-d-outer"></div>
+<hr>
+
+
+
+<!-- put here a footer <footer></footer> -->
+<!-- <script src="dom99.es5.min.js"></script> -->
+<script src="dom993.js"></script>
+<script src="limited.js"></script>
+    </body>
+</html>

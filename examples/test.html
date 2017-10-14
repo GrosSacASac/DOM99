@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/basics.css">
 </head>
 <body>    
-<p>below an ul element with data-vr="list1-li"</p>
+<p>below an ul element with data-variable="list1-li"</p>
 <ul data-list="list1-li"></ul>
 
 <p>simple deep composition without variables</p>
@@ -28,24 +28,24 @@
 
 <template data-template="d-search">
     <label>Search
-        <input data-vr="search" data-fx="trySearch" type="search" placeholder="search">
+        <input data-variable="search" data-function="trySearch" type="search" placeholder="search">
     </label>
     <label>
         Filters
         <input type="text" placeholder="filter" disabled>
     </label>
-    <p data-vr="message"></p>
+    <p data-variable="message"></p>
 </template>
 
 <template data-template="d-explorer">
-    <d-search data-in="dsearch"></d-search>
+    <d-search data-inside="dsearch"></d-search>
     <ul data-list="files-li"></ul>
 </template>
 
 
 
-<d-explorer data-el="exporer1container" data-in="explorer1"></d-explorer>
-<d-explorer data-el="exporer2container" data-in="explorer2"></d-explorer>
+<d-explorer data-element="exporer1container" data-inside="explorer1"></d-explorer>
+<d-explorer data-element="exporer2container" data-inside="explorer2"></d-explorer>
 
 <script src="../polyfill.min.js"></script>
 <!-- <script src="../js/dom99.es5.min.js"></script>  -->

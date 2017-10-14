@@ -25,7 +25,7 @@ How to reuse the template multiple times, and how to change the injected markup.
 
 ####The chat
 
-An ordered list `<ol>` that will contain all the messages. `data-el="messagesContainer"` to have direct access with `D.el["messagesContainer"]` A `<textarea>` to write. And A `<button>` to send.
+An ordered list `<ol>` that will contain all the messages. `data-element="messagesContainer"` to have direct access with `D.el["messagesContainer"]` A `<textarea>` to write. And A `<button>` to send.
 
 
     
@@ -37,7 +37,7 @@ the text, author and foto
     
 ###Define our functions to display new messages
 
-`data` is an object containing information about the message. The server-side can send data objects. The ... is used to separate the different template clones that otherwise share the same `data-vr` and `data-el`. 
+`data` is an object containing information about the message. The server-side can send data objects. The ... is used to separate the different template clones that otherwise share the same `data-variable` and `data-element`. 
 
 ...
 

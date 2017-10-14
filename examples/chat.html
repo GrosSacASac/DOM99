@@ -14,16 +14,16 @@
     <template data-template="d-message">
         <!-- Everything here has its own key path  -->
         <li>
-            <span data-vr="authorName"></span>
-            <img data-vr="authorFoto" alt="" src="">
-            <p data-vr="messageText"></p>
+            <span data-variable="authorName"></span>
+            <img data-variable="authorFoto" alt="" src="">
+            <p data-variable="messageText"></p>
         </li>
     </template>
     
-    <ol data-el="messagesContainer"></ol>
+    <ol data-element="messagesContainer"></ol>
     
-    <textarea data-el="textarea" data-vr="currentMessage" autofocus></textarea>
-    <button data-fx="click-trySendMessage">Send !</button>
+    <textarea data-element="textarea" data-variable="currentMessage" autofocus></textarea>
+    <button data-function="click-trySendMessage">Send !</button>
 
 <script src="../polyfill.min.js"></script>
 <script src="../js/dom99.es5.min.js"></script>

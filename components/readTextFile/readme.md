@@ -7,7 +7,7 @@ readTextFile (function)
 ##Description
 
 readTextFile allows to get a string from an user chosen file. readTextFile() returns a Promise.
-A top level <div data-el="readTextFileContainer"></div> is required
+A top level <div data-element="readTextFileContainer"></div> is required
 
 See readTextFileExample.html for a minimal example
 

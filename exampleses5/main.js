@@ -74,8 +74,8 @@ D.fx.addTodo = function (event) {
     var customElement = D.createElement2({
         "tagName": "li",
         "is": "d-todo",
-        "data-in": toDoKey,
-        "data-el": element + toDoKey
+        "data-inside": toDoKey,
+        "data-element": element + toDoKey
     });
 
     // 3 link it

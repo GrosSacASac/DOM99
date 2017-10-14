@@ -15,15 +15,15 @@
 
 <!-- a comment is some text and a date -->
 <template data-template="d-comment">
-    <p data-vr="text">Loading text ... (fake response takes 2sec)</p>
-    <datetime data-vr="date">Loading date ...</datetime>
+    <p data-variable="text">Loading text ... (fake response takes 2sec)</p>
+    <datetime data-variable="date">Loading date ...</datetime>
 </template>
 
-<section data-el="commentSection">
-    <d-comment data-in="comment1"></d-comment>
-    <d-comment data-in="comment2"></d-comment>
+<section data-element="commentSection">
+    <d-comment data-inside="comment1"></d-comment>
+    <d-comment data-inside="comment2"></d-comment>
 </section>
-<button data-fx="click-showNextComment" >Show more comments</button>
+<button data-function="click-showNextComment" >Show more comments</button>
 
 <script src="../polyfill.min.js"></script>
 <script src="../js/dom99.es5.min.js"></script>

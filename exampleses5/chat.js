@@ -10,8 +10,8 @@ var renderNewMessageElement = function renderNewMessageElement(data, key) {
     // 1 create HTML ELement
     var customElement = D.createElement2({
         "tagName": "d-message",
-        "data-in": key,
-        "data-el": element + key
+        "data-inside": key,
+        "data-element": element + key
     });
 
     // 2 link it

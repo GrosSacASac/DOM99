@@ -13,29 +13,29 @@
         <article>
             <h2>Hello World</h2><br>
             
-            <label>First name: <input data-vr="first" type="text"></label><br>
-            <label>Last name: <input data-vr="last" type="text"></label><br>
+            <label>First name: <input data-variable="first" type="text"></label><br>
+            <label>Last name: <input data-variable="last" type="text"></label><br>
             
-            <p>Hello <span data-vr="first"></span> <span data-vr="last"></span></p>
+            <p>Hello <span data-variable="first"></span> <span data-variable="last"></span></p>
             
         </article>
         
         <article >
         
             <h2>Multiplier</h2><br>
-            <input data-vr="a" data-fx="calculate" type="number">
+            <input data-variable="a" data-function="calculate" type="number">
             <span> X </span>
-            <input data-vr="b" data-fx="calculate" type="number">
+            <input data-variable="b" data-function="calculate" type="number">
             <span> = </span>
-            <span data-vr="result"></span>
+            <span data-variable="result"></span>
             
         </article>
         
         <article>
             
             <h2>The monologue</h2>
-            <p data-vr="monologue"></p>
-            <button data-vr="monologueButton" data-fx="click-stopStartTalking"></button>
+            <p data-variable="monologue"></p>
+            <button data-variable="monologueButton" data-function="click-stopStartTalking"></button>
             
         </article>
         
@@ -43,17 +43,17 @@
         
             <template data-template="d-todo">
                 <!-- Everything here has its own scope  -->
-                <input data-fx="updateJson" data-vr="done" type="checkbox">
-                <input data-fx="updateJson" data-vr="text" type="text" placeholder="What to do ?">
+                <input data-function="updateJson" data-variable="done" type="checkbox">
+                <input data-function="updateJson" data-variable="text" type="text" placeholder="What to do ?">
             </template>
             
             <h2>To-do List</h2>
-            <ul data-el="todoContainer">
+            <ul data-element="todoContainer">
                 <!-- d-todo's  -->
             </ul>
-            <button data-fx="click-deleteTodos">Delete finished tasks</button>
-            <button data-fx="click-addTodo">Add To-do</button>
-            <pre>JSON: <output data-vr="todoAsJson"></output>
+            <button data-function="click-deleteTodos">Delete finished tasks</button>
+            <button data-function="click-addTodo">Add To-do</button>
+            <pre>JSON: <output data-variable="todoAsJson"></output>
             </pre>
             
         </article>
@@ -63,7 +63,7 @@
             <h2>Composition</h2>
             <template data-template="d-compose">
                 <!-- Everything here has its own scope  -->
-                <span data-vr="aa">aa</span> <span data-vr="bb">bb</span> <span data-vr="cc">cc</span>
+                <span data-variable="aa">aa</span> <span data-variable="bb">bb</span> <span data-variable="cc">cc</span>
             </template>
             <div data-list="composition-d-compose"></div>
         </article>

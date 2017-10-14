@@ -12,7 +12,7 @@ const D = require("dom99");
 const fileInputDescription = {
     "tagName": "input",
     "type": "file",
-    "data-fx": "xReadFileStart"
+    "data-function": "xReadFileStart"
 };
 
 const readerOnLoadPrepare = function (inputElement) {

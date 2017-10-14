@@ -1,0 +1,5 @@
+The String type is the set of all ordered sequences of zero or more 16-bit unsigned integer values (“elements”) up to a maximum length of 253-1 elements.
+
+The same for object keys.
+
+https://tc39.github.io/ecma262/#sec-ecmascript-language-types-string-type

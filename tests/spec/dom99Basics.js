@@ -3,9 +3,9 @@ describe("DOM99 basics", function() {
 
   var fakeBody = document.createElement("div");
   fakeBody.innerHTML = '' +
-    '<div id="div1" data-el="div1"></div>' +
-    '<input data-el="input1" data-vr="string1">' +
-    '<div data-el="div2" data-fx="click-functionX"></div>';
+    '<div id="div1" data-element="div1"></div>' +
+    '<input data-element="input1" data-variable="string1">' +
+    '<div data-element="div2" data-function="click-functionX"></div>';
     
   D.linkJsAndDom(fakeBody);
     
@@ -14,18 +14,18 @@ describe("DOM99 basics", function() {
     expect(fakeBody.querySelector).toBeDefined();
   });
   
-  it("data-el should be able to preselect an element", function() {
+  it("data-element should be able to preselect an element", function() {
     expect(D.el.div1).toEqual(fakeBody.querySelector("#div1"));
   });  
   
-  it("data-vr should be able to set D.vr.string1 and see the change in the dom", function() {
+  it("data-variable should be able to set D.vr.string1 and see the change in the dom", function() {
     var anythingText = "abwxyz \\ \" \' <html> <script>http // %20 blabla";
     D.vr.string1 = anythingText;
     expect(anythingText).toEqual(D.el.input1.value);
     //also fake input
   });
   
-  it("data-vr should be able to see the change in D.vr.string1 if an user input event is fired", function() {
+  it("data-variable should be able to see the change in D.vr.string1 if an user input event is fired", function() {
     var anythingText = "abwxyz \\ \" \' <html> <script>http // %20 blabla";
     
 
@@ -39,7 +39,7 @@ describe("DOM99 basics", function() {
     
   });
   
-  it("data-fx should be able fire a function if the event occurs", function() {
+  it("data-function should be able fire a function if the event occurs", function() {
     var a = 0;
     var functionX = function(event) {
         a = 10;

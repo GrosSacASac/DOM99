@@ -9,11 +9,11 @@
  
 /*
 // Example for more explicit syntax:
-Object.assign(dom99.options.directives, {
+Object.assign(D.options.directives, {
     directiveFunction: "data-function", 
     directiveVariable: "data-variable", 
     directiveElement: "data-function",
-    directiveIn: "data-in",
+    directiveIn: "data-inside",
 });
 
 
@@ -23,7 +23,7 @@ Object.assign(dom99.options.directives, {
 custom attribute names must start with "data-" see
 https://docs.webplatform.org/wiki/html/attributes/data-* 
 
-Object.assign(dom99.options.directives, {
+Object.assign(D.options.directives, {
     directiveFunction: "fx", 
     directiveVariable: "vr", 
     directiveElement: "el",
@@ -32,17 +32,17 @@ Object.assign(dom99.options.directives, {
 
 you can also customize with an assignement
 
- * dom99.options.attributeValueDoneSign: with a single character string like "☀"
+ * D.options.attributeValueDoneSign: with a single character string like "*"
  
- * dom99.options.tokenSeparator: with a single character string like "-"
+ * D.options.tokenSeparator: with a single character string like "-"
  
- * dom99.options.listSeparator: with a single character string like ","
+ * D.options.listSeparator: with a single character string like ","
  
- * dom99.options.elementsForUserInputList: with a list like ["input", "textarea"]
+ * D.options.elementsForUserInputList: with a list like ["input", "textarea"]
  
- * dom99.options.variablePropertyFromTagAndType with a function
+ * D.options.variablePropertyFromTagAndType with a function
     parameters (tagName, type) . type can be empty
     
- * dom99.options.eventFromTagAndType: with a function
+ * D.options.eventFromTagAndType: with a function
     parameters (tagName, type) . type can be empty
 */

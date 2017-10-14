@@ -119,11 +119,11 @@ const dom99 = (function () {
         tokenSeparator: "-",
         listSeparator: ",",
         directives: {
-            directiveFunction: "data-fx",
-            directiveVariable: "data-vr",
-            directiveElement: "data-el",
+            directiveFunction: "data-function",
+            directiveVariable: "data-variable",
+            directiveElement: "data-element",
             directiveList: "data-list",
-            directiveIn: "data-in"
+            directiveIn: "data-inside"
         },
 
         variablePropertyFromTagAndType: function (tagName, type) {
@@ -202,7 +202,7 @@ const dom99 = (function () {
         if (!eventNames || !functionNames) {
             if (!eventNames && !functionNames) {
                 console.warn(element,
-'Use data-fx="event1,event2-functionName1,functionName2" format! or "functionName1"');
+'Use data-function="event1,event2-functionName1,functionName2" format! or "functionName1"');
                 return;
             }
             // used short hand syntax
@@ -253,7 +253,7 @@ const dom99 = (function () {
         let temp;
 
         if (!variableName) {
-            console.warn(element, 'Use data-vr="variableName" format!');
+            console.warn(element, 'Use data-variable="variableName" format!');
             return;
         }
 
@@ -300,9 +300,9 @@ const dom99 = (function () {
 
     const applyDirectiveVariable = function (element, variableName) {
         /* two-way bind
-        example : called for <input data-vr="a">
+        example : called for <input data-variable="a">
         in this example the variableName = "a"
-        we push the <input data-vr="a" > element in the array
+        we push the <input data-variable="a" > element in the array
         that holds all elements which share this same "a" variable
         everytime "a" is changed we change all those elements values
         and also 1 private js variable (named x below)
@@ -314,7 +314,7 @@ const dom99 = (function () {
         let temp;
 
         if (!variableName) {
-            console.warn(element, 'Use data-vr="variableName" format!');
+            console.warn(element, 'Use data-variable="variableName" format!');
             return;
         }
 
@@ -388,7 +388,7 @@ const dom99 = (function () {
         /* stores element for direct access !*/
 
         if (!elementName) {
-            console.warn(element, 'Use data-el="elementName" format!');
+            console.warn(element, 'Use data-element="elementName" format!');
             return;
         }
 
@@ -453,9 +453,9 @@ const dom99 = (function () {
     const templateRender = function (templateElement, key, hostElement) {
     /*takes a template element as argument, usually linking to a <template>
     clones the content and returns that clone
-    the content elements with "data-vr" will share a variable at
+    the content elements with "data-variable" will share a variable at
     D.vr[key][variableName]
-    the content elements with "data-el" will have a reference at
+    the content elements with "data-element" will have a reference at
     D.el[key][elementName]
 
     returns clone
@@ -522,7 +522,7 @@ const dom99 = (function () {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
         if (!key) {
-            console.warn(element, 'Use data-in="key" format!');
+            console.warn(element, 'Use data-inside="key" format!');
             return;
         }
 
@@ -562,7 +562,7 @@ const dom99 = (function () {
             if (element.hasAttribute(options.directives.directiveIn)) {
                 return;
             }
-            /*using a custom element without data-in*/
+            /*using a custom element without data-inside*/
             let customElementName = customElementNameFromElement(element);
             if (templateElementFromCustomElementName.hasOwnProperty(customElementName)) {
                 element.appendChild(

@@ -15,7 +15,7 @@
  * Write more tests
  * Define typical process of creating and composing with custom elements
  * Start version 2.0 where
- * data-fx is too permissive certain optimization can not be 
+ * data-function is too permissive certain optimization can not be 
  * define typycal custom element creation flow
  * make doc about how to create components (and share them)
  * better describe what a component really is

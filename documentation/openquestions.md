@@ -16,12 +16,12 @@ Context: Using HTML to sculpt the skeleton of the UI is not the only way of doin
 
 Example
     
-    <template data-el="templateExample-d-example">
-        <p data-vr="text"></p>
-        <a data-el="link"></a>
+    <template data-element="templateExample-d-example">
+        <p data-variable="text"></p>
+        <a data-element="link"></a>
     </template>
     
-    <d-example data-in="1"></d-example>
+    <d-example data-inside="1"></d-example>
     
     //(1)using an object that's in (that s how it works now)
     D.vr["1"]["text"] = ...

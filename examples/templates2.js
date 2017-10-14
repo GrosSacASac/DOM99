@@ -27,7 +27,7 @@ D.fx.showNextComment = function(event) {
     getDataFromFakeServer(key);//get data
     customElementDescription = {
         "tagName": "d-comment",
-        "data-in": key
+        "data-inside": key
     }
     customElement = D.createElement2(customElementDescription);
     D.linkJsAndDom(customElement);
