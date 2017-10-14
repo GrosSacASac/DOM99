@@ -1,5 +1,4 @@
 //dom99.js
-// outdated
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
@@ -32,7 +31,7 @@
     
     transform recurcive into seq flow
 */
-const D = (function () {
+const d = (function () {
     "use strict";
 
     //root collections
@@ -126,9 +125,9 @@ const D = (function () {
         directives: {
             directiveFunction: "data-function",
             directiveVariable: "data-variable",
-            directiveElement: "data-elementement",
+            directiveElement: "data-element",
             directiveList: "data-list",
-            directiveInside: "data-insideside",
+            directiveInside: "data-inside",
             directiveTemplate: "data-template"
         },
 
@@ -583,7 +582,3 @@ const D = (function () {
         options
     });
 }());
-
-if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
-    module.exports = D;
-}
