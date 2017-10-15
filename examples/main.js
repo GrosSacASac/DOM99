@@ -1,24 +1,21 @@
-"use strict";
-//Use a shorter name
-const D = dom99;
-// -- Hello World --
-if (!('remove' in Element.prototype)) {
-    Element.prototype.remove = function() {
-        if (this.parentNode) {
-            this.parentNode.removeChild(this);
-        }
-    };
-}
-D.vr.first = "Mr";
-D.vr.last = "World";
+// Import
+import d from "../built/dom99Module.js";
 
+// -- Hello World --
+
+d.feed({
+  first: "Hello",
+  last: "World"
+});
+
+d.linkJsAndDom();
 // -- Multiplier --
 
-D.vr.a = 7;
-D.vr.b = 6;
-D.fx.calculate = function (event) {
+d.vr.a = 7;
+d.vr.b = 6;
+d.fx.calculate = function (event) {
     //dom.vars variables are Strings by default
-    D.vr.result = parseInt(D.vr.a, 10) * parseInt(D.vr.b, 10);
+    d.vr.result = parseInt(d.vr.a, 10) * parseInt(d.vr.b, 10);
 };
 
 // -- The monologue --
@@ -29,24 +26,24 @@ const sentences = ["I am a lone prisoner.",    "Is anybody here ?",    "Hey you 
 ];
     
 const speak = function() {
-    D.vr.monologue = sentences[currentSentence % sentences.length];
+    d.vr.monologue = sentences[currentSentence % sentences.length];
     currentSentence += 1;
     t = setTimeout(speak, 2200);
 };
 
-D.fx.stopStartTalking = function (event) {
+d.fx.stopStartTalking = function (event) {
     if (t) {
         clearTimeout(t);
         t = 0;
-        D.vr.monologueButton = "I listen";
-        D.vr.monologue = "Where is your humanity ?";
+        d.vr.monologueButton = "I listen";
+        d.vr.monologue = "Where is your humanity ?";
     } else {
         speak();
-        D.vr.monologueButton = "I don't care";
+        d.vr.monologueButton = "I don't care";
     }
 };
 
-D.vr.monologueButton = "Hi";
+d.vr.monologueButton = "Hi";
 
 
 // -- The Todo --
@@ -58,23 +55,23 @@ let element = "element";
 
 
 
-D.fx.updateJson = function (event) {
+d.fx.updateJson = function (event) {
     let dataObject = toDoKeys.map(function(toDoKey) {
         return {
-            text: D.vr[toDoKey]["text"],
-            done: D.vr[toDoKey]["done"]
+            text: d.vr[toDoKey]["text"],
+            done: d.vr[toDoKey]["done"]
         };
     });
-    D.vr.todoAsJson = JSON.stringify(dataObject);
+    d.vr.todoAsJson = JSON.stringify(dataObject);
 };
 
-D.fx.addTodo = function (event) {
+d.fx.addTodo = function (event) {
     let toDoKey = componentName + String(i);
 
     toDoKeys.push(toDoKey);
 
     // 1 create HTML ELement
-    const customElement = D.createElement2({
+    const customElement = d.createElement2({
         "tagName": "li",
         "is": "d-todo",
         "data-inside": toDoKey,
@@ -83,45 +80,45 @@ D.fx.addTodo = function (event) {
 
 
     // 3 link it
-    D.linkJsAndDom(customElement);
+    d.linkJsAndDom(customElement);
     
     // 2 populate data
-    D.vr[toDoKey]["done"] = false;
-    D.vr[toDoKey]["text"] = "";
+    d.vr[toDoKey]["done"] = false;
+    d.vr[toDoKey]["text"] = "";
     
     // 4 insert the Element in the DOM
-    D.el["todoContainer"].appendChild(customElement);
+    d.el["todoContainer"].appendChild(customElement);
     
     i += 1;
-    D.fx.updateJson();
+    d.fx.updateJson();
 };
 
 
-D.fx.deleteTodos = function (event) {
+d.fx.deleteTodos = function (event) {
     //delete done todos only !
     let newtoDoKeys = [];
     toDoKeys.filter(function(toDoKey) {
-        if (D.vr[toDoKey]["done"]) {
+        if (d.vr[toDoKey]["done"]) {
             return true;
         }
         newtoDoKeys.push(toDoKey);
         return false;
     }).forEach(function(toDoKey) {
-        D.el[element + toDoKey].remove();
-        D.forgetKey(toDoKey);
+        d.el[element + toDoKey].remove();
+        d.forgetKey(toDoKey);
     });
     toDoKeys = newtoDoKeys; //keep toDoKeys up to date
-    D.fx.updateJson();
+    d.fx.updateJson();
 };
-D.fx.updateJson();
+d.fx.updateJson();
 // -- next --
 
 
 
 
 // Link the document and the event handlers
-D.linkJsAndDom(); //now we listen to all events
+ //now we listen to all events
 
 
-// You can also directly call functions stored in D.fx if they don't depend on event 
-D.fx.calculate();
+// You can also directly call functions stored in d.fx if they don't depend on event 
+d.fx.calculate();

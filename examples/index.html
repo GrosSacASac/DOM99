@@ -5,18 +5,23 @@
     <title>DOM99 DEMO</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
+    <link rel="icon" href="../images/visual2.jpg">
 </head>
 <body>
-    <h1><img src="images/visual.png" alt="DOM99"></h1>
-    <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is DOM99 ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/main.js" target="_blank">JS</a>.</p>
+    <h1><img src="../images/visual2.jpg" alt="DOM99"></h1>
+    <p><a href="https://github.com/GrosSacASac/DOM99">What is DOM99 ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/main.js" target="_blank">JS</a>.</p>
     <main>
         <article>
-            <h2>Hello World</h2><br>
+            <h2>Hello World</h2>
             
-            <label>First name: <input data-variable="first" type="text"></label><br>
-            <label>Last name: <input data-variable="last" type="text"></label><br>
+            <label class="block">First <input data-variable="first"></label>
+            <label class="block">Last <input data-variable="last"></label>
             
-            <p>Hello <span data-variable="first"></span> <span data-variable="last"></span></p>
+            <p>variable first
+              <span data-variable="first"></span>,
+              variable last
+              <span data-variable="last"></span>
+             </p>
             
         </article>
         
@@ -74,9 +79,11 @@
         
     </main>
     
-<script src="../polyfill.min.js"></script>
-<script src="../js/dom99.js"></script>
-<!-- <script src="../js/dom99.es5.min.js"></script> -->
-<script src="../exampleses5/main.js"></script>
+<script nomodule src="../polyfill.min.js"></script>
+<script nomodule src="polyfills/remove.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script  nomodule src="../exampleses5/main.js"></script>
+
+<script type="module" src="main.js"></script>
 </body>
 </html>

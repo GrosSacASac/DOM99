@@ -72,20 +72,20 @@ var d = function () {
         return (typeof x === "undefined" ? "undefined" : _typeof(x)) === "object" && x !== null;
     };
 
-    var copyArrayFlat = function copyArrayFlat(array1) {
-        return array1.slice();
+    var copyArrayFlat = function copyArrayFlat(array) {
+        return array.slice();
     };
 
-    var valueElseMissDecorator = function valueElseMissDecorator(object1) {
+    var valueElseMissDecorator = function valueElseMissDecorator(object) {
         /*Decorator function around an Object to provide a default value
         Decorated object must have a MISS key with the default value associated
         Arrays are also objects
         */
         return function (key) {
-            if (hasOwnProperty.call(object1, key)) {
-                return object1[key];
+            if (hasOwnProperty.call(object, key)) {
+                return object[key];
             }
-            return object1[MISS];
+            return object[MISS];
         };
     };
 
@@ -180,14 +180,14 @@ var d = function () {
         return element;
     };
 
-    var walkTheDomElements = function walkTheDomElements(element, function1) {
-        function1(element);
+    var walkTheDomElements = function walkTheDomElements(startElement, callBack) {
+        callBack(startElement);
         if (element.tagName !== "TEMPLATE") {
             // IE bug: templates are not inert
-            element = element.firstElementChild;
-            while (element) {
-                walkTheDomElements(element, function1);
-                element = element.nextElementSibling;
+            var _element = startElement.firstElementChild;
+            while (_element) {
+                walkTheDomElements(_element, callBack);
+                _element = _element.nextElementSibling;
             }
         }
     };
@@ -196,17 +196,17 @@ var d = function () {
         return element.getAttribute("is") || element.tagName.toLowerCase();
     };
 
-    var addEventListener = function addEventListener(element, eventName, function1) {
+    var addEventListener = function addEventListener(element, eventName, callBack) {
         var useCapture = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-        element.addEventListener(eventName, function1, useCapture);
+        element.addEventListener(eventName, callBack, useCapture);
     };
 
     var contextFromEvent = function contextFromEvent(event) {
         if (event.target) {
-            var element = event.target;
-            if (hasOwnProperty.call(element, CONTEXT)) {
-                return element[CONTEXT];
+            var _element2 = event.target;
+            if (hasOwnProperty.call(_element2, CONTEXT)) {
+                return _element2[CONTEXT];
             }
         }
         console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
@@ -321,10 +321,10 @@ var d = function () {
 
     /*not used
     alternative use the new third argument options, once
-    const onceAddEventListener = function (element, eventName, function1, useCapture=false) {
+    const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
         let tempFunction = function (event) {
             //called once only
-            function1(event);
+            callBack(event);
             element.removeEventListener(eventName, tempFunction, useCapture);
         };
         addEventListener(element, eventName, tempFunction, useCapture);
@@ -335,6 +335,7 @@ var d = function () {
             console.error("Event listener " + functionName + " not found.");
         }
         addEventListener(element, eventName, functions[functionName]);
+        // todo only add context when not top level ? (inside sommething)
         element[CONTEXT] = contextFromArray(pathIn);
     };
 
@@ -402,6 +403,7 @@ var d = function () {
         // will also remake the previous if any, which is less than ideal todo
         // can have negative consequences for multiple elements that share the same list
         notify(variablesSubscribers[path], variables[path], path);
+        // todo value = variables[path], if (value) notify else nothing
     };
 
     var applyDirectiveVariable = function applyDirectiveVariable(element, variableName) {

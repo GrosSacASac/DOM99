@@ -65,20 +65,20 @@ const d = (function () {
         return (typeof x === "object" && x !== null);
     };
 
-    const copyArrayFlat = function (array1) {
-        return array1.slice();
+    const copyArrayFlat = function (array) {
+        return array.slice();
     };
 
-    const valueElseMissDecorator = function (object1) {
+    const valueElseMissDecorator = function (object) {
         /*Decorator function around an Object to provide a default value
         Decorated object must have a MISS key with the default value associated
         Arrays are also objects
         */
         return function (key) {
-            if (hasOwnProperty.call(object1, key)) {
-                return object1[key];
+            if (hasOwnProperty.call(object, key)) {
+                return object[key];
             }
-            return object1[MISS];
+            return object[MISS];
         };
     };
 
@@ -173,12 +173,12 @@ const d = (function () {
         return element;
     };
 
-    const walkTheDomElements = function (element, function1) {
-        function1(element);
-        if (element.tagName !== "TEMPLATE") {// IE bug: templates are not inert
-            element = element.firstElementChild;
+    const walkTheDomElements = function (startElement, callBack) {
+        callBack(startElement);
+        if (startElement.tagName !== "TEMPLATE") {// IE bug: templates are not inert
+            let element = startElement.firstElementChild;
             while (element) {
-                walkTheDomElements(element, function1);
+                walkTheDomElements(element, callBack);
                 element = element.nextElementSibling;
             }
         }
@@ -188,8 +188,8 @@ const d = (function () {
         return element.getAttribute("is") || element.tagName.toLowerCase();
     };
 
-    const addEventListener = function (element, eventName, function1, useCapture = false) {
-        element.addEventListener(eventName, function1, useCapture);
+    const addEventListener = function (element, eventName, callBack, useCapture = false) {
+        element.addEventListener(eventName, callBack, useCapture);
     };
 
     const contextFromEvent = function (event) {
@@ -303,10 +303,10 @@ const d = (function () {
 
     /*not used
     alternative use the new third argument options, once
-    const onceAddEventListener = function (element, eventName, function1, useCapture=false) {
+    const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
         let tempFunction = function (event) {
             //called once only
-            function1(event);
+            callBack(event);
             element.removeEventListener(eventName, tempFunction, useCapture);
         };
         addEventListener(element, eventName, tempFunction, useCapture);
@@ -317,6 +317,7 @@ const d = (function () {
             console.error(`Event listener ${functionName} not found.`);
         }
         addEventListener(element, eventName, functions[functionName]);
+        // todo only add context when not top level ? (inside sommething)
         element[CONTEXT] = contextFromArray(pathIn);
     };
 
@@ -377,7 +378,8 @@ const d = (function () {
         // console.log("should notify once", path, variables[path]);
         // will also remake the previous if any, which is less than ideal todo
         // can have negative consequences for multiple elements that share the same list
-        notify(variablesSubscribers[path], variables[path], path)
+        notify(variablesSubscribers[path], variables[path], path);
+        // todo value = variables[path], if (value) notify else nothing
 
     };
 

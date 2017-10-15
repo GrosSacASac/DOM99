@@ -2,7 +2,7 @@
 
 After using DOM99 in my own projects I thought about the limitations and benefits. Thoughts about the next generation:
 
-##For version 2.0
+## Thoughts
 
 I once had a teacher who said: A program can be simple, efficient or polyvalent, and it is impossible to reach perfection in all 3 attributes. The simplest and most efficient program does nothing. The most efficient and polyvalent program is infinitely complex. Etc.
 
@@ -17,6 +17,25 @@ The declarative + imperative model will be kept since it gives a lot of flexibil
 
 Also some sort of boilerplate is going to be provided, for typical best case scenario. This I 'll do later, but probably will use redux + dom99 + webpack to make something opiniated to get started with quickly.
 
+Change
+
+OLD Example
+    
+    <template data-element="templateExample-d-example">
+        <p data-variable="text"></p>
+        <a data-element="link"></a>
+    </template>
+    
+    <d-example data-inside="1"></d-example>
+    
+    //(1)using an object that's in (previously
+    D.vr["1"]["text"] = ...
+    D.el["1"]["link"].href = ...
+    
+    //(2)using a prefix (that s how it works now)
+    D.vr["1"+"text"] = ...
+    D.el["1"+"link"].href = ...
+    
 
 ##Event listener design
 

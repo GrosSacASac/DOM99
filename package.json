@@ -6,8 +6,8 @@
   "description": "HTML/DOM manipulation made easier",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
-  "browser": "js/dom99.js",
-  "browserES5": "built/dom99.es5.min.js",
+  "scriptFileBrowser": "js/dom99.js",
+  "scriptFileBrowserES5": "built/dom99.es5.min.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
