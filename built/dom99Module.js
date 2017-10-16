@@ -39,12 +39,15 @@ Distributed under the Boost Software License, Version 1.0.
     
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
+    
+    integrate 2 way binding in dom99 ? for list
+    see d.functions.updateJson in main.js in examples
 */
 const d = (function () {
     "use strict";
 
     //root collections
-    const variablesSubscribers = {};
+    const variableSubscribers = {};
     const listSubscribers = {};
     const variables = {};
     const elements = {};
@@ -62,7 +65,6 @@ const d = (function () {
     const ELEMENT_LIST_ITEM = "ELEMENT_LIST_ITEM";
     const CUSTOM = "CUSTOM";
     const INSIDE_SYMBOL = ">";
-    const DEFAULT_INPUT_TYPE = "text";
 
     const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -153,7 +155,7 @@ const d = (function () {
         variablePropertyFromElement: function (element) {
             const tagName = element.tagName || element;
             if (tagName === "INPUT") {
-                return propertyFromInputType(element.type || DEFAULT_INPUT_TYPE);
+                return propertyFromInputType(element.type);
             }
             return propertyFromTag(tagName);
         },
@@ -281,11 +283,11 @@ const d = (function () {
           // console.log(subscribers);
           subscribers.forEach(function (listContainer) {
             // todo use forget methods
-            listContainer.innerHTML = "";
             const fragment = document.createDocumentFragment();
             if (hasOwnProperty.call(
                 templateElementFromCustomElementName, listContainer[CUSTOM]
                 )) {
+                listContainer.innerHTML = "";
                 // composing with custom element
                 const templateElement = templateElementFromCustomElementName[
                     listContainer[CUSTOM]
@@ -295,12 +297,13 @@ const d = (function () {
                 const normalizedPath = normalizeStartPath(startPath);
                 data.forEach(function (dataInside, i) {
                     const pathInside = `${normalizedPath}${i}`;
-                    //console.log(pathInside);
+                    console.log(pathInside, "        ", normalizedPath);
                     feed(dataInside, pathInside);
                     appendTemplate(fragment, templateElement, String(i));                    
                 });
                 pathIn = previous;
             } else {
+                listContainer.innerHTML = "";
                 data.forEach(function (value) {
                     const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
                     if (isObjectOrArray(value)) {
@@ -316,10 +319,11 @@ const d = (function () {
     };
 
     const feed = function (data, startPath = "") {
+        //console.log(variableSubscribers, listSubscribers);
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
-            if (hasOwnProperty.call(variablesSubscribers, startPath)) {
-                notifyVariableSubscribers(variablesSubscribers[startPath], data);
+            if (hasOwnProperty.call(variableSubscribers, startPath)) {
+                notifyVariableSubscribers(variableSubscribers[startPath], data);
             }
         } else if (Array.isArray(data)) {
           variables[startPath] = data;
@@ -428,7 +432,7 @@ const d = (function () {
 
         element[DVRP] = options.variablePropertyFromElement(element);
         const path = contextFromArrayWith(pathIn, variableName);
-        variablesSubscribers[path]  = pushOrCreateArray(variablesSubscribers[path], element);
+        variableSubscribers[path]  = pushOrCreateArray(variableSubscribers[path], element);
         const lastValue = variables[path]; // has latest
         if (lastValue !== undefined) {
           element[element[DVRP]] =lastValue;
@@ -439,7 +443,7 @@ const d = (function () {
                 //wil call setter to broadcast the value
                 const value = event.target[event.target[DVRP]];
                 variables[path] = value;
-                notifyVariableSubscribers(variablesSubscribers[path], value);
+                notifyVariableSubscribers(variableSubscribers[path], value);
             };
             addEventListener(
                 element,
@@ -516,7 +520,7 @@ const d = (function () {
         And all of this doesn't matter for 1-100 elements
 
         */
-        deleteAllStartsWith(variablesSubscribers, path);
+        deleteAllStartsWith(variableSubscribers, path);
         deleteAllStartsWith(variables, path);
     };
 

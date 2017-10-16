@@ -461,6 +461,7 @@ D.fx.close = function (event) {
 <article id="patchnotes">
 <h3>Patch Notes</h3>
 <h4>Version 7.0.0</h4>
+<p>renamed dom99 variable into just d</p>
 <p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
@@ -468,10 +469,10 @@ the license in distributed executables or transpiled code</p>
             result: "Please enter finite numbers"
           }); or d.feed("Please enter finite numbers", "result");
           Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
-<p></p>
-<p></p>
-<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
+<p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
+
 <h4>Version 3.0.3</h4>
+<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
 <p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
 <h4>Version 3.0.1</h4>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>

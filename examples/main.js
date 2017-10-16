@@ -33,8 +33,6 @@ d.functions.calculate();
 
 // -- The monologue --
 
-
-
 let currentSentence = 0;
 let timeOutId;
 const sentences = ["I am a lone prisoner.", 
@@ -72,82 +70,96 @@ d.functions.stopStartTalking = function (event) {
 
 // -- The Todo --
 
-let componentName = "todo";
-let i = 0;
-let toDoKeys = [];
-let element = "element";
-const data = [
+let data = [
   {done: true, text: "Make DOM99 demo"},
   {done: false, text: "Drink Water"}
 ];
-d.feed(data, "allToDos");
 
-d.functions.updateJson = function (event) {
-    let dataObject = d.variables.allToDos;
-            console.log(dataObject);
-            console.log( d.variables);
-            console.log(event);
-            console.log(d.contextFromEvent(event)); // could get index from that
-            console.log(event.target.value); // value 
-            // integrate 2 way binding in dom99 ? for list
-    //toDoKeys.map(function(toDoKey) {
-        //return {
-            //text: d.vr[toDoKey]["text"],
-            //done: d.vr[toDoKey]["done"]
-        //};
-    //});
-    //d.vr.todoAsJson = JSON.stringify(dataObject);
+const updateJsonView = function () {
+    const asJSON =  JSON.stringify(data, null, "  "); // indent JSON with 2 spaces
+    d.feed(asJSON, "todoAsJson"); // and display it in a <pre>
 };
 
-d.functions.addTodo = function (event) {
+d.functions.updateToDo = function (event) {
+    // updates data whenever a sub widget changes in the dom
+    // this seems complicated but should be rare use case
+    // this makes 2 dimensional structure (array * object)
+    // two-way binded 
+    const context = d.contextFromEvent(event);
+    // this is the index of the edited item in the array
+    const index = Number(context.slice(-1)); // slice -1 takes the last character
+    // property is what changed inside the object
+    let property;
+    if (event.target.type === "checkbox") {
+        property = "done";
+    } else /*if (event.target.type === "text") */{
+        property = "text";
+    }
+    
+    //reconstruct the entire path 
+    const path = d.contextFromArray([context, property])
+    const value = d.variables[path];
+    
+    // reflect the change in the data
+    data[index][property] = value;
 
+    updateJsonView();
 };
-d.functions.addTodoX = function (event) {
-    let toDoKey = componentName + String(i);
 
-    toDoKeys.push(toDoKey);
-
-    // 1 create HTML ELement
-    const customElement = d.createElement2({
-        "tagName": "li",
-        "is": "d-todo",
-        "data-inside": toDoKey,
-        "data-element": element + toDoKey
+d.functions.addToDo = function (event) {
+    data.push({
+        done: false,
+        text: ""
     });
-
-
-    // 3 link it
-    d.linkJsAndDom(customElement);
     
-    // 2 populate data
-    d.vr[toDoKey]["done"] = false;
-    d.vr[toDoKey]["text"] = "";
-    
-    // 4 insert the Element in the DOM
-    d.el["todoContainer"].appendChild(customElement);
-    
-    i += 1;
-    d.functions.updateJson();
+    d.feed(data, "allToDos");
+    updateJsonView();
 };
 
 
-d.functions.deleteTodos = function (event) {
+d.functions.deleteToDos = function (event) {
     //delete done todos only !
-    let newtoDoKeys = [];
-    toDoKeys.filter(function(toDoKey) {
-        if (d.vr[toDoKey]["done"]) {
-            return true;
-        }
-        newtoDoKeys.push(toDoKey);
-        return false;
-    }).forEach(function(toDoKey) {
-        d.el[element + toDoKey].remove();
-        d.forgetKey(toDoKey);
-    });
-    toDoKeys = newtoDoKeys; //keep toDoKeys up to date
-    d.functions.updateJson();
+    data = data.filter(toDoItem => !toDoItem.done);
+    
+    d.feed(data, "allToDos");
+    updateJsonView();
 };
-//d.functions.updateJson();
-d.linkJsAndDom();
-// -- next --
 
+
+d.feed(data, "allToDos");
+updateJsonView();
+
+// -- Love Hate --
+
+d.feed({
+  me : {
+    owner: "My",
+    love: [
+      "Family",
+      "Science",
+      "Vacation",
+    ],
+    hate: [
+      "Paper-work",
+      "Mosquitos",
+      "Polution"
+    ]
+  },
+  you: {
+    owner: "Your",
+    love: [
+      "Sing",
+      "Dance",
+      "Read",
+      "Board Games"
+    ],
+    hate: [
+      "Cold Shower",
+      "Money Depth",
+      "Bad Food"
+    ]
+  }  
+});
+
+// try to feed individual things
+d.linkJsAndDom();
