@@ -460,6 +460,16 @@ D.fx.close = function (event) {
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 7.0.0</h4>
+<p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
+the license in distributed executables or transpiled code</p>
+<p>Getting data uses d.variables</p>
+<p>Setting data uses           d.feed({
+            result: "Please enter finite numbers"
+          }); or d.feed("Please enter finite numbers", "result");
+          Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
+<p></p>
+<p></p>
 <p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
 <h4>Version 3.0.3</h4>
 <p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
@@ -534,7 +544,8 @@ D.fx.close = function (event) {
 <h3>History</h3>
 <p>The first version of DOM99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
 <p>In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.</p>
-<p>Late 2017, new design decisions based on new experience aquired since then. The version is a major change. For older version look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a></p>
+<p>Late 2017, new design decisions based on new experience aquired since then. The version is a major change. For older versions, have a look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a>
+ and <a href="https://github.com/GrosSacASac/DOM99/commit/62947dbe5076fdf4dd6cd032a971123116eeb647">4.0.0</a>.</p>
 </article>
 
 </article>

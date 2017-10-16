@@ -40,7 +40,7 @@
             
             <h2>The monologue</h2>
             <p data-variable="monologue"></p>
-            <button data-variable="monologueButton" data-function="click-stopStartTalking"></button>
+            <button data-variable="monologueButton" data-function="click-stopStartTalking">Hi</button>
             
         </article>
         
@@ -48,18 +48,19 @@
         
             <template data-template="d-todo">
                 <!-- Everything here has its own scope  -->
-                <input data-function="updateJson" data-variable="done" type="checkbox">
-                <input data-function="updateJson" data-variable="text" type="text" placeholder="What to do ?">
+                <li>
+                  <input data-function="updateJson" data-variable="done" type="checkbox">
+                  <input data-function="updateJson" data-variable="text" type="text" placeholder="What to do ?">
+                </li>
             </template>
             
             <h2>To-do List</h2>
-            <ul data-element="todoContainer">
+            <ul data-list="allToDos-d-todo">
                 <!-- d-todo's  -->
             </ul>
             <button data-function="click-deleteTodos">Delete finished tasks</button>
             <button data-function="click-addTodo">Add To-do</button>
-            <pre>JSON: <output data-variable="todoAsJson"></output>
-            </pre>
+            <pre>JSON: <output data-variable="todoAsJson"></output></pre>
             
         </article>
         

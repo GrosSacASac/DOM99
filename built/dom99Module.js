@@ -30,16 +30,22 @@ Distributed under the Boost Software License, Version 1.0.
     think about overlying framework
 
     add data-list-strategy to allow opt in declarative optimization
-    data-function-context to allow context less elements
+    data-function-context to allow context less 
     add data-x spelling checker
     
     transform recurcive into seq flow
+    todo avoid resetting variable again when 2 subcribers
+    todo notifyONE
+    
+    find ways to feed changes to a list without sending an entire list
+    and rendering an entire list from scratch each time
 */
 const d = (function () {
     "use strict";
 
     //root collections
     const variablesSubscribers = {};
+    const listSubscribers = {};
     const variables = {};
     const elements = {};
     const functions = {};
@@ -67,6 +73,15 @@ const d = (function () {
 
     const copyArrayFlat = function (array) {
         return array.slice();
+    };
+    
+    const pushOrCreateArray = function (potentialArray, valueToPush) {
+      // don't need to use hasOwnProp as there is no array in the prototype
+        if (!Array.isArray(potentialArray)) {
+            return [valueToPush];
+        }
+        potentialArray.push(valueToPush);
+        return potentialArray;
     };
 
     const valueElseMissDecorator = function (object) {
@@ -192,6 +207,30 @@ const d = (function () {
         element.addEventListener(eventName, callBack, useCapture);
     };
 
+    const cloneTemplate = (function () {
+        const errorMessage = `Template  <template ${options.directives.directiveTemplate}="d-name">
+    Template Content
+</template>`;
+        if ("content" in document.createElement("template")) {
+            return function (templateElement) {
+                if (!templateElement) {
+                    console.error(errorMessage);
+                }
+                return document.importNode(templateElement.content, true);
+            };
+        }
+
+        return function (templateElement) {
+            /*here we have a div too much (messes up css)*/
+            if (!templateElement) {
+                console.error(errorMessage);
+            }
+            const clone = document.createElement("div");
+            clone.innerHTML = templateElement.innerHTML;
+            return clone;
+        };
+    }());
+
     const contextFromEvent = function (event) {
         if (event.target) {
             const element = event.target;
@@ -214,91 +253,86 @@ const d = (function () {
         }
         return `${contextFromArray(pathIn)}${INSIDE_SYMBOL}${withWhat}`;
     };
+    
+    const normalizeStartPath = function (startPath) {
+            // this is because "a>b>c" is irregular
+            // "a>b>c>" or ">a>b>c" would not need such normalization
+        if (startPath) {
+            return `${startPath}${INSIDE_SYMBOL}`;
+        } else {
+          return startPath;
+        }
+    };
 
-    const notify = function (subscribers, value, path = "") {
+    const notifyVariableSubscribers = function (subscribers, value) {
         // could also only take path and get subscribers + value with path
         if (value === undefined) {
             // console.warn(`Do not use undefined values for feed`);
             // should this happen ?
             return;
         }
-        if (Array.isArray(value)) {
-            const list = value;
-            subscribers.forEach(function (currentElement) {
-                const fragment = document.createDocumentFragment();
-                if (hasOwnProperty.call(
-                    templateElementFromCustomElementName, currentElement[CUSTOM]
-                    )) {
-                    // composing with custom element
-                    const templateElement = templateElementFromCustomElementName[
-                        currentElement[CUSTOM]
-                    ];
-                    const previous = copyArrayFlat(pathIn);
-                    pathIn = path.split(INSIDE_SYMBOL);
-                    list.forEach(function (unused, i) {
-                        const key = String(i);
-                        enterObject(key);
-                        const templateClone = cloneTemplate(templateElement);
-                        linkJsAndDom(templateClone);
-                        leaveObject();
-                        fragment.appendChild(templateClone);
-                    });
-                    pathIn = previous;
-                } else {
-                    list.forEach(function (value) {
-                        const listItem = document.createElement(currentElement[ELEMENT_LIST_ITEM]);
-                        if (isObjectOrArray(value)) {
-                            Object.assign(value, listItem);
-                        } else {
-                            listItem[currentElement[DVRPL]] = value;
-                        }
-                        fragment.appendChild(listItem);
-                    });
-                }
-                currentElement.innerHTML = "";
-                currentElement.appendChild(fragment);
-            });
-        } else {
-            // console.log(subscribers, "subscribers");
-            subscribers.forEach(function (currentElement) {
-                currentElement[currentElement[DVRP]] = value;
-            });
-        }
+        // console.log(subscribers, "subscribers");
+        subscribers.forEach(function (currentElement) {
+            currentElement[currentElement[DVRP]] = value;
+        });        
+    };
+
+    const notifyListSubscribers = function (subscribers, startPath, data) {
+          // console.log(subscribers);
+          subscribers.forEach(function (listContainer) {
+            // todo use forget methods
+            listContainer.innerHTML = "";
+            const fragment = document.createDocumentFragment();
+            if (hasOwnProperty.call(
+                templateElementFromCustomElementName, listContainer[CUSTOM]
+                )) {
+                // composing with custom element
+                const templateElement = templateElementFromCustomElementName[
+                    listContainer[CUSTOM]
+                ];
+                const previous = copyArrayFlat(pathIn);
+                pathIn = startPath.split(INSIDE_SYMBOL);
+                const normalizedPath = normalizeStartPath(startPath);
+                data.forEach(function (dataInside, i) {
+                    const pathInside = `${normalizedPath}${i}`;
+                    //console.log(pathInside);
+                    feed(dataInside, pathInside);
+                    appendTemplate(fragment, templateElement, String(i));                    
+                });
+                pathIn = previous;
+            } else {
+                data.forEach(function (value) {
+                    const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+                    if (isObjectOrArray(value)) {
+                        Object.assign(value, listItem);
+                    } else {
+                        listItem[listContainer[DVRPL]] = value;
+                    }
+                    fragment.appendChild(listItem);
+                });
+            }
+            listContainer.appendChild(fragment);
+        });
     };
 
     const feed = function (data, startPath = "") {
         if (!isObjectOrArray(data)) {
-            console.error("feed takes input, must be object");
-        }
-        let normalizedPath = startPath;
-        if (startPath) {
-            normalizedPath = `${startPath}${INSIDE_SYMBOL}`;
-            // this is because "a>b>c" is irregular
-            // "a>b>c>" or ">a>b>c" would not need such normalization
-        }
-        Object.entries(data).forEach(function ([key, value]) {
-            const path = `${normalizedPath}${key}`;
-            if (!isObjectOrArray(value)) {
-                variables[path] = value;
-                if (hasOwnProperty.call(variablesSubscribers, path)) {
-                    notify(variablesSubscribers[path], value);
-                }
-            } else {
-                const insidePath = `${path}${INSIDE_SYMBOL}`;
-
-                if (Array.isArray(value)) {
-                    forgetContext(insidePath);
-                    feed(value, path /* could include boolean to not forgetContext inside,
-                as it would do nothing*/);
-                    variables[path] = value;
-                    if (hasOwnProperty.call(variablesSubscribers, path)) {
-                        notify(variablesSubscribers[path], value, path);
-                    }
-                } else {
-                    feed(value, path);
-                }
+            variables[startPath] = data;
+            if (hasOwnProperty.call(variablesSubscribers, startPath)) {
+                notifyVariableSubscribers(variablesSubscribers[startPath], data);
             }
-        });
+        } else if (Array.isArray(data)) {
+          variables[startPath] = data;
+          if (hasOwnProperty.call(listSubscribers, startPath)) {
+            notifyListSubscribers(listSubscribers[startPath], startPath, data);
+          } 
+        } else {
+            const normalizedPath = normalizeStartPath(startPath);
+            Object.entries(data).forEach(function ([key, value]) {
+                const path = `${normalizedPath}${key}`;
+                feed(value, path);
+            });
+        }
     };
 
     /*not used
@@ -369,17 +403,14 @@ const d = (function () {
 
         const path = contextFromArrayWith(pathIn, variableName);
 
-        if (hasOwnProperty.call(variablesSubscribers, path)) {
-            variablesSubscribers[path].push(element);
-        } else {
-            variablesSubscribers[path] = [element];
-        }
+        listSubscribers[path] = pushOrCreateArray(listSubscribers[path], element);
 
-        // console.log("should notify once", path, variables[path]);
         // will also remake the previous if any, which is less than ideal todo
         // can have negative consequences for multiple elements that share the same list
-        notify(variablesSubscribers[path], variables[path], path);
-        // todo value = variables[path], if (value) notify else nothing
+        if (hasOwnProperty.call(variables, path)) {
+          notifyListSubscribers(listSubscribers[path], path, variables[path]);
+        }
+        
 
     };
 
@@ -397,19 +428,18 @@ const d = (function () {
 
         element[DVRP] = options.variablePropertyFromElement(element);
         const path = contextFromArrayWith(pathIn, variableName);
-        if (hasOwnProperty.call(variablesSubscribers, path)) {
-            variablesSubscribers[path].push(element);
-        } else {
-            variablesSubscribers[path] = [element];
-        }
-        element[element[DVRP]] = variables[path]; // has latest
+        variablesSubscribers[path]  = pushOrCreateArray(variablesSubscribers[path], element);
+        const lastValue = variables[path]; // has latest
+        if (lastValue !== undefined) {
+          element[element[DVRP]] =lastValue;
+        } 
 
         if (options.tagNamesForUserInput.includes(element.tagName)) {
             const broadcastValue = function (event) {
                 //wil call setter to broadcast the value
                 const value = event.target[event.target[DVRP]];
                 variables[path] = value;
-                notify(variablesSubscribers[path], value);
+                notifyVariableSubscribers(variablesSubscribers[path], value);
             };
             addEventListener(
                 element,
@@ -439,6 +469,14 @@ const d = (function () {
         templateElementFromCustomElementName[customAttributeValue] = element;
     };
 
+    const appendTemplate = function (element, templateElement, key) {
+        enterObject(key);
+        const templateClone = cloneTemplate(templateElement);
+        linkJsAndDom(templateClone);
+        leaveObject();
+        element.appendChild(templateClone);
+    };
+    
     const applyDirectiveInside = function (element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
@@ -450,36 +488,8 @@ const d = (function () {
             customElementNameFromElement(element)
         ];
 
-        enterObject(key);
-        const templateClone = cloneTemplate(templateElement);
-        linkJsAndDom(templateClone);
-        leaveObject();
-        element.appendChild(templateClone);
+        appendTemplate(element, templateElement, key);
     };
-
-    const cloneTemplate = (function () {
-        const errorMessage = `Template  <template ${options.directives.directiveTemplate}="d-name">
-    Template Content
-</template>`;
-        if ("content" in document.createElement("template")) {
-            return function (templateElement) {
-                if (!templateElement) {
-                    console.error(errorMessage);
-                }
-                return document.importNode(templateElement.content, true);
-            };
-        }
-
-        return function (templateElement) {
-            /*here we have a div too much (messes up css)*/
-            if (!templateElement) {
-                console.error(errorMessage);
-            }
-            const clone = document.createElement("div");
-            clone.innerHTML = templateElement.innerHTML;
-            return clone;
-        };
-    }());
 
     const enterObject = function (key) {
         pathIn.push(key);
