@@ -10,10 +10,10 @@ var files2 = ["za.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md
 
 d.functions.filter = function (event) {
     const context = d.contextFromEvent(event);    
-    const filterText = d.variables[d.contextFromArray([context, "filter"])];
+    const filterText = d.variables[d.contextFromArray([context, "filterText"])];
     const filterElement = event.target;
     /* or
-    const filterElement = d.elements[d.contextFromArray([context, "filterText"])];
+    const filterElement = d.elements[d.contextFromArray([context, "filter"])];
     */
 
     const messagePath = d.contextFromArray([context, "message"])

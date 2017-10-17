@@ -1,6 +1,4 @@
-/*globals D*/
-"use strict";
-
+import d from "../built/dom99Module.js";
 let globalNumber = 0;
 // increment local does not update the list, how to make the data flow
 
@@ -9,9 +7,9 @@ const setAllGlobalCopyInside = function (value) {
         globalCopy: String(value),
     };
 
-    D.feed(changeDescriptor, D.contextFromArray(["outerList", 0]));
-    D.feed(changeDescriptor, D.contextFromArray(["outerList", 1]));
-    D.feed(changeDescriptor, D.contextFromArray(["outerList", 2]));
+    d.feed(changeDescriptor, d.contextFromArray(["outerList", 0]));
+    d.feed(changeDescriptor, d.contextFromArray(["outerList", 1]));
+    d.feed(changeDescriptor, d.contextFromArray(["outerList", 2]));
 };
 
 const globalIncrement = function (event) {
@@ -21,10 +19,10 @@ const globalIncrement = function (event) {
 };
 
 const globalSet = function (event) {
-    const context = D.contextFromEvent(event);
+    const context = d.contextFromEvent(event);
     const newGlobalNumber = Number(
-        D.variables[
-            D.contextFromArray([context, "globalCopy"])
+        d.variables[
+            d.contextFromArray([context, "globalCopy"])
         ]);
     globalNumber = newGlobalNumber;
     
@@ -32,15 +30,15 @@ const globalSet = function (event) {
 };
 
 const localIncrement = function (event) {
-    const context = D.contextFromEvent(event);
-    const spanElement = D.elements[D.contextFromArray([context, "span"])];
+    const context = d.contextFromEvent(event);
+    const spanElement = d.elements[d.contextFromArray([context, "span"])];
     const localNumber = Number(
-        D.variables[
-            D.contextFromArray([context, "local"])
+        d.variables[
+            d.contextFromArray([context, "local"])
         ]) + 1;
     const localColor = `rgb(${(localNumber * 25) % 255},0,0)`;
 
-    D.feed({
+    d.feed({
         local: String(localNumber)
     },
     context);
@@ -50,10 +48,10 @@ const localIncrement = function (event) {
 
 const listremake = function (event) {
     /* display list size of global, with value local */
-    const context = D.contextFromEvent(event);
+    const context = d.contextFromEvent(event);
     const localNumber = Number(
-    D.variables[
-        D.contextFromArray([context, "local"])
+    d.variables[
+        d.contextFromArray([context, "local"])
     ]);
     const global = globalNumber;
     const newList = [];
@@ -64,7 +62,7 @@ const listremake = function (event) {
             "b": localNumber
         });
     }
-    D.feed({
+    d.feed({
         innerlist: newList
     },
     context);
@@ -124,4 +122,4 @@ const initialData = {
     ]
 };
 
-D.start(functions, initialData);
+d.start(functions, initialData);

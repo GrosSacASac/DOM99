@@ -2,11 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>HTML TEMPLATE</title>
+        <title>tests</title>
         <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/basics.css">
     </head>
     <body>
-    
+<p>Playing around with template composition</p>
 <template data-template="d-static">
     <ul>
         <li data-variable="x"> always</li>
@@ -31,7 +32,7 @@
     <span data-variable="globalCopy"></span>
     <button data-function="globalIncrement">increment global</button><br>
     <input data-variable="local">
-    <span data-variable="local" data-elementement="span"></span>
+    <span data-variable="local" data-element="span"></span>
     <button data-function="localIncrement">increment local</button><br>
     <button data-function="listremake">display list size of global, with value local</button><br>
     <div data-list="innerlist-d-inner">data-list="innerlist-d-inner"</div>
@@ -42,9 +43,9 @@
 
 
 
-<!-- put here a footer <footer></footer> -->
-<!-- <script src="dom99.es5.min.js"></script> -->
-<script src="dom993.js"></script>
-<script src="limited.js"></script>
+<script nomodule src="../polyfill.min.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script  nomodule src="../exampleses5/limited.js"></script>
+<script type="module" src="limited.js"></script>
     </body>
 </html>
