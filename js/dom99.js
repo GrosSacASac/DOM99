@@ -586,7 +586,6 @@ const d = (function () {
 
         directiveSyntaxFunctionPairs.forEach(function (pair) {
             const [directiveName, applyDirective] = pair;
-
             if (!element.hasAttribute(directiveName)) {
                 return;
             }
@@ -594,9 +593,7 @@ const d = (function () {
             if (customAttributeValue[0] === options.attributeValueDoneSign) {
                 return;
             }
-
             applyDirective(element, customAttributeValue);
-
             // ensure the directive is only applied once
             element.setAttribute(directiveName,
                     options.attributeValueDoneSign + customAttributeValue);

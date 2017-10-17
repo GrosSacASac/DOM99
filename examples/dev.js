@@ -1,7 +1,6 @@
-"use strict";
-const D = dom99;
+import d from "../built/dom99Module.js";
 
-D.feed({
+d.feed({
     x: "XXX",
     z: "ZZZ",
     c: "Test",
@@ -68,36 +67,4 @@ D.feed({
     ]
 });
 
-// D.feed({normal:["come", "join"]});
-D.linkJsAndDom();
-// D.feed({
-    
-    // outerlist: [
-        // {
-            // sideOuter: "side outer",
-            // innerlist: [
-                // {
-                    // a: "crazy nesting 1 a",
-                    // b: "crazy nesting 1 b"
-                // },
-            // ]
-        // },
-        // {
-            // sideOuter: "siiiiiii",
-            // innerlist: [
-                // {
-                    // a: "1crazy nesting 0 a",
-                    // b: "1crazy nesting 0 b"
-                // },
-                // {
-                    // a: "1crazy nesting 1 a",
-                    // b: "1crazy nesting 1 b"
-                // },
-            // ]
-        // },
-    // ]
-// });
-// D.variablesSubscribers
-// D.prepopulatedData
-// D.get("c")
-// D.get("normal>1")
+d.linkJsAndDom();
