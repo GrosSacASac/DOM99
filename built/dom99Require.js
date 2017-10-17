@@ -41,6 +41,8 @@ Distributed under the Boost Software License, Version 1.0.
     
     integrate 2 way binding in dom99 ? for list
     see d.functions.updateJson in main.js in examples
+    
+    add support for IE10 again(remove for of loop and transpile)
 */
 const d = (function () {
     "use strict";
