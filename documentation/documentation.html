@@ -413,10 +413,12 @@ D.fx.close = function (event) {
 <article id="domgood">
 <h2>The Document Object Model, the good parts</h2>
 <ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild</a> to insert or move an element</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove</a> to remove an element</li>
-<li hidden><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/className">element.className</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/DOM/Node.appendChild">Node.appendChild(child)</a> to insert or move an element</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore">Node.insertBefore(childNode, insertBeforeThisNode)</a> to insert or move an element</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove">Node.remove()</a> to remove an element</li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList.remove("class-name")</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">element.classList.add("class-name")</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/Events">Events</a></li>
 </ul>
 </article>

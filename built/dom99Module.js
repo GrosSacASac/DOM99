@@ -34,8 +34,6 @@ Distributed under the Boost Software License, Version 1.0.
     add data-x spelling checker
     
     transform recurcive into seq flow
-    todo avoid resetting variable again when 2 subcribers
-    todo notifyONE
     
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
@@ -289,6 +287,10 @@ const d = (function () {
         }
     };
 
+    const notifyOneVariableSubscriber = function (variableSubscriber, value) {
+        variableSubscriber[variableSubscriber[ELEMENT_PROPERTY]] = value;
+    };
+
     const notifyVariableSubscribers = function (subscribers, value) {
         // could also only take path and get subscribers + value with path
         if (value === undefined) {
@@ -296,90 +298,73 @@ const d = (function () {
             // should this happen ?
             return;
         }
-        // console.log(subscribers, "subscribers");
-        subscribers.forEach(function (currentElement) {
-            currentElement[currentElement[ELEMENT_PROPERTY]] = value;
+        subscribers.forEach(function (variableSubscriber) {
+            notifyOneVariableSubscriber(variableSubscriber, value);
         });        
     };
 
-    const notifyListSubscribers = function (subscribers, startPath, data) {
-          // console.log(subscribers);
-          subscribers.forEach(function (listContainer) {
-            // todo use forget methods
-            const fragment = document.createDocumentFragment();
-            if (hasOwnProperty.call(
-                templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT]
-                )) {
-                // composing with custom element
-                const templateElement = templateElementFromCustomElementName[
-                    listContainer[CUSTOM_ELEMENT]
-                ];
-                 const previous = copyArrayFlat(pathIn);
-                pathIn = startPath.split(INSIDE_SYMBOL);
-                const normalizedPath = normalizeStartPath(startPath);
-                if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
-                  console.log("already has childs");
-                  console.log(listContainer[LIST_CHILDREN]);
-                  const oldLength = listContainer[LIST_CHILDREN].length;
-                  const newLength = data.length;
-                  if (oldLength > newLength) {                    
+    const notifyOneListSubscriber = function (listContainer, startPath, data) {
+        const fragment = document.createDocumentFragment();
+        if (hasOwnProperty.call(
+        templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT]
+        )) {
+            // composing with custom element
+            const templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
+            const previous = copyArrayFlat(pathIn);
+            pathIn = startPath.split(INSIDE_SYMBOL);
+            const normalizedPath = normalizeStartPath(startPath);
+            const newLength = data.length;
+            let oldLength;
+            if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+                // remove nodes and variable subribers that are not used
+                oldLength = listContainer[LIST_CHILDREN].length;
+                if (oldLength > newLength) {
                     for (let i = newLength; i < oldLength; i += 1) {
-                      const pathInside = `${normalizedPath}${i}`;
-                      
-                      listContainer[LIST_CHILDREN][i].frozen.forEach(function (node) {
+                        const pathInside = `${normalizedPath}${i}`;
+                        listContainer[LIST_CHILDREN][i].forEach(function (node) {
                         node.remove();
-                      });
-                      forgetContext(pathInside);
-                      console.log("should remove",pathInside,  listContainer[LIST_CHILDREN][i]);
-                      // how to remove document fragment
-                      // also remove variableSubscribers
-                      // remove listContainer[LIST_CHILDREN][i] todo
+                        });
+                        forgetContext(pathInside);
                     }
                     listContainer[LIST_CHILDREN].length = newLength;
-                  }
-                  data.forEach(function (dataInside, i) {
-                    const pathInside = `${normalizedPath}${i}`;
-                    feed(dataInside, pathInside);
-                    if (i >= oldLength) {
-                      const activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
-                      console.log(pathInside);
-                      listContainer[LIST_CHILDREN].push({
-                        frozen: freezeLiveCollection(activatedTemplateClone.childNodes)
-                      });
-                      fragment.appendChild(activatedTemplateClone); // now activatedTemplateClone.childNodes is emptied
-                    } else {
-                      console.log("reusing");
-                    }
-                    console.log(listContainer[LIST_CHILDREN][i]);
-                  });
-                } else {
-                  listContainer.innerHTML = "";
-                  listContainer[LIST_CHILDREN] = [];
-                  data.forEach(function (dataInside, i) {
-                    const pathInside = `${normalizedPath}${i}`;
-                    feed(dataInside, pathInside);
-                    const activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
-                    console.log(pathInside);
-                    listContainer[LIST_CHILDREN].push({
-                        frozen: freezeLiveCollection(activatedTemplateClone.childNodes)
-                      });
-                    fragment.appendChild(activatedTemplateClone); // now activatedTemplateClone.childNodes is emptied
-                  });
                 }
-                pathIn = previous;
             } else {
-                listContainer.innerHTML = "";
-                data.forEach(function (value) {
-                    const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
-                    if (isObjectOrArray(value)) {
-                        Object.assign(value, listItem);
-                    } else {
-                        listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
-                    }
-                    fragment.appendChild(listItem);
-                });
+                listContainer[LIST_CHILDREN] = [];
+                oldLength = 0;
             }
-            listContainer.appendChild(fragment);
+
+            data.forEach(function (dataInside, i) {
+                const pathInside = `${normalizedPath}${i}`;
+                feed(dataInside, pathInside);
+                if (i >= oldLength) {
+                    // cannot remove document fragment after insert because they empty themselves
+                    // have to freeze the childs to still have a reference
+                    const activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
+                    listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedTemplateClone.childNodes));
+                    fragment.appendChild(activatedTemplateClone);
+                } else {
+                    ;// reusing, feed updated with new data the old nodes 
+                }
+            });
+            pathIn = previous;
+        } else {
+            listContainer.innerHTML = "";
+            data.forEach(function (value) {
+                const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+                if (isObjectOrArray(value)) {
+                    Object.assign(value, listItem);
+                } else {
+                    listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
+                }
+                fragment.appendChild(listItem);
+            });
+        }
+        listContainer.appendChild(fragment);
+    };
+
+    const notifyListSubscribers = function (subscribers, startPath, data) {
+        subscribers.forEach(function (listContainer) {
+            notifyOneListSubscriber(listContainer, startPath, data);
         });
     };
 
@@ -390,7 +375,6 @@ const d = (function () {
                 notifyVariableSubscribers(variableSubscribers[startPath], data);
             }
         } else if (Array.isArray(data)) {
-          console.log(variableSubscribers);
           variables[startPath] = data;
           if (hasOwnProperty.call(listSubscribers, startPath)) {
             notifyListSubscribers(listSubscribers[startPath], startPath, data);
@@ -474,13 +458,9 @@ const d = (function () {
 
         listSubscribers[path] = pushOrCreateArray(listSubscribers[path], element);
 
-        // will also remake the previous if any, which is less than ideal todo
-        // can have negative consequences for multiple elements that share the same list
         if (hasOwnProperty.call(variables, path)) {
-          notifyListSubscribers(listSubscribers[path], path, variables[path]);
+          notifyOneListSubscriber(element, path, variables[path]);
         }
-        
-
     };
 
     const applyDirectiveVariable = function (element, variableName) {
@@ -500,7 +480,7 @@ const d = (function () {
         variableSubscribers[path]  = pushOrCreateArray(variableSubscribers[path], element);
         const lastValue = variables[path]; // has latest
         if (lastValue !== undefined) {
-          element[element[ELEMENT_PROPERTY]] =lastValue;
+            notifyOneVariableSubscriber(element, lastValue);
         } 
 
         if (options.tagNamesForUserInput.includes(element.tagName)) {
@@ -508,7 +488,13 @@ const d = (function () {
                 //wil call setter to broadcast the value
                 const value = event.target[event.target[ELEMENT_PROPERTY]];
                 variables[path] = value;
-                notifyVariableSubscribers(variableSubscribers[path], value);
+                // would notify everything including itself
+                // notifyVariableSubscribers(variableSubscribers[path], value);
+                variableSubscribers[path].forEach(function (variableSubscriber) {
+                    if (variableSubscriber !== element) {
+                        notifyOneVariableSubscriber(variableSubscriber, value);
+                    }
+                });
             };
             addEventListener(
                 element,
@@ -572,8 +558,6 @@ const d = (function () {
     const deleteAllStartsWith = function (object, prefix) {
         Object.keys(object).forEach(function (key) {
             if (key.startsWith(prefix)) {
-                console.log("deleting", prefix);
-                console.log(key, object[key]);
                 delete object[key];
             }
         });
