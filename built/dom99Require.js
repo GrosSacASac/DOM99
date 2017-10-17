@@ -69,6 +69,17 @@ const d = (function () {
 
     const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+    const freezeLiveCollection = function (liveCollection) {
+      /* freezes HTMLCollection or Node.childNodes*/
+        /* IE 10 use normal for loop const length = ... */
+        const frozenArray = [];
+        let node;
+        for (node of liveCollection) {
+          frozenArray.push(node);
+        }
+        return frozenArray;
+    };
+    
     const isObjectOrArray = function (x) {
         /*array or object*/
         return (typeof x === "object" && x !== null);
@@ -313,7 +324,13 @@ const d = (function () {
                   const newLength = data.length;
                   if (oldLength > newLength) {                    
                     for (let i = newLength; i < oldLength; i += 1) {
-                      console.log("should remove", listContainer[LIST_CHILDREN][i]);
+                      const pathInside = `${normalizedPath}${i}`;
+                      
+                      listContainer[LIST_CHILDREN][i].frozen.forEach(function (node) {
+                        node.remove();
+                      });
+                      forgetContext(pathInside);
+                      console.log("should remove",pathInside,  listContainer[LIST_CHILDREN][i]);
                       // how to remove document fragment
                       // also remove variableSubscribers
                       // remove listContainer[LIST_CHILDREN][i] todo
@@ -324,12 +341,16 @@ const d = (function () {
                     const pathInside = `${normalizedPath}${i}`;
                     feed(dataInside, pathInside);
                     if (i >= oldLength) {
-                      const templateClone = appendTemplate(fragment, templateElement, String(i));
+                      const activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
                       console.log(pathInside);
-                      listContainer[LIST_CHILDREN].push(templateClone);
+                      listContainer[LIST_CHILDREN].push({
+                        frozen: freezeLiveCollection(activatedTemplateClone.childNodes)
+                      });
+                      fragment.appendChild(activatedTemplateClone); // now activatedTemplateClone.childNodes is emptied
                     } else {
-                      console.log("reusing", listContainer[LIST_CHILDREN][i]);
+                      console.log("reusing");
                     }
+                    console.log(listContainer[LIST_CHILDREN][i]);
                   });
                 } else {
                   listContainer.innerHTML = "";
@@ -337,9 +358,12 @@ const d = (function () {
                   data.forEach(function (dataInside, i) {
                     const pathInside = `${normalizedPath}${i}`;
                     feed(dataInside, pathInside);
-                    const templateClone = appendTemplate(fragment, templateElement, String(i));
+                    const activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
                     console.log(pathInside);
-                    listContainer[LIST_CHILDREN].push(templateClone);
+                    listContainer[LIST_CHILDREN].push({
+                        frozen: freezeLiveCollection(activatedTemplateClone.childNodes)
+                      });
+                    fragment.appendChild(activatedTemplateClone); // now activatedTemplateClone.childNodes is emptied
                   });
                 }
                 pathIn = previous;
@@ -360,13 +384,13 @@ const d = (function () {
     };
 
     const feed = function (data, startPath = "") {
-        //console.log(variableSubscribers, listSubscribers);
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
             if (hasOwnProperty.call(variableSubscribers, startPath)) {
                 notifyVariableSubscribers(variableSubscribers[startPath], data);
             }
         } else if (Array.isArray(data)) {
+          console.log(variableSubscribers);
           variables[startPath] = data;
           if (hasOwnProperty.call(listSubscribers, startPath)) {
             notifyListSubscribers(listSubscribers[startPath], startPath, data);
@@ -514,13 +538,12 @@ const d = (function () {
         templateElementFromCustomElementName[customAttributeValue] = element;
     };
 
-    const appendTemplate = function (element, templateElement, key) {
+    const activateCloneTemplate = function (templateElement, key) {
         enterObject(key);
-        const templateClone = cloneTemplate(templateElement);
-        linkJsAndDom(templateClone);
+        const activatedTemplateClone = cloneTemplate(templateElement);
+        linkJsAndDom(activatedTemplateClone);
         leaveObject();
-        element.appendChild(templateClone);
-        return templateClone;
+        return activatedTemplateClone;
     };
     
     const applyDirectiveInside = function (element, key) {
@@ -534,7 +557,8 @@ const d = (function () {
             customElementNameFromElement(element)
         ];
 
-        appendTemplate(element, templateElement, key);
+        const activatedTemplateClone = activateCloneTemplate(templateElement, key);
+        element.appendChild(activatedTemplateClone);
     };
 
     const enterObject = function (key) {
@@ -548,6 +572,8 @@ const d = (function () {
     const deleteAllStartsWith = function (object, prefix) {
         Object.keys(object).forEach(function (key) {
             if (key.startsWith(prefix)) {
+                console.log("deleting", prefix);
+                console.log(key, object[key]);
                 delete object[key];
             }
         });
@@ -563,6 +589,7 @@ const d = (function () {
 
         */
         deleteAllStartsWith(variableSubscribers, path);
+        deleteAllStartsWith(listSubscribers, path);
         deleteAllStartsWith(variables, path);
     };
 
