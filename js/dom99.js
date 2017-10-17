@@ -352,7 +352,7 @@ const d = (function () {
             data.forEach(function (value) {
                 const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
                 if (isObjectOrArray(value)) {
-                    Object.assign(value, listItem);
+                    Object.assign(listItem, value);
                 } else {
                     listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
                 }

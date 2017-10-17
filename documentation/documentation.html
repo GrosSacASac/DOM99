@@ -40,12 +40,15 @@
 
 <h2>How does DOM99 work ?</h2>
 
-<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>dom99.linkJsAndDom();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
+<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.linkJsAndDom();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
 
 <h2>Downloads:</h2>
 
 
-<ul><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li><li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.es5.min.js">Production transpiled ES5, minified dom99.es5.min.js</a></li><li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
+<ul>
+    <li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li>
+    <li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js">Production minified dom99.es5.min.js</a></li>
+    <li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
 
 <h2>Github</h2>
 <p><a href="https://github.com/GrosSacASac/DOM99">https://github.com/GrosSacASac/DOM99</a></p>
@@ -118,15 +121,14 @@
 
 <h3>In your JavaScript:</h3>
 
-<pre><code>//Use a shorter name
-const D = dom99;
-//to start using dom99 use this statement
-D.linkJsAndDom();</code></pre>
+<pre><code>
+//to start using dom99 pre selected elements use this statement
+d.linkJsAndDom();</code></pre>
 
-<h3>Use data-function and D.fx for event listeners</h3>
-<p>Store your functions in the D.fx object</p>
+<h3>Use data-function and d.functions for event listeners</h3>
+<p>Store your functions in the d.functions object</p>
 
-<pre><code>D.fx.functionName = aFunction;</code></pre>
+<pre><code>d.functions.functionName = aFunction;</code></pre>
 
 <p>aFunction is called when you click this button</p>
 
@@ -134,20 +136,20 @@ D.linkJsAndDom();</code></pre>
 //Note we wrote functionName not aFunction</code></pre>
 
 
-<h3>Use data-variable and D.vr for live variables</h3>
+<h3>Use data-variable and d.variables for live variables</h3>
 <p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
 
-<pre><code>D.vr.talkings = "Hi";</code></pre>
+<pre><code>d.variables.talkings = "Hi";</code></pre>
 
 <p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
-<h3>Use data-element and D.el for direct element manipulation</h3>
+<h3>Use data-element and d.el for direct element manipulation</h3>
 <p>To use a preselected element</p>
 
-<pre><code>D.el.bigTitle //An element reference, we can do what we want with it
-D.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
+<pre><code>d.el.bigTitle //An element reference, we can do what we want with it
+d.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
@@ -166,11 +168,11 @@ D.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
-<pre><code>D.vr["first"].text = "A new comment";
-D.vr["first"].date = "Today";
+<pre><code>d.variables["first"].text = "A new comment";
+d.variables["first"].date = "Today";
 
 //or (recommended)
-D.vr = { 
+d.variables = { 
     first: {
         text: "A new comment",
         date: "Today"
@@ -194,14 +196,13 @@ D.vr = {
 <h3><del>Start with</del></h3>
 
 
-<pre><code>const D = dom99;
-// creates an alias
-D.linkJsAndDom();</code></pre>
+<pre><code>
+d.linkJsAndDom();</code></pre>
 
 <p>Use linkJsAndDom after having stored all the event handlers in D.fx, and before using references to nodes stored in D.el. and before changing variables in D.vr</p>
 <p>This will look the for DOM99 directives in the document tree.</p>
 
-<p>Initialize variables with <code>D.vr.yourtarget = ...;</code>. Next store event listener functions in <code>D.fx</code>. You can use nodes references in <code>D.el</code>.</p>
+<p>Initialize variables with <code>d.variables.yourtarget = ...;</code>. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.el</code>.</p>
 
 <h3>Use HTML templates, it is healthy</h3>
 
@@ -234,10 +235,9 @@ Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</
 
 <p>Our initial JS code looks like this</p>
 
-<pre><code>"use strict";
-const D = dom99;
+<pre><code>
 
-D.fx.showNextComment = function(event) {
+d.functions.showNextComment = function(event) {
     ;//todo
 };
 
@@ -253,7 +253,7 @@ let commentsData = {
 };
 
 // we could also manually assign every property in a complicated for loop
-D.vr = commentsData;
+d.variables = commentsData;
 
 D.linkJsAndDom();</code></pre>
 
@@ -262,13 +262,12 @@ D.linkJsAndDom();</code></pre>
 <h3>Part 2</h3>
 <pre><code>
 "use strict";
-const D = dom99,
-    commentPrefix = "comment";
+const commentPrefix = "comment";
 
 let currentCommentNumber = 2;
 
 const update = function(commentKey,commentObject) {
-    Object.assign(D.vr[commentKey], commentObject);
+    Object.assign(d.variables[commentKey], commentObject);
 };
 
 const getDataFromFakeServer = function(commentKey) {
@@ -293,8 +292,8 @@ D.fx.showNextComment = function(event) {
         "data-inside": key
     }
     customElement = D.createElement2(customElementDescription);
-    D.linkJsAndDom(customElement);
-    D.el.commentSection.appendChild(customElement);
+    d.linkJsAndDom(customElement);
+    d.el.commentSection.appendChild(customElement);
 };
 
 let commentsData = { //intial
@@ -307,8 +306,8 @@ let commentsData = { //intial
         date: "yesterday" 
     }
 };
-D.vr = commentsData;
-D.linkJsAndDom();</code></pre>
+d.variables = commentsData;
+d.linkJsAndDom();</code></pre>
 <p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
 <h4>Dynamic template injection in general</h4>
 
@@ -327,23 +326,23 @@ let customElementDescription = {
     "data-inside": "key"
 }
 // 1 create HTML ELement
-let customElement = D.createElement2(customElementDescription);
+let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
-D.linkJsAndDom(customElement);
+d.linkJsAndDom(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
 D.el["target"].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use D.vr D.el and D.fx inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.el and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>D.vr["key"]["text"] = "A string"
+<pre><code>d.variables["key"]["text"] = "A string"
 
-D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
+d.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
 
-<p>D.fx function the other way around. You use the same event handlers for all template copies and handle differences with the <del><code>event.dKeys and event.dIn</code>.</del> Example</p>
+<p>d.functions function the other way around. You use the same event handlers for all template copies and handle differences with the <del><code>event.dKeys and event.dIn</code>.</del> Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-template="d-tagname"&gt;
@@ -352,18 +351,18 @@ D.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code>
 &lt;/template&gt;
 
 // JS
-D.fx.close = function (event) {
+d.functions.close = function (event) {
     //you can access variables that are at the same level with 
-    D.followPath(D.vr, event.dKeys).text
+    d.followPath(d.variables, event.dKeys).text
     //access preselected elements at the same level with
-    D.followPath(D.el, event.dKeys).myElementIWantToChangeClassNameForInstance
+    d.followPath(d.el, event.dKeys).myElementIWantToChangeClassNameForInstance
     event.dHost// is the host element (the one with data-inside)
     //this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    D.vr["key"]["text"];
+    d.variables["key"]["text"];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <del><code>D.forgetKey(event.dKeys);</code></del> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <del><code>d.forgetKey(event.dKeys);</code></del> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
@@ -400,7 +399,7 @@ D.fx.close = function (event) {
 <article id="extra tips">
 <h3>Extra Tips</h3>
 
-<p>You can handle new HTML with <code>D.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the ☀ is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the ☀ is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
@@ -428,7 +427,7 @@ D.fx.close = function (event) {
 
 <h3>General Tips</h3>
 
-<p>In short: Rendering and painting the DOM is slow, JavaScript itself is fast. Simply changing a class name of an element can cause the browser to do heavy computation under the hood. For very simple programs, performance may not be an issue at all.</p>
+<p>In short: Rendering and painting the dOM is slow, JavaScript itself is fast. Simply changing a class name of an element can cause the browser to do heavy computation under the hood. For very simple programs, performance may not be an issue at all.</p>
 
 <ul><li>Avoid Document Object Model (DOM) Access in big loops</li><li>Instead compute the result in your loop first, then assign the final result to the DOM</li><li>Avoid read/write alternations with the DOM</li><li>Instead chain reads, then chain writes </li><li>Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !</li><li>If you have more performance issues, profile first to know what is the cause</li><li>If you need to do heavy computation, consider using Web Workers</li><li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li><li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li></ul>
 
@@ -553,19 +552,25 @@ the license in distributed executables or transpiled code</p>
 
 </article>
 </div>
-<script src="../polyfill.min.js"></script>
-<script src="../js/dom99.es5.min.js"></script>
+
+<script nomodule src="../polyfill.min.js"></script>
+<script nomodule src="polyfills/remove.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script type="module">
+// Import
+import d from "../built/dom99Module.js";
+window.d = d;
+window.usesModules = true;
+</script>
 <!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHRs Also not indented first for pre tags -->
 
 <!-- Hello World -->
 <template data-element="Hello WorldHtml">
-<span data-variable="first"></span>
-<span data-variable="last"></span>
+<span data-variable="myVariable"></span>
 </template>
 
-<script data-element="Hello WorldJs">
-dom99.vr.first = "Hello";
-dom99.vr.last = "World";
+<script nomodule data-element="Hello WorldJs">
+d.feed({myVariable : "Hello World"});
 </script>
 
 <!-- Hello World 2-->
@@ -574,31 +579,36 @@ dom99.vr.last = "World";
 <span data-variable="text"></span>
 </template>
 
-<script data-element="Hello World 2Js">
-dom99.vr.text = "Hello DOM99";
+<script nomodule data-element="Hello World 2Js">
+d.feed({text : "Hello DOM99"});
 </script>
 
 <!-- Multiplier-->
 <template data-element="MultiplierHtml">
-<input data-variable="a" data-function="calculate" type="range" min="-1.0" max="12.0" step="1.0">
-<span> X </span>
-<input data-variable="b" data-function="calculate" type="range" min="-1.0" max="12.0" step="1.0">
-<span data-variable="a"></span> X <span data-variable="b"></span><span> = </span><output data-variable="result"></output>
-</template>
-<script data-element="MultiplierJs">
-"use strict";
-//Use a shorter name
-var D = dom99;
+<input data-variable="a" data-function="calculate" type="range" min="-1" max="12" step="1">
+<span>X</span>
+<input data-variable="b" data-function="calculate" type="range" min="-1" max="12" step="1">
 
-D.fx.calculate = function (event) {
-    //.vr variables are Strings by default
-    D.vr.result = Number(D.vr.a) * Number(D.vr.b);
+<span data-variable="a"></span>
+<span>X</span>
+<span data-variable="b"></span>
+<span>=</span>
+<output data-variable="result"></output>
+</template>
+<script nomodule data-element="MultiplierJs">
+
+d.functions.calculate = function (event) {
+    d.feed({
+        result: String(Number(d.variables.a) * Number(d.variables.b))
+    });
 };
 
-D.vr.a = 7;
-D.vr.b = 6;
+d.feed({
+    a: "7",
+    b: "6"
+});
 //invoke event handler to compute the first result
-D.fx.calculate();
+d.functions.calculate();
 </script>
 
 
@@ -606,9 +616,8 @@ D.fx.calculate();
 <template data-element="ListsHtml">
 <ul data-list="fruits-li"></ul>
 </template>
-<script data-element="ListsJs">
-/*const D = dom99;*/
-D.vr.fruits = ["apple", "kiwi", "banana", "orange"];
+<script nomodule data-element="ListsJs">
+d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
 </script>
 
 <!-- Lists2 -->
@@ -618,9 +627,8 @@ D.vr.fruits = ["apple", "kiwi", "banana", "orange"];
 <p>You selected <span data-variable="image"></span></p>
 
 </template>
-<script data-element="Lists2Js">
-/*const D = dom99;*/
-D.vr.images = [
+<script nomodule data-element="Lists2Js">
+d.feed([
     {
         textContent: "you",
         value: "../images/you.jpg"
@@ -633,13 +641,15 @@ D.vr.images = [
         textContent: "sister",
         value: "../images/sister.jpg"
     }
-];
-D.vr.image = D.vr.images[0].value;
+], "images");
+
+d.feed(d.variables.images[0].value, "image");
 </script>
 
-<script src="js/documentation.es5.min.js"></script>
-<script type="module">console.log("from module");</script>
-<script nomodule>console.log("from script nomodule");</script>
-<script >console.log("from script");</script>
+
+<script  nomodule src="js/documentation.es5.min.js"></script>
+
+<script type="module" src="js/documentation.js"></script>
+
 </body>
 </html>

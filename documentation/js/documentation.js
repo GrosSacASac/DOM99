@@ -1,25 +1,35 @@
-"use strict";
+// Import
+import d from "../../built/dom99Module.js";
 
-var dom99Possible = (Object.defineProperty && Object.freeze && window.document);
 
-if (dom99Possible) {
-    /*Display*/
-    var D = dom99;
-    D.linkJsAndDom();
-    var demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
-    var displayHtmlJsAndResult = function(name) {
-        D.vr[name].title = name;
-        D.vr[name].JsSourceDisplay = (D.el[name+"Js"].textContent.trim() + "\ndom99.linkJsAndDom();");
-        D.vr[name].HtmlSourceDisplay = D.el[name+"Html"].innerHTML.trim();
-        D.el[name].ResultDisplay.innerHTML = D.el[name+"Html"].innerHTML;
-        D.linkJsAndDom(D.el[name].ResultDisplay);
-    };
+const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
+
+const displayHtmlJsAndResult = function(name) {
+    const JsSourceOriginal = d.elements[name+"Js"].textContent;
+    const JsSourceDisplay = (
+        `import d from "../dom99Module.js";
+${JsSourceOriginal.trim()}
+
+d.linkJsAndDom();`);
+    const HtmlSourceDisplay = d.elements[name+"Html"].innerHTML.trim();
+    d.feed({
+        title: name,
+        JsSourceDisplay,
+        HtmlSourceDisplay
+    }, name);
+    const resultElement =  d.elements[d.contextFromArray([name, "ResultDisplay"])];
+    resultElement.innerHTML = HtmlSourceDisplay;
+    if (window.usesModules) {
+        eval(JsSourceOriginal);
+        console.log(JsSourceOriginal);
+    }
+    d.linkJsAndDom(resultElement);
+};
+
+d.linkJsAndDom();
+demoTitles.forEach(function(name) {
+    displayHtmlJsAndResult(name);
+});
     
-    demoTitles.forEach(function(name) {
-        displayHtmlJsAndResult(name);
-    });
-    
-} else {
-    document.getElementById("errors").textContent = "DOM99 not supported on this browser";
-}
+
 
