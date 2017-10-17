@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DOM99 DEMO</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/basics.css">
+    <style>d-comment {
+  border: 1px solid;
+  display:block;
+  margin: 3px
+}</style>
+</head>
+<body>
+   <input data-variable="text" type="text">
+
+<p data-variable="text">
+  is overriden with D.feed("Hi", "text");
+</p><br>
+
+
+<template data-template="d-comment">
+  <p data-variable="text">A comment</p>
+  <!-- variable text does not clash with outside -->
+  <datetime data-variable="date">05/04/2016</datetime>
+</template>
+
+<d-comment data-inside="first"></d-comment>
+<d-comment data-inside="second"></d-comment>
+  
+  
+  
+<br>
+<a 
+href="https://github.com/GrosSacASac/DOM99"
+>Github</a>
+  
+<!-- dom99 -->
+<script
+src="http://rawgit.com/GrosSacASac/DOM99/master/js/dom99.js"
+></script>
+<script>
+/* global d*/
+
+// manually set text variable
+d.feed("Hi", "text");
+
+
+// edit what is inside the first <d-comment>
+
+d.feed({
+ text: "Nice job"
+}, "first");
+
+
+// edit what is inside the second <d-comment>
+
+d.feed({
+ text: "Thanks I did not know about worka,"+ 
+        "I will install it from Github",
+ date: "just now"
+}, "second");
+
+
+d.linkJsAndDom(); //start
+</script>
+    
+
+
+<script type="module" src="main.js"></script>
+</body>
+</html>

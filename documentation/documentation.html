@@ -24,7 +24,10 @@
 
 <h2>What is DOM99 ?</h2>
 
-<p>DOM99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a> and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document. You can also build the HTML with custom elements.<a href="http://jsbin.com/kepohibavo/1/edit?html,js,output">Try the intro playground</a></p>
+<p>DOM99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
+framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>
+and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
+You can also build the HTML with custom elements.<a href="http://jsbin.com/tepezuj/3/embed?html,js,output">Try the intro playground</a>
 
 <h2>Why use DOM99 ?</h2>
 
@@ -117,11 +120,9 @@
 
 <p><code>&lt;tag data-keyword="token1-token2" &gt; bla bla &lt;/tag&gt;</code></p>
 
-<p>If you are not using browserify you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
+<p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
-<pre><code>&lt;script src="js/dom99.js"&gt;&lt;/script&gt;&lt;!-- or 
-&lt;script src="node_modules/dom99/js/dom99.js"&gt;&lt;/script&gt; --&gt;&lt;!-- or 
-&lt;script src="bower_components/dom99/js/dom99.js"&gt;&lt;/script&gt; --&gt;
+<pre><code>&lt;script src="node_modules/dom99/js/dom99.js"&gt;&lt;/script&gt;
 &lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
 
 <h3>In your JavaScript:</h3>
@@ -138,23 +139,23 @@ d.linkJsAndDom();</code></pre>
 <p>aFunction is called when you click this button</p>
 
 <pre><code>&lt;button data-function="click-functionName"&gt;Action&lt;/button&gt;
-//Note we wrote functionName not aFunction</code></pre>
+// "functionName" not "aFunction"</code></pre>
 
 
-<h3>Use data-variable and d.variables for live variables</h3>
+<h3>Use data-variable + d.variables + d.feed for data bindings</h3>
 <p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
 
-<pre><code>d.variables.talkings = "Hi";</code></pre>
+<pre><code>d.feed({talkings: "Hi"});</code></pre>
 
 <p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
-<h3>Use data-element and d.el for direct element manipulation</h3>
+<h3>Use data-element and d.elements for direct element manipulation</h3>
 <p>To use a preselected element</p>
 
-<pre><code>d.el.bigTitle //An element reference, we can do what we want with it
-d.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
+<pre><code>d.elements.bigTitle //An element reference, we can do what we want with it
+d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
@@ -173,41 +174,39 @@ d.el.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
-<pre><code>d.variables["first"].text = "A new comment";
-d.variables["first"].date = "Today";
+<pre><code>
+// manually
+d.feed("A new comment", "first>text");
+d.feed("Today", "first>date");
 
-//or (recommended)
-d.variables = { 
-    first: {
-        text: "A new comment",
-        date: "Today"
-    }
-};</code></pre>
+// better
+d.feed({
+    text: "A new comment",
+    date: "Today"
+}, "first");
+
+</code></pre>
 
 <p>You are ready to use DOM99 ! </p>
 
 <h2>Examples</h2>
 
-<p>Examples use the transpiled dom99 file.</p>
-
-<ul>
-<li><a href="../examples/index.html">Basic demo</a></li>
+<p><a href="../examples/index.html">Complete demo</a>. Look at the source code, there are comments.</p>
+<ul hidden>
 <li><a href="../examples/chat.html">Chat demo</a> </li>
 <li><a href="tutorial1_chat.md">Chat demo explanations</a></li>
-<li><a href="../examples/todolistmultiuser/README.md">Todo List Multi User Realtime with Node.js</a> </li></ul>
+<li><a href="../examples/todolistmultiuser/README.md">Todo List Multi User Realtime with Node.js</a> </li>
+</ul>
 
 <h2>Complete overview</h2>
-
-<h3><del>Start with</del></h3>
-
 
 <pre><code>
 d.linkJsAndDom();</code></pre>
 
-<p>Use linkJsAndDom after having stored all the event handlers in D.fx, and before using references to nodes stored in D.el. and before changing variables in D.vr</p>
+<p>Use linkJsAndDom after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
 <p>This will look the for DOM99 directives in the document tree.</p>
 
-<p>Initialize variables with <code>d.variables.yourtarget = ...;</code>. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.el</code>.</p>
+<p>Initialize variables with HTML. <code>d.feed</code> can then be used to over-write the default html values. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.elements</code>.</p>
 
 <h3>Use HTML templates, it is healthy</h3>
 
@@ -215,8 +214,11 @@ d.linkJsAndDom();</code></pre>
 
 <ul><li>Static Load time template rendering with custom elements</li><li>Run time template rendering and insertion</li></ul>
 
-<p>Both ways are <strong>complementary</strong> and use the same core ideas. To illustrate this imagine you want to have a web page with an article and comments. When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
+<p>Both ways are <strong>complementary</strong> and use the same core ideas. To illustrate this imagine you want to have a web page with an article and comments.
+When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more
+comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
+<p><strong>Below is outdated</strong> Look at examples/index.html for now</p>
 <pre><code>&lt;html&gt;
 
     &lt;article&gt;
@@ -285,7 +287,7 @@ const getDataFromFakeServer = function(commentKey) {
     }, 2000);
 };
 
-D.fx.showNextComment = function(event) {
+d.functions.showNextComment = function(event) {
     let key,
         customElementDescription,
         customElement;
@@ -298,7 +300,7 @@ D.fx.showNextComment = function(event) {
     }
     customElement = D.createElement2(customElementDescription);
     d.linkJsAndDom(customElement);
-    d.el.commentSection.appendChild(customElement);
+    d.elements.commentSection.appendChild(customElement);
 };
 
 let commentsData = { //intial
@@ -337,15 +339,15 @@ let customElement = d.createElement2(customElementDescription);
 d.linkJsAndDom(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
-D.el["target"].appendChild(customElement);</code></pre>
+d.elements["target"].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.el and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
 <pre><code>d.variables["key"]["text"] = "A string"
 
-d.el["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
+d.elements["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
 
 <p>d.functions function the other way around. You use the same event handlers for all template copies and handle differences with the <del><code>event.dKeys and event.dIn</code>.</del> Example</p>
 
@@ -360,7 +362,7 @@ d.functions.close = function (event) {
     //you can access variables that are at the same level with 
     d.followPath(d.variables, event.dKeys).text
     //access preselected elements at the same level with
-    d.followPath(d.el, event.dKeys).myElementIWantToChangeClassNameForInstance
+    d.followPath(d.elements, event.dKeys).myElementIWantToChangeClassNameForInstance
     event.dHost// is the host element (the one with data-inside)
     //this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
@@ -405,7 +407,7 @@ d.functions.close = function (event) {
 <article id="extra tips">
 <h3>Extra Tips</h3>
 
-<p>You can handle new HTML with <code>d.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the ☀ is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
@@ -451,7 +453,7 @@ d.functions.close = function (event) {
 
 <h3>DOM99 and security</h3>
 
-<p>DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>D.vr</code> uses textContent or value by default. </p>
+<p>DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>d.variables</code> uses textContent or value by default. </p>
 
 <p>If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.</p>
 
@@ -486,7 +488,7 @@ the license in distributed executables or transpiled code</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
 <h4>Version 2.0.0</h4>
 <p>Switched to SEMVER versioning</p>
-<p>D.vr setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
+<p>d.variables setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
 <p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
 <pre>
 {
@@ -496,7 +498,7 @@ the license in distributed executables or transpiled code</p>
 }
 </pre>
 <p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>D.fx must now be populated before D.linkJsAndDom() is called</p>
+<p>d.functions must now be populated before D.linkJsAndDom() is called</p>
 <p>
     eventFromTagAndType
         changed into eventNameFromElement
@@ -514,9 +516,9 @@ the license in distributed executables or transpiled code</p>
 <hr>
 <p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
 <p>1.23.10 start working on v2.0,</p>
-<p>1.23.0: Removed event.dIn. Use D.followPath(D.vr, event.dKeys) or similar instead.</p>
+<p>1.23.0: Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
 <p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
-<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for D.vr and D.el, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
+<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
 <p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
 <p>1.19.0: data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
 <p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
@@ -530,7 +532,7 @@ the license in distributed executables or transpiled code</p>
     <li>Changed the way to configure DOM99</li>
     <li>You can now control what gets changed with data-variable</li>
    </ul>
-<p>1.12.0 new function available: D.bool. When you assign a value to D.vr.x it is converted to a String. When you get a value from D.vr.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(D.vr.x)</p>
+<p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-variable optimization</p>
 <p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
