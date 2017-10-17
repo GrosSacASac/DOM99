@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width">
     <style>.grey{background:#ddd;}</style>
     <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/test.css">
 </head>
-<body>    
-<p>below an ul element with data-variable="list1-li"</p>
+<body>
+
+<p>Below an ul element with data-list="list1-li". Every item in list1 will be displayed in a &lt;li&gt;</p>
 <ul data-list="list1-li"></ul>
 
-<p>simple deep composition without variables</p>
+
+<p>Deep composition without variables</p>
 
 <template data-template="d-xrow">
     <pre>xxxxx</pre>
@@ -24,22 +27,30 @@
 
 <d-xsquare></d-xsquare>
 
-<p>simple deep composition with variables</p>
+<p>Deep composition with variables</p>
 
-<template data-template="d-search">
-    <label>Search
-        <input data-variable="search" data-function="trySearch" type="search" placeholder="search">
-    </label>
-    <label>
-        Filters
-        <input type="text" placeholder="filter" disabled>
+<template data-template="d-filter">
+    <label>Filters
+        <input 
+            data-variable="filterText"
+            data-function="filter"
+            data-element="filter"
+            type="text"
+            placeholder="filter"
+        >
     </label>
     <p data-variable="message"></p>
 </template>
 
 <template data-template="d-explorer">
-    <d-search data-inside="dsearch"></d-search>
-    <ul data-list="files-li"></ul>
+    <div class="d-explorer">
+      <p>This is one compenent contains the filter component(filter input). The child component has
+      access to his parents and that is how it can update the list of files.
+      The event handler inside the &lt;d-filter&gt; can also update its childs compenent and sister
+      component.</p>
+      <d-filter data-inside="dfilter"></d-filter>
+      <ul data-list="files-li"></ul>
+    </div>
 </template>
 
 
@@ -47,66 +58,9 @@
 <d-explorer data-element="exporer1container" data-inside="explorer1"></d-explorer>
 <d-explorer data-element="exporer2container" data-inside="explorer2"></d-explorer>
 
-<script src="../polyfill.min.js"></script>
-<!-- <script src="../js/dom99.es5.min.js"></script>  -->
-<script src="../js/dom99.js"></script>
-<script>
-"use strict";
-var D = dom99;
-
-
-D.vr.list1 = ["a","b","c","d"];
-D.vr.list1.push("gg");
-D.vr.list1 = D.vr.list1;//force update
-
-D.fx.calculate = function (event) {
-    //.vr variables are Strings by default
-    D.vr.result = Number(D.vr.a) * Number(D.vr.b);
-};
-
-D.vr.a = 7;
-D.vr.b = 6;
-//invoke event handler to compute the first result
-D.fx.calculate();
-
-var files = ["beach.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
-var files2 = ["za.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
-
-D.fx.trySearch = function (event) {
-    const dSearchContext = D.getParentContext(event.target);
-    const dSearchElement = dSearchContext.baseEl;
-    const dExplorerContext = D.getParentContext(dSearchElement);
-    
-    var search = dSearchContext.vr.search
-
-
-    if (search) {
-        dSearchContext.vr.message = "searching: " +  search;
-        dSearchElement.className = "grey";
-    } else {
-        dSearchContext.vr.message = "Displaying all files";
-        dSearchElement.className = "";
-    }
-    
-    //console.log(dExplorerContext);
-
-    dExplorerContext.vr.files = dExplorerContext.vr.originalFiles.filter(function (file) {
-        return file.match(search);
-    });
-    
-    
-};
-
-D.vr.explorer2 = {};
-D.vr.explorer2.originalFiles = files2;
-D.vr.explorer2.files = D.vr.explorer2.originalFiles;
-
-D.linkJsAndDom();
-
-D.vr.explorer1.files = files;
-D.vr.explorer1.originalFiles = files;
-
-
-</script>
+<script nomodule src="../polyfill.min.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script  nomodule src="../exampleses5/test.js"></script>
+<script type="module" src="test.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
     remake intro play ground
     [Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
 
-    document DVRP, DVRPL, CONTEXT element extension,
+    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
 
@@ -51,19 +51,20 @@ const d = (function () {
     const listSubscribers = {};
     const variables = {};
     const elements = {};
+    const templateElementFromCustomElementName = {};
     const functions = {};
 
-    const templateElementFromCustomElementName = {};
     let pathIn = [];
 
     let directiveSyntaxFunctionPairs;
 
     const MISS = "MISS";
-    const CONTEXT = "CONTEXT";
-    const DVRPL = "DVRPL";
-    const DVRP = "DVRP";
-    const ELEMENT_LIST_ITEM = "ELEMENT_LIST_ITEM";
-    const CUSTOM = "CUSTOM";
+    const CONTEXT = "DOM99_CTX";
+    const LIST_ITEM_PROPERTY = "DOM99_LIP";
+    const ELEMENT_PROPERTY = "DOM99_EP";
+    const ELEMENT_LIST_ITEM = "DOM99_ELEMENT_LIST_ITEM";
+    const CUSTOM_ELEMENT = "DOM99_CE";
+    const LIST_CHILDREN = "DOM99_LIST_CHILDREN";
     const INSIDE_SYMBOL = ">";
 
     const hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -154,7 +155,7 @@ const d = (function () {
 
         variablePropertyFromElement: function (element) {
             let tagName;
-            if (hasOwnProperty.call(element, "tagName")) {
+            if (element.tagName !== undefined) {
                 tagName = element.tagName;
             } else {
                 tagName = element;
@@ -253,6 +254,12 @@ const d = (function () {
     const contextFromArray = function (pathIn) {
         return pathIn.join(INSIDE_SYMBOL);
     };
+    
+    const getParentContext = function (context) {
+        const split = context.split(INSIDE_SYMBOL);
+        const removedPart = split.splice(-1);
+        return split.join(INSIDE_SYMBOL);
+    };
 
     const contextFromArrayWith = function (pathIn, withWhat) {
         if (pathIn.length === 0) {
@@ -280,7 +287,7 @@ const d = (function () {
         }
         // console.log(subscribers, "subscribers");
         subscribers.forEach(function (currentElement) {
-            currentElement[currentElement[DVRP]] = value;
+            currentElement[currentElement[ELEMENT_PROPERTY]] = value;
         });        
     };
 
@@ -290,22 +297,51 @@ const d = (function () {
             // todo use forget methods
             const fragment = document.createDocumentFragment();
             if (hasOwnProperty.call(
-                templateElementFromCustomElementName, listContainer[CUSTOM]
+                templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT]
                 )) {
-                listContainer.innerHTML = "";
                 // composing with custom element
                 const templateElement = templateElementFromCustomElementName[
-                    listContainer[CUSTOM]
+                    listContainer[CUSTOM_ELEMENT]
                 ];
-                const previous = copyArrayFlat(pathIn);
+                 const previous = copyArrayFlat(pathIn);
                 pathIn = startPath.split(INSIDE_SYMBOL);
                 const normalizedPath = normalizeStartPath(startPath);
-                data.forEach(function (dataInside, i) {
+                if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+                  console.log("already has childs");
+                  console.log(listContainer[LIST_CHILDREN]);
+                  const oldLength = listContainer[LIST_CHILDREN].length;
+                  const newLength = data.length;
+                  if (oldLength > newLength) {                    
+                    for (let i = newLength; i < oldLength; i += 1) {
+                      console.log("should remove", listContainer[LIST_CHILDREN][i]);
+                      // how to remove document fragment
+                      // also remove variableSubscribers
+                      // remove listContainer[LIST_CHILDREN][i] todo
+                    }
+                    listContainer[LIST_CHILDREN].length = newLength;
+                  }
+                  data.forEach(function (dataInside, i) {
                     const pathInside = `${normalizedPath}${i}`;
-                    console.log(pathInside, "        ", normalizedPath);
                     feed(dataInside, pathInside);
-                    appendTemplate(fragment, templateElement, String(i));                    
-                });
+                    if (i >= oldLength) {
+                      const templateClone = appendTemplate(fragment, templateElement, String(i));
+                      console.log(pathInside);
+                      listContainer[LIST_CHILDREN].push(templateClone);
+                    } else {
+                      console.log("reusing", listContainer[LIST_CHILDREN][i]);
+                    }
+                  });
+                } else {
+                  listContainer.innerHTML = "";
+                  listContainer[LIST_CHILDREN] = [];
+                  data.forEach(function (dataInside, i) {
+                    const pathInside = `${normalizedPath}${i}`;
+                    feed(dataInside, pathInside);
+                    const templateClone = appendTemplate(fragment, templateElement, String(i));
+                    console.log(pathInside);
+                    listContainer[LIST_CHILDREN].push(templateClone);
+                  });
+                }
                 pathIn = previous;
             } else {
                 listContainer.innerHTML = "";
@@ -314,7 +350,7 @@ const d = (function () {
                     if (isObjectOrArray(value)) {
                         Object.assign(value, listItem);
                     } else {
-                        listItem[listContainer[DVRPL]] = value;
+                        listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
                     }
                     fragment.appendChild(listItem);
                 });
@@ -404,9 +440,9 @@ const d = (function () {
         if (optional) {
             // for custom elements
             fullName = `${elementListItem}-${optional}`;
-            element[CUSTOM] = fullName;
+            element[CUSTOM_ELEMENT] = fullName;
         } else {
-            element[DVRPL] = options.variablePropertyFromElement(elementListItem.toUpperCase());
+            element[LIST_ITEM_PROPERTY] = options.variablePropertyFromElement(elementListItem.toUpperCase());
             element[ELEMENT_LIST_ITEM] = elementListItem;
         }
 
@@ -435,18 +471,18 @@ const d = (function () {
             console.error(element, `Use ${options.directives.directiveVariable}="variableName" format!`);
         }
 
-        element[DVRP] = options.variablePropertyFromElement(element);
+        element[ELEMENT_PROPERTY] = options.variablePropertyFromElement(element);
         const path = contextFromArrayWith(pathIn, variableName);
         variableSubscribers[path]  = pushOrCreateArray(variableSubscribers[path], element);
         const lastValue = variables[path]; // has latest
         if (lastValue !== undefined) {
-          element[element[DVRP]] =lastValue;
+          element[element[ELEMENT_PROPERTY]] =lastValue;
         } 
 
         if (options.tagNamesForUserInput.includes(element.tagName)) {
             const broadcastValue = function (event) {
                 //wil call setter to broadcast the value
-                const value = event.target[event.target[DVRP]];
+                const value = event.target[event.target[ELEMENT_PROPERTY]];
                 variables[path] = value;
                 notifyVariableSubscribers(variableSubscribers[path], value);
             };
@@ -484,6 +520,7 @@ const d = (function () {
         linkJsAndDom(templateClone);
         leaveObject();
         element.appendChild(templateClone);
+        return templateClone;
     };
     
     const applyDirectiveInside = function (element, key) {
@@ -604,6 +641,7 @@ const d = (function () {
         // can be usefull if sure that template not going to be used again
         contextFromArray,
         contextFromEvent,
+        getParentContext,
         options
     });
 }());
