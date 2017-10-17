@@ -32,6 +32,7 @@ Distributed under the Boost Software License, Version 1.0.
     add data-list-strategy to allow opt in declarative optimization
     data-function-context to allow context less 
     add data-x spelling checker
+    or is that outside the scope ?
     
     transform recurcive into seq flow
     
@@ -40,6 +41,8 @@ Distributed under the Boost Software License, Version 1.0.
     
     integrate 2 way binding in dom99 ? for list
     see d.functions.updateJson in main.js in examples
+    
+    add support for IE10 again(remove for of loop and transpile)
 */
 const d = (function () {
     "use strict";

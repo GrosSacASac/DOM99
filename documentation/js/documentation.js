@@ -1,6 +1,11 @@
 // Import
 import d from "../../built/dom99Module.js";
 
+d.functions.scrollTop = function () {
+    setTimeout(function () {
+        window.scrollTo(0, 0);
+    }, 1);
+};
 
 const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
 
@@ -21,12 +26,12 @@ d.linkJsAndDom();`);
     resultElement.innerHTML = HtmlSourceDisplay;
     if (window.usesModules) {
         eval(JsSourceOriginal);
-        console.log(JsSourceOriginal);
     }
     d.linkJsAndDom(resultElement);
 };
 
 d.linkJsAndDom();
+d.elements["esmodulerequired"].hidden = true;
 demoTitles.forEach(function(name) {
     displayHtmlJsAndResult(name);
 });

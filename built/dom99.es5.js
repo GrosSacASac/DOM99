@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
     remake intro play ground
     [Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
 
-    document DVRP, DVRPL, CONTEXT element extension,
+    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
 
@@ -36,36 +36,77 @@ Distributed under the Boost Software License, Version 1.0.
     think about overlying framework
 
     add data-list-strategy to allow opt in declarative optimization
-    data-function-context to allow context less elements
+    data-function-context to allow context less 
     add data-x spelling checker
+    or is that outside the scope ?
     
     transform recurcive into seq flow
+    
+    find ways to feed changes to a list without sending an entire list
+    and rendering an entire list from scratch each time
+    
+    integrate 2 way binding in dom99 ? for list
+    see d.functions.updateJson in main.js in examples
 */
 var d = function () {
     "use strict";
 
     //root collections
 
-    var variablesSubscribers = {};
+    var variableSubscribers = {};
+    var listSubscribers = {};
     var variables = {};
     var elements = {};
+    var templateElementFromCustomElementName = {};
     var functions = {};
 
-    var templateElementFromCustomElementName = {};
     var pathIn = [];
 
     var directiveSyntaxFunctionPairs = void 0;
 
     var MISS = "MISS";
-    var CONTEXT = "CONTEXT";
-    var DVRPL = "DVRPL";
-    var DVRP = "DVRP";
-    var ELEMENT_LIST_ITEM = "ELEMENT_LIST_ITEM";
-    var CUSTOM = "CUSTOM";
+    var CONTEXT = "DOM99_CTX";
+    var LIST_ITEM_PROPERTY = "DOM99_LIP";
+    var ELEMENT_PROPERTY = "DOM99_EP";
+    var ELEMENT_LIST_ITEM = "DOM99_ELEMENT_LIST_ITEM";
+    var CUSTOM_ELEMENT = "DOM99_CE";
+    var LIST_CHILDREN = "DOM99_LIST_CHILDREN";
     var INSIDE_SYMBOL = ">";
-    var DEFAULT_INPUT_TYPE = "text";
 
     var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+    var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
+        /* freezes HTMLCollection or Node.childNodes*/
+        /* IE 10 use normal for loop const length = ... */
+        var frozenArray = [];
+        var node = void 0;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = liveCollection[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                node = _step.value;
+
+                frozenArray.push(node);
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        return frozenArray;
+    };
 
     var isObjectOrArray = function isObjectOrArray(x) {
         /*array or object*/
@@ -74,6 +115,15 @@ var d = function () {
 
     var copyArrayFlat = function copyArrayFlat(array) {
         return array.slice();
+    };
+
+    var pushOrCreateArray = function pushOrCreateArray(potentialArray, valueToPush) {
+        // don't need to use hasOwnProp as there is no array in the prototype
+        if (!Array.isArray(potentialArray)) {
+            return [valueToPush];
+        }
+        potentialArray.push(valueToPush);
+        return potentialArray;
     };
 
     var valueElseMissDecorator = function valueElseMissDecorator(object) {
@@ -143,9 +193,14 @@ var d = function () {
         },
 
         variablePropertyFromElement: function variablePropertyFromElement(element) {
-            var tagName = element.tagName || element;
+            var tagName = void 0;
+            if (element.tagName !== undefined) {
+                tagName = element.tagName;
+            } else {
+                tagName = element;
+            }
             if (tagName === "INPUT") {
-                return propertyFromInputType(element.type || DEFAULT_INPUT_TYPE);
+                return propertyFromInputType(element.type);
             }
             return propertyFromTag(tagName);
         },
@@ -182,12 +237,12 @@ var d = function () {
 
     var walkTheDomElements = function walkTheDomElements(startElement, callBack) {
         callBack(startElement);
-        if (element.tagName !== "TEMPLATE") {
+        if (startElement.tagName !== "TEMPLATE") {
             // IE bug: templates are not inert
-            var _element = startElement.firstElementChild;
-            while (_element) {
-                walkTheDomElements(_element, callBack);
-                _element = _element.nextElementSibling;
+            var element = startElement.firstElementChild;
+            while (element) {
+                walkTheDomElements(element, callBack);
+                element = element.nextElementSibling;
             }
         }
     };
@@ -202,11 +257,33 @@ var d = function () {
         element.addEventListener(eventName, callBack, useCapture);
     };
 
+    var cloneTemplate = function () {
+        var errorMessage = "Template  <template " + options.directives.directiveTemplate + "=\"d-name\">\n    Template Content\n</template>";
+        if ("content" in document.createElement("template")) {
+            return function (templateElement) {
+                if (!templateElement) {
+                    console.error(errorMessage);
+                }
+                return document.importNode(templateElement.content, true);
+            };
+        }
+
+        return function (templateElement) {
+            /*here we have a div too much (messes up css)*/
+            if (!templateElement) {
+                console.error(errorMessage);
+            }
+            var clone = document.createElement("div");
+            clone.innerHTML = templateElement.innerHTML;
+            return clone;
+        };
+    }();
+
     var contextFromEvent = function contextFromEvent(event) {
         if (event.target) {
-            var _element2 = event.target;
-            if (hasOwnProperty.call(_element2, CONTEXT)) {
-                return _element2[CONTEXT];
+            var element = event.target;
+            if (hasOwnProperty.call(element, CONTEXT)) {
+                return element[CONTEXT];
             }
         }
         console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
@@ -217,6 +294,12 @@ var d = function () {
         return pathIn.join(INSIDE_SYMBOL);
     };
 
+    var getParentContext = function getParentContext(context) {
+        var split = context.split(INSIDE_SYMBOL);
+        var removedPart = split.splice(-1);
+        return split.join(INSIDE_SYMBOL);
+    };
+
     var contextFromArrayWith = function contextFromArrayWith(pathIn, withWhat) {
         if (pathIn.length === 0) {
             return withWhat;
@@ -224,99 +307,124 @@ var d = function () {
         return "" + contextFromArray(pathIn) + INSIDE_SYMBOL + withWhat;
     };
 
-    var notify = function notify(subscribers, value) {
-        var path = arguments.length <= 2 || arguments[2] === undefined ? "" : arguments[2];
+    var normalizeStartPath = function normalizeStartPath(startPath) {
+        // this is because "a>b>c" is irregular
+        // "a>b>c>" or ">a>b>c" would not need such normalization
+        if (startPath) {
+            return "" + startPath + INSIDE_SYMBOL;
+        } else {
+            return startPath;
+        }
+    };
 
+    var notifyOneVariableSubscriber = function notifyOneVariableSubscriber(variableSubscriber, value) {
+        variableSubscriber[variableSubscriber[ELEMENT_PROPERTY]] = value;
+    };
+
+    var notifyVariableSubscribers = function notifyVariableSubscribers(subscribers, value) {
         // could also only take path and get subscribers + value with path
         if (value === undefined) {
             // console.warn(`Do not use undefined values for feed`);
             // should this happen ?
             return;
         }
-        if (Array.isArray(value)) {
+        subscribers.forEach(function (variableSubscriber) {
+            notifyOneVariableSubscriber(variableSubscriber, value);
+        });
+    };
+
+    var notifyOneListSubscriber = function notifyOneListSubscriber(listContainer, startPath, data) {
+        var fragment = document.createDocumentFragment();
+        if (hasOwnProperty.call(templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT])) {
             (function () {
-                var list = value;
-                subscribers.forEach(function (currentElement) {
-                    var fragment = document.createDocumentFragment();
-                    if (hasOwnProperty.call(templateElementFromCustomElementName, currentElement[CUSTOM])) {
-                        (function () {
-                            // composing with custom element
-                            var templateElement = templateElementFromCustomElementName[currentElement[CUSTOM]];
-                            var previous = copyArrayFlat(pathIn);
-                            pathIn = path.split(INSIDE_SYMBOL);
-                            list.forEach(function (unused, i) {
-                                var key = String(i);
-                                enterObject(key);
-                                var templateClone = cloneTemplate(templateElement);
-                                linkJsAndDom(templateClone);
-                                leaveObject();
-                                fragment.appendChild(templateClone);
+                // composing with custom element
+                var templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
+                var previous = copyArrayFlat(pathIn);
+                pathIn = startPath.split(INSIDE_SYMBOL);
+                var normalizedPath = normalizeStartPath(startPath);
+                var newLength = data.length;
+                var oldLength = void 0;
+                if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+                    // remove nodes and variable subribers that are not used
+                    oldLength = listContainer[LIST_CHILDREN].length;
+                    if (oldLength > newLength) {
+                        for (var i = newLength; i < oldLength; i += 1) {
+                            var pathInside = "" + normalizedPath + i;
+                            listContainer[LIST_CHILDREN][i].forEach(function (node) {
+                                node.remove();
                             });
-                            pathIn = previous;
-                        })();
-                    } else {
-                        list.forEach(function (value) {
-                            var listItem = document.createElement(currentElement[ELEMENT_LIST_ITEM]);
-                            if (isObjectOrArray(value)) {
-                                Object.assign(value, listItem);
-                            } else {
-                                listItem[currentElement[DVRPL]] = value;
-                            }
-                            fragment.appendChild(listItem);
-                        });
+                            forgetContext(pathInside);
+                        }
+                        listContainer[LIST_CHILDREN].length = newLength;
                     }
-                    currentElement.innerHTML = "";
-                    currentElement.appendChild(fragment);
+                } else {
+                    listContainer[LIST_CHILDREN] = [];
+                    oldLength = 0;
+                }
+
+                data.forEach(function (dataInside, i) {
+                    var pathInside = "" + normalizedPath + i;
+                    feed(dataInside, pathInside);
+                    if (i >= oldLength) {
+                        // cannot remove document fragment after insert because they empty themselves
+                        // have to freeze the childs to still have a reference
+                        var activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
+                        listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedTemplateClone.childNodes));
+                        fragment.appendChild(activatedTemplateClone);
+                    } else {
+                        ; // reusing, feed updated with new data the old nodes
+                    }
                 });
+                pathIn = previous;
             })();
         } else {
-            // console.log(subscribers, "subscribers");
-            subscribers.forEach(function (currentElement) {
-                currentElement[currentElement[DVRP]] = value;
+            listContainer.innerHTML = "";
+            data.forEach(function (value) {
+                var listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+                if (isObjectOrArray(value)) {
+                    Object.assign(listItem, value);
+                } else {
+                    listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
+                }
+                fragment.appendChild(listItem);
             });
         }
+        listContainer.appendChild(fragment);
+    };
+
+    var notifyListSubscribers = function notifyListSubscribers(subscribers, startPath, data) {
+        subscribers.forEach(function (listContainer) {
+            notifyOneListSubscriber(listContainer, startPath, data);
+        });
     };
 
     var feed = function feed(data) {
         var startPath = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
 
         if (!isObjectOrArray(data)) {
-            console.error("feed takes input, must be object");
-        }
-        var normalizedPath = startPath;
-        if (startPath) {
-            normalizedPath = "" + startPath + INSIDE_SYMBOL;
-            // this is because "a>b>c" is irregular
-            // "a>b>c>" or ">a>b>c" would not need such normalization
-        }
-        Object.entries(data).forEach(function (_ref3) {
-            var _ref4 = _slicedToArray(_ref3, 2);
-
-            var key = _ref4[0];
-            var value = _ref4[1];
-
-            var path = "" + normalizedPath + key;
-            if (!isObjectOrArray(value)) {
-                variables[path] = value;
-                if (hasOwnProperty.call(variablesSubscribers, path)) {
-                    notify(variablesSubscribers[path], value);
-                }
-            } else {
-                var insidePath = "" + path + INSIDE_SYMBOL;
-
-                if (Array.isArray(value)) {
-                    forgetContext(insidePath);
-                    feed(value, path /* could include boolean to not forgetContext inside,
-                                     as it would do nothing*/);
-                    variables[path] = value;
-                    if (hasOwnProperty.call(variablesSubscribers, path)) {
-                        notify(variablesSubscribers[path], value, path);
-                    }
-                } else {
-                    feed(value, path);
-                }
+            variables[startPath] = data;
+            if (hasOwnProperty.call(variableSubscribers, startPath)) {
+                notifyVariableSubscribers(variableSubscribers[startPath], data);
             }
-        });
+        } else if (Array.isArray(data)) {
+            variables[startPath] = data;
+            if (hasOwnProperty.call(listSubscribers, startPath)) {
+                notifyListSubscribers(listSubscribers[startPath], startPath, data);
+            }
+        } else {
+            (function () {
+                var normalizedPath = normalizeStartPath(startPath);
+                Object.entries(data).forEach(function (_ref3) {
+                    var _ref4 = _slicedToArray(_ref3, 2);
+
+                    var key = _ref4[0];
+                    var value = _ref4[1];
+
+                    var path = "" + normalizedPath + key;
+                    feed(value, path);
+                });
+            })();
+        }
     };
 
     /*not used
@@ -385,25 +493,19 @@ var d = function () {
         if (optional) {
             // for custom elements
             fullName = elementListItem + "-" + optional;
-            element[CUSTOM] = fullName;
+            element[CUSTOM_ELEMENT] = fullName;
         } else {
-            element[DVRPL] = options.variablePropertyFromElement(elementListItem.toUpperCase());
+            element[LIST_ITEM_PROPERTY] = options.variablePropertyFromElement(elementListItem.toUpperCase());
             element[ELEMENT_LIST_ITEM] = elementListItem;
         }
 
         var path = contextFromArrayWith(pathIn, variableName);
 
-        if (hasOwnProperty.call(variablesSubscribers, path)) {
-            variablesSubscribers[path].push(element);
-        } else {
-            variablesSubscribers[path] = [element];
-        }
+        listSubscribers[path] = pushOrCreateArray(listSubscribers[path], element);
 
-        // console.log("should notify once", path, variables[path]);
-        // will also remake the previous if any, which is less than ideal todo
-        // can have negative consequences for multiple elements that share the same list
-        notify(variablesSubscribers[path], variables[path], path);
-        // todo value = variables[path], if (value) notify else nothing
+        if (hasOwnProperty.call(variables, path)) {
+            notifyOneListSubscriber(element, path, variables[path]);
+        }
     };
 
     var applyDirectiveVariable = function applyDirectiveVariable(element, variableName) {
@@ -418,21 +520,26 @@ var d = function () {
             console.error(element, "Use " + options.directives.directiveVariable + "=\"variableName\" format!");
         }
 
-        element[DVRP] = options.variablePropertyFromElement(element);
+        element[ELEMENT_PROPERTY] = options.variablePropertyFromElement(element);
         var path = contextFromArrayWith(pathIn, variableName);
-        if (hasOwnProperty.call(variablesSubscribers, path)) {
-            variablesSubscribers[path].push(element);
-        } else {
-            variablesSubscribers[path] = [element];
+        variableSubscribers[path] = pushOrCreateArray(variableSubscribers[path], element);
+        var lastValue = variables[path]; // has latest
+        if (lastValue !== undefined) {
+            notifyOneVariableSubscriber(element, lastValue);
         }
-        element[element[DVRP]] = variables[path]; // has latest
 
         if (options.tagNamesForUserInput.includes(element.tagName)) {
             var broadcastValue = function broadcastValue(event) {
                 //wil call setter to broadcast the value
-                var value = event.target[event.target[DVRP]];
+                var value = event.target[event.target[ELEMENT_PROPERTY]];
                 variables[path] = value;
-                notify(variablesSubscribers[path], value);
+                // would notify everything including itself
+                // notifyVariableSubscribers(variableSubscribers[path], value);
+                variableSubscribers[path].forEach(function (variableSubscriber) {
+                    if (variableSubscriber !== element) {
+                        notifyOneVariableSubscriber(variableSubscriber, value);
+                    }
+                });
             };
             addEventListener(element, options.eventNameFromElement(element), broadcastValue);
         }
@@ -458,6 +565,14 @@ var d = function () {
         templateElementFromCustomElementName[customAttributeValue] = element;
     };
 
+    var activateCloneTemplate = function activateCloneTemplate(templateElement, key) {
+        enterObject(key);
+        var activatedTemplateClone = cloneTemplate(templateElement);
+        linkJsAndDom(activatedTemplateClone);
+        leaveObject();
+        return activatedTemplateClone;
+    };
+
     var applyDirectiveInside = function applyDirectiveInside(element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
@@ -467,34 +582,9 @@ var d = function () {
 
         var templateElement = templateElementFromCustomElementName[customElementNameFromElement(element)];
 
-        enterObject(key);
-        var templateClone = cloneTemplate(templateElement);
-        linkJsAndDom(templateClone);
-        leaveObject();
-        element.appendChild(templateClone);
+        var activatedTemplateClone = activateCloneTemplate(templateElement, key);
+        element.appendChild(activatedTemplateClone);
     };
-
-    var cloneTemplate = function () {
-        var errorMessage = "Template  <template " + options.directives.directiveTemplate + "=\"d-name\">\n    Template Content\n</template>";
-        if ("content" in document.createElement("template")) {
-            return function (templateElement) {
-                if (!templateElement) {
-                    console.error(errorMessage);
-                }
-                return document.importNode(templateElement.content, true);
-            };
-        }
-
-        return function (templateElement) {
-            /*here we have a div too much (messes up css)*/
-            if (!templateElement) {
-                console.error(errorMessage);
-            }
-            var clone = document.createElement("div");
-            clone.innerHTML = templateElement.innerHTML;
-            return clone;
-        };
-    }();
 
     var enterObject = function enterObject(key) {
         pathIn.push(key);
@@ -519,7 +609,8 @@ var d = function () {
         it also takes space in the memory.
           And all of this doesn't matter for 1-100 elements
           */
-        deleteAllStartsWith(variablesSubscribers, path);
+        deleteAllStartsWith(variableSubscribers, path);
+        deleteAllStartsWith(listSubscribers, path);
         deleteAllStartsWith(variables, path);
     };
 
@@ -536,7 +627,6 @@ var d = function () {
             var directiveName = _pair[0];
             var applyDirective = _pair[1];
 
-
             if (!element.hasAttribute(directiveName)) {
                 return;
             }
@@ -544,9 +634,7 @@ var d = function () {
             if (customAttributeValue[0] === options.attributeValueDoneSign) {
                 return;
             }
-
             applyDirective(element, customAttributeValue);
-
             // ensure the directive is only applied once
             element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
         });
@@ -598,6 +686,7 @@ var d = function () {
         // can be usefull if sure that template not going to be used again
         contextFromArray: contextFromArray,
         contextFromEvent: contextFromEvent,
+        getParentContext: getParentContext,
         options: options
     });
 }();

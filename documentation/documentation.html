@@ -10,7 +10,7 @@
 <body>
 <h1 id="main-title">DOM99</h1>
 <div class="tab-holder">
-<nav>
+<nav data-function="scrollTop">
     <a href="#about">About</a>
     <a href="#examples1">Examples</a>
     <a href="#howto">Documentation</a>
@@ -35,7 +35,12 @@
 <h2>Why not use DOM99 ?</h2>
 
 <ul>
-<li>No support for some old browsers</li><li>New Framework</li><li>Fear of the unknown</li><li>You have already a working codebase that is mantainable</li><li>You need to learn about HTML and JS first</li><li>You need a comprehensive framework that has all the tool you need out of the box.(DOM99 is not batteries included)</li><li>No built in server side rendering mechanism</li>
+<li>No support for some old browsers</li>
+<li>Fear of the unknown</li>
+<li>You have already a working codebase that is mantainable</li>
+<li>You need to learn about HTML and JS first</li>
+<li>You need a comprehensive framework that has all the tools/components/css you need out of the box.(DOM99 is not batteries included)</li>
+<li>No built in server side rendering mechanism</li>
 </ul>
 
 <h2>How does DOM99 work ?</h2>
@@ -46,10 +51,10 @@
 
 
 <ul>
-    <li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/js/dom99.js">Development ESnext with debug messages (in the console) dom99.js</a></li>
-    <li><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js">Production minified dom99.es5.min.js</a></li>
-    <li><code>npm install dom99</code></li><li><code>bower install dom99</code></li></ul>
-
+    <li><code>npm install dom99</code></li>
+    <li><code><del>bower install dom99</del></code></li>
+    <li><del><a href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js">Production minified dom99.es5.min.js</a></del></li>
+</ul>
 <h2>Github</h2>
 <p><a href="https://github.com/GrosSacASac/DOM99">https://github.com/GrosSacASac/DOM99</a></p>
 
@@ -59,7 +64,7 @@
     <li>Mozilla Firefox</li>
     <li>Opera</li>
     <li>Safari*</li>
-    <li>Internet Explorer 10+*</li>
+    <li><del>Internet Explorer 10+*</del> No support, open an issue if you interested. <a href="https://github.com/GrosSacASac/DOM99/issues">Open issue</a></li>
 </ul>
 <p>*supports also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
 
@@ -368,6 +373,7 @@ d.functions.close = function (event) {
 <article id="examples1">
 <h2>Some Examples</h2>
 <p id="errors"><noscript>Enable JavaScript to view certain part of this page.</noscript></p>
+<p data-element="esmodulerequired">Enable ES modules to view certain part of this page.</p>
 <template data-template="d-htmljsresult">
     <article class="htmljsandoutput">
         <h3 data-variable="title"></h3>
@@ -646,10 +652,7 @@ d.feed([
 d.feed(d.variables.images[0].value, "image");
 </script>
 
-
 <script  nomodule src="js/documentation.es5.min.js"></script>
-
 <script type="module" src="js/documentation.js"></script>
-
 </body>
 </html>

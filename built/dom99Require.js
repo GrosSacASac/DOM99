@@ -32,6 +32,7 @@ Distributed under the Boost Software License, Version 1.0.
     add data-list-strategy to allow opt in declarative optimization
     data-function-context to allow context less 
     add data-x spelling checker
+    or is that outside the scope ?
     
     transform recurcive into seq flow
     
