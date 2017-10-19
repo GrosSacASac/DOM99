@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
     <link rel="stylesheet" href="css/dcomment.css">
+    <link rel="icon" href="../images/visual2.jpg">
 </head>
 <body>
   
@@ -24,8 +25,13 @@
 
 <button data-function="click-showNextComment" disabled>Show more comments</button>
     
-<script src="../polyfill.min.js"></script>
-<script src="../js/dom99.es5.min.js"></script>
-<script src="../exampleses5/templates1.js"></script>
+
+
+<script nomodule src="../polyfill.min.js"></script>
+<script nomodule src="polyfills/remove.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script  nomodule src="../exampleses5/templates1.js"></script>
+
+<script type="module" src="templates1.js"></script>
 </body>
 </html>

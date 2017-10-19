@@ -632,10 +632,14 @@ const d = (function () {
         return startElement;
     };
 
-    const start = function (userFunctions = {}, initialFeed = {}, startElement) {
+    const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
         Object.assign(functions, userFunctions);
         feed(initialFeed);
         linkJsAndDom(startElement);
+        if (!callBack) {
+            return;
+        }
+        return callBack();
     };
 
     // https://github.com/piecioshka/test-freeze-vs-seal-vs-preventExtensions

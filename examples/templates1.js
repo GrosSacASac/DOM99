@@ -1,7 +1,6 @@
-"use strict";
-const D = dom99;
+import d from "../built/dom99Module.js";
 
-D.fx.showNextComment = function(event) {
+d.functions.showNextComment = function(event) {
     ;//todo
 };
 
@@ -17,7 +16,7 @@ let commentsData = {
 };
 
 // we could also manually assign every property in a complicated for loop
-D.vr = commentsData;
+d.feed(commentsData);
 
-D.linkJsAndDom();
+d.linkJsAndDom();
 

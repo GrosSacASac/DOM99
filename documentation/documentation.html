@@ -101,12 +101,12 @@ You can also build the HTML with custom elements.<a href="http://jsbin.com/tepez
 <p>DOM99 will browse the DOM and react if an element has one of the following attributes</p>
 
 <ul>
-    <li>data-variable : <strong>vr for variable</strong>: data binding between DOM element and js variable</li>
-    <li>data-list : <strong>list is a synonym for array</strong>: display a js array as a list in the DOM</li>
-    <li>data-element : <strong>el for element</strong>: pre-selecting an element for later usage</li>
-    <li>data-function : <strong>fx for function</strong> adds an event listener to that element</li>
+    <li>data-variable :  data binding between DOM element and js variable</li>
+    <li>data-list : list is a synonym for array: display a js array as a list in the DOM</li>
+    <li>data-element : pre-selecting an element for later usage</li>
+    <li>data-function : adds an event listener to that element</li>
     <li>data-template : (advanced) Declare a html template to build components</li>
-    <li>data-inside: (advanced) <strong>in for encapsulation</strong> adds the chosen template inside an encapsulated context</li>
+    <li>data-inside: (advanced)  adds the chosen template inside an encapsulated context</li>
 </ul>
 
 <p>Examples:</p>
@@ -219,7 +219,7 @@ d.linkJsAndDom();</code></pre>
 When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more
 comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
-<p><strong>Below is outdated</strong> Look at examples/index.html for now</p>
+<p> Look at examples/templates1.html and examples/templates2.html and examples/templates3.html for now</p>
 <pre><code>&lt;html&gt;
 
     &lt;article&gt;
@@ -244,6 +244,7 @@ Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</
 <p>Our initial JS code looks like this</p>
 
 <pre><code>
+import d from "../built/dom99Module.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo
@@ -261,50 +262,57 @@ let commentsData = {
 };
 
 // we could also manually assign every property in a complicated for loop
-d.variables = commentsData;
+d.feed(commentsData);
 
-D.linkJsAndDom();</code></pre>
+d.linkJsAndDom();</code></pre>
 
 <p><a href="../examples/templates1.html">Try templates1.html static template injection</a> </p>
 
 <h3>Part 2</h3>
 <pre><code>
-"use strict";
+import d from "../built/dom99Module.js";
+
 const commentPrefix = "comment";
 
 let currentCommentNumber = 2;
 
-const update = function(commentKey,commentObject) {
-    Object.assign(d.variables[commentKey], commentObject);
+const update = function (commentKey, commentObject) {
+    d.feed(commentObject, commentKey);
 };
 
-const getDataFromFakeServer = function(commentKey) {
-    const fakeData = {
-        text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-        date: "just now"
-    };
-    window.setTimeout(function () {
-        update(commentKey, fakeData);
-    }, 2000);
+const getDataFromFakeServer = function (urlOrWhat) {
+    // fetch like simulation
+    return new Promise(function (resolve, reject) {
+        const fakeData = {
+            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
+            date: "just now"
+        };
+        
+        window.setTimeout(function () {
+            resolve(fakeData);
+        }, 2000);
+    }); 
 };
 
-d.functions.showNextComment = function(event) {
-    let key,
-        customElementDescription,
-        customElement;
+d.functions.showNextComment = function (event) {
     currentCommentNumber += 1;
-    key = commentPrefix + String(currentCommentNumber);
-    getDataFromFakeServer(key);//get data
-    customElementDescription = {
-        "tagName": "d-comment",
+    let key = `${commentPrefix}${currentCommentNumber}`;
+    
+    const customElementDescription = {
+        tagName: "d-comment",
         "data-inside": key
     }
-    customElement = D.createElement2(customElementDescription);
+    const customElement = d.createElement2(customElementDescription);
+    
     d.linkJsAndDom(customElement);
     d.elements.commentSection.appendChild(customElement);
+    getDataFromFakeServer("comment?id=42").then( //get data
+        function (data) {
+            update(key, data);
+    });
 };
 
-let commentsData = { //intial
+let commentsData = { //initial
     comment1: {
         text: "I am the first to comment, well written! Bravo!",
         date: "In the year 2016"
@@ -314,9 +322,14 @@ let commentsData = { //intial
         date: "yesterday" 
     }
 };
-d.variables = commentsData;
-d.linkJsAndDom();</code></pre>
+
+d.feed(commentsData);
+d.linkJsAndDom();
+
+</code></pre>
 <p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
+
+<h3>Part 3 coming ... Below is outdated</h3>
 <h4>Dynamic template injection in general</h4>
 
 <pre><code>&lt;body&gt;
@@ -470,8 +483,49 @@ d.functions.close = function (event) {
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 7.1.0</h4>
+<p>Upgrade the doc</p>
+<p>experimenting with d.start(userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined)</p>
+<p>d.start does what you think, the right way</p>
+<code><pre>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
+        Object.assign(functions, userFunctions);
+        feed(initialFeed);
+        linkJsAndDom(startElement);
+        if (!callBack) {
+            return;
+        }
+        return callBack();
+    };</pre></code>
 <h4>Version 7.0.0</h4>
 <p>renamed dom99 variable into just d</p>
+<pre>d.getParentContext removed. To navigate through context there are now  3 functions that work together
+
+    d.contextFromEvent to get the context from the event
+    d.contextFromArray to build up a direct acces string to go 1 level up the tree
+    d.getParentContext to go 1 level down the tree
+
+    this model is more flexible than before but requires more code, example to change color from sister element
+    <button data-function="changeSister">Click Me</button>
+    <div data-element="div">Lorem Ipsul sister</div>
+
+    d.functions.changeSister = function (event) {
+        const thisContext = d.contextFromEvent(event);
+        const sisterAccessContext = d.contextFromArray([thisContext, "div"]);
+        const sisterDiv = d.elements[sisterAccessContext];
+        sister.Div.classList.add("red");
+    };(
+    
+    This works anywhere including, deep inside other data-list="" and data-inside=""
+    The div does not have to be a sister element html speaking, but only from dom99 point of view
+    
+    This would work too 
+        <button data-function="changeSister">Click Me</button>
+        <footer>
+            <time><div data-element="div">Lorem Ipsul sister</div></time>
+        </footer>
+    </pre>
+    
+    To go one level down use d.getParentContext(context)
 <p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
