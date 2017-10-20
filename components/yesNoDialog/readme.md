@@ -1,18 +1,18 @@
-#yesNoDialog
+# yesNoDialog
 
-##Files
+## Files
 
 * yesNoDialog.js
 * yesNoDialog.css
 * yesNoDialog.html
 
-##How to use
+## How to use
 
-    //requires browserify
-    const D = require("dom99");
-    const yesNoDialog = require("dom99/components/yesNoDialog/yesNoDialog.js").yesNoDialog;
+    // using es modules
+    import d from "./node_modules/dom99/built/dom99Module.js";
+    import {yesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
 
-    D.linkJsAndDom();
+    d.linkJsAndDom();
     
     //...
     
@@ -20,7 +20,7 @@
         //do something with answer (Boolean)
     });
     
-##API
+## API
 
 yesNoDialog.yesNoDialog(question, yesText, noText)
 
@@ -28,31 +28,42 @@ question, yesText, noText are all strings.
 
 returns a promise
 
-##Description
+## Description
 
 The promise is resolved with a boolean depending on what the user clicks. The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body(see yesNoDialog.css). question, yesText, noText are all strings. You need to include the html fragment and the css. The promise will never reject. It is possible to call yesNoDialog multiple times in a row even if the user is still answering previous questions. An encapsulated queue is used to handle that.
 
-##Motivation
+## Motivation
 
 The native prompt function cannot be styled by css and blocks the main thread.
 
-##Limitations
+## Limitations
 
-Requires Promise implementation (ES2015). Cannot use other dom99 directives with the string "answerYesNo", else there is a risk of variable clash. Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html. Cannot use the class Name "dialog" in other HTML elements. Direct child elements of the body element will not be hidden during the dialog. This is avoidable with proper div section and article usage. Can be used to display the title of application.
+Requires Promise implementation (ES2015). Cannot use other data-function="yesNoDialogAnswer" elsewhere. 
+Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html.
+Cannot use the class Name "dialog" in other HTML elements.
+Direct child elements of the body element will not be hidden during the dialog.
+This is avoidable with proper div section and article usage.
+Can be used to display the title of application.
 
 Maybe obsoleted by `<dialog>` element. (Future)
 
-##Changelog
+## Changelog
 
 
-##Todo
 
- * Add keyboard shortcut alternative to click Yes No with Enter ESC 
- * Make Button bigger
+### 20/10/2017
 
-###14/12/2016
+Better encapsulation
+
+### 14/12/2016
 
 
  * yesNoDialog can now be used multiples times in a row even when previous ones are not answered and all promises will resolve correctly.
  
  * Scrolls back at the same scroll position as before yesNoDialog was called 
+
+
+## Todo
+
+ * Add keyboard shortcut alternative to click Yes No with Enter ESC 
+ * Make Button bigger

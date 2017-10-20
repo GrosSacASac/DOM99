@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 /*
     need to update all examples and docs
 
-    forget should work on templates
-
     update readme, make a link to the new docs
 
     remake intro play ground
@@ -39,10 +37,12 @@ Distributed under the Boost Software License, Version 1.0.
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
     
-    integrate 2 way binding in dom99 ? for list
+    integrate 2 way binding in dom99 for lists with inputs inide ? I think it is not used much 
     see d.functions.updateJson in main.js in examples
     
     add support for IE10 again(remove for of loop and transpile)
+    
+    add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */
 const d = (function () {
     "use strict";
@@ -542,12 +542,22 @@ const d = (function () {
             console.error(element, `Use ${options.directives.directiveInside}="insidewhat" format!`);
         }
 
+        
         const templateElement = templateElementFromCustomElementName[
             customElementNameFromElement(element)
         ];
 
-        const activatedTemplateClone = activateCloneTemplate(templateElement, key);
-        element.appendChild(activatedTemplateClone);
+        if (templateElement) {
+            const activatedTemplateClone = activateCloneTemplate(templateElement, key);
+            element.appendChild(activatedTemplateClone);
+        } else {
+             // avoid infinite loop
+             element.setAttribute(options.directives.directiveInside, options.attributeValueDoneSign + key);
+             // parse children under name space (encapsulation of variable names)
+            enterObject(key);
+            linkJsAndDom(element);
+            leaveObject();
+        }
     };
 
     const enterObject = function (key) {
@@ -578,7 +588,21 @@ const d = (function () {
         deleteAllStartsWith(variableSubscribers, path);
         deleteAllStartsWith(listSubscribers, path);
         deleteAllStartsWith(variables, path);
+        deleteAllStartsWith(elements, path);
     };
+
+    const forgetRemoveTemplate = function (name) {
+    /* Removes a template */
+    if (!hasOwnProperty.call(
+        templateElementFromCustomElementName,
+        name)) {
+        console.error(
+`<template ${options.directives.directiveTemplate}=${path}></template> not found or already deleted and removed.`
+        );
+    }
+    templateElementFromCustomElementName[name].remove();
+    delete templateElementFromCustomElementName[name];
+    };    
 
     const tryApplyDirectives = function (element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
@@ -587,8 +611,7 @@ const d = (function () {
             return;
         }
 
-        directiveSyntaxFunctionPairs.forEach(function (pair) {
-            const [directiveName, applyDirective] = pair;
+        directiveSyntaxFunctionPairs.forEach(function ([directiveName, applyDirective]) {
             if (!element.hasAttribute(directiveName)) {
                 return;
             }
@@ -650,8 +673,9 @@ const d = (function () {
         functions,
         variables,
         feed,
-        createElement2, // still need to expose ?
-        forgetContext, // still need to expose ?
+        createElement2,
+        forgetContext,
+        forgetRemoveTemplate,
         // also add clear template too free dom nodes,
         // can be usefull if sure that template not going to be used again
         contextFromArray,

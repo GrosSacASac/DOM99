@@ -7,11 +7,12 @@
 </head>
 <body>
     <!-- This needs to be included -->
-    <div class="dialog">
-        <p data-variable="answerYesNoQuestionText"></p>
-        <button data-variable="answerYesNoYesText" data-element="answerYesNoYesElement" data-function="click-answerYesNo"></button>
-        <button data-variable="answerYesNoNoText" data-function="click-answerYesNo"></button>
-    </div>
+<div class="dialog" data-inside="yesNoDialog">
+    <p data-variable="question"></p>
+    <button data-variable="yesText" data-element="yesButton" data-function="yesNoDialogAnswer"></button>
+    <button data-variable="noText" data-function="yesNoDialogAnswer"></button>
+</div>
+
     
     <div>
         <p>Refresh to restart. See <a href="../readme.md">Instructions</a></p>
@@ -86,8 +87,13 @@ Nam pretium, lacus non commodo convallis, metus purus porta sapien, euismod vene
 Maecenas tempus nunc eu erat scelerisque lobortis. Pellentesque interdum vulputate fringilla. Sed vulputate dignissim nibh, ut posuere eros maximus vel. Sed aliquam maximus enim, eu feugiat urna placerat ut. Vivamus sed gravida enim. Curabitur volutpat blandit mi, sed pretium enim. Aliquam efficitur nunc non urna rutrum, vitae posuere ligula pulvinar. Ut maximus erat at commodo ullamcorper. Ut pellentesque cursus rutrum. Mauris in lectus tortor. Sed vitae turpis eget sapien sollicitudin iaculis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed justo tortor, elementum quis lobortis vitae, consectetur sit amet eros. Suspendisse potenti. Phasellus ullamcorper dignissim sapien, vel finibus leo tincidunt non. </p>
     </div>
 
-    <script src="requirebundle.js"></script>
-    <script src="ScrollTest.js"></script>
 
+<script nomodule src="../../../polyfill.min.js"></script>
+<script nomodule src="../../../examples/polyfills/remove.js"></script>
+<script  nomodule src="../../../built/dom99.es5.min.js"></script>
+<script  nomodule src="../../../built/components/yesNoDialog/yesNoDialog.es5.js"></script>
+<script  nomodule src="../../../built/components/yesNoDialog/examples/ScrollTest.es5.js"></script>
+
+<script type="module" src="ScrollTest.js"></script>
 </body>
 </html>
