@@ -1,8 +1,12 @@
 "use strict";
 
-var D = dom99;
+var _dom99Module = require("../built/dom99Module.js");
 
-D.fx.showNextComment = function (event) {
+var _dom99Module2 = _interopRequireDefault(_dom99Module);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_dom99Module2.default.functions.showNextComment = function (event) {
     ; //todo
 };
 
@@ -18,6 +22,6 @@ var commentsData = {
 };
 
 // we could also manually assign every property in a complicated for loop
-D.vr = commentsData;
+_dom99Module2.default.feed(commentsData);
 
-D.linkJsAndDom();
+_dom99Module2.default.linkJsAndDom();

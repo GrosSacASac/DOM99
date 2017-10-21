@@ -39,7 +39,7 @@ var displayNewMessage = function displayNewMessage(data) {
         //do the same rotation in the DOM
         D.el["messagesContainer"].appendChild(D.el[element + key]);
     }
-    // Update
+    // Update 
     Object.assign(D.vr[key], data); // loops over
 };
 

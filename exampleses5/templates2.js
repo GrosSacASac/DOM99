@@ -1,41 +1,52 @@
 "use strict";
 
-var D = dom99,
-    commentPrefix = "comment";
+var _dom99Module = require("../built/dom99Module.js");
+
+var _dom99Module2 = _interopRequireDefault(_dom99Module);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var commentPrefix = "comment";
 
 var currentCommentNumber = 2;
 
 var update = function update(commentKey, commentObject) {
-    Object.assign(D.vr[commentKey], commentObject);
+    _dom99Module2.default.feed(commentObject, commentKey);
 };
 
-var getDataFromFakeServer = function getDataFromFakeServer(commentKey) {
-    var fakeData = {
-        text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-        date: "just now"
-    };
-    window.setTimeout(function () {
-        update(commentKey, fakeData);
-    }, 2000);
+var getDataFromFakeServer = function getDataFromFakeServer(urlOrWhat) {
+    // fetch like simulation
+    return new Promise(function (resolve, reject) {
+        var fakeData = {
+            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
+            date: "just now"
+        };
+
+        window.setTimeout(function () {
+            resolve(fakeData);
+        }, 2000);
+    });
 };
 
-D.fx.showNextComment = function (event) {
-    var key = void 0,
-        customElementDescription = void 0,
-        customElement = void 0;
+_dom99Module2.default.functions.showNextComment = function (event) {
     currentCommentNumber += 1;
-    key = commentPrefix + String(currentCommentNumber);
-    getDataFromFakeServer(key); //get data
-    customElementDescription = {
-        "tagName": "d-comment",
+    var key = "" + commentPrefix + currentCommentNumber;
+
+    var customElementDescription = {
+        tagName: "d-comment",
         "data-inside": key
     };
-    customElement = D.createElement2(customElementDescription);
-    D.linkJsAndDom(customElement);
-    D.el.commentSection.appendChild(customElement);
+    var customElement = _dom99Module2.default.createElement2(customElementDescription);
+
+    _dom99Module2.default.linkJsAndDom(customElement);
+    _dom99Module2.default.elements.commentSection.appendChild(customElement);
+    getDataFromFakeServer("comment?id=42").then( //get data
+    function (data) {
+        update(key, data);
+    });
 };
 
-var commentsData = { //intial
+var commentsData = { //initial
     comment1: {
         text: "I am the first to comment, well written! Bravo!",
         date: "In the year 2016"
@@ -45,5 +56,6 @@ var commentsData = { //intial
         date: "yesterday"
     }
 };
-D.vr = commentsData;
-D.linkJsAndDom();
+
+_dom99Module2.default.feed(commentsData);
+_dom99Module2.default.linkJsAndDom();
