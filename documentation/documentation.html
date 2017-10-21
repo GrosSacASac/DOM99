@@ -329,8 +329,111 @@ d.linkJsAndDom();
 </code></pre>
 <p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
 
-<h3>Part 3 coming ... Below is outdated</h3>
-<h4>Dynamic template injection in general</h4>
+<h3>Part 3</h3>
+<p>He we remove a lot of manual cruft, and use an array with data-list to display the comments</p>
+<h4>HTML</h4>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;DOM99 DEMO templates 3&lt;/title&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
+    &lt;link rel=&quot;icon&quot; href=&quot;../images/visual2.jpg&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  
+&lt;article&gt;
+    &lt;h2&gt;Article Title&lt;/h2&gt;
+    &lt;p&gt;Article&lt;/p&gt;&lt;p&gt;Blalblabla I give my opinion blabla&lt;/p&gt;
+&lt;/article&gt;
+
+&lt;!-- a comment is some text and a date --&gt;
+&lt;template data-template=&quot;d-comment&quot;&gt;
+    &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
+        &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
+        &lt;datetime data-variable=&quot;date&quot;&gt;Loading date ...&lt;/datetime&gt;
+    &lt;/article&gt; 
+&lt;/template&gt;
+
+&lt;!-- data-list=&quot;VARIABLE_NAME - CUSTOM-ELEMENT_NAME&quot; --&gt;
+&lt;section data-list=&quot;comments-d-comment&quot;&gt;&lt;/section&gt;
+&lt;button data-function=&quot;click-showNextComment&quot; &gt;Show more comments&lt;/button&gt;
+
+
+
+&lt;script nomodule src=&quot;../polyfill.min.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;polyfills/remove.js&quot;&gt;&lt;/script&gt;
+&lt;script  nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
+&lt;script  nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;module&quot; src=&quot;templates3.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h4>JS</h4>
+<pre><code>import d from "../built/dom99Module.js";
+
+const update = function (commentObject, position) {
+    // updates the dataStore for comments commentsData
+    commentsData[position] = commentObject;
+    // could sort the comments with .sort(customFunction) too
+    // pushes the update to the UI
+    d.feed(commentsData, "comments");
+};
+
+const fetchData = function (urlOrWhat) {
+    // fetch like simulation
+    return new Promise(function (resolve, reject) {
+        const fakeData = {
+            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
+            date: "just now"
+        };
+        
+        window.setTimeout(function () {
+            resolve(fakeData);
+        }, 2000);
+    }); 
+};
+
+d.functions.showNextComment = function (event) {
+
+    // in the meantime already display an empty comment for instant feedback
+    
+    // remember the position to be updated later
+    const position = commentsData.length;
+    commentsData.push(undefined);
+    // undefined will simly have no effecton all data-variable
+    // so that will effectively uses the default textContent in the HTML
+    d.feed(commentsData, "comments");
+    // force ui update
+    fetchData("comment?id=42").then( function (data) {
+            update(data, position);
+    });
+    
+};
+
+// comments are now stored inside an array
+// you can try to convert an Object to an Array using
+// Object.values(my_object);
+
+let commentsData = [ 
+    {
+        text: "I am the first to comment, well written! Bravo!",
+        date: "In the year 2016"
+    },
+    {
+        text: "I really appreciate your work",
+        date: "yesterday" 
+    }
+];
+
+d.feed(commentsData, "comments");
+d.linkJsAndDom();
+</code></pre>
+<p><a href="../examples/templates3.html">Try templates3.html</a></p>
+
+<h3>Dynamic template injection in general</h3>
 
 <pre><code>&lt;body&gt;
 &lt;template data-template="d-tagname"&gt;
@@ -341,6 +444,7 @@ d.linkJsAndDom();
 &lt;div data-element="target"&gt;&lt;/div&gt;
 &lt;/body&gt;
 
+// manual, see templates3.html to see how to use shortcuts
 // 0 make a description
 let customElementDescription = {
     "tagName": "d-tagname",
@@ -359,31 +463,77 @@ d.elements["target"].appendChild(customElement);</code></pre>
 
 <p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>d.variables["key"]["text"] = "A string"
+<pre><code>d.variables["key>text"] = "A string"
 
-d.elements["key"]["myElementIWantToChangeClassNameForInstance"].className = ...</code></pre>
+d.elements["key>elementName"].className = ...</code></pre>
 
-<p>d.functions function the other way around. You use the same event handlers for all template copies and handle differences with the <del><code>event.dKeys and event.dIn</code>.</del> Example</p>
+<p>Or</p>
+<pre><code>d.variables[d.contextFromArray(["key", "text"])] = "A string"
+
+d.elements[d.contextFromArray(["key", "elementName"])].className = ...</code></pre>
+
+<p>d.functions function the other way around. You use the same event handlers for all template copies
+ and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-template="d-tagname"&gt;
-    &lt;button data-function="click-close" &gt;CLOSE (X)&lt;/button&gt;
+    &lt;button data-function="close" &gt;CLOSE (X)&lt;/button&gt;
+    &lt;button data-function="update" &gt;Update (X)&lt;/button&gt;
+    &lt;p data-variable="text" &gt;Default Text&lt;/p&gt;
+    &lt;div data-element="status" class="status" &gt;&lt;/div&gt;
+    &lt;ul data-list="myList-li" &gt;
+        &lt;li&gt;Default List Item&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div data-inside="encapsulated" &gt;
+        &lt;p data-variable="text" &gt;Other Default Text&lt;/p&gt;
+    &lt;/div&gt;
+    
     Any HTML ...
 &lt;/template&gt;
 
+&lt;!-- used like --&gt;
+&lt;d-tagName data-inside=&quot;myKey0&quot;&gt;&lt;/d-tagName&gt;
+
+&lt;!-- or --&gt;
+&lt;div is=&quot;d-tagName&quot; data-inside=&quot;myKey1&quot;&gt;&lt;/div&gt;
+
+&lt;!-- or --&gt;
+&lt;div data-list=&quot;listKey-d-tagName&quot;&gt;&lt;/div&gt;
+
+
 // JS
-d.functions.close = function (event) {
-    //you can access variables that are at the same level with 
-    d.followPath(d.variables, event.dKeys).text
-    //access preselected elements at the same level with
-    d.followPath(d.elements, event.dKeys).myElementIWantToChangeClassNameForInstance
-    event.dHost// is the host element (the one with data-inside)
-    //this looks verbose but it works for any kind of deep html composition.
+d.functions.update = function (event) {
+    const key = d.contextFromEvent(event);
+    // you can access variables, elements, lists, subcontext with d.contextFromArray
+    //  - text -
+        const textKey = d.contextFromArray([key, "text"]);
+        const textVariable = d.variables[textKey]; // read
+        d.feed("New Text", textKey); // write
+    // - elements -
+        const statusKey = d.contextFromArray([key, "status"]);
+        const statusDiv = d.variables[textKey]; // read
+        statusDiv.classList.add("updated") // use
+    // - list -
+        const listKey = d.contextFromArray([key, "myList"]);
+        const listVariable = d.variables[listKey]; // read
+        d.feed([
+            "a",
+            "@",
+            "ã"
+        ], listKey); // write
+    // - encapsulated -
+        // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
+        const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
+        const textVariable2 = d.variables[encapsulatedTextKey]; // read
+        d.feed("New Encapsulated Text", encapsulatedTextKey); // write
+        
+
+    // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    d.variables["key"]["text"];
+    d.variables["key>text"];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <del><code>d.forgetKey(event.dKeys);</code></del> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
@@ -483,6 +633,9 @@ d.functions.close = function (event) {
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 7.2.1</h4>
+<p>Fixed non html-escaped issues in the doc</p>
+<p>New examples templates3.html</p>
 <h4>Version 7.2.0</h4>
 <p>data-inside extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-inside attribute.
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
@@ -505,15 +658,15 @@ Good for encapsulation of independent components. See how it is used in componen
     };</pre></code>
 <h4>Version 7.0.0</h4>
 <p>renamed dom99 variable into just d</p>
-<pre>d.getParentContext removed. To navigate through context there are now  3 functions that work together
+<code><pre>d.getParentContext removed. To navigate through context there are now  3 functions that work together
 
     d.contextFromEvent to get the context from the event
     d.contextFromArray to build up a direct acces string to go 1 level up the tree
     d.getParentContext to go 1 level down the tree
 
     this model is more flexible than before but requires more code, example to change color from sister element
-    <button data-function="changeSister">Click Me</button>
-    <div data-element="div">Lorem Ipsul sister</div>
+    &lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+    &lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
 
     d.functions.changeSister = function (event) {
         const thisContext = d.contextFromEvent(event);
@@ -526,11 +679,11 @@ Good for encapsulation of independent components. See how it is used in componen
     The div does not have to be a sister element html speaking, but only from dom99 point of view
     
     This would work too 
-        <button data-function="changeSister">Click Me</button>
-        <footer>
-            <time><div data-element="div">Lorem Ipsul sister</div></time>
-        </footer>
-    </pre>
+        &lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+        &lt;footer&gt;
+            &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
+        &lt;/footer&gt;
+    </pre></code>
     
     To go one level down use d.getParentContext(context)
 <p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)

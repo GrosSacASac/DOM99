@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DOM99 DEMO templates 3</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/dcomment.css">
+    <link rel="icon" href="../images/visual2.jpg">
+</head>
+<body>
+  
+<article>
+    <h2>Article Title</h2>
+    <p>Article</p><p>Blalblabla I give my opinion blabla</p>
+</article>
+
+<!-- a comment is some text and a date -->
+<template data-template="d-comment">
+    <article class="d-comment"><!-- add a container for styling purposes -->
+        <p data-variable="text">Loading text ... (fake response takes 2sec)</p>
+        <datetime data-variable="date">Loading date ...</datetime>
+    </article> 
+</template>
+
+<!-- data-list="VARIABLE_NAME - CUSTOM-ELEMENT_NAME" -->
+<section data-list="comments-d-comment"></section>
+<button data-function="click-showNextComment" >Show more comments</button>
+
+
+
+<script nomodule src="../polyfill.min.js"></script>
+<script nomodule src="polyfills/remove.js"></script>
+<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script  nomodule src="../exampleses5/templates3.js"></script>
+
+<script type="module" src="templates3.js"></script>
+</body>
+</html>
