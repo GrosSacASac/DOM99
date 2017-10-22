@@ -7,10 +7,10 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 You can also build the HTML with custom elements.
 [Demo](http://jsbin.com/tepezuj/3/embed?html,js,output)
 
-## Documentation
+## [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
 
  * Locally in /documentation/documentation.html
- * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/7.2.2/documentation/documentation.html)
+ * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
 
 ## Discussion
 
