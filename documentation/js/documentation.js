@@ -1,5 +1,4 @@
-// Import
-import d from "../../built/dom99Module.js";
+// global d
 
 d.functions.scrollTop = function () {
     setTimeout(function () {
@@ -31,7 +30,6 @@ d.linkJsAndDom();`);
 };
 
 d.linkJsAndDom();
-d.elements["esmodulerequired"].hidden = true;
 demoTitles.forEach(function(name) {
     displayHtmlJsAndResult(name);
 });

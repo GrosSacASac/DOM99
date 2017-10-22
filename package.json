@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "license": "BSL-1.0",
   "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
   "description": "HTML/DOM manipulation made easier",
@@ -16,8 +16,10 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-polyfill": "^6.26.0",
     "uglify-js": "2.6.2",
-    "utilsac": "^2.0.0"
+    "utilsac": "^2.0.0",
+    "rollup": "^0.50.0"
   },
   "scripts": {
     "buildes5": "babel js/dom99.js > built/dom99.es5.js",
@@ -25,7 +27,6 @@
     "buildminify": "uglifyjs built/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run buildes5 && npm run buildminify && npm run buildModuleAndRequire",
-    
     
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js",
     
@@ -35,9 +36,9 @@
     
     "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
     
-    "buildyesnodialogexample": "babel components/yesNoDialog/yesNoDialog.js > built/components/yesNoDialog/yesNoDialog.es5.js && babel components/yesNoDialog/examples/ScrollTest.js > built/components/yesNoDialog/examples/ScrollTest.es5.js",
+    "buildyesnodialogexampleFAIL": "babel components/yesNoDialog/yesNoDialog.js > built/components/yesNoDialog/yesNoDialog.es5.js && babel components/yesNoDialog/examples/ScrollTest.js > built/components/yesNoDialog/examples/ScrollTest.es5.js",
     
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples"
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc"
   },
   "keywords": [
     "HTML",

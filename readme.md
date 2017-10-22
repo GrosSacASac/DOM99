@@ -10,7 +10,7 @@ You can also build the HTML with custom elements.
 ## Documentation
 
  * Locally in /documentation/documentation.html
- * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/7.2.1/documentation/documentation.html)
+ * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/7.2.2/documentation/documentation.html)
 
 ## Discussion
 

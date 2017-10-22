@@ -67,9 +67,10 @@ You can also build the HTML with custom elements.<a href="http://jsbin.com/tepez
     <li>Mozilla Firefox</li>
     <li>Opera</li>
     <li>Safari*</li>
-    <li><del>Internet Explorer 10+*</del> No support, open an issue if you interested. <a href="https://github.com/GrosSacASac/DOM99/issues">Open issue</a></li>
+    <li>Internet Explorer 10+* </li>
 </ul>
-<p>*supports also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js</p>
+<p>*Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
+Support may also require transpilation. You may also want to use built/dom99.es5.min.js</p>
 
 <h2>License</h2>
 <p><a href="../LICENSE.txt ">Boost LICENSE</a></p>
@@ -539,7 +540,6 @@ d.functions.update = function (event) {
 <article id="examples1">
 <h2>Some Examples</h2>
 <p id="errors"><noscript>Enable JavaScript to view certain part of this page.</noscript></p>
-<p data-element="esmodulerequired">Enable ES modules to view certain part of this page.</p>
 <template data-template="d-htmljsresult">
     <article class="htmljsandoutput">
         <h3 data-variable="title"></h3>
@@ -776,9 +776,9 @@ the license in distributed executables or transpiled code</p>
 </article>
 </div>
 
-<script nomodule src="../polyfill.min.js"></script>
-<script nomodule src="polyfills/remove.js"></script>
-<script  nomodule src="../built/dom99.es5.min.js"></script>
+<script nomodule src="../polyfills/built/polyfill.min.js"></script>
+<script nomodule src="../polyfills/built/remove.js"></script>
+<script nomodule src="../built/dom99.es5.min.js"></script>
 <script type="module">
 // Import
 import d from "../built/dom99Module.js";
@@ -869,7 +869,7 @@ d.feed([
 d.feed(d.variables.images[0].value, "image");
 </script>
 
-<script  nomodule src="js/documentation.es5.min.js"></script>
+<script nomodule src="js/documentation.es5.min.js"></script>
 <script type="module" src="js/documentation.js"></script>
 </body>
 </html>
