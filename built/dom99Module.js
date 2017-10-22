@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 /*
     need to update all examples and docs
 
-    forget should work on templates
-
     update readme, make a link to the new docs
 
     remake intro play ground
@@ -39,10 +37,12 @@ Distributed under the Boost Software License, Version 1.0.
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
     
-    integrate 2 way binding in dom99 ? for list
+    integrate 2 way binding in dom99 for lists with inputs inide ? I think it is not used much 
     see d.functions.updateJson in main.js in examples
     
     add support for IE10 again(remove for of loop and transpile)
+    
+    add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */
 const d = (function () {
     "use strict";
@@ -72,11 +72,13 @@ const d = (function () {
 
     const freezeLiveCollection = function (liveCollection) {
       /* freezes HTMLCollection or Node.childNodes*/
-        /* IE 10 use normal for loop const length = ... */
+        const length = liveCollection.length;
         const frozenArray = [];
+        let i;
         let node;
-        for (node of liveCollection) {
-          frozenArray.push(node);
+        for (i = 0; i < length; i += 1) {
+            node = liveCollection[i];
+            frozenArray.push(node);
         }
         return frozenArray;
     };
@@ -269,7 +271,7 @@ const d = (function () {
     
     const getParentContext = function (context) {
         const split = context.split(INSIDE_SYMBOL);
-        const removedPart = split.splice(-1);
+        /*const removedPart = */split.splice(-1);
         return split.join(INSIDE_SYMBOL);
     };
 

@@ -1,4 +1,4 @@
-import d from "../built/dom99Module.js";
+import d from "../../built/dom99Module.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo

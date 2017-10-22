@@ -2,7 +2,7 @@
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /*        Copyright Cyril Walle 2017.
 Distributed under the Boost Software License, Version 1.0.
@@ -14,8 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 */
 /*
     need to update all examples and docs
-
-    forget should work on templates
 
     update readme, make a link to the new docs
 
@@ -45,8 +43,12 @@ Distributed under the Boost Software License, Version 1.0.
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
     
-    integrate 2 way binding in dom99 ? for list
+    integrate 2 way binding in dom99 for lists with inputs inide ? I think it is not used much 
     see d.functions.updateJson in main.js in examples
+    
+    add support for IE10 again(remove for of loop and transpile)
+    
+    add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */
 var d = function () {
     "use strict";
@@ -77,34 +79,14 @@ var d = function () {
 
     var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
         /* freezes HTMLCollection or Node.childNodes*/
-        /* IE 10 use normal for loop const length = ... */
+        var length = liveCollection.length;
         var frozenArray = [];
+        var i = void 0;
         var node = void 0;
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-            for (var _iterator = liveCollection[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                node = _step.value;
-
-                frozenArray.push(node);
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                    _iterator.return();
-                }
-            } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
-            }
+        for (i = 0; i < length; i += 1) {
+            node = liveCollection[i];
+            frozenArray.push(node);
         }
-
         return frozenArray;
     };
 
@@ -223,10 +205,9 @@ var d = function () {
         for instance, setAttribute is the correct choice for creation
         element.attr = value is good to change the live values*/
         Object.entries(elementDescription).forEach(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 2);
-
-            var key = _ref2[0];
-            var value = _ref2[1];
+            var _ref2 = _slicedToArray(_ref, 2),
+                key = _ref2[0],
+                value = _ref2[1];
 
             if (key !== "tagName") {
                 element.setAttribute(key, value);
@@ -252,7 +233,7 @@ var d = function () {
     };
 
     var addEventListener = function addEventListener(element, eventName, callBack) {
-        var useCapture = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+        var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
         element.addEventListener(eventName, callBack, useCapture);
     };
@@ -296,7 +277,7 @@ var d = function () {
 
     var getParentContext = function getParentContext(context) {
         var split = context.split(INSIDE_SYMBOL);
-        var removedPart = split.splice(-1);
+        /*const removedPart = */split.splice(-1);
         return split.join(INSIDE_SYMBOL);
     };
 
@@ -336,47 +317,45 @@ var d = function () {
     var notifyOneListSubscriber = function notifyOneListSubscriber(listContainer, startPath, data) {
         var fragment = document.createDocumentFragment();
         if (hasOwnProperty.call(templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT])) {
-            (function () {
-                // composing with custom element
-                var templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
-                var previous = copyArrayFlat(pathIn);
-                pathIn = startPath.split(INSIDE_SYMBOL);
-                var normalizedPath = normalizeStartPath(startPath);
-                var newLength = data.length;
-                var oldLength = void 0;
-                if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
-                    // remove nodes and variable subribers that are not used
-                    oldLength = listContainer[LIST_CHILDREN].length;
-                    if (oldLength > newLength) {
-                        for (var i = newLength; i < oldLength; i += 1) {
-                            var pathInside = "" + normalizedPath + i;
-                            listContainer[LIST_CHILDREN][i].forEach(function (node) {
-                                node.remove();
-                            });
-                            forgetContext(pathInside);
-                        }
-                        listContainer[LIST_CHILDREN].length = newLength;
+            // composing with custom element
+            var templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
+            var previous = copyArrayFlat(pathIn);
+            pathIn = startPath.split(INSIDE_SYMBOL);
+            var normalizedPath = normalizeStartPath(startPath);
+            var newLength = data.length;
+            var oldLength = void 0;
+            if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+                // remove nodes and variable subribers that are not used
+                oldLength = listContainer[LIST_CHILDREN].length;
+                if (oldLength > newLength) {
+                    for (var i = newLength; i < oldLength; i += 1) {
+                        var pathInside = "" + normalizedPath + i;
+                        listContainer[LIST_CHILDREN][i].forEach(function (node) {
+                            node.remove();
+                        });
+                        forgetContext(pathInside);
                     }
-                } else {
-                    listContainer[LIST_CHILDREN] = [];
-                    oldLength = 0;
+                    listContainer[LIST_CHILDREN].length = newLength;
                 }
+            } else {
+                listContainer[LIST_CHILDREN] = [];
+                oldLength = 0;
+            }
 
-                data.forEach(function (dataInside, i) {
-                    var pathInside = "" + normalizedPath + i;
-                    feed(dataInside, pathInside);
-                    if (i >= oldLength) {
-                        // cannot remove document fragment after insert because they empty themselves
-                        // have to freeze the childs to still have a reference
-                        var activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
-                        listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedTemplateClone.childNodes));
-                        fragment.appendChild(activatedTemplateClone);
-                    } else {
-                        ; // reusing, feed updated with new data the old nodes
-                    }
-                });
-                pathIn = previous;
-            })();
+            data.forEach(function (dataInside, i) {
+                var pathInside = "" + normalizedPath + i;
+                feed(dataInside, pathInside);
+                if (i >= oldLength) {
+                    // cannot remove document fragment after insert because they empty themselves
+                    // have to freeze the childs to still have a reference
+                    var activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
+                    listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedTemplateClone.childNodes));
+                    fragment.appendChild(activatedTemplateClone);
+                } else {
+                    ; // reusing, feed updated with new data the old nodes 
+                }
+            });
+            pathIn = previous;
         } else {
             listContainer.innerHTML = "";
             data.forEach(function (value) {
@@ -399,7 +378,7 @@ var d = function () {
     };
 
     var feed = function feed(data) {
-        var startPath = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+        var startPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
@@ -412,18 +391,15 @@ var d = function () {
                 notifyListSubscribers(listSubscribers[startPath], startPath, data);
             }
         } else {
-            (function () {
-                var normalizedPath = normalizeStartPath(startPath);
-                Object.entries(data).forEach(function (_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 2);
+            var normalizedPath = normalizeStartPath(startPath);
+            Object.entries(data).forEach(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    key = _ref4[0],
+                    value = _ref4[1];
 
-                    var key = _ref4[0];
-                    var value = _ref4[1];
-
-                    var path = "" + normalizedPath + key;
-                    feed(value, path);
-                });
-            })();
+                var path = "" + normalizedPath + key;
+                feed(value, path);
+            });
         }
     };
 
@@ -475,14 +451,11 @@ var d = function () {
             same content, different length
             key based identification
             */
-
-        var _customAttributeValue = customAttributeValue.split(options.tokenSeparator);
-
-        var _customAttributeValue2 = _slicedToArray(_customAttributeValue, 3);
-
-        var variableName = _customAttributeValue2[0];
-        var elementListItem = _customAttributeValue2[1];
-        var optional = _customAttributeValue2[2];
+        var _customAttributeValue = customAttributeValue.split(options.tokenSeparator),
+            _customAttributeValue2 = _slicedToArray(_customAttributeValue, 3),
+            variableName = _customAttributeValue2[0],
+            elementListItem = _customAttributeValue2[1],
+            optional = _customAttributeValue2[2];
 
         var fullName = "-";
 
@@ -582,8 +555,17 @@ var d = function () {
 
         var templateElement = templateElementFromCustomElementName[customElementNameFromElement(element)];
 
-        var activatedTemplateClone = activateCloneTemplate(templateElement, key);
-        element.appendChild(activatedTemplateClone);
+        if (templateElement) {
+            var activatedTemplateClone = activateCloneTemplate(templateElement, key);
+            element.appendChild(activatedTemplateClone);
+        } else {
+            // avoid infinite loop
+            element.setAttribute(options.directives.directiveInside, options.attributeValueDoneSign + key);
+            // parse children under name space (encapsulation of variable names)
+            enterObject(key);
+            linkJsAndDom(element);
+            leaveObject();
+        }
     };
 
     var enterObject = function enterObject(key) {
@@ -612,6 +594,16 @@ var d = function () {
         deleteAllStartsWith(variableSubscribers, path);
         deleteAllStartsWith(listSubscribers, path);
         deleteAllStartsWith(variables, path);
+        deleteAllStartsWith(elements, path);
+    };
+
+    var forgetRemoveTemplate = function forgetRemoveTemplate(name) {
+        /* Removes a template */
+        if (!hasOwnProperty.call(templateElementFromCustomElementName, name)) {
+            console.error("<template " + options.directives.directiveTemplate + "=" + path + "></template> not found or already deleted and removed.");
+        }
+        templateElementFromCustomElementName[name].remove();
+        delete templateElementFromCustomElementName[name];
     };
 
     var tryApplyDirectives = function tryApplyDirectives(element) {
@@ -621,11 +613,10 @@ var d = function () {
             return;
         }
 
-        directiveSyntaxFunctionPairs.forEach(function (pair) {
-            var _pair = _slicedToArray(pair, 2);
-
-            var directiveName = _pair[0];
-            var applyDirective = _pair[1];
+        directiveSyntaxFunctionPairs.forEach(function (_ref5) {
+            var _ref6 = _slicedToArray(_ref5, 2),
+                directiveName = _ref6[0],
+                applyDirective = _ref6[1];
 
             if (!element.hasAttribute(directiveName)) {
                 return;
@@ -649,7 +640,7 @@ var d = function () {
     };
 
     var linkJsAndDom = function linkJsAndDom() {
-        var startElement = arguments.length <= 0 || arguments[0] === undefined ? document.body : arguments[0];
+        var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
         //build array only once and use up to date options, they should not reset twice
         if (!directiveSyntaxFunctionPairs) {
@@ -663,13 +654,18 @@ var d = function () {
     };
 
     var start = function start() {
-        var userFunctions = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-        var initialFeed = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-        var startElement = arguments[2];
+        var userFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var initialFeed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
+        var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
 
         Object.assign(functions, userFunctions);
         feed(initialFeed);
         linkJsAndDom(startElement);
+        if (!callBack) {
+            return;
+        }
+        return callBack();
     };
 
     // https://github.com/piecioshka/test-freeze-vs-seal-vs-preventExtensions
@@ -680,8 +676,9 @@ var d = function () {
         functions: functions,
         variables: variables,
         feed: feed,
-        createElement2: createElement2, // still need to expose ?
-        forgetContext: forgetContext, // still need to expose ?
+        createElement2: createElement2,
+        forgetContext: forgetContext,
+        forgetRemoveTemplate: forgetRemoveTemplate,
         // also add clear template too free dom nodes,
         // can be usefull if sure that template not going to be used again
         contextFromArray: contextFromArray,

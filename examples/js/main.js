@@ -1,5 +1,5 @@
 // Import
-import d from "../built/dom99Module.js";
+import d from "../../built/dom99Module.js";
 
 // -- Hello World --
 
@@ -161,5 +161,4 @@ d.feed({
   }  
 });
 
-// try to feed individual things
 d.linkJsAndDom();

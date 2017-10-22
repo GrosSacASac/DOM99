@@ -72,11 +72,13 @@ const d = (function () {
 
     const freezeLiveCollection = function (liveCollection) {
       /* freezes HTMLCollection or Node.childNodes*/
-        /* IE 10 use normal for loop const length = ... */
+        const length = liveCollection.length;
         const frozenArray = [];
+        let i;
         let node;
-        for (node of liveCollection) {
-          frozenArray.push(node);
+        for (i = 0; i < length; i += 1) {
+            node = liveCollection[i];
+            frozenArray.push(node);
         }
         return frozenArray;
     };
@@ -269,7 +271,7 @@ const d = (function () {
     
     const getParentContext = function (context) {
         const split = context.split(INSIDE_SYMBOL);
-        const removedPart = split.splice(-1);
+        /*const removedPart = */split.splice(-1);
         return split.join(INSIDE_SYMBOL);
     };
 

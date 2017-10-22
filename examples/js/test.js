@@ -1,12 +1,12 @@
 // Import
-import d from "../built/dom99Module.js";
+import d from "../../built/dom99Module.js";
 
 
 
 ///////////////
 
 var files = ["beach.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
-var files2 = ["za.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.md","readme.md"];
+var files2 = ["za.jpg","zu.txt","zo.txt","zooo.md","evil.md"];
 
 d.functions.filter = function (event) {
     const context = d.contextFromEvent(event);    
@@ -46,7 +46,7 @@ d.feed({
 
 d.feed({
   files: files2,
-  originalFiles: files,
+  originalFiles: files2,
 }, "explorer2");
 
 

@@ -1,4 +1,4 @@
-import d from "../built/dom99Module.js";
+import d from "../../built/dom99Module.js";
 
 const commentPrefix = "comment";
 

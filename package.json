@@ -15,20 +15,29 @@
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "uglify-js": "2.6.2",
     "utilsac": "^2.0.0"
   },
   "scripts": {
     "buildes5": "babel js/dom99.js > built/dom99.es5.js",
-    "buildes5min": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
-    "buildes5minOLD": "uglifyjs built/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.jss",
+    "buildes5minFAIL": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
+    "buildminify": "uglifyjs built/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run buildes5 && npm run buildminify && npm run buildModuleAndRequire",
-    "buildexamples": "babel examples -d exampleses5",
+    
+    
+    "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js",
+    
+    "bundleExamples": "node tools/buildExamples.js",
+    "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
+    "buildExamples": "npm run bundleExamples && npm run transpileExamples",
+    
     "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
-    "buildyesnodialogexample": "babel components/yesNoDialog/yesNoDialog.js > built/components/yesNoDialog/yesNoDialog.es5.js && babel components/yesNoDialog/examples/ScrollTest.js > built/components/yesNoDialog/examples/ScrollTest.es5.js"
+    
+    "buildyesnodialogexample": "babel components/yesNoDialog/yesNoDialog.js > built/components/yesNoDialog/yesNoDialog.es5.js && babel components/yesNoDialog/examples/ScrollTest.js > built/components/yesNoDialog/examples/ScrollTest.es5.js",
+    
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples"
   },
   "keywords": [
     "HTML",
