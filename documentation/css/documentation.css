@@ -1,17 +1,18 @@
 body {
   color: #090404;
-  background: #f8fAf0;
+  background: #f9fbf0;
   font-family: 'Open Sans',Arial,sans-serif;
-  margin: 0;
+  margin: 3px;
 }
 
 code {
-  font-size:1.5em;
+  font-size: 1.25em;
 }
 
 p {
   max-width: 900px;/*easier to read ?*/
   margin-left: 4px;
+  font-size: 1.05em;
 }
 
 [hidden], template {
@@ -35,20 +36,21 @@ p {
   text-decoration: none;
   font-size: 1.3rem;
   border-radius: 4px 4px 0 0;
-  background: #404255;
-  color: #dfdfdf;
+  background: #606275;
+  color: #fff;
 }
  
 .tab-holder > nav > a:hover,
 .tab-holder > nav > a:focus {
   background: #000;
-  color: #bbbbff;
+  color: #66a6ff;
+  text-decoration: underline;
 }
 
 
 #main-title {
-  margin-top:0;
-  margin-bottom:0.5ex;
+  margin-top: 0;
+  margin-bottom:2px;
 }
 
 
@@ -57,10 +59,25 @@ d-htmljsresult {
   display:block;
 }
 
-d-htmljsresult section {
-  display: inline-block;
-  border: 3px solid;
+.htmljsandoutput {
 }
+
+.htmljsandoutput > section {
+  display: inline-block;
+    vertical-align: top;
+  border: 1px solid;
+  min-height: 150px;
+}
+
+.htmljsandoutput > section > pre {
+    padding: 4px;
+}
+
+.htmljsandoutput > section > h4 {
+  border: 1px solid;
+  text-align: center;
+}
+
 d-htmljsresult * {
   margin-bottom:1px;
   margin-top:1px;

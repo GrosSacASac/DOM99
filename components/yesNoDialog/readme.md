@@ -6,6 +6,10 @@
 * yesNoDialog.css
 * yesNoDialog.html
 
+## Example
+
+examples/ScrollTest.html
+
 ## How to use
 
     // using es modules
@@ -22,15 +26,48 @@
     
 ## API
 
-yesNoDialog.yesNoDialog(question, yesText, noText)
+### JS
 
-question, yesText, noText are all strings.
+#### yesNoDialog
 
-returns a promise
+    import {yesNoDialog, textDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
+    yesNoDialog(question, yesText, noText)
 
+
+question, yesText, noText are all of type `String`.
+
+returns a `Promise` that eventually resolves with `true` or `false`.
+The promise is resolved with a boolean depending on what the user clicks.
+
+
+#### textDialog
+
+    textDialog(question, label, input, submitText)
+
+
+question, label, input, submitText are all of type `String`. input represents the initial text inside the input
+
+returns a `Promise` that eventually resolves with a `String`
+
+### CSS
+
+extend styling with
+
+ * .yes-no-dialog
+ * .yes-no-dialog-text 
+ * .yes-no-dialog-button
+ * .yes-no-dialog-input-label
+ * .yes-no-dialog-input-label > span
+ * .yes-no-dialog-input-label > input
+ * .yes-no-dialog-input-label + button
+    
 ## Description
 
-The promise is resolved with a boolean depending on what the user clicks. The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body(see yesNoDialog.css). question, yesText, noText are all strings. You need to include the html fragment and the css. The promise will never reject. It is possible to call yesNoDialog multiple times in a row even if the user is still answering previous questions. An encapsulated queue is used to handle that.
+You need to include the html fragment and the css. 
+The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body (see yesNoDialog.css). 
+The promise will never reject.
+It is possible to call yesNoDialog multiple times in a row even if the user is still answering previous questions.
+An encapsulated queue is used to handle that.
 
 ## Motivation
 
@@ -40,7 +77,7 @@ The native prompt function cannot be styled by css and blocks the main thread.
 
 Requires Promise implementation (ES2015). Cannot use other data-function="yesNoDialogAnswer" elsewhere. 
 Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html.
-Cannot use the class Name "dialog" in other HTML elements.
+Cannot use the class Name "yes-no-dialog" in other HTML elements.
 Direct child elements of the body element will not be hidden during the dialog.
 This is avoidable with proper div section and article usage.
 Can be used to display the title of application.
@@ -50,6 +87,15 @@ Maybe obsoleted by `<dialog>` element. (Future)
 ## Changelog
 
 
+### 23-32/10/2017
+
+CSS is now somewhat more encapsulated by using the prefix yes-no-dialog
+
+Better default styling
+
+Remove hidden text leak (the dialog was not reset with empty strings after use, only hidden)
+
+added textDialog
 
 ### 20/10/2017
 
@@ -66,4 +112,6 @@ Better encapsulation
 ## Todo
 
  * Add keyboard shortcut alternative to click Yes No with Enter ESC 
- * Make Button bigger
+ * Add alert equivalent
+ * figure out if https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#Notes is an issue or not
+ * add placeholder capability

@@ -72,7 +72,7 @@ You can also build the HTML with custom elements.<a href="http://jsbin.com/tepez
     <li>Internet Explorer 10+* </li>
 </ul>
 <p>*Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
-Support may also require transpilation. You may also want to use built/dom99.es5.min.js</p>
+Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/</p>
 
 <h2>License</h2>
 <p><a href="../LICENSE.txt ">Boost LICENSE</a></p>
@@ -572,7 +572,7 @@ d.functions.update = function (event) {
 
 <article id="extra tips">
 <h3>Extra Tips</h3>
-
+<p>View components in components/ folder</p>
 <p>You can handle new HTML with <code>d.linkJsAndDom(startNode);</code>. Already processed elements won&#39;t be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
@@ -601,10 +601,21 @@ d.functions.update = function (event) {
 
 <h3>General Tips</h3>
 
-<p>In short: Rendering and painting the dOM is slow, JavaScript itself is fast. Simply changing a class name of an element can cause the browser to do heavy computation under the hood. For very simple programs, performance may not be an issue at all.</p>
+<p>In short: Rendering and painting the DOM is slow, 
+JavaScript itself is fast. 
+Simply changing a class name of an element can cause the browser to do heavy computation under the hood.
+ For very simple programs, performance may not be an issue at all.</p>
 
-<ul><li>Avoid Document Object Model (DOM) Access in big loops</li><li>Instead compute the result in your loop first, then assign the final result to the DOM</li><li>Avoid read/write alternations with the DOM</li><li>Instead chain reads, then chain writes </li><li>Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !</li><li>If you have more performance issues, profile first to know what is the cause</li><li>If you need to do heavy computation, consider using Web Workers</li><li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li><li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li></ul>
-
+<ul><li>Avoid Document Object Model (DOM) Access in big loops</li>
+<li>Instead compute the result in your loop first, then assign the final result to the DOM</li>
+<li>Avoid read/write alternations with the DOM</li>
+<li>Instead chain reads, then chain writes </li>
+<li>Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !</li>
+<li>If you have more performance issues, profile first to know what is the cause</li>
+<li>If you need to do heavy computation, consider using Web Workers</li>
+<li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li>
+<li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li>
+<li><a href="https://gist.github.com/paulirish/5d52fb081b3570c81e3a">About layout trashing</a></li></ul>
 <h3>How is DOM99 fast ?</h3>
 
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
@@ -634,6 +645,10 @@ d.functions.update = function (event) {
 <h2>Time-Line</h2>
 
 <article id="patchnotes">
+<h4>Version 7.2.5</h4>
+<p>New polyfill for hidden</p>
+<p>Better css</p>
+<p>prompt equivalent now in yesNoDialog components folder</p>
 <h4>Version 7.2.3</h4>
 <p>Enabled IE 10 again</p>
 <p>Doc hyperlink is now latest in readme</p>

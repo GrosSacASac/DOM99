@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "7.2.3",
+  "version": "7.2.5",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
   "license": "BSL-1.0",
   "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
@@ -29,7 +29,7 @@
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run buildes5 && npm run buildminify && npm run buildModuleAndRequire",
     
-    "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js",
+    "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
@@ -37,9 +37,10 @@
     
     "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
     
-    "buildyesnodialogexampleFAIL": "babel components/yesNoDialog/yesNoDialog.js > built/components/yesNoDialog/yesNoDialog.es5.js && babel components/yesNoDialog/examples/ScrollTest.js > built/components/yesNoDialog/examples/ScrollTest.es5.js",
-    
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc"
+    "bundleyesnodialogUSELESS": "rollup components/yesNoDialog/yesNoDialog.js --o components/yesNoDialog/built/yesNoDialog-bundled.js --f iife",
+    "buildyesnodialogexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
+   
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc && npm run buildyesnodialogexample"
   },
   "keywords": [
     "HTML",

@@ -20,6 +20,13 @@ You can also build the HTML with custom elements.
 
 ## Contributing
 
+edit file js/dom99.js
+
+`npm run` to list all commands.
+
+`python -m http.server 8080` or `http-server` to serve static files. (use a second command prompt to be able to rebuild while serving)
+
+
  * [Contributing](documentation/contributing.md)
  * [Open questions](documentation/openquestions.md)
 

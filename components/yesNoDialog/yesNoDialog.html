@@ -1,5 +1,14 @@
-<div class="dialog" data-inside="yesNoDialog">
-    <p data-variable="question"></p>
-    <button data-variable="yesText" data-element="yesButton" data-function="yesNoDialogAnswer"></button>
-    <button data-variable="noText" data-function="yesNoDialogAnswer"></button>
+<div class="yes-no-dialog" data-inside="yesNoDialog">
+    <p class="yes-no-dialog-text" data-variable="question">QUESTION</p>
+    <div data-element="confirm" hidden>
+        <button class="yes-no-dialog-button" data-variable="yesText" data-element="yesButton" data-function="yesNoDialogAnswer">YES</button>
+        <button class="yes-no-dialog-button" data-variable="noText" data-function="yesNoDialogAnswer">NO</button>
+    </div>
+    <div data-element="prompt" hidden>
+        <label class="yes-no-dialog-input-label">
+            <span data-variable="label">Answer: </span>
+            <input class="yes-no-dialog-input" data-variable="input" data-function="keydown-yesNoDialogSubmitViaEnter" data-element="input">
+        </label>
+        <button class="yes-no-dialog-button" data-variable="submitText" data-function="yesNoDialogSubmit">SUBMIT</button>
+    </div>
 </div>
