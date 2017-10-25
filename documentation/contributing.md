@@ -19,6 +19,8 @@
  * better describe what a component really is
  * http://localhost:8080/components/yesNoDialog/examples/ScrollTest.html make it work under IE 10+
  * Better readme
+ * ie seems to fill forms after script executes and load (onload ?)
+ * http://localhost:8080/examples/limited.html cannot set -4 in globalv
  
 
  
