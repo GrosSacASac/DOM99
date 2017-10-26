@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "7.2.8",
+  "version": "7.2.9",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
   "license": "BSL-1.0",
   "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
@@ -16,18 +16,18 @@
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "babel-polyfill": "^6.26.0",
-    "uglify-js": "2.6.2",
-    "utilsac": "^2.0.0",
-    "rollup": "^0.50.0"
+    "babel-preset-env": "^1.6.1",
+    "rollup": "^0.50.0",
+    "uglify-js": "^3.1.5",
+    "utilsac": "^2.0.0"
   },
   "scripts": {
-    "buildes5": "babel js/dom99.js > built/dom99.es5.js",
-    "buildes5minFAIL": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
-    "buildminify": "uglifyjs built/dom99.es5.js --screw-ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
+    "transpile": "babel js/dom99.js > built/dom99.es5.js",
+    "transpileminFAIL": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
+    "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
-    "build": "npm run buildes5 && npm run buildminify && npm run buildModuleAndRequire",
+    "build": "npm run transpile && npm run minify && npm run buildModuleAndRequire",
     
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     
@@ -39,7 +39,7 @@
     
     "bundleyesnodialogUSELESS": "rollup components/yesNoDialog/yesNoDialog.js --o components/yesNoDialog/built/yesNoDialog-bundled.js --f iife",
     "buildyesnodialogexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-   
+    
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc && npm run buildyesnodialogexample"
   },
   "keywords": [
