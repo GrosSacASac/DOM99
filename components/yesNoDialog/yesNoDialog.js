@@ -5,6 +5,10 @@
 /*global
     Promise, require
 */
+/*
+could remove and give back focus to the main document with document.activeElement
+as in https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.js
+*/
 import d from "../../built/dom99Module.js";
 export {yesNoDialog, textDialog};
 
