@@ -21,19 +21,25 @@
 }
 
 .yes-no-dialog-input-label {
-    font-size: 23px;
     min-width: 80%;
     display: inline-block;
-    text-align: right;
 }
+
 .yes-no-dialog-input-label + button {
     margin: 1em 0.3em;
 }
+
 .yes-no-dialog-input-label > input {
     font-size: 23px;
     margin: 1em 0.3em;
     padding: 0.6em 0.2em;
     min-width: 80%;
+}
+
+.yes-no-dialog-input-label > span {
+    font-size: 23px;
+    padding: 0.6em 0.2em;
+    min-width: 20%;
 }
 
 .yes-no-dialog-active > *:not(.yes-no-dialog) { 

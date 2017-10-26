@@ -50,6 +50,9 @@ const prepareNext = function () {
         cleanUp();
     } else {
         const next = yesNoDialogQueue.shift();
+        if (next.intent !== promptSymbol) {
+            d.elements[promptInput].blur();
+        }
         if (next.intent === yesNoSymbol) {
             prepareYesNo(next);
         } else if (next.intent === promptSymbol) {

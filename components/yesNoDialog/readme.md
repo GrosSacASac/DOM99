@@ -86,8 +86,11 @@ Maybe obsoleted by `<dialog>` element. (Future)
 
 ## Changelog
 
+### 26/10/2017
 
-### 23-32/10/2017
+Improved display and usability on small resolutions
+
+### 23/10/2017
 
 CSS is now somewhat more encapsulated by using the prefix yes-no-dialog
 
