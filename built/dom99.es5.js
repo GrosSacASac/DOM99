@@ -13,13 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
 /*
-    need to update all examples and docs
-
-    update readme, make a link to the new docs
-
-    remake intro play ground
-    [Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
-
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
@@ -36,25 +29,29 @@ Distributed under the Boost Software License, Version 1.0.
     add data-list-strategy to allow opt in declarative optimization
     data-function-context to allow context less 
     add data-x spelling checker
-    or is that outside the scope ?
     
     transform recurcive into seq flow
     
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
     
-    integrate 2 way binding in dom99 for lists with inputs inide ? I think it is not used much 
-    see d.functions.updateJson in main.js in examples
-    
-    add support for IE10 again(remove for of loop and transpile)
-    
+
     add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */
 var d = function () {
     "use strict";
 
-    //root collections
+    var NAME = "DOM99";
 
+    var CONTEXT = NAME + "_C";
+    var LIST_ITEM_PROPERTY = NAME + "_L";
+    var ELEMENT_PROPERTY = NAME + "_E";
+    var ELEMENT_LIST_ITEM = NAME + "_I";
+    var CUSTOM_ELEMENT = NAME + "_X";
+    var LIST_CHILDREN = NAME + "_R";
+    var INSIDE_SYMBOL = ">";
+
+    //root collections
     var variableSubscribers = {};
     var listSubscribers = {};
     var variables = {};
@@ -65,15 +62,6 @@ var d = function () {
     var pathIn = [];
 
     var directiveSyntaxFunctionPairs = void 0;
-
-    var MISS = "MISS";
-    var CONTEXT = "DOM99_CTX";
-    var LIST_ITEM_PROPERTY = "DOM99_LIP";
-    var ELEMENT_PROPERTY = "DOM99_EP";
-    var ELEMENT_LIST_ITEM = "DOM99_ELEMENT_LIST_ITEM";
-    var CUSTOM_ELEMENT = "DOM99_CE";
-    var LIST_CHILDREN = "DOM99_LIST_CHILDREN";
-    var INSIDE_SYMBOL = ">";
 
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -108,6 +96,7 @@ var d = function () {
         return potentialArray;
     };
 
+    var MISS = "MISS";
     var valueElseMissDecorator = function valueElseMissDecorator(object) {
         /*Decorator function around an Object to provide a default value
         Decorated object must have a MISS key with the default value associated
@@ -239,21 +228,17 @@ var d = function () {
     };
 
     var cloneTemplate = function () {
-        var errorMessage = "Template  <template " + options.directives.directiveTemplate + "=\"d-name\">\n    Template Content\n</template>";
         if ("content" in document.createElement("template")) {
             return function (templateElement) {
                 if (!templateElement) {
-                    console.error(errorMessage);
+                    console.error("Template missing <template " + options.directives.directiveTemplate + "=\"d-name\">\n    Template Content\n</template>");
                 }
                 return document.importNode(templateElement.content, true);
             };
         }
 
         return function (templateElement) {
-            /*here we have a div too much (messes up css)*/
-            if (!templateElement) {
-                console.error(errorMessage);
-            }
+            /* todo here we have a div too much (messes up css)*/
             var clone = document.createElement("div");
             clone.innerHTML = templateElement.innerHTML;
             return clone;
@@ -277,7 +262,7 @@ var d = function () {
 
     var getParentContext = function getParentContext(context) {
         var split = context.split(INSIDE_SYMBOL);
-        /*const removedPart = */split.splice(-1);
+        /*const removedPart = */split.pop();
         return split.join(INSIDE_SYMBOL);
     };
 

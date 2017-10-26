@@ -7,13 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
 */
 /*
-    need to update all examples and docs
-
-    update readme, make a link to the new docs
-
-    remake intro play ground
-    [Try the intro playground](http://jsbin.com/kepohibavo/1/edit?html,js,output)
-
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
@@ -30,23 +23,28 @@ Distributed under the Boost Software License, Version 1.0.
     add data-list-strategy to allow opt in declarative optimization
     data-function-context to allow context less 
     add data-x spelling checker
-    or is that outside the scope ?
     
     transform recurcive into seq flow
     
     find ways to feed changes to a list without sending an entire list
     and rendering an entire list from scratch each time
     
-    integrate 2 way binding in dom99 for lists with inputs inide ? I think it is not used much 
-    see d.functions.updateJson in main.js in examples
-    
-    add support for IE10 again(remove for of loop and transpile)
-    
+
     add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */
 const d = (function () {
     "use strict";
 
+    const NAME = "DOM99";
+    
+    const CONTEXT = `${NAME}_C`;
+    const LIST_ITEM_PROPERTY = `${NAME}_L`;
+    const ELEMENT_PROPERTY = `${NAME}_E`;
+    const ELEMENT_LIST_ITEM = `${NAME}_I`;
+    const CUSTOM_ELEMENT = `${NAME}_X`;
+    const LIST_CHILDREN = `${NAME}_R`;
+    const INSIDE_SYMBOL = ">";
+    
     //root collections
     const variableSubscribers = {};
     const listSubscribers = {};
@@ -58,15 +56,6 @@ const d = (function () {
     let pathIn = [];
 
     let directiveSyntaxFunctionPairs;
-
-    const MISS = "MISS";
-    const CONTEXT = "DOM99_CTX";
-    const LIST_ITEM_PROPERTY = "DOM99_LIP";
-    const ELEMENT_PROPERTY = "DOM99_EP";
-    const ELEMENT_LIST_ITEM = "DOM99_ELEMENT_LIST_ITEM";
-    const CUSTOM_ELEMENT = "DOM99_CE";
-    const LIST_CHILDREN = "DOM99_LIST_CHILDREN";
-    const INSIDE_SYMBOL = ">";
 
     const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -101,6 +90,7 @@ const d = (function () {
         return potentialArray;
     };
 
+    const MISS = "MISS";
     const valueElseMissDecorator = function (object) {
         /*Decorator function around an Object to provide a default value
         Decorated object must have a MISS key with the default value associated
@@ -230,23 +220,19 @@ const d = (function () {
     };
 
     const cloneTemplate = (function () {
-        const errorMessage = `Template  <template ${options.directives.directiveTemplate}="d-name">
-    Template Content
-</template>`;
         if ("content" in document.createElement("template")) {
             return function (templateElement) {
                 if (!templateElement) {
-                    console.error(errorMessage);
+                    console.error(`Template missing <template ${options.directives.directiveTemplate}="d-name">
+    Template Content
+</template>`);
                 }
                 return document.importNode(templateElement.content, true);
             };
         }
 
         return function (templateElement) {
-            /*here we have a div too much (messes up css)*/
-            if (!templateElement) {
-                console.error(errorMessage);
-            }
+            /* todo here we have a div too much (messes up css)*/
             const clone = document.createElement("div");
             clone.innerHTML = templateElement.innerHTML;
             return clone;
@@ -271,7 +257,7 @@ const d = (function () {
     
     const getParentContext = function (context) {
         const split = context.split(INSIDE_SYMBOL);
-        /*const removedPart = */split.splice(-1);
+        /*const removedPart = */split.pop();
         return split.join(INSIDE_SYMBOL);
     };
 

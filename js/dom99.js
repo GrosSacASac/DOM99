@@ -257,7 +257,7 @@ const d = (function () {
     
     const getParentContext = function (context) {
         const split = context.split(INSIDE_SYMBOL);
-        /*const removedPart = */split.splice(-1);
+        /*const removedPart = */split.pop();
         return split.join(INSIDE_SYMBOL);
     };
 
