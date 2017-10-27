@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "7.2.11",
+  "version": "7.2.12",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
   "license": "BSL-1.0",
   "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
@@ -41,6 +41,18 @@
     "buildyesnodialogexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc && npm run buildyesnodialogexample"
+  },
+  "babel" : {
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": ["> 0.1%", "last 3 versions", "ie 10", "ie 11"]
+                }
+            }
+        ]
+    ]
   },
   "keywords": [
     "HTML",

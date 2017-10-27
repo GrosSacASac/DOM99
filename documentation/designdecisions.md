@@ -1,4 +1,4 @@
-#Design decisions
+# Design decisions
 
 After using DOM99 in my own projects I thought about the limitations and benefits. Thoughts about the next generation:
 
@@ -37,7 +37,7 @@ OLD Example
     D.el["1"+"link"].href = ...
     
 
-##Event listener design
+## Event listener design
 
 Before callbacks were not attached directly but stored inside a dic. Instead the callback was alaways a generic handler that extends the event object with context and scope properties and then calls the user defined handler with that.
 

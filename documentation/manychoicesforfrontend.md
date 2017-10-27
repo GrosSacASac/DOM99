@@ -1,6 +1,14 @@
-##Some alternatives comparisons with Contras, Pros and some similarities
+## Some alternatives comparisons with Contras, Pros and some similarities
 
-###Angular.js (1)
+### Warning
+
+Outdated now. Was written back then.
+
+Comparing HTML frameworks is a massive tasks, there are hundreds.
+And they all differ in application developpent efficiency, learning curve, runtime memory, cpu efficiency, standards compliance, adapability and more.
+
+
+### Angular.js (1)
 
 Pro:
 
@@ -23,7 +31,7 @@ Some similarities:
   * Shared variables are normal js objects
 
 
-###React
+### React
 
 Pro:
 
@@ -42,7 +50,7 @@ Some similarities:
   * Simple by design
  
 
-###jQuery
+### jQuery
 
 Pro:
 
@@ -64,7 +72,7 @@ Some similarities:
   * Simple
 
 
-###Others
+### Others
 
 There are many other projects that will help you write client side applications. All have their advantages/problems. It will take you weeks/month maybe even years to browse them all and compare them. You have to make a choice at some point.
 
