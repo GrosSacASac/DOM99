@@ -26,7 +26,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             .currentTarget
     
     
-        when to use is="" syntax
+        when to use is="" syntax and when to use <x-element></x-element> ?
         think about overlying framework
     
         add data-list-strategy to allow opt in declarative optimization
@@ -46,7 +46,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         "use strict";
 
         var NAME = "DOM99";
-
+        var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
         var CONTEXT = NAME + "_C";
         var LIST_ITEM_PROPERTY = NAME + "_L";
         var ELEMENT_PROPERTY = NAME + "_E";
@@ -213,10 +213,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             callBack(startElement);
             if (startElement.tagName !== "TEMPLATE") {
                 // IE bug: templates are not inert
-                var element = startElement.firstElementChild;
-                while (element) {
-                    walkTheDomElements(element, callBack);
-                    element = element.nextElementSibling;
+                // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
+                // is not supported in Edge/Safari on DocumentFragments
+                // let element = startElement.firstElementChild;
+                // this does not produce an error, but simply returns undefined because of how objects
+                // work in js, that is why this bug stayed so long
+                var node = startElement.firstChild;
+                while (node) {
+                    if (node.nodeType === ELEMENT_NODE) {
+                        walkTheDomElements(node, callBack);
+                    }
+                    // is it totally safe to use nextElementSibling ? see comment above also
+                    node = node.nextSibling;
                 }
             }
         };
@@ -683,6 +691,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     */
     /*global
         Promise, require
+    */
+    /*
+    could remove and give back focus to the main document with document.activeElement
+    as in https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.js
     */
     var thisNameSpace = "yesNoDialog";
     var cssPrefix = "yes-no-dialog";

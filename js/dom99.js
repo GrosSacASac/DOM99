@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
         .currentTarget
 
 
-    when to use is="" syntax
+    when to use is="" syntax and when to use <x-element></x-element> ?
     think about overlying framework
 
     add data-list-strategy to allow opt in declarative optimization
@@ -36,7 +36,7 @@ const d = (function () {
     "use strict";
 
     const NAME = "DOM99";
-    
+    const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
     const CONTEXT = `${NAME}_C`;
     const LIST_ITEM_PROPERTY = `${NAME}_L`;
     const ELEMENT_PROPERTY = `${NAME}_E`;
@@ -203,10 +203,18 @@ const d = (function () {
     const walkTheDomElements = function (startElement, callBack) {
         callBack(startElement);
         if (startElement.tagName !== "TEMPLATE") {// IE bug: templates are not inert
-            let element = startElement.firstElementChild;
-            while (element) {
-                walkTheDomElements(element, callBack);
-                element = element.nextElementSibling;
+            // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
+            // is not supported in Edge/Safari on DocumentFragments
+            // let element = startElement.firstElementChild;
+            // this does not produce an error, but simply returns undefined because of how objects
+            // work in js, that is why this bug stayed so long
+            let node = startElement.firstChild;
+            while (node) {
+                if (node.nodeType === ELEMENT_NODE) {
+                    walkTheDomElements(node, callBack);
+                }
+                // is it totally safe to use nextElementSibling ? see comment above also
+                node = node.nextSibling;
             }
         }
     };

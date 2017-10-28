@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "7.2.12",
+  "version": "7.2.13",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
   "license": "BSL-1.0",
   "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
@@ -33,14 +33,13 @@
     
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
-    "buildExamples": "npm run bundleExamples && npm run transpileExamples",
+    "examples": "npm run bundleExamples && npm run transpileExamples",
     
-    "builddoc": "babel documentation/js/documentation.js | uglifyjs - --screw-ie8 --compress,properties,dead_code,join_vars --mangle -o documentation/js/documentation.es5.min.js",
+    "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     
-    "bundleyesnodialogUSELESS": "rollup components/yesNoDialog/yesNoDialog.js --o components/yesNoDialog/built/yesNoDialog-bundled.js --f iife",
-    "buildyesnodialogexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
+    "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildExamples && npm run builddoc && npm run buildyesnodialogexample"
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run yesno"
   },
   "babel" : {
     "presets": [
