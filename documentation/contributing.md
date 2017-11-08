@@ -16,6 +16,10 @@
  * ie seems to fill forms after script executes and load (onload ?)
  * http://localhost:8080/examples/limited.html cannot set -4 in globalv
  * make a full stack creation template, (like create react app)
+    * also explain how to scale to a big team
+        * import export templates
+    * webpack
+    * minifier, transpiler, etc
  * better explain the strengths and weaknesses of the library
  * Make performances test 
     * edit a huge number of items in a list
@@ -51,6 +55,6 @@
  * streaming text editor
  * better developper tools
     * indexed error messages in the doc
-    * more warning
+    * more warnings
     * text editors plugins
  
