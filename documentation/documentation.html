@@ -523,7 +523,7 @@ d.functions.update = function (event) {
         d.feed([
             "a",
             "@",
-            "ã"
+            "Ã£"
         ], listKey); // write
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
@@ -646,6 +646,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h2>Time-Line</h2>
 
 <article id="patchnotes">
+<h3>Patch Notes</h3>
 <h4>Version 7.2.13</h4>
 <p>fixed a hard to find bug, that only occured on edge, but not IE</p>
 <p>overall small improvements</p>
@@ -656,7 +657,6 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h4>Version 7.2.3</h4>
 <p>Enabled IE 10 again</p>
 <p>Doc hyperlink is now latest in readme</p>
-<h3>Patch Notes</h3>
 <h4>Version 7.2.1</h4>
 <p>Fixed non html-escaped issues in the doc</p>
 <p>New examples templates3.html</p>
@@ -719,6 +719,13 @@ the license in distributed executables or transpiled code</p>
           Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
 <p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
 
+<h4>Version 5.0.0</h4>
+<p>Renamed <code>data-vr</code> into <code>data-variable</code></p>
+<p>Split <code>data-el</code> into <code>data-element</code> and <code>data-template</code></p>
+<p>Renamed <code>data-fx</code> into <code>data-function</code></p>
+<p>Renamed <code>data-in</code> into <code>data-inside</code></p>
+<h4>Version 4.0.0</h4>
+<p>Unpublished</p>
 <h4>Version 3.0.3</h4>
 <p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
 <p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
@@ -729,13 +736,13 @@ the license in distributed executables or transpiled code</p>
 <p>Switched to SEMVER versioning</p>
 <p>d.variables setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
 <p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
-<pre>
+<pre><code>
 {
     el,
     vr,
     baseEl
 }
-</pre>
+</code></pre>
 <p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
 <p>d.functions must now be populated before D.linkJsAndDom() is called</p>
 <p>
@@ -751,10 +758,8 @@ the license in distributed executables or transpiled code</p>
         changed into tagNamesForUserInput</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
-
 <hr>
 <p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
-<p>1.23.10 start working on v2.0,</p>
 <p>1.23.0: Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
 <p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
 <p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
