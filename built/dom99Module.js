@@ -81,13 +81,17 @@ const d = (function () {
         return array.slice();
     };
     
-    const pushOrCreateArray = function (potentialArray, valueToPush) {
+    const pushOrCreateArrayAt = function (object, key, valueToPush) {
       // don't need to use hasOwnProp as there is no array in the prototype
-        if (!Array.isArray(potentialArray)) {
-            return [valueToPush];
+      // but still use it to avoid a warning
+      // const potentialArray = object[key]
+        if (hasOwnProperty.call(object, key)) {
+            // eventually the if is always true
+            object[key].push(valueToPush);
         }
-        potentialArray.push(valueToPush);
-        return potentialArray;
+        // only for the first time
+        object[key] = [valueToPush];
+        
     };
 
     const MISS = "MISS";
@@ -202,19 +206,19 @@ const d = (function () {
 
     const walkTheDomElements = function (startElement, callBack) {
         callBack(startElement);
-        if (startElement.tagName !== "TEMPLATE") {// IE bug: templates are not inert
+        if (!("tagName" in startElement) || startElement.tagName !== "TEMPLATE") {// IE bug: templates are not inert
             // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
             // is not supported in Edge/Safari on DocumentFragments
             // let element = startElement.firstElementChild;
-            // this does not produce an error, but simply returns undefined because of how objects
-            // work in js, that is why this bug stayed so long
+            // this does not produce an error, but simply returns undefined
             let node = startElement.firstChild;
             while (node) {
                 if (node.nodeType === ELEMENT_NODE) {
                     walkTheDomElements(node, callBack);
+                    node = node.nextElementSibling;
+                } else {
+                    node = node.nextSibling;
                 }
-                // is it totally safe to use nextElementSibling ? see comment above also
-                node = node.nextSibling;
             }
         }
     };
@@ -304,9 +308,10 @@ const d = (function () {
 
     const notifyOneListSubscriber = function (listContainer, startPath, data) {
         const fragment = document.createDocumentFragment();
-        if (hasOwnProperty.call(
-        templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT]
-        )) {
+        if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
+            hasOwnProperty.call(templateElementFromCustomElementName,
+                listContainer[CUSTOM_ELEMENT])
+        ) {
             // composing with custom element
             const templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
             const previous = copyArrayFlat(pathIn);
@@ -455,7 +460,7 @@ const d = (function () {
 
         const path = contextFromArrayWith(pathIn, variableName);
 
-        listSubscribers[path] = pushOrCreateArray(listSubscribers[path], element);
+        pushOrCreateArrayAt(listSubscribers, path, element);
 
         if (hasOwnProperty.call(variables, path)) {
           notifyOneListSubscriber(element, path, variables[path]);
@@ -476,7 +481,7 @@ const d = (function () {
 
         element[ELEMENT_PROPERTY] = options.variablePropertyFromElement(element);
         const path = contextFromArrayWith(pathIn, variableName);
-        variableSubscribers[path]  = pushOrCreateArray(variableSubscribers[path], element);
+        pushOrCreateArrayAt(variableSubscribers, path, element);
         const lastValue = variables[path]; // has latest
         if (lastValue !== undefined) {
             notifyOneVariableSubscriber(element, lastValue);
