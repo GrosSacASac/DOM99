@@ -98,9 +98,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             if (hasOwnProperty.call(object, key)) {
                 // eventually the if is always true
                 object[key].push(valueToPush);
+            } else {
+                // only for the first time
+                object[key] = [valueToPush];
             }
-            // only for the first time
-            object[key] = [valueToPush];
         };
 
         var MISS = "MISS";
