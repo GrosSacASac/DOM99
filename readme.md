@@ -7,10 +7,6 @@ DOM99 is a JavaScript framework to ease the interaction between the HTML and you
 You can also build the HTML with custom elements.
 [Demo](http://jsbin.com/tepezuj/3/embed?html,js,output)
 
-## [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
-
- * Locally in /documentation/documentation.html
- * With rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
 
 ## Discussion
 
@@ -27,6 +23,12 @@ edit file js/dom99.js
 `npm run` to list all commands.
 
 `python -m http.server 8080` or `http-server` to serve static files. (use a second command prompt to be able to rebuild while serving)
+
+
+## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
+
+ * With cdn.rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
+ * Locally in /documentation/documentation.html
 
 
 ## License

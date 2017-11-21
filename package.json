@@ -1,14 +1,14 @@
 {
   "name": "dom99",
-  "version": "7.2.18",
-  "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
+  "version": "7.2.19",
   "license": "BSL-1.0",
-  "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
-  "description": "HTML/DOM manipulation made easier",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
   "scriptFileBrowser": "js/dom99.js",
   "scriptFileBrowserES5": "built/dom99.es5.min.js",
+  "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
+  "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
+  "description": "HTML/DOM manipulation made easier",
   "repository": {
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
@@ -61,7 +61,6 @@
     "elements",
     "web",
     "component",
-    "fast",
     "light",
     "browser"
   ]
