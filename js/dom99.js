@@ -10,12 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
-
     decide when to use event
         .target
         .orignialTarget
         .currentTarget
-
 
     when to use is="" syntax and when to use <x-element></x-element> ?
     think about overlying framework
@@ -24,11 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
     data-function-context to allow context less 
     add data-x spelling checker
     
-    transform recurcive into seq flow
-    
-    find ways to feed changes to a list without sending an entire list
-    and rendering an entire list from scratch each time
-    
+    transform recurcive into seq flow    
 
     add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
 */

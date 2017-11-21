@@ -1,3 +1,14 @@
+#npm only
+documentation/
+examples/
+images/
+polyfills/
+tests/
+tools/
+bower.json
+
+# to get these files copy from github
+
 examples/js/built
 todolistmultiuserx/
 learnjavascriptx/
@@ -235,4 +246,3 @@ components/yesNoDialog/examples/js/built/yesNoDialog-bundled.js
 components/yesNoDialog/examples/js/built/ScrollTest-bundled.js
 components/yesNoDialog/examples/js/built/yesNoDialog.js
 webspree_session.json
-documentation/js_snippets.js
