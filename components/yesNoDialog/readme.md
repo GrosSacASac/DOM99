@@ -58,7 +58,7 @@ extend styling with
  * .yes-no-dialog-button
  * .yes-no-dialog-input-label
  * .yes-no-dialog-input-label > span
- * .yes-no-dialog-input-label > input
+ * .yes-no-dialog-input
  * .yes-no-dialog-input-label + button
     
 ## Description
@@ -85,6 +85,10 @@ Can be used to display the title of application.
 Maybe obsoleted by `<dialog>` element. (Future)
 
 ## Changelog
+
+### 28/11/2017
+
+Avoid having to scroll in landscape on mobile. Focus and active state have more distinct colors.
 
 ### 26/10/2017
 

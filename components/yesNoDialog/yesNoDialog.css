@@ -1,5 +1,5 @@
 /**/
-.yes-no-dialog, body, html {
+.yes-no-dialog {
     height: 100%;
     margin: 0;
 }
@@ -7,39 +7,52 @@
 .yes-no-dialog {
   display: none;
   text-align: center;
+  font-size: 22px;
 }
 
 .yes-no-dialog-text {
-    font-size: 23px;
     margin: 0;
-    padding: 1em;
+    padding: 0.9em;
 }
+
 .yes-no-dialog-button {
-    font-size: 23px;
-    margin: 1em;
-    padding: 0.6em 3em;
+    margin: 0.9em;
+    padding: 0.5em 2.7em;
+}
+
+.yes-no-dialog-button:focus,
+.yes-no-dialog-button:hover {
+    background-color: #a8eaea;
+}
+
+.yes-no-dialog-button:active {
+    background-color: #84c7c7;
 }
 
 .yes-no-dialog-input-label {
-    min-width: 80%;
+    min-width: 60%;
     display: inline-block;
 }
 
 .yes-no-dialog-input-label + button {
-    margin: 1em 0.3em;
+    /* only for button after <input type="text"> */
+    margin: 0.9em 0.27em;
 }
 
-.yes-no-dialog-input-label > input {
-    font-size: 23px;
-    margin: 1em 0.3em;
+.yes-no-dialog-input {
+    min-width: 60%;
+    margin: 0.9em 0.27em;
     padding: 0.6em 0.2em;
-    min-width: 80%;
+    border: 2px black solid;
+}
+
+.yes-no-dialog-input:focus {
+    border-color: #84c7c7;
 }
 
 .yes-no-dialog-input-label > span {
-    font-size: 23px;
-    padding: 0.6em 0.2em;
     min-width: 20%;
+    padding: 0.6em 0.2em;
 }
 
 .yes-no-dialog-active > *:not(.yes-no-dialog) { 
