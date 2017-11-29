@@ -13,7 +13,7 @@ warning, needs revisit,
  Custom configuration examples:*/
 
 
-// Note omiting data-* is at your own risks (can collide with existing or future attribute names)
+// Note omitting data-* is at your own risks (can collide with existing or future attribute names)
 
 //custom attribute names should start with "data-" see
 // https://docs.webplatform.org/wiki/html/attributes/data-* 
@@ -22,18 +22,18 @@ import d from "./node_modules/dom99/built/dom99Module.js"; // depends on where t
 
 // Example for more compact syntax:
 Object.assign(d.options.directives, {
-    directiveFunction: "fx", 
-    directiveVariable: "vr", 
-    directiveElement: "el",
-    directiveInside: "in",
-    directiveList: "list",
-    directiveTemplate: "data-template"
+    function: "fx", 
+    variable: "vr", 
+    element: "el",
+    list: "list",
+    inside: "in",
+    template: "templ"
 });
 
 // Other changes possible 
 Object.assign(d.options, {
     // cannot be empty,  default "*"
-    attributeValueDoneSign: "#$", 
+    doneSymbol: "#", 
     // cannot be empty,  default "-"
     tokenSeparator: "+",
     // cannot be empty,  must be different than above,  default " "
@@ -42,11 +42,11 @@ Object.assign(d.options, {
  /*
   also
  
- * elementsForUserInputList: with a list like ["input", "textarea"]
+ * tagNamesForUserInput: with a list like ["input", "textarea"]
  
- * variablePropertyFromTagAndType with a function
-    parameters (tagName, type) . type can be empty
+ * propertyFromElement with a function
+    parameters (element)
     
- * eventFromTagAndType: with a function
-    parameters (tagName, type) . type can be empty
+ * eventNameFromElement: with a function
+    parameters (element)
 */

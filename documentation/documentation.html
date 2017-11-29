@@ -646,6 +646,36 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 8.0.0</h4>
+<p>Simplified internal code</p>
+<h5>Renamed</h5>
+<ul>
+    <li>forgetRemoveTemplate into deleteTemplate</li>
+    <li>linkJsAndDom into activate</li>
+    
+    <li>options.attributeValueDoneSign into options.doneSymbol</li>
+    <li>options.elementsForUserInputList into options.tagNamesForUserInput</li>
+    <li>options.directives.directiveFunction into options.directives.function</li>
+    <li>options.directives.directiveVariable into options.directives.variable</li>
+    <li>options.directives.directiveElement into options.directives.element</li>
+    <li>options.directives.directiveInside into options.directives.inside</li>
+    <li>options.directives.directiveList into options.directives.list</li>
+    <li>options.directives.directiveTemplate into options.directives.template</li>
+    
+    <li> into </li>
+    <li> into </li>
+    <li> into </li>
+</ul>
+<h5>Added</h5>
+<ul>
+    <li>options.propertyFromElement</li>
+    <li>options.eventNameFromElement</li>
+</ul>
+<h5>Removed</h5>
+<ul>
+    <li>options.variablePropertyFromTagAndType</li>
+    <li>options.eventFromTagAndType</li>
+</ul>
 <h4>Version 7.2.18</h4>
 <p>.npmignore added. This keeps the size to a minimum for npm users</p>
 <h4>Version 7.2.16</h4>
