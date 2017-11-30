@@ -631,7 +631,7 @@ const d = (function () {
     };
 
     const deleteTemplate = function (name) {
-    /* Removes a template */
+        /* Removes a template */
         if (!hasOwnProperty.call(templateFromName, name)) {
             console.error(
                 `<template ${options.directives.template}=${name}>
@@ -725,8 +725,6 @@ const d = (function () {
         createElement2,
         forgetContext,
         deleteTemplate,
-        // also add clear template too free dom nodes,
-        // can be usefull if sure that template not going to be used again
         contextFromArray,
         contextFromEvent,
         getParentContext,
