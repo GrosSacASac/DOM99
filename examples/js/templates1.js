@@ -18,5 +18,5 @@ let commentsData = {
 // we could also manually assign every property in a complicated for loop
 d.feed(commentsData);
 
-d.linkJsAndDom();
+d.activate();
 

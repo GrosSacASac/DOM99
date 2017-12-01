@@ -14,7 +14,7 @@ const displayHtmlJsAndResult = function(name) {
         `import d from "../dom99Module.js";
 ${JsSourceOriginal.trim()}
 
-d.linkJsAndDom();`);
+d.activate();`);
     const HtmlSourceDisplay = d.elements[name+"Html"].innerHTML.trim();
     d.feed({
         title: name,
@@ -26,10 +26,10 @@ d.linkJsAndDom();`);
     if (window.usesModules) {
         eval(JsSourceOriginal);
     }
-    d.linkJsAndDom(resultElement);
+    d.activate(resultElement);
 };
 
-d.linkJsAndDom();
+d.activate();
 demoTitles.forEach(function(name) {
     displayHtmlJsAndResult(name);
 });

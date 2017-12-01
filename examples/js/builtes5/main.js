@@ -542,7 +542,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var activateCloneTemplate = function activateCloneTemplate(templateElement, key) {
             enterObject(key);
             var activatedTemplateClone = cloneTemplate(templateElement);
-            linkJsAndDom(activatedTemplateClone);
+            activate(activatedTemplateClone);
             leaveObject();
             return activatedTemplateClone;
         };
@@ -564,7 +564,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 element.setAttribute(options.directives.directiveInside, options.attributeValueDoneSign + key);
                 // parse children under name space (encapsulation of variable names)
                 enterObject(key);
-                linkJsAndDom(element);
+                activate(element);
                 leaveObject();
             }
         };
@@ -598,7 +598,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             deleteAllStartsWith(elements, path);
         };
 
-        var forgetRemoveTemplate = function forgetRemoveTemplate(name) {
+        var deleteTemplate = function deleteTemplate(name) {
             /* Removes a template */
             if (!hasOwnProperty.call(templateElementFromCustomElementName, name)) {
                 console.error("<template " + options.directives.directiveTemplate + "=" + path + "></template> not found or already deleted and removed.");
@@ -640,7 +640,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
         };
 
-        var linkJsAndDom = function linkJsAndDom() {
+        var activate = function activate() {
             var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
             //build array only once and use up to date options, they should not reset twice
@@ -662,7 +662,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             Object.assign(functions, userFunctions);
             feed(initialFeed);
-            linkJsAndDom(startElement);
+            activate(startElement);
             if (!callBack) {
                 return;
             }
@@ -672,14 +672,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         // https://github.com/piecioshka/test-freeze-vs-seal-vs-preventExtensions
         return Object.freeze({
             start: start,
-            linkJsAndDom: linkJsAndDom,
+            activate: activate,
             elements: elements,
             functions: functions,
             variables: variables,
             feed: feed,
             createElement2: createElement2,
             forgetContext: forgetContext,
-            forgetRemoveTemplate: forgetRemoveTemplate,
+            deleteTemplate: deleteTemplate,
             // also add clear template too free dom nodes,
             // can be usefull if sure that template not going to be used again
             contextFromArray: contextFromArray,
@@ -829,5 +829,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     });
 
-    d.linkJsAndDom();
+    d.activate();
 })();

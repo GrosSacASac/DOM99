@@ -51,7 +51,7 @@ d.feed({
 
 
 
-d.linkJsAndDom(); // for performance put this at the end
+d.activate(); // for performance put this at the end
 // here at the beginning for testing purposes
 
 

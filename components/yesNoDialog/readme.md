@@ -16,7 +16,7 @@ examples/ScrollTest.html
     import d from "./node_modules/dom99/built/dom99Module.js";
     import {yesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
 
-    d.linkJsAndDom();
+    d.activate();
     
     //...
     

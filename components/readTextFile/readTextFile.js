@@ -33,7 +33,7 @@ const readFileSetup = function (resolve, reject) {
     const fileInput = D.createElement2(fileInputDescription);
     fileInput.readFileResolve = resolve;
     fileInput.readFileReject = reject;
-    D.linkJsAndDom(fileInput);
+    D.activate(fileInput);
     D.el.readTextFileContainer.appendChild(fileInput);
     fileInput.click();
 };

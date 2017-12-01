@@ -7,7 +7,7 @@ describe("DOM99 basics", function() {
     '<input data-element="input1" data-variable="string1">' +
     '<div data-element="div2" data-function="click-functionX"></div>';
     
-  D.linkJsAndDom(fakeBody);
+  D.activate(fakeBody);
     
 
   it("this test suite uses querySelector", function() {

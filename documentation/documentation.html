@@ -48,7 +48,7 @@ You can also build the HTML with custom elements.<a href="http://jsbin.com/tepez
 
 <h2>How does DOM99 work ?</h2>
 
-<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.linkJsAndDom();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
+<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.activate();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
 
 <h2>Downloads:</h2>
 
@@ -134,7 +134,7 @@ Support may also require transpilation. You may also want to use built/dom99.es5
 <pre><code>
 import d from "./node_modules/dom99/built/dom99Module.js";
 //to start using dom99 pre selected elements use this statement
-d.linkJsAndDom();</code></pre>
+d.activate();</code></pre>
 
 <h3>Use data-function and d.functions for event listeners</h3>
 <p>Store your functions in the d.functions object</p>
@@ -206,9 +206,9 @@ d.feed({
 <h2>Complete overview</h2>
 
 <pre><code>
-d.linkJsAndDom();</code></pre>
+d.activate();</code></pre>
 
-<p>Use linkJsAndDom after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
+<p>Use activate after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
 <p>This will look the for DOM99 directives in the document tree.</p>
 
 <p>Initialize variables with HTML. <code>d.feed</code> can then be used to over-write the default html values. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.elements</code>.</p>
@@ -268,7 +268,7 @@ let commentsData = {
 // we could also manually assign every property in a complicated for loop
 d.feed(commentsData);
 
-d.linkJsAndDom();</code></pre>
+d.activate();</code></pre>
 
 <p><a href="../examples/templates1.html">Try templates1.html static template injection</a> </p>
 
@@ -308,7 +308,7 @@ d.functions.showNextComment = function (event) {
     }
     const customElement = d.createElement2(customElementDescription);
     
-    d.linkJsAndDom(customElement);
+    d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
     getDataFromFakeServer("comment?id=42").then( //get data
         function (data) {
@@ -328,7 +328,7 @@ let commentsData = { //initial
 };
 
 d.feed(commentsData);
-d.linkJsAndDom();
+d.activate();
 
 </code></pre>
 <p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
@@ -433,7 +433,7 @@ let commentsData = [
 ];
 
 d.feed(commentsData, "comments");
-d.linkJsAndDom();
+d.activate();
 </code></pre>
 <p><a href="../examples/templates3.html">Try templates3.html</a></p>
 
@@ -458,7 +458,7 @@ let customElementDescription = {
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
-d.linkJsAndDom(customElement);
+d.activate(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
 d.elements["target"].appendChild(customElement);</code></pre>
@@ -574,7 +574,7 @@ d.functions.update = function (event) {
 <article id="extra tips">
 <h3>Extra Tips</h3>
 <p>View components in components/ folder</p>
-<p>You can handle new HTML with <code>d.linkJsAndDom(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.activate(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
@@ -699,7 +699,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
 <p>YesNoDialog remake, and compatible again with the last major dom99 version</p>
 <p>dom99ConfigurationExample  remake with clearer steps</p>
-<p>added forgetRemoveTemplate</p>
+<p>added deleteTemplate</p>
 <p>fixed a potential memory leak</p>
 <h4>Version 7.1.0</h4>
 <p>Upgrade the doc</p>
@@ -708,7 +708,7 @@ Good for encapsulation of independent components. See how it is used in componen
 <code><pre>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
         Object.assign(functions, userFunctions);
         feed(initialFeed);
-        linkJsAndDom(startElement);
+        activate(startElement);
         if (!callBack) {
             return;
         }
@@ -778,7 +778,7 @@ the license in distributed executables or transpiled code</p>
 }
 </code></pre>
 <p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>d.functions must now be populated before D.linkJsAndDom() is called</p>
+<p>d.functions must now be populated before D.activate() is called</p>
 <p>
     eventFromTagAndType
         changed into eventNameFromElement

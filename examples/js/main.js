@@ -161,4 +161,4 @@ d.feed({
   }  
 });
 
-d.linkJsAndDom();
+d.activate();

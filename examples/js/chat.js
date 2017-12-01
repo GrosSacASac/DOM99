@@ -16,7 +16,7 @@ const renderNewMessageElement = function(data, key) {
     });
     
     // 2 link it
-    D.linkJsAndDom(customElement);
+    D.activate(customElement);
     
     // 3 insert the Element that has a clone as a child in the DOM
     D.el["messagesContainer"].appendChild(customElement);
@@ -59,7 +59,7 @@ D.fx.trySendMessage = function(event) {
 
 //initialize
 D.vr.currentMessage = ""; //reset the inputs
-D.linkJsAndDom(); //now we listen to all events
+D.activate(); //now we listen to all events
 
 // import * from "chat_simulation.js"
 window.setInterval(fakeSisterSpeak, 7500, displayNewMessage);

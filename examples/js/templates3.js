@@ -55,4 +55,4 @@ let commentsData = [
 ];
 
 d.feed(commentsData, "comments");
-d.linkJsAndDom();
+d.activate();

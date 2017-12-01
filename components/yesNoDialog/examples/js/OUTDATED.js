@@ -7,7 +7,7 @@ in your project do
 const D = require("dom99");
 const yesNoDialog = require("dom99/components/yesNoDialog/yesNoDialog.js").yesNoDialog;
 */ 
-D.linkJsAndDom();
+D.activate();
 
 D.fx.try = function (event) {
     const questionText = "Do you like this question ?";

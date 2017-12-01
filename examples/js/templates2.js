@@ -32,7 +32,7 @@ d.functions.showNextComment = function (event) {
     }
     const customElement = d.createElement2(customElementDescription);
     
-    d.linkJsAndDom(customElement);
+    d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
     getDataFromFakeServer("comment?id=42").then( //get data
         function (data) {
@@ -52,4 +52,4 @@ let commentsData = { //initial
 };
 
 d.feed(commentsData);
-d.linkJsAndDom();
+d.activate();

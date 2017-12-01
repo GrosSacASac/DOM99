@@ -7,7 +7,7 @@ in your project do
 const D = require("dom99");
 const yesNoDialog = require("dom99/components/yesNoDialog/yesNoDialog.js").yesNoDialog;
 */ 
-D.linkJsAndDom();
+D.activate();
 
 const questionTexts = [
     "Do you sleep at least 6 hours everyday ?",
