@@ -4,39 +4,39 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+/* dom99.js */
 /*        Copyright Cyril Walle 2017.
 Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE.txt or copy at
         http://www.boost.org/LICENSE_1_0.txt) */
-//dom99.js
-/*jslint
-    es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node
-*/
 /*
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
-
 
     decide when to use event
         .target
         .orignialTarget
         .currentTarget
 
-
     when to use is="" syntax and when to use <x-element></x-element> ?
     think about overlying framework
 
     add data-list-strategy to allow opt in declarative optimization
-    data-function-context to allow context less 
+        same length, different content
+        same content, different length
+        key based identification
+    data-function-context to allow context less
     add data-x spelling checker
-    
-    transform recurcive into seq flow
-    
-    find ways to feed changes to a list without sending an entire list
-    and rendering an entire list from scratch each time
-    
 
-    add data-scoped for data-function to allow them to be scoped inside an element with data-inside ?
+    transform recurcive into seq flow
+
+    add data-scoped for data-function to allow them to be
+    scoped inside an element with data-inside ?
+*/
+/*jslint
+    es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
 */
 var d = function () {
     "use strict";
@@ -56,12 +56,18 @@ var d = function () {
     var listSubscribers = {};
     var variables = {};
     var elements = {};
-    var templateElementFromCustomElementName = {};
+    var templateFromName = {};
     var functions = {};
 
     var pathIn = [];
 
-    var directiveSyntaxFunctionPairs = void 0;
+    var directivePairs = void 0;
+
+    // recursive or have tri+-dependent graph
+    var _feed = void 0;
+    var _elementsDeepForEach = void 0;
+    var activate = void 0;
+    var activateCloneTemplate = void 0;
 
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -155,19 +161,21 @@ var d = function () {
     });
 
     var options = {
-        attributeValueDoneSign: "*",
+        doneSymbol: "*",
         tokenSeparator: "-",
         listSeparator: " ",
         directives: {
-            directiveFunction: "data-function",
-            directiveVariable: "data-variable",
-            directiveElement: "data-element",
-            directiveList: "data-list",
-            directiveInside: "data-inside",
-            directiveTemplate: "data-template"
+            function: "data-function",
+            variable: "data-variable",
+            element: "data-element",
+            list: "data-list",
+            inside: "data-inside",
+            template: "data-template"
         },
 
-        variablePropertyFromElement: function variablePropertyFromElement(element) {
+        propertyFromElement: function propertyFromElement(element) {
+            // defines what is changing when data-variable is changing
+            // for <p> it is textContent
             var tagName = void 0;
             if (element.tagName !== undefined) {
                 tagName = element.tagName;
@@ -181,6 +189,8 @@ var d = function () {
         },
 
         eventNameFromElement: function eventNameFromElement(element) {
+            // defines the default event for an element
+            // i.e. when data-function is omitting the event
             var tagName = element.tagName;
             if (tagName === "INPUT") {
                 return inputEventFromType(element.type);
@@ -191,27 +201,30 @@ var d = function () {
         tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
     };
 
-    var createElement2 = function createElement2(elementDescription) {
-        var element = document.createElement(elementDescription.tagName);
-        /*element.setAttribute(attr, value) is good to set initial attr like you do in html
-        setAttribute won t change the current .value,
-        for instance, setAttribute is the correct choice for creation
-        element.attr = value is good to change the live values*/
-        Object.entries(elementDescription).forEach(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 2),
-                key = _ref2[0],
-                value = _ref2[1];
+    var createElement2 = function createElement2(_ref) {
+        var tagName = _ref.tagName,
+            elementDescription = _objectWithoutProperties(_ref, ["tagName"]);
 
-            if (key !== "tagName") {
-                element.setAttribute(key, value);
-            }
+        /*element.setAttribute(attr, value) is good to set
+        initial attribute like when html is first loaded
+        setAttribute won't change some "live" things like .value for input,
+        for instance, setAttribute is the correct choice for creation
+        element.attr = value is good to change the live values
+        always follow these words to avoid rare bugs*/
+        var element = document.createElement(tagName);
+        Object.entries(elementDescription).forEach(function (_ref2) {
+            var _ref3 = _slicedToArray(_ref2, 2),
+                key = _ref3[0],
+                value = _ref3[1];
+
+            element.setAttribute(key, value);
         });
         return element;
     };
 
-    var walkTheDomElements = function walkTheDomElements(startElement, callBack) {
+    _elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
         callBack(startElement);
-        if (!("tagName" in startElement) || startElement.tagName !== "TEMPLATE") {
+        if (startElement.tagName === undefined || startElement.tagName !== "TEMPLATE") {
             // IE bug: templates are not inert
             // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
             // is not supported in Edge/Safari on DocumentFragments
@@ -220,7 +233,7 @@ var d = function () {
             var node = startElement.firstChild;
             while (node) {
                 if (node.nodeType === ELEMENT_NODE) {
-                    walkTheDomElements(node, callBack);
+                    _elementsDeepForEach(node, callBack);
                     node = node.nextElementSibling;
                 } else {
                     node = node.nextSibling;
@@ -240,19 +253,19 @@ var d = function () {
     };
 
     var cloneTemplate = function () {
-        if ("content" in document.createElement("template")) {
-            return function (templateElement) {
-                if (!templateElement) {
-                    console.error("Template missing <template " + options.directives.directiveTemplate + "=\"d-name\">\n    Template Content\n</template>");
+        if (document.createElement("template").content !== undefined) {
+            return function (template) {
+                if (!template) {
+                    console.error("Template missing <template " + options.directives.template + "=\"d-name\">\n                            Template Content\n                        </template>");
                 }
-                return document.importNode(templateElement.content, true);
+                return document.importNode(template.content, true);
             };
         }
 
-        return function (templateElement) {
+        return function (template) {
             /* todo here we have a div too much (messes up css)*/
             var clone = document.createElement("div");
-            clone.innerHTML = templateElement.innerHTML;
+            clone.innerHTML = template.innerHTML;
             return clone;
         };
     }();
@@ -272,9 +285,17 @@ var d = function () {
         return pathIn.join(INSIDE_SYMBOL);
     };
 
+    var enterObject = function enterObject(key) {
+        pathIn.push(key);
+    };
+
+    var leaveObject = function leaveObject() {
+        pathIn.pop();
+    };
+
     var getParentContext = function getParentContext(context) {
         var split = context.split(INSIDE_SYMBOL);
-        /*const removedPart = */split.pop();
+        split.pop();
         return split.join(INSIDE_SYMBOL);
     };
 
@@ -290,9 +311,29 @@ var d = function () {
         // "a>b>c>" or ">a>b>c" would not need such normalization
         if (startPath) {
             return "" + startPath + INSIDE_SYMBOL;
-        } else {
-            return startPath;
         }
+        return startPath;
+    };
+
+    var deleteAllStartsWith = function deleteAllStartsWith(object, prefix) {
+        Object.keys(object).forEach(function (key) {
+            if (key.startsWith(prefix)) {
+                delete object[key];
+            }
+        });
+    };
+
+    var forgetContext = function forgetContext(path) {
+        /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
+        all the element references if you used the underlying nodes in dom99
+        A removed element will continue receive invisible automatic updates
+        it also takes space in the memory.
+          And all of this doesn't matter for 1-100 elements
+          */
+        deleteAllStartsWith(variableSubscribers, path);
+        deleteAllStartsWith(listSubscribers, path);
+        deleteAllStartsWith(variables, path);
+        deleteAllStartsWith(elements, path);
     };
 
     var notifyOneVariableSubscriber = function notifyOneVariableSubscriber(variableSubscriber, value) {
@@ -311,25 +352,29 @@ var d = function () {
         });
     };
 
+    var removeNode = function removeNode(node) {
+        node.remove();
+    };
+
     var notifyOneListSubscriber = function notifyOneListSubscriber(listContainer, startPath, data) {
         var fragment = document.createDocumentFragment();
-        if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) && hasOwnProperty.call(templateElementFromCustomElementName, listContainer[CUSTOM_ELEMENT])) {
+        if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) && hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])) {
             // composing with custom element
-            var templateElement = templateElementFromCustomElementName[listContainer[CUSTOM_ELEMENT]];
+            var template = templateFromName[listContainer[CUSTOM_ELEMENT]];
             var previous = copyArrayFlat(pathIn);
             pathIn = startPath.split(INSIDE_SYMBOL);
             var normalizedPath = normalizeStartPath(startPath);
             var newLength = data.length;
             var oldLength = void 0;
+            var pathInside = void 0;
             if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
-                // remove nodes and variable subribers that are not used
+                // remove nodes and variable subscribers that are not used
                 oldLength = listContainer[LIST_CHILDREN].length;
                 if (oldLength > newLength) {
-                    for (var i = newLength; i < oldLength; i += 1) {
-                        var pathInside = "" + normalizedPath + i;
-                        listContainer[LIST_CHILDREN][i].forEach(function (node) {
-                            node.remove();
-                        });
+                    var i = void 0;
+                    for (i = newLength; i < oldLength; i += 1) {
+                        pathInside = "" + normalizedPath + i;
+                        listContainer[LIST_CHILDREN][i].forEach(removeNode);
                         forgetContext(pathInside);
                     }
                     listContainer[LIST_CHILDREN].length = newLength;
@@ -340,17 +385,16 @@ var d = function () {
             }
 
             data.forEach(function (dataInside, i) {
-                var pathInside = "" + normalizedPath + i;
-                feed(dataInside, pathInside);
+                pathInside = "" + normalizedPath + i;
+                _feed(dataInside, pathInside);
                 if (i >= oldLength) {
                     // cannot remove document fragment after insert because they empty themselves
-                    // have to freeze the childs to still have a reference
-                    var activatedTemplateClone = activateCloneTemplate(templateElement, String(i));
-                    listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedTemplateClone.childNodes));
-                    fragment.appendChild(activatedTemplateClone);
-                } else {
-                    ; // reusing, feed updated with new data the old nodes 
+                    // have to freeze the children to still have a reference
+                    var activatedClone = activateCloneTemplate(template, String(i));
+                    listContainer[LIST_CHILDREN].push(freezeLiveCollection(activatedClone.childNodes));
+                    fragment.appendChild(activatedClone);
                 }
+                // else reusing, feed updated with new data the old nodes
             });
             pathIn = previous;
         } else {
@@ -374,7 +418,7 @@ var d = function () {
         });
     };
 
-    var feed = function feed(data) {
+    _feed = function feed(data) {
         var startPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
 
         if (!isObjectOrArray(data)) {
@@ -389,13 +433,13 @@ var d = function () {
             }
         } else {
             var normalizedPath = normalizeStartPath(startPath);
-            Object.entries(data).forEach(function (_ref3) {
-                var _ref4 = _slicedToArray(_ref3, 2),
-                    key = _ref4[0],
-                    value = _ref4[1];
+            Object.entries(data).forEach(function (_ref4) {
+                var _ref5 = _slicedToArray(_ref4, 2),
+                    key = _ref5[0],
+                    value = _ref5[1];
 
                 var path = "" + normalizedPath + key;
-                feed(value, path);
+                _feed(value, path);
             });
         }
     };
@@ -411,7 +455,7 @@ var d = function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    var applyDirectiveFunction = function applyDirectiveFunction(element, eventName, functionName) {
+    var applyFunction = function applyFunction(element, eventName, functionName) {
         if (!functions[functionName]) {
             console.error("Event listener " + functionName + " not found.");
         }
@@ -420,10 +464,9 @@ var d = function () {
         element[CONTEXT] = contextFromArray(pathIn);
     };
 
-    var tryApplyDirectiveFunction = function tryApplyDirectiveFunction(element, customAttributeValue) {
-        /* todo add warnings for syntax*/
-        customAttributeValue.split(options.listSeparator).forEach(function (customAttributeValueSplit) {
-            var tokens = customAttributeValueSplit.split(options.tokenSeparator);
+    var applyFunctions = function applyFunctions(element, attributeValue) {
+        attributeValue.split(options.listSeparator).forEach(function (attributeValueSplit) {
+            var tokens = attributeValueSplit.split(options.tokenSeparator);
             var functionName = void 0;
             var eventName = void 0;
             if (tokens.length === 1) {
@@ -435,38 +478,33 @@ var d = function () {
                 eventName = _tokens[0];
                 functionName = _tokens[1];
             }
-            applyDirectiveFunction(element, eventName, functionName);
+            applyFunction(element, eventName, functionName);
         });
     };
 
-    var applyDirectiveList = function applyDirectiveList(element, customAttributeValue) {
+    var applylist = function applylist(element, attributeValue) {
         /* js array --> DOM list
         <ul data-list="var-li"></ul>
-          always throws away the entire dom list,
-        let user of dom99 opt in in updates strategies such as
-            same length, different content
-            same content, different length
-            key based identification
-            */
-        var _customAttributeValue = customAttributeValue.split(options.tokenSeparator),
-            _customAttributeValue2 = _slicedToArray(_customAttributeValue, 3),
-            variableName = _customAttributeValue2[0],
-            elementListItem = _customAttributeValue2[1],
-            optional = _customAttributeValue2[2];
+              */
+        var _attributeValue$split = attributeValue.split(options.tokenSeparator),
+            _attributeValue$split2 = _slicedToArray(_attributeValue$split, 3),
+            variableName = _attributeValue$split2[0],
+            listItemTagName = _attributeValue$split2[1],
+            optional = _attributeValue$split2[2];
 
         var fullName = "-";
 
         if (!variableName) {
-            console.error(element, "Use " + options.directives.directiveList + "=\"variableName-tagName\" format!");
+            console.error(element, "Use " + options.directives.list + "=\"variableName-tagName\" format!");
         }
 
         if (optional) {
             // for custom elements
-            fullName = elementListItem + "-" + optional;
+            fullName = listItemTagName + "-" + optional;
             element[CUSTOM_ELEMENT] = fullName;
         } else {
-            element[LIST_ITEM_PROPERTY] = options.variablePropertyFromElement(elementListItem.toUpperCase());
-            element[ELEMENT_LIST_ITEM] = elementListItem;
+            element[LIST_ITEM_PROPERTY] = options.propertyFromElement(listItemTagName.toUpperCase());
+            element[ELEMENT_LIST_ITEM] = listItemTagName;
         }
 
         var path = contextFromArrayWith(pathIn, variableName);
@@ -478,7 +516,7 @@ var d = function () {
         }
     };
 
-    var applyDirectiveVariable = function applyDirectiveVariable(element, variableName) {
+    var applyVariable = function applyVariable(element, variableName) {
         /* two-way bind
         example : called for <input data-variable="a">
         in this example the variableName = "a"
@@ -487,10 +525,10 @@ var d = function () {
         undefined assignment are ignored, instead use empty string*/
 
         if (!variableName) {
-            console.error(element, "Use " + options.directives.directiveVariable + "=\"variableName\" format!");
+            console.error(element, "Use " + options.directives.variable + "=\"variableName\" format!");
         }
 
-        element[ELEMENT_PROPERTY] = options.variablePropertyFromElement(element);
+        element[ELEMENT_PROPERTY] = options.propertyFromElement(element);
         var path = contextFromArrayWith(pathIn, variableName);
         pushOrCreateArrayAt(variableSubscribers, path, element);
         var lastValue = variables[path]; // has latest
@@ -515,138 +553,125 @@ var d = function () {
         }
     };
 
-    var applyDirectiveElement = function applyDirectiveElement(element, customAttributeValue) {
+    var applyDirectiveElement = function applyDirectiveElement(element, attributeValue) {
         /* stores element for direct access !*/
-        var elementName = customAttributeValue;
+        var elementName = attributeValue;
 
         if (!elementName) {
-            console.error(element, "Use " + options.directives.directiveElement + "=\"elementName\" format!");
+            console.error(element, "Use " + options.directives.element + "=\"elementName\" format!");
         }
         var path = contextFromArrayWith(pathIn, elementName);
         elements[path] = element;
     };
 
-    var applyDirectiveTemplate = function applyDirectiveTemplate(element, customAttributeValue) {
+    var applytemplate = function applytemplate(element, attributeValue) {
         /* stores a template element for later reuse !*/
-        if (!customAttributeValue) {
-            console.error(element, "Use " + options.directives.directiveTemplate + "=\"d-name\" format!");
+        if (!attributeValue) {
+            console.error(element, "Use " + options.directives.template + "=\"d-name\" format!");
         }
 
-        templateElementFromCustomElementName[customAttributeValue] = element;
+        templateFromName[attributeValue] = element;
     };
 
-    var activateCloneTemplate = function activateCloneTemplate(templateElement, key) {
+    activateCloneTemplate = function activateCloneTemplate(template, key) {
+        /* clones a template and activates it
+        */
         enterObject(key);
-        var activatedTemplateClone = cloneTemplate(templateElement);
-        linkJsAndDom(activatedTemplateClone);
+        var activatedClone = cloneTemplate(template);
+        activate(activatedClone);
         leaveObject();
-        return activatedTemplateClone;
+        return activatedClone;
     };
 
-    var applyDirectiveInside = function applyDirectiveInside(element, key) {
+    var applyinside = function applyinside(element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
         if (!key) {
-            console.error(element, "Use " + options.directives.directiveInside + "=\"insidewhat\" format!");
+            console.error(element, "Use " + options.directives.inside + "=\"insidewhat\" format!");
         }
 
-        var templateElement = templateElementFromCustomElementName[customElementNameFromElement(element)];
+        var template = templateFromName[customElementNameFromElement(element)];
 
-        if (templateElement) {
-            var activatedTemplateClone = activateCloneTemplate(templateElement, key);
-            element.appendChild(activatedTemplateClone);
+        if (template) {
+            var activatedClone = activateCloneTemplate(template, key);
+            element.appendChild(activatedClone);
         } else {
             // avoid infinite loop
-            element.setAttribute(options.directives.directiveInside, options.attributeValueDoneSign + key);
+            element.setAttribute(options.directives.inside, options.doneSymbol + key);
             // parse children under name space (encapsulation of variable names)
             enterObject(key);
-            linkJsAndDom(element);
+            activate(element);
             leaveObject();
         }
     };
 
-    var enterObject = function enterObject(key) {
-        pathIn.push(key);
-    };
-
-    var leaveObject = function leaveObject() {
-        pathIn.pop();
-    };
-
-    var deleteAllStartsWith = function deleteAllStartsWith(object, prefix) {
-        Object.keys(object).forEach(function (key) {
-            if (key.startsWith(prefix)) {
-                delete object[key];
-            }
-        });
-    };
-
-    var forgetContext = function forgetContext(path) {
-        /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
-        all the element references if you used the underlying nodes in dom99
-        A removed element will continue receive invisible automatic updates
-        it also takes space in the memory.
-          And all of this doesn't matter for 1-100 elements
-          */
-        deleteAllStartsWith(variableSubscribers, path);
-        deleteAllStartsWith(listSubscribers, path);
-        deleteAllStartsWith(variables, path);
-        deleteAllStartsWith(elements, path);
-    };
-
-    var forgetRemoveTemplate = function forgetRemoveTemplate(name) {
+    var deleteTemplate = function deleteTemplate(name) {
         /* Removes a template */
-        if (!hasOwnProperty.call(templateElementFromCustomElementName, name)) {
-            console.error("<template " + options.directives.directiveTemplate + "=" + path + "></template> not found or already deleted and removed.");
+        if (!hasOwnProperty.call(templateFromName, name)) {
+            console.error("<template " + options.directives.template + "=" + name + ">\n                </template> not found or already deleted and removed.");
         }
-        templateElementFromCustomElementName[name].remove();
-        delete templateElementFromCustomElementName[name];
+        templateFromName[name].remove();
+        delete templateFromName[name];
     };
 
     var tryApplyDirectives = function tryApplyDirectives(element) {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
-        // todo make sure no impactfull read write
+        // todo make sure no impact-full read write
         if (!element.hasAttribute) {
+            // can this if be removed eventually ?
+            console.error("should we ever arrive here ?");
             return;
         }
 
-        directiveSyntaxFunctionPairs.forEach(function (_ref5) {
-            var _ref6 = _slicedToArray(_ref5, 2),
-                directiveName = _ref6[0],
-                applyDirective = _ref6[1];
+        // spellsheck atributes
+        var asArray = Array.prototype.slice.call(element.attributes);
+        asArray.forEach(function (attribute) {
+            if (attribute.nodeName.startsWith("data")) {
+                if (hasOwnProperty.call(options.directives, attribute.nodeName)) {
+                    ;
+                } else {
+                    console.warn("dom99 does not recognize, " + attribute.nodeName);
+                }
+            }
+        });
+
+        directivePairs.forEach(function (_ref6) {
+            var _ref7 = _slicedToArray(_ref6, 2),
+                directiveName = _ref7[0],
+                applyDirective = _ref7[1];
 
             if (!element.hasAttribute(directiveName)) {
                 return;
             }
-            var customAttributeValue = element.getAttribute(directiveName);
-            if (customAttributeValue[0] === options.attributeValueDoneSign) {
+            var attributeValue = element.getAttribute(directiveName);
+            if (attributeValue[0] === options.doneSymbol) {
                 return;
             }
-            applyDirective(element, customAttributeValue);
+            applyDirective(element, attributeValue);
             // ensure the directive is only applied once
-            element.setAttribute(directiveName, options.attributeValueDoneSign + customAttributeValue);
+            element.setAttribute(directiveName, options.doneSymbol + attributeValue);
         });
-        if (element.hasAttribute(options.directives.directiveInside) || element.hasAttribute(options.directives.directiveList)) {
+        if (element.hasAttribute(options.directives.inside) || element.hasAttribute(options.directives.list)) {
             return;
         }
         /*using a custom element without data-inside*/
-        var customElementName = customElementNameFromElement(element);
-        if (hasOwnProperty.call(templateElementFromCustomElementName, customElementName)) {
-            element.appendChild(cloneTemplate(templateElementFromCustomElementName[customElementName]));
+        var customName = customElementNameFromElement(element);
+        if (hasOwnProperty.call(templateFromName, customName)) {
+            element.appendChild(cloneTemplate(templateFromName[customName]));
         }
     };
 
-    var linkJsAndDom = function linkJsAndDom() {
+    activate = function activate() {
         var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
         //build array only once and use up to date options, they should not reset twice
-        if (!directiveSyntaxFunctionPairs) {
-            directiveSyntaxFunctionPairs = [
-            /*order is relevant applyDirectiveVariable being before applyDirectiveFunction,
+        if (!directivePairs) {
+            directivePairs = [
+            /*order is relevant applyVariable being before applyFunction,
             we can use the just changed live variable in the bind function*/
-            [options.directives.directiveElement, applyDirectiveElement], [options.directives.directiveVariable, applyDirectiveVariable], [options.directives.directiveFunction, tryApplyDirectiveFunction], [options.directives.directiveList, applyDirectiveList], [options.directives.directiveInside, applyDirectiveInside], [options.directives.directiveTemplate, applyDirectiveTemplate]];
+            [options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyinside], [options.directives.template, applytemplate]];
         }
-        walkTheDomElements(startElement, tryApplyDirectives);
+        _elementsDeepForEach(startElement, tryApplyDirectives);
         return startElement;
     };
 
@@ -656,9 +681,10 @@ var d = function () {
         var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
         var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
 
+
         Object.assign(functions, userFunctions);
-        feed(initialFeed);
-        linkJsAndDom(startElement);
+        _feed(initialFeed);
+        activate(startElement);
         if (!callBack) {
             return;
         }
@@ -668,16 +694,14 @@ var d = function () {
     // https://github.com/piecioshka/test-freeze-vs-seal-vs-preventExtensions
     return Object.freeze({
         start: start,
-        linkJsAndDom: linkJsAndDom,
+        activate: activate,
         elements: elements,
         functions: functions,
         variables: variables,
-        feed: feed,
+        feed: _feed,
         createElement2: createElement2,
         forgetContext: forgetContext,
-        forgetRemoveTemplate: forgetRemoveTemplate,
-        // also add clear template too free dom nodes,
-        // can be usefull if sure that template not going to be used again
+        deleteTemplate: deleteTemplate,
         contextFromArray: contextFromArray,
         contextFromEvent: contextFromEvent,
         getParentContext: getParentContext,

@@ -647,9 +647,22 @@ const d = (function () {
         // todo make sure no impact-full read write
         if (!element.hasAttribute) {
             // can this if be removed eventually ?
+            console.error("should we ever arrive here ?");
             return;
         }
 
+        // spellsheck atributes
+        const asArray = Array.prototype.slice.call(element.attributes);
+        asArray.forEach(function (attribute) {
+            if (attribute.nodeName.startsWith("data")) {
+                if (hasOwnProperty.call(options.directives, attribute.nodeName)) {
+                    ;
+                } else {
+                    console.warn(`dom99 does not recognize, ${attribute.nodeName}`);
+                }
+            }
+        });
+        
         directivePairs.forEach(function ([directiveName, applyDirective]) {
             if (!element.hasAttribute(directiveName)) {
                 return;
