@@ -1,11 +1,5 @@
 // global d
 
-d.functions.scrollTop = function () {
-    setTimeout(function () {
-        window.scrollTo(0, 0);
-    }, 1);
-};
-
 const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
 
 const displayHtmlJsAndResult = function(name) {

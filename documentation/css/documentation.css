@@ -5,8 +5,16 @@ body {
   margin: 3px;
 }
 
+h1 {
+  text-align: center;
+}
+
 code {
   font-size: 1.25em;
+}
+
+pre > code {
+  
 }
 
 p {
@@ -19,39 +27,52 @@ p {
   display: none;
 }
 
-.tab-holder > article {
-  display: none;
-  width: 100%;
+article {
+  display:block;/* EI*/
 }
 
-.tab-holder > article:target {
+main > nav > a {
+  font-size:1.6em;
   display:block;
-}
-
-.tab-holder > nav > a {
-  margin-right: 4px;
+  text-decoration:none;
   margin-left: 4px;
-  padding-right: 7px;
-  padding-left: 7px;
-  text-decoration: none;
-  font-size: 1.3rem;
-  border-radius: 4px 4px 0 0;
-  background: #606275;
-  color: #fff;
-}
- 
-.tab-holder > nav > a:hover,
-.tab-holder > nav > a:focus {
-  background: #000;
-  color: #66a6ff;
-  text-decoration: underline;
+  color:#111177;
+  background-color:#eedeee;
 }
 
-
-#main-title {
-  margin-top: 0;
-  margin-bottom:2px;
+main > nav > a:hover,
+main > nav > a:focus {
+  text-decoration:underline;
+  color:#eedeee;
+  background-color:black;
 }
+
+main > article {
+  padding: 0.6em;
+  border-bottom: 2px solid black;
+}
+  
+@media screen and (min-device-width: 960px) {
+
+  main > nav > a {
+    font-size:1.4em;
+  }
+  
+  main > nav {
+    width:18em;
+    float:left;
+    padding-top: 2.3em;
+    margin-right:1em;
+  }
+
+  main > article {
+    border-left: 2px solid #444;
+    margin-left:18em;
+    padding-left:1.5em;
+    padding-right:2.0em;
+  }
+}
+
 
 
 d-htmljsresult {
