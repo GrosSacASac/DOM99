@@ -652,10 +652,11 @@ const d = (function () {
         }
 
         // spellsheck atributes
+        const directives = Object.values(options.directives);
         const asArray = Array.prototype.slice.call(element.attributes);
         asArray.forEach(function (attribute) {
             if (attribute.nodeName.startsWith("data")) {
-                if (hasOwnProperty.call(options.directives, attribute.nodeName)) {
+                if (directives.includes(attribute.nodeName)) {
                     ;
                 } else {
                     console.warn(`dom99 does not recognize, ${attribute.nodeName}`);

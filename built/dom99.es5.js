@@ -624,10 +624,11 @@ var d = function () {
         }
 
         // spellsheck atributes
+        var directives = Object.values(options.directives);
         var asArray = Array.prototype.slice.call(element.attributes);
         asArray.forEach(function (attribute) {
             if (attribute.nodeName.startsWith("data")) {
-                if (hasOwnProperty.call(options.directives, attribute.nodeName)) {
+                if (directives.includes(attribute.nodeName)) {
                     ;
                 } else {
                     console.warn("dom99 does not recognize, " + attribute.nodeName);
