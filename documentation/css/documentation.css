@@ -59,6 +59,7 @@ main > article {
   }
   
   main > nav {
+    position: fixed;
     width:18em;
     float:left;
     padding-top: 2.3em;
