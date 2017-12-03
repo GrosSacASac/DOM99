@@ -76,15 +76,16 @@ The native prompt function cannot be styled by css and blocks the main thread.
 ## Limitations
 
 Requires Promise implementation (ES2015). Cannot use other data-function="yesNoDialogAnswer" elsewhere. 
-Need to include the <div class="dialog"> HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html.
+Need to include the provided HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html.
 Cannot use the class Name "yes-no-dialog" in other HTML elements.
-Direct child elements of the body element will not be hidden during the dialog.
-This is avoidable with proper div section and article usage.
-Can be used to display the title of application.
 
 Maybe obsoleted by `<dialog>` element. (Future)
 
 ## Changelog
+
+### 3/12/2017
+
+force correct font-size, more consistent spacing
 
 ### 28/11/2017
 

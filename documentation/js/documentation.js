@@ -27,6 +27,3 @@ d.activate();
 demoTitles.forEach(function(name) {
     displayHtmlJsAndResult(name);
 });
-    
-
-
