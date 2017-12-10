@@ -17,7 +17,7 @@
  * http://localhost:8080/examples/limited.html cannot set -4 in globalv
  * make a full stack creation template, (like create react app)
     * also explain how to scale to a big team
-        * import export templates
+        * import export templates (<script type="module"> or <link rel="import">)
     * webpack
     * minifier, transpiler, etc
  * better explain the strengths and weaknesses of the library
@@ -57,4 +57,7 @@
     * indexed error messages in the doc
     * more warnings
     * text editors plugins
+ * create plugin system to add and remove data-* directives
+ * lit-html 
+ 
  
