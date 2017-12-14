@@ -31,7 +31,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         data-function-context to allow context less
         add data-x spelling checker
     
-        transform recurcive into seq flow
+        transform recursive into sequential flow
     
         add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d = function () {
+    var d$1 = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -718,7 +718,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     }();
 
-    d.feed({
+    d$1.feed({
         x: "XXX",
         z: "ZZZ",
         c: "Test",
@@ -761,5 +761,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }]
     });
 
-    d.activate();
+    d$1.activate();
 })();

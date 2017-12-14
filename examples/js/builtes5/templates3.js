@@ -31,7 +31,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         data-function-context to allow context less
         add data-x spelling checker
     
-        transform recurcive into seq flow
+        transform recursive into sequential flow
     
         add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d = function () {
+    var d$1 = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -723,7 +723,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         commentsData[position] = commentObject;
         // could sort the comments with .sort(customFunction) too
         // pushes the update to the UI
-        d.feed(commentsData, "comments");
+        d$1.feed(commentsData, "comments");
     };
 
     var fetchData = function fetchData(urlOrWhat) {
@@ -740,7 +740,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     };
 
-    d.functions.showNextComment = function (event) {
+    d$1.functions.showNextComment = function (event) {
 
         // in the meantime already display an empty comment for instant feedback
 
@@ -749,7 +749,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         commentsData.push(undefined);
         // undefined will simly have no effecton all data-variable
         // so that will effectively uses the default textContent in the HTML
-        d.feed(commentsData, "comments");
+        d$1.feed(commentsData, "comments");
         // force ui update
         fetchData("comment?id=42").then(function (data) {
             update(data, position);
@@ -768,6 +768,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         date: "yesterday"
     }];
 
-    d.feed(commentsData, "comments");
-    d.activate();
+    d$1.feed(commentsData, "comments");
+    d$1.activate();
 })();

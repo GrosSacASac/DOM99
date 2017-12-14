@@ -1,3 +1,4 @@
+export default d;
 /* dom99.js */
  /*        Copyright Cyril Walle 2017.
 Distributed under the Boost Software License, Version 1.0.
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
     data-function-context to allow context less
     add data-x spelling checker
 
-    transform recurcive into seq flow
+    transform recursive into sequential flow
 
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-inside ?
@@ -756,4 +757,3 @@ const d = (function () {
         options
     });
 }());
-export default d;

@@ -31,7 +31,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         data-function-context to allow context less
         add data-x spelling checker
     
-        transform recurcive into seq flow
+        transform recursive into sequential flow
     
         add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d = function () {
+    var d$1 = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -723,7 +723,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var currentCommentNumber = 2;
 
     var update = function update(commentKey, commentObject) {
-        d.feed(commentObject, commentKey);
+        d$1.feed(commentObject, commentKey);
     };
 
     var getDataFromFakeServer = function getDataFromFakeServer(urlOrWhat) {
@@ -740,7 +740,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     };
 
-    d.functions.showNextComment = function (event) {
+    d$1.functions.showNextComment = function (event) {
         currentCommentNumber += 1;
         var key = "" + commentPrefix + currentCommentNumber;
 
@@ -748,10 +748,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             tagName: "d-comment",
             "data-inside": key
         };
-        var customElement = d.createElement2(customElementDescription);
+        var customElement = d$1.createElement2(customElementDescription);
 
-        d.activate(customElement);
-        d.elements.commentSection.appendChild(customElement);
+        d$1.activate(customElement);
+        d$1.elements.commentSection.appendChild(customElement);
         getDataFromFakeServer("comment?id=42").then( //get data
         function (data) {
             update(key, data);
@@ -769,6 +769,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    d.feed(commentsData);
-    d.activate();
+    d$1.feed(commentsData);
+    d$1.activate();
 })();

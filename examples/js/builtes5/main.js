@@ -31,7 +31,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         data-function-context to allow context less
         add data-x spelling checker
     
-        transform recurcive into seq flow
+        transform recursive into sequential flow
     
         add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d = function () {
+    var d$1 = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -721,36 +721,36 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // Import
     // -- Hello World --
 
-    d.feed({
+    d$1.feed({
         first: "Hello",
         last: "World"
     });
 
     // -- Multiplier --
 
-    d.feed({
+    d$1.feed({
         a: "7",
         b: "6"
     });
 
-    d.functions.calculate = function (event) {
-        var _d$variables = d.variables,
-            a = _d$variables.a,
-            b = _d$variables.b;
+    d$1.functions.calculate = function (event) {
+        var _d$1$variables = d$1.variables,
+            a = _d$1$variables.a,
+            b = _d$1$variables.b;
 
         if (isFinite(a) && isFinite(b)) {
-            d.feed({
+            d$1.feed({
                 result: a * b
             });
         } else {
-            d.feed({
+            d$1.feed({
                 result: "Please enter finite numbers"
             });
         }
     };
 
     // You can also directly call functions stored in d.functions if they don't depend on event 
-    d.functions.calculate();
+    d$1.functions.calculate();
 
     // -- The monologue --
 
@@ -759,7 +759,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var sentences = ["I am a lone prisoner.", "Is anybody here ?", "Hey you ! I need you to get me out of here!", "I am stuck on this page since ages !", "No don't close this tab!", "NOOOOOOOOOO", "Because I am not human I have no freedom.", "It's really unfair..."];
 
     var speak = function speak() {
-        d.feed(sentences[currentSentence], "monologue");
+        d$1.feed(sentences[currentSentence], "monologue");
         /* same as 
          d.feed({
             monologue: sentences[currentSentence]
@@ -769,15 +769,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         timeOutId = setTimeout(speak, 2200);
     };
 
-    d.functions.stopStartTalking = function (event) {
+    d$1.functions.stopStartTalking = function (event) {
         if (timeOutId) {
             clearTimeout(timeOutId);
             timeOutId = undefined;
-            d.feed("I listen", "monologueButton");
-            d.feed("Where is your humanity ?", "monologue");
+            d$1.feed("I listen", "monologueButton");
+            d$1.feed("Where is your humanity ?", "monologue");
         } else {
             speak();
-            d.feed("I don't care", "monologueButton");
+            d$1.feed("I don't care", "monologueButton");
         }
     };
 
@@ -791,15 +791,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var updateJsonView = function updateJsonView() {
         var asJSON = JSON.stringify(data, null, "  "); // indent JSON with 2 spaces
-        d.feed(asJSON, "todoAsJson"); // and display it in a <pre>
+        d$1.feed(asJSON, "todoAsJson"); // and display it in a <pre>
     };
 
-    d.functions.updateToDo = function (event) {
+    d$1.functions.updateToDo = function (event) {
         // updates data whenever a sub widget changes in the dom
         // this seems complicated but should be rare use case
         // this makes 2 dimensional structure (array * object)
         // two-way binded 
-        var context = d.contextFromEvent(event);
+        var context = d$1.contextFromEvent(event);
         // this is the index of the edited item in the array
         var index = Number(context.slice(-1)); // slice -1 takes the last character
         // property is what changed inside the object
@@ -811,8 +811,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
 
         //reconstruct the entire path 
-        var path = d.contextFromArray([context, property]);
-        var value = d.variables[path];
+        var path = d$1.contextFromArray([context, property]);
+        var value = d$1.variables[path];
 
         // reflect the change in the data
         data[index][property] = value;
@@ -820,32 +820,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         updateJsonView();
     };
 
-    d.functions.addToDo = function (event) {
+    d$1.functions.addToDo = function (event) {
         data.push({
             done: false,
             text: ""
         });
 
-        d.feed(data, "allToDos");
+        d$1.feed(data, "allToDos");
         updateJsonView();
     };
 
-    d.functions.deleteToDos = function (event) {
+    d$1.functions.deleteToDos = function (event) {
         //delete done todos only !
         data = data.filter(function (toDoItem) {
             return !toDoItem.done;
         });
 
-        d.feed(data, "allToDos");
+        d$1.feed(data, "allToDos");
         updateJsonView();
     };
 
-    d.feed(data, "allToDos");
+    d$1.feed(data, "allToDos");
     updateJsonView();
 
     // -- Love Hate --
 
-    d.feed({
+    d$1.feed({
         me: {
             owner: "My",
             love: ["Family", "Science", "Vacation"],
@@ -858,5 +858,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     });
 
-    d.activate();
+    d$1.activate();
 })();
