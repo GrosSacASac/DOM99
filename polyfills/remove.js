@@ -2,9 +2,10 @@
 // Mozilla Contributors
 // https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
 // from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
+// changed to a safer feature detection set
 (function (arr) {
   arr.forEach(function (item) {
-    if (item.hasOwnProperty('remove')) {
+    if (item.remove !== undefined) {
       return;
     }
     Object.defineProperty(item, 'remove', {

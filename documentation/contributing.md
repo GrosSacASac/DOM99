@@ -60,5 +60,6 @@
  * create plugin system to add and remove data-* directives
  * lit-html 
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
+ * make sure it integrates well with webpack, rollup, ie, "modules": false
  
  

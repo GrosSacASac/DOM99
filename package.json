@@ -29,6 +29,7 @@
     "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run transpile && npm run minify && npm run buildModuleAndRequire",
+    
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
