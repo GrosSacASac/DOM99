@@ -2,10 +2,10 @@
 documentation/
 examples/
 images/
-polyfills/
 tests/
 tools/
 bower.json
+.gitattributes
 
 # to get these files copy from github
 
