@@ -4,8 +4,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
 /* dom99.js */
 /*        Copyright Cyril Walle 2017.
 Distributed under the Boost Software License, Version 1.0.
@@ -201,26 +199,34 @@ var d = function () {
         tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
     };
 
-    var createElement2 = function createElement2(_ref) {
-        var tagName = _ref.tagName,
-            elementDescription = _objectWithoutProperties(_ref, ["tagName"]);
-
+    var createElement2 = function createElement2(elementDescription) {
         /*element.setAttribute(attr, value) is good to set
         initial attribute like when html is first loaded
         setAttribute won't change some "live" things like .value for input,
         for instance, setAttribute is the correct choice for creation
         element.attr = value is good to change the live values
         always follow these words to avoid rare bugs*/
-        var element = document.createElement(tagName);
-        Object.entries(elementDescription).forEach(function (_ref2) {
-            var _ref3 = _slicedToArray(_ref2, 2),
-                key = _ref3[0],
-                value = _ref3[1];
+        var element = document.createElement(elementDescription.tagName);
+        Object.entries(elementDescription).forEach(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+                key = _ref2[0],
+                value = _ref2[1];
 
-            element.setAttribute(key, value);
+            if (key !== "tagName") {
+                element.setAttribute(key, value);
+            }
         });
         return element;
     };
+
+    // alternative not used yet
+    // const createElement2 = function ({tagName, ...elementDescription}) {
+    // const element = document.createElement(tagName);
+    // Object.entries(elementDescription).forEach(function ([key, value]) {
+    // element.setAttribute(key, value);
+    // });
+    // return element;
+    // };
 
     _elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
         callBack(startElement);
@@ -433,10 +439,10 @@ var d = function () {
             }
         } else {
             var normalizedPath = normalizeStartPath(startPath);
-            Object.entries(data).forEach(function (_ref4) {
-                var _ref5 = _slicedToArray(_ref4, 2),
-                    key = _ref5[0],
-                    value = _ref5[1];
+            Object.entries(data).forEach(function (_ref3) {
+                var _ref4 = _slicedToArray(_ref3, 2),
+                    key = _ref4[0],
+                    value = _ref4[1];
 
                 var path = "" + normalizedPath + key;
                 _feed(value, path);
@@ -636,10 +642,10 @@ var d = function () {
             }
         });
 
-        directivePairs.forEach(function (_ref6) {
-            var _ref7 = _slicedToArray(_ref6, 2),
-                directiveName = _ref7[0],
-                applyDirective = _ref7[1];
+        directivePairs.forEach(function (_ref5) {
+            var _ref6 = _slicedToArray(_ref5, 2),
+                directiveName = _ref6[0],
+                applyDirective = _ref6[1];
 
             if (!element.hasAttribute(directiveName)) {
                 return;
