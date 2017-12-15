@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -732,10 +732,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var thisNameSpace = "yesNoDialog";
     var cssPrefix = "yes-no-dialog";
     var cssDialogActiveClass = cssPrefix + "-active";
-    var yesButton = d$1.contextFromArray([thisNameSpace, "yesButton"]);
-    var yesNoContainer = d$1.contextFromArray([thisNameSpace, "confirm"]);
-    var promptContainer = d$1.contextFromArray([thisNameSpace, "prompt"]);
-    var promptInput = d$1.contextFromArray([thisNameSpace, "input"]);
+    var yesButton = d.contextFromArray([thisNameSpace, "yesButton"]);
+    var yesNoContainer = d.contextFromArray([thisNameSpace, "confirm"]);
+    var promptContainer = d.contextFromArray([thisNameSpace, "prompt"]);
+    var promptInput = d.contextFromArray([thisNameSpace, "input"]);
     var yesNoSymbol = 0;
     var promptSymbol = 1;
 
@@ -748,7 +748,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var cleanUp = function cleanUp() {
         waiting = false;
         document.body.classList.remove(cssDialogActiveClass);
-        d$1.feed({
+        d.feed({
             question: "",
             label: "",
             input: "",
@@ -772,7 +772,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         } else {
             var next = yesNoDialogQueue.shift();
             if (next.intent !== promptSymbol) {
-                d$1.elements[promptInput].blur();
+                d.elements[promptInput].blur();
             }
             if (next.intent === yesNoSymbol) {
                 prepareYesNo(next);
@@ -788,9 +788,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             yesText = _ref7.yesText,
             noText = _ref7.noText;
 
-        d$1.elements[yesNoContainer].hidden = false;
+        d.elements[yesNoContainer].hidden = false;
         currentResolve = resolve;
-        d$1.feed({
+        d.feed({
             question: question,
             yesText: yesText,
             noText: noText
@@ -804,35 +804,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             input = _ref8.input,
             submitText = _ref8.submitText;
 
-        d$1.elements[promptContainer].hidden = false;
+        d.elements[promptContainer].hidden = false;
         currentResolve = resolve;
-        d$1.feed({
+        d.feed({
             question: question,
             label: label,
             input: input,
             submitText: submitText
         }, thisNameSpace);
-        d$1.elements[promptInput].focus();
+        d.elements[promptInput].focus();
     };
 
-    d$1.functions.yesNoDialogAnswer = function (event) {
-        d$1.elements[yesNoContainer].hidden = true;
+    d.functions.yesNoDialogAnswer = function (event) {
+        d.elements[yesNoContainer].hidden = true;
         prepareNext();
-        currentResolve(event.target === d$1.elements[yesButton]);
+        currentResolve(event.target === d.elements[yesButton]);
     };
 
-    d$1.functions.yesNoDialogSubmit = function (event) {
-        var input = d$1.variables[promptInput];
+    d.functions.yesNoDialogSubmit = function (event) {
+        var input = d.variables[promptInput];
         // prepareNext can overwrite d.variables[promptInput]
-        d$1.elements[promptContainer].hidden = true;
+        d.elements[promptContainer].hidden = true;
         prepareNext();
         currentResolve(input);
     };
 
-    d$1.functions.yesNoDialogSubmitViaEnter = function (event) {
+    d.functions.yesNoDialogSubmitViaEnter = function (event) {
         if (event.keyCode === 13) {
             //Enter
-            d$1.functions.yesNoDialogSubmit();
+            d.functions.yesNoDialogSubmit();
         }
     };
 
@@ -872,13 +872,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     // Import
-    d$1.start({
+    d.start({
         askSomething: function askSomething(event) {
             var questionText = "Do you think your scroll position will be remembered ?";
             var yesText = "Yes";
             var noText = "No";
             yesNoDialog(questionText, yesText, noText).then(function (answer) {
-                d$1.feed({
+                d.feed({
                     result: String(answer)
                 });
             });
@@ -889,7 +889,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var text = "";
             var submitText = "send";
             textDialog(question, label, text, submitText).then(function (answer) {
-                d$1.feed({
+                d.feed({
                     result2: String(answer),
                     warning: "Never give input back to the user in a real world app without validating, sanitizing input first."
                 });
@@ -899,6 +899,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         result: ""
     });
 
-    window.d = d$1; // for debugging
+    window.d = d; // for debugging
 })();
 

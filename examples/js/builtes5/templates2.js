@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -723,7 +723,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var currentCommentNumber = 2;
 
     var update = function update(commentKey, commentObject) {
-        d$1.feed(commentObject, commentKey);
+        d.feed(commentObject, commentKey);
     };
 
     var getDataFromFakeServer = function getDataFromFakeServer(urlOrWhat) {
@@ -740,7 +740,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     };
 
-    d$1.functions.showNextComment = function (event) {
+    d.functions.showNextComment = function (event) {
         currentCommentNumber += 1;
         var key = "" + commentPrefix + currentCommentNumber;
 
@@ -748,10 +748,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             tagName: "d-comment",
             "data-inside": key
         };
-        var customElement = d$1.createElement2(customElementDescription);
+        var customElement = d.createElement2(customElementDescription);
 
-        d$1.activate(customElement);
-        d$1.elements.commentSection.appendChild(customElement);
+        d.activate(customElement);
+        d.elements.commentSection.appendChild(customElement);
         getDataFromFakeServer("comment?id=42").then( //get data
         function (data) {
             update(key, data);
@@ -769,6 +769,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 
-    d$1.feed(commentsData);
-    d$1.activate();
+    d.feed(commentsData);
+    d.activate();
 })();

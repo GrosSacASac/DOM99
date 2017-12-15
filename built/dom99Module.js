@@ -1,4 +1,3 @@
-export default d;
 /* dom99.js */
  /*        Copyright Cyril Walle 2017.
 Distributed under the Boost Software License, Version 1.0.
@@ -757,3 +756,4 @@ const d = (function () {
         options
     });
 }());
+export default d;

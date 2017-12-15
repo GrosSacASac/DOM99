@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -726,9 +726,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             globalCopy: String(value)
         };
 
-        d$1.feed(changeDescriptor, d$1.contextFromArray(["outerList", 0]));
-        d$1.feed(changeDescriptor, d$1.contextFromArray(["outerList", 1]));
-        d$1.feed(changeDescriptor, d$1.contextFromArray(["outerList", 2]));
+        d.feed(changeDescriptor, d.contextFromArray(["outerList", 0]));
+        d.feed(changeDescriptor, d.contextFromArray(["outerList", 1]));
+        d.feed(changeDescriptor, d.contextFromArray(["outerList", 2]));
     };
 
     var globalIncrement = function globalIncrement(event) {
@@ -737,20 +737,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var globalSet = function globalSet(event) {
-        var context = d$1.contextFromEvent(event);
-        var newGlobalNumber = Number(d$1.variables[d$1.contextFromArray([context, "globalCopy"])]);
+        var context = d.contextFromEvent(event);
+        var newGlobalNumber = Number(d.variables[d.contextFromArray([context, "globalCopy"])]);
         globalNumber = newGlobalNumber;
 
         setAllGlobalCopyInside(globalNumber);
     };
 
     var localIncrement = function localIncrement(event) {
-        var context = d$1.contextFromEvent(event);
-        var spanElement = d$1.elements[d$1.contextFromArray([context, "span"])];
-        var localNumber = Number(d$1.variables[d$1.contextFromArray([context, "local"])]) + 1;
+        var context = d.contextFromEvent(event);
+        var spanElement = d.elements[d.contextFromArray([context, "span"])];
+        var localNumber = Number(d.variables[d.contextFromArray([context, "local"])]) + 1;
         var localColor = "rgb(" + localNumber * 25 % 255 + ",0,0)";
 
-        d$1.feed({
+        d.feed({
             local: String(localNumber)
         }, context);
 
@@ -759,8 +759,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     var listremake = function listremake(event) {
         /* display list size of global, with value local */
-        var context = d$1.contextFromEvent(event);
-        var localNumber = Number(d$1.variables[d$1.contextFromArray([context, "local"])]);
+        var context = d.contextFromEvent(event);
+        var localNumber = Number(d.variables[d.contextFromArray([context, "local"])]);
         var global = globalNumber;
         var newList = [];
         var i = void 0;
@@ -770,7 +770,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 "b": localNumber
             });
         }
-        d$1.feed({
+        d.feed({
             innerlist: newList
         }, context);
     };
@@ -815,5 +815,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }]
     };
 
-    d$1.start(functions, initialData);
+    d.start(functions, initialData);
 })();

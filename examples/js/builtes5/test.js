@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -724,52 +724,52 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var files = ["beach.jpg", "letter_for_johan.txt", "letter_for_sintia.txt", "recipe.md", "readme.md"];
     var files2 = ["za.jpg", "zu.txt", "zo.txt", "zooo.md", "evil.md"];
 
-    d$1.functions.filter = function (event) {
-        var context = d$1.contextFromEvent(event);
-        var filterText = d$1.variables[d$1.contextFromArray([context, "filterText"])];
+    d.functions.filter = function (event) {
+        var context = d.contextFromEvent(event);
+        var filterText = d.variables[d.contextFromArray([context, "filterText"])];
         var filterElement = event.target;
         /* or
         const filterElement = d.elements[d.contextFromArray([context, "filter"])];
         */
 
-        var messagePath = d$1.contextFromArray([context, "message"]);
+        var messagePath = d.contextFromArray([context, "message"]);
 
         if (filterText) {
-            d$1.feed("filtering " + filterText, messagePath);
+            d.feed("filtering " + filterText, messagePath);
             filterElement.classList.add("grey");
         } else {
-            d$1.feed("Displaying all files", messagePath);
+            d.feed("Displaying all files", messagePath);
             filterElement.classList.remove("grey");
         }
 
-        var parentContext = d$1.getParentContext(context);
+        var parentContext = d.getParentContext(context);
 
-        var originalFiles = d$1.variables[d$1.contextFromArray([parentContext, "originalFiles"])];
+        var originalFiles = d.variables[d.contextFromArray([parentContext, "originalFiles"])];
         var filteredFiles = originalFiles.filter(function (file) {
             return file.match(filterText);
         });
 
-        d$1.feed({
+        d.feed({
             files: filteredFiles
         }, parentContext);
     };
 
-    d$1.feed({
+    d.feed({
         files: files,
         originalFiles: files
     }, "explorer1");
 
-    d$1.feed({
+    d.feed({
         files: files2,
         originalFiles: files2
     }, "explorer2");
 
-    d$1.activate(); // for performance put this at the end
+    d.activate(); // for performance put this at the end
     // here at the beginning for testing purposes
 
 
     var list1 = ["a", "b", "c", "d"];
-    d$1.feed(list1, "list1");
+    d.feed(list1, "list1");
     list1.push("gg");
-    d$1.feed(list1, "list1"); // force update
+    d.feed(list1, "list1"); // force update
 })();

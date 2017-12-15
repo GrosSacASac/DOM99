@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -718,7 +718,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     }();
 
-    d$1.functions.showNextComment = function (event) {
+    d.functions.showNextComment = function (event) {
         //todo
     };
 
@@ -734,7 +734,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     // we could also manually assign every property in a complicated for loop
-    d$1.feed(commentsData);
+    d.feed(commentsData);
 
-    d$1.activate();
+    d.activate();
 })();

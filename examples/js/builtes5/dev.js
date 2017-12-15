@@ -40,7 +40,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
-    var d$1 = function () {
+    var d = function () {
         "use strict";
 
         var NAME = "DOM99";
@@ -718,7 +718,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     }();
 
-    d$1.feed({
+    d.feed({
         x: "XXX",
         z: "ZZZ",
         c: "Test",
@@ -761,5 +761,5 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }]
     });
 
-    d$1.activate();
+    d.activate();
 })();

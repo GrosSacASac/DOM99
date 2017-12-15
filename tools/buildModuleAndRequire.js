@@ -27,9 +27,9 @@ const templateModulePromise = textFileContentPromiseFromPath(templateModule);
 const templateRequirePromise = textFileContentPromiseFromPath(templateRequire);
 ;
 Promise.all([
-    concatenateFiles([templateModule, dom99file], moduleDestination, separator),
+    concatenateFiles([dom99file, templateModule,], moduleDestination, separator),
     concatenateFiles([dom99file, templateRequire], requireDestination, separator),
-    concatenateFiles([templateModule, dom99es5file], modulees5Destination, separator),
+    concatenateFiles([dom99es5file, templateModule], modulees5Destination, separator),
     concatenateFiles([dom99es5file, templateRequire], requirees5Destination, separator)
 ]).then(function () {
     ;
