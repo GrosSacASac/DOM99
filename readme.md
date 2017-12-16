@@ -25,9 +25,9 @@ edit file js/dom99.js
 `python -m http.server 8080` or `http-server` to serve static files. (use a second command prompt to be able to rebuild while serving)
 
 
-## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
+## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
 
- * With cdn.rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about)
+ * With cdn.rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
  * Locally in /documentation/documentation.html
 
 
