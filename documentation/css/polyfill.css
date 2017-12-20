@@ -1,0 +1,9 @@
+
+
+[hidden], template {
+  display: none;
+}
+
+article, main, section {
+  display:block;
+}

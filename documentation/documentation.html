@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>DOM99</title>
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
     <link rel="icon" href="../images/visual2.jpg">
 </head>
@@ -15,7 +16,7 @@
     <a href="#about">About</a>
     <a href="#examples1">Examples</a>
     <a href="#howto">Documentation</a>
-    <a href="#more">Details</a>
+    <a href="#details">Details</a>
     <a href="#timeline">Time-Line</a>
 </nav> 
 <article id="about">
@@ -534,9 +535,9 @@ d.functions.update = function (event) {
         const listVariable = d.variables[listKey]; // read
         d.feed([
             "a",
-            "@",
-            "ÃÂ£"
-        ], listKey); // write
+            "b",
+            "c"
+        ], listKey); // write with side effect
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
         const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
@@ -581,9 +582,9 @@ d.functions.update = function (event) {
 
 
 
-<article id="more">
-
-<article id="extra tips">
+<article id="details">
+<h2>Details</h2>
+<article id="extra-tips">
 <h3>Extra Tips</h3>
 <p>View components in components/ folder</p>
 <p>You can handle new HTML with <code>d.activate(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
@@ -719,7 +720,7 @@ Good for encapsulation of independent components. See how it is used in componen
 <p>Upgrade the doc</p>
 <p>experimenting with d.start(userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined)</p>
 <p>d.start does what you think, the right way</p>
-<code><pre>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
+<pre><code>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
         Object.assign(functions, userFunctions);
         feed(initialFeed);
         activate(startElement);
@@ -727,37 +728,35 @@ Good for encapsulation of independent components. See how it is used in componen
             return;
         }
         return callBack();
-    };</pre></code>
+    };</code></pre>
 <h4>Version 7.0.0</h4>
 <p>renamed dom99 variable into just d</p>
-<code><pre>d.getParentContext removed. To navigate through context there are now  3 functions that work together
+<p>d.getParentContext removed. To navigate through context there are now  3 functions that work together:</p>
+<ul>
+    <li><code>d.contextFromEvent</code> to get the context from the event</li>
+    <li><code>d.contextFromArray</code> to build up a direct acces string to go 1 level up the tree</li>
+    <li><code>d.getParentContext</code>  to go 1 level down the tree</li>
+</ul>
+<p>this model is more flexible than before but requires more code, example to change color from sister element</p>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
 
-    d.contextFromEvent to get the context from the event
-    d.contextFromArray to build up a direct acces string to go 1 level up the tree
-    d.getParentContext to go 1 level down the tree
+d.functions.changeSister = function (event) {
+    const thisContext = d.contextFromEvent(event);
+    const sisterAccessContext = d.contextFromArray([thisContext, "div"]);
+    const sisterDiv = d.elements[sisterAccessContext];
+    sister.Div.classList.add("red");
+};(
+</code></pre>
+<p>This works anywhere including, deep inside other data-list="" and data-inside=""
+The div does not have to be a sister element html speaking, but only from dom99 point of view
 
-    this model is more flexible than before but requires more code, example to change color from sister element
-    &lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
-    &lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
-
-    d.functions.changeSister = function (event) {
-        const thisContext = d.contextFromEvent(event);
-        const sisterAccessContext = d.contextFromArray([thisContext, "div"]);
-        const sisterDiv = d.elements[sisterAccessContext];
-        sister.Div.classList.add("red");
-    };(
-    
-    This works anywhere including, deep inside other data-list="" and data-inside=""
-    The div does not have to be a sister element html speaking, but only from dom99 point of view
-    
-    This would work too 
-        &lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
-        &lt;footer&gt;
-            &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
-        &lt;/footer&gt;
-    </pre></code>
-    
-    To go one level down use d.getParentContext(context)
+This would work too</p>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+    &lt;footer&gt;
+        &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
+    &lt;/footer&gt;</code></pre>
+<p>To go one level down use d.getParentContext(context)</p>
 <p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
@@ -851,7 +850,6 @@ the license in distributed executables or transpiled code</p>
 </article>
 
 </article>
-</div>
 
 <script nomodule src="../polyfills/built/polyfill.min.js"></script>
 <script nomodule src="../polyfills/built/remove.js"></script>

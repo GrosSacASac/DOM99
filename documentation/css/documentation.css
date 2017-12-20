@@ -14,7 +14,7 @@ code {
 }
 
 pre > code {
-  
+  white-space:pre-wrap;
 }
 
 p {
@@ -23,21 +23,16 @@ p {
   font-size: 1.05em;
 }
 
-[hidden], template {
-  display: none;
-}
-
-article {
-  display:block;/* EI*/
-}
-
 main > nav > a {
-  font-size:1.6em;
-  display:block;
-  text-decoration:none;
+  display: block;
   margin-left: 4px;
-  color:#111177;
-  background-color:#eedeee;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: center;
+  font-size: 1.62em;
+  text-decoration: none;
+  color: #111177;
+  background-color: #eedeee;
 }
 
 main > nav > a:hover,
@@ -55,12 +50,15 @@ main > article {
 @media screen and (min-device-width: 960px) {
 
   main > nav > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    text-align: left;
     font-size:1.4em;
   }
   
   main > nav {
     position: fixed;
-    width:18em;
+    width:16em;
     float:left;
     padding-top: 2.3em;
     margin-right:1em;
@@ -68,9 +66,9 @@ main > article {
 
   main > article {
     border-left: 2px solid #444;
-    margin-left:18em;
-    padding-left:1.5em;
-    padding-right:2.0em;
+    margin-left: 16em;
+    padding-left: 1.3em;
+    padding-right: 1.7em;
   }
 }
 
