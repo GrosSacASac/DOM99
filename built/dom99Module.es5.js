@@ -624,8 +624,7 @@ var d = function () {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
         // todo make sure no impact-full read write
         if (!element.hasAttribute) {
-            // can this if be removed eventually ?
-            console.error("should we ever arrive here ?");
+            // can this if be removed eventually ? --> no
             return;
         }
 
