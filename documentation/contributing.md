@@ -61,5 +61,6 @@
  * lit-html 
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
  * make sure it integrates well with webpack, rollup, ie, "modules": false
+ * make it easier to toggle attributes and class names from elements that are injected from template or from lists
  
  

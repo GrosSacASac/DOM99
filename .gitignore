@@ -237,3 +237,4 @@ components/yesNoDialog/examples/js/built/yesNoDialog.js
 webspree_session.json
 documentation/js_snippets.js
 images/redesign-old.jpg
+tests/performance/raw_results.txt

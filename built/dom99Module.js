@@ -273,11 +273,23 @@ const d = (function () {
         };
     }());
 
-    const contextFromEvent = function (event) {
-        if (event.target) {
-            const element = event.target;
+    const contextFromEvent = function (event, parent) {
+        if (event || parent) {
+            let element
+            if (event && event.target) {
+                element = event.target;
+            } else {
+                element = parent;
+            }
+            
             if (hasOwnProperty.call(element, CONTEXT)) {
                 return element[CONTEXT];
+            } else {
+                if (element.parentNode) {
+                    return contextFromEvent(undefined, element.parentNode);
+                } else {
+                    ;
+                }
             }
         }
         console.warn(
@@ -349,10 +361,9 @@ const d = (function () {
     };
 
     const notifyVariableSubscribers = function (subscribers, value) {
-        // could also only take path and get subscribers + value with path
         if (value === undefined) {
-            // console.warn(`Do not use undefined values for feed`);
-            // should this happen ?
+            // undefined can be used to use the default value
+            // without explicit if else
             return;
         }
         subscribers.forEach(function (variableSubscriber) {

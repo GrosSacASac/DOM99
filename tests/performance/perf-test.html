@@ -4,9 +4,25 @@
     <meta charset="utf-8"/>
     <title>dom99</title>
     <link href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="main.css" rel="stylesheet"/>
 </head>
 <body>
-<div id='main'>
+
+<template data-template="row-template">
+    <tr data-element="row">
+        <td class="col-md-1" data-variable="id">ID</td>
+        <td class="col-md-4">
+            <a data-function="click-selectRow" data-variable="label">LABEL</a>
+        </td>
+        <td class="col-md-1">
+            <!-- also try with top level event delegation  data-function= here (body) -->
+            <a data-function="click-deleteRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+        </td>
+        <td class="col-md-6"></td>
+    </tr>
+</template>
+
+<div id='main' data-function="click-delegate">
     <div class="container">
         <div class="jumbotron">
             <div class="row">
@@ -38,12 +54,13 @@
             </div>
         </div>
         <table class="table table-hover table-striped test-data">
-            <tbody id="tbody">
-            </tbody>
+            <tbody id="tbody" data-element="tbody" data-list="rows-row-template"></tbody>
         </table>
         <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 </div>
-<script src='dist/main.js'></script>
+<!-- <script src='../../built/dom99.es5.min.js'></script> -->
+<script src='../../js/dom99.js'></script>
+<script src='main.js'></script>
 </body>
 </html>

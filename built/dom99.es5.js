@@ -276,11 +276,23 @@ var d = function () {
         };
     }();
 
-    var contextFromEvent = function contextFromEvent(event) {
-        if (event.target) {
-            var element = event.target;
+    var contextFromEvent = function contextFromEvent(event, parent) {
+        if (event || parent) {
+            var element = void 0;
+            if (event && event.target) {
+                element = event.target;
+            } else {
+                element = parent;
+            }
+
             if (hasOwnProperty.call(element, CONTEXT)) {
                 return element[CONTEXT];
+            } else {
+                if (element.parentNode) {
+                    return contextFromEvent(undefined, element.parentNode);
+                } else {
+                    ;
+                }
             }
         }
         console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
@@ -347,10 +359,9 @@ var d = function () {
     };
 
     var notifyVariableSubscribers = function notifyVariableSubscribers(subscribers, value) {
-        // could also only take path and get subscribers + value with path
         if (value === undefined) {
-            // console.warn(`Do not use undefined values for feed`);
-            // should this happen ?
+            // undefined can be used to use the default value
+            // without explicit if else
             return;
         }
         subscribers.forEach(function (variableSubscriber) {
