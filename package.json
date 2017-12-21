@@ -19,6 +19,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "bootstrap": "^3.3.7",
     "rollup": "^0.50.0",
     "uglify-js": "^3.1.5",
     "utilsac": "^2.0.0"
@@ -29,7 +30,6 @@
     "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run transpile && npm run minify && npm run buildModuleAndRequire",
-    
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
@@ -39,8 +39,9 @@
     "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run yesno"
   },
   "babel": {
-  
-    "plugins": ["transform-object-rest-spread"],
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
     "presets": [
       [
         "env",
