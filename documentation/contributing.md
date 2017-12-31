@@ -64,5 +64,5 @@
  * make it easier to toggle attributes and class names from elements that are injected from template or from lists
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
- 
+ * hooks for custom elements after/before create 
  
