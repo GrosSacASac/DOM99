@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>DOM99</title>
+    <title>dom99</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
     <link rel="icon" href="../images/visual2.jpg">
 </head>
 <body>
-<h1>DOM99</h1>
+<h1>dom99</h1>
    
 <main>
 <nav>
@@ -21,38 +21,38 @@
 </nav> 
 <article id="about">
 <h2>About</h2>
-<img alt="DOM99" src="../images/visual2.jpg">
+<img alt="dom99" src="../images/visual2.jpg">
 
 <section>
-<h3>What is DOM99 ?</h3>
+<h3>What is dom99 ?</h3>
 
-<p>DOM99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
+<p>dom99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
 framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>
 and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
 You can also build the HTML with custom elements.<a href="http://jsbin.com/tepezuj/3/embed?html,js,output">Try the intro playground</a>
 </section>
 <section>
-<h3>Why use DOM99 ?</h3>
+<h3>Why use dom99 ?</h3>
 
-<p>To spend less time in the developement. DOM99 encourages you to link the UI and the logic declaratively. DOM99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents alot of bugs from even existing. DOM99 makes no assumption about the logic code base architecture. DOM99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependency and is written respecting modern ES and HTML standards. DOM99 is simple by design. You can learn how to use DOM99 in less than 15 minutes. There are no build steps required.</p>
+<p>To spend less time in the developement. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents alot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependency and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
 
-<p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, DOM99 is for you. It is very beginner friendly yet powerful. <a href="manychoicesforfrontend.md">Comparisons with other frameworks</a></p>
+<p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, dom99 is for you. It is very beginner friendly yet powerful. <a href="manychoicesforfrontend.md">Comparisons with other frameworks</a></p>
 
 </section>
 <section>
-<h3>Why not use DOM99 ?</h3>
+<h3>Why not use dom99 ?</h3>
 
 <ul>
 <li>No support for some old browsers</li>
 <li>Fear of the unknown</li>
 <li>You have already a working codebase that is mantainable</li>
-<li>You need a comprehensive framework that has all the tools/components/css you need out of the box.(DOM99 is not batteries included)</li>
+<li>You need a comprehensive framework that has all the tools/components/css you need out of the box.(dom99 is not batteries included)</li>
 <li>No built in server side rendering mechanism</li>
 </ul>
 
 </section>
 <section>
-<h3>How does DOM99 work ?</h3>
+<h3>How does dom99 work ?</h3>
 
 <p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.activate();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
 
@@ -111,11 +111,11 @@ Version 1.0: LICENSE.txt</a></p>
 </article>
 
 <article id="howto">
-<h2>How to use DOM99 ?</h2>
+<h2>How to use dom99 ?</h2>
         
 <h3>In your HTML:</h3>
 
-<p>DOM99 will browse the DOM and react if an element has one of the following attributes</p>
+<p>dom99 will browse the DOM and react if an element has one of the following attributes</p>
 
 <ul>
     <li>data-variable :  data binding between DOM element and js variable</li>
@@ -205,7 +205,7 @@ d.feed({
 
 </code></pre>
 
-<p>You are ready to use DOM99 ! </p>
+<p>You are ready to use dom99 ! </p>
 
 <h2>Examples</h2>
 
@@ -222,7 +222,7 @@ d.feed({
 d.activate();</code></pre>
 
 <p>Use activate after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
-<p>This will look the for DOM99 directives in the document tree.</p>
+<p>This will look the for dom99 directives in the document tree.</p>
 
 <p>Initialize variables with HTML. <code>d.feed</code> can then be used to over-write the default html values. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.elements</code>.</p>
 
@@ -353,7 +353,7 @@ d.activate();
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;title&gt;DOM99 DEMO templates 3&lt;/title&gt;
+    &lt;title&gt;dom99 DEMO templates 3&lt;/title&gt;
     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
@@ -593,8 +593,8 @@ d.functions.update = function (event) {
 
 <p>You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
 
-<p>You can change the DOM99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
-<p>Server side rendering is compatible with DOM99, but you have to glue it together yourself. A future version will make this built in with a node extension.</p>
+<p>You can change the dom99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
+<p>Server side rendering is compatible with dom99, but you have to glue it together yourself. A future version will make this built in with a node extension.</p>
 </article>
 
 <article id="domgood">
@@ -630,7 +630,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li>
 <li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li>
 <li><a href="https://gist.github.com/paulirish/5d52fb081b3570c81e3a">About layout trashing</a></li></ul>
-<h3>How is DOM99 fast ?</h3>
+<h3>How is dom99 fast ?</h3>
 
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
 </article>
@@ -642,9 +642,9 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <ul><li>Don't BlackList, Aggressively White-list</li><li>Don't mix data with code, use parameter injection with proper escaping and encoding</li><li>Don't trust what you don't control, validate size and format instead</li><li>Every software component should be so simple that it is obviously safe</li><li>Avoid complexity</li><li>Aggressively block if some behaviours are undefined</li><li>Talk with security experts</li></ul>
 
-<h3>DOM99 and security</h3>
+<h3>dom99 and security</h3>
 
-<p>DOM99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>d.variables</code> uses textContent or value by default. </p>
+<p>dom99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>d.variables</code> uses textContent or value by default. </p>
 
 <p>If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.</p>
 
@@ -823,7 +823,7 @@ the license in distributed executables or transpiled code</p>
 <p>1.15.1 </p>
 <ul>
     <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
-    <li>Changed the way to configure DOM99</li>
+    <li>Changed the way to configure dom99</li>
     <li>You can now control what gets changed with data-variable</li>
    </ul>
 <p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
@@ -838,17 +838,17 @@ the license in distributed executables or transpiled code</p>
 <article>
 <h3>Future</h3>
 <h4>What is coming soon:</h4>
-<ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update DOM99</li></ul>
+<ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update dom99</li></ul>
 <h4>Abstract directions for the future or Specification</h4>
 <ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloatware</li></ul>
-<p>This leaves more freedom to combine DOM99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside DOM99 and anything else that is complementary to accelerate the development process.</p>
+<p>This leaves more freedom to combine dom99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside dom99 and anything else that is complementary to accelerate the development process.</p>
 </article>
 
 <article id="history">
 <h3>History</h3>
-<p>The first version of DOM99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
-<p>In march 2016 I decided to share DOM99 after heavy code changes on Github and NPM in its own repository instead of some sub-folder in some other project.</p>
-<p>Late 2017, new design decisions based on new experience aquired since then. The version is a major change. For older versions, have a look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a>
+<p>The first version of dom99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
+<p>In march 2016 I decided to share dom99 after heavy code changes on GitHub and NPM in its own repository instead of some sub-folder in some other project.</p>
+<p>Late 2017, new design decisions based on new experience acquired since then. The version is a major change. For older versions, have a look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a>
  and <a href="https://github.com/GrosSacASac/DOM99/commit/62947dbe5076fdf4dd6cd032a971123116eeb647">4.0.0</a>.</p>
 </article>
 
@@ -881,7 +881,7 @@ d.feed({myVariable : "Hello World"});
 </template>
 
 <script nomodule data-element="Hello World 2Js">
-d.feed({text : "Hello DOM99"});
+d.feed({text : "Hello dom99"});
 </script>
 
 <!-- Multiplier-->
