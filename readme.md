@@ -5,7 +5,7 @@
 
 dom99 is a JavaScript framework to ease the interaction between the HTML and your program. Declaratively select HTML elements, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
 You can also build the HTML with custom elements.
-[Demo](http://jsbin.com/tepezuj/3/embed?html,js,output)
+<!-- [Demo](http://jsbin.com/tepezuj/3/embed?html,js,output) -->
 
 ## Design philosophy
 
@@ -21,7 +21,7 @@ dom99 can be used in a zero-second compile time development set-up with ES-modul
 
 ### Avoiding leaky abstractions
 
-No virtual dom, no virtual events are used for maximum possible performance. The projects will have less subtle bugs that are hard to understand without understanding the framework.
+No virtual dom, no virtual events are used for maximum possible performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
 
 
 ### Optimized for page-load
