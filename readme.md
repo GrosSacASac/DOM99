@@ -45,7 +45,7 @@ Elements in the mark-up linked to the DOM use `data-*` instead of the overused `
 
 ### Easy to learn
 
-Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 ## Discussion
 
