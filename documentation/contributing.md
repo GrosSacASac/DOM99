@@ -21,11 +21,8 @@
     * webpack
     * minifier, transpiler, etc
  * better explain the strengths and weaknesses of the library
- * Make performances test 
-    * edit a huge number of items in a list
-        * see how checking for equality before assigning textContent affects performance
-        * compare with Inferno preact
- * remove the micro jumps when browsing the doc
+
+ * see how checking for equality before assigning textContent affects performance
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
     * form validation, form submits

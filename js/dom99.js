@@ -148,7 +148,7 @@ const d = (function () {
 
     const eventFromTag = valueElseMissDecorator({
         "SELECT": "change",
-        "INPUT": "input",
+        "TEXTAREA": "input",
         "BUTTON": "click",
         MISS: "click"
     });

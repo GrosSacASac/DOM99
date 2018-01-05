@@ -29,12 +29,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             same content, different length
             key based identification
         data-function-context to allow context less
-        add data-x spelling checker
     
         transform recursive into sequential flow
     
         add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
+        
+        addEventListener("x", y, {passive: true}); ? explore
     */
     /*jslint
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
@@ -157,7 +158,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         var eventFromTag = valueElseMissDecorator({
             "SELECT": "change",
-            "INPUT": "input",
+            "TEXTAREA": "input",
             "BUTTON": "click",
             MISS: "click"
         });
