@@ -9,6 +9,9 @@
  
 ## To do
 
+
+ * make minimal example in readme
+ * explain better where it comes from and what differentiates it
  * Create a better documentation experience
  * Extract IE artefacts from core and put these in polyfills/extensions
  * make better link to components folder in the documentation
@@ -62,4 +65,4 @@
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
  * hooks for custom elements after/before create 
- 
+ * hash values for smaller memory footprint comparison (trade would make it slower make it an option)

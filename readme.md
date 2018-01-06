@@ -11,7 +11,7 @@ You can also build the HTML with custom elements.
 
 ### Work with the platform
 
-dom99 is a web framework and is built on top of web standards HTML, CSS and JS, and does not intent to be a replacement.
+dom99 is a web framework and is a of web standards HTML, CSS and JS, and does not intent to be a replacement. It extends HTML.
 
 
 ### Zero-second compile time
@@ -21,7 +21,7 @@ dom99 can be used in a zero-second compile time development set-up with ES-modul
 
 ### Avoiding leaky abstractions
 
-No virtual dom, no virtual events are used for maximum possible performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
+No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
 
 
 ### Optimized for page-load
@@ -38,7 +38,7 @@ dom99 is unopiniated and bigger frameworks can be built on top of it. That means
 dom99 does not attempt to invent for the nth time how to write `if` statements and `for loops` inside HTML. Put logic in JS, and mark-up that you already know in HTML.
 
 
-### Designers and coders can works on the same files
+### Designers and coders can work on the same files
 
 Elements in the mark-up linked to the DOM use `data-*` instead of the overused `class` and `id`. The benefits to this approach is that the js programmer can safely add data-attributes to stylized components without breaking the styles, and the designers can safely add `classes` and `ids` without breaking anything.
 
