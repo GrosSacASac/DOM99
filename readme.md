@@ -66,9 +66,17 @@ edit file js/dom99.js
 
 ## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
 
- * With cdn.rawgit.com [Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
- * Locally in /documentation/documentation.html
+[Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
 
+
+Locally in /documentation/documentation.html
+
+
+## Examples
+
+[Graphs](https://github.com/GrosSacASac/graphs)
+
+Other examples in examples/
 
 ## License
 
