@@ -47,7 +47,7 @@ main > article {
   border-bottom: 2px solid black;
 }
   
-@media screen and (min-device-width: 960px) {
+@media screen and (min-width: 960px) {
 
   main > nav > a {
     padding-top: 1px;

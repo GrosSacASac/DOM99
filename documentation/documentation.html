@@ -184,7 +184,7 @@ d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pr
 
 <pre><code>&lt;template data-template="d-comment"&gt;
     &lt;p data-variable="text"&gt;&lt;/p&gt;
-    &lt;datetime data-variable="date"&gt;&lt;/datetime&gt;
+    &lt;time data-variable="date"&gt;&lt;/time&gt;
 &lt;/template&gt;</code></pre>
 
 
@@ -248,7 +248,7 @@ comments we load more comments into the page with dynamic template insertion. We
     &lt;!-- a comment is some text and a date --&gt;
     &lt;template data-template="d-comment"&gt;
         &lt;p data-variable="text"&gt;&lt;/p&gt;
-        &lt;datetime data-variable="date"&gt;&lt;/datetime&gt;
+        &lt;time data-variable="date"&gt;&lt;/time&gt;
     &lt;/template&gt;
 
     &lt;d-comment data-inside="comment1"&gt;&lt;/d-comment&gt;
@@ -372,7 +372,7 @@ d.activate();
 &lt;template data-template=&quot;d-comment&quot;&gt;
     &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
         &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
-        &lt;datetime data-variable=&quot;date&quot;&gt;Loading date ...&lt;/datetime&gt;
+        &lt;time data-variable=&quot;date&quot;&gt;Loading date ...&lt;/time&gt;
     &lt;/article&gt; 
 &lt;/template&gt;
 
