@@ -9,29 +9,12 @@ You can also build the HTML with custom elements.
 
 ## Design philosophy
 
-### Work with the platform
-
-dom99 is a web framework and is a of web standards HTML, CSS and JS, and does not intent to be a replacement. It extends HTML.
-
-
-### Zero-second compile time
-
-dom99 can be used in a zero-second compile time development set-up with ES-modules. For production it is still recommended to bundle and minify files.
-
-
-### Avoiding leaky abstractions
-
-No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
 
 
 ### Optimized for page-load
 
 By default dom99 is optimized for first page load, that means the size is small.
 
-
-### Unopiniated
-
-dom99 is unopiniated and bigger frameworks can be built on top of it. That means you can chose your own router, state management system, etc.
 
 ### HTML for mark-up, JS for logic
 
@@ -47,21 +30,25 @@ Elements in the mark-up linked to the DOM use `data-*` instead of the overused `
 
 Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
-## Discussion
 
-[Chat](https://dystroy.org/miaou/3)
+### Work with the platform
 
-[Issues reports](https://github.com/GrosSacASac/DOM99/issues)
+dom99 is a web framework and is an extension to web standards HTML, CSS and JS, and does not intent to be a replacement.
 
-## Contributing
 
-[Contributing and things to do](CONTRIBUTING.md)
+### Zero-second compile time
 
-edit file js/dom99.js
+dom99 can be used in a zero-second compile time development set-up with ES-modules. For production it is still recommended to bundle and minify files.
 
-`npm run` to list all commands.
 
-`python -m http.server 8080` or `http-server` to serve static files. (use a second command prompt to be able to rebuild while serving)
+### Avoiding leaky abstractions
+
+No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
+
+
+### Unopiniated
+
+dom99 is unopiniated and bigger frameworks can be built on top of it. That means you can chose your own router, state management system, etc.
 
 
 ## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
@@ -77,6 +64,19 @@ Locally in /documentation/documentation.html
 [Graphs](https://github.com/GrosSacASac/graphs)
 
 Other examples in examples/
+
+
+## Discussion
+
+[Chat](https://dystroy.org/miaou/3)
+
+[Issues reports](https://github.com/GrosSacASac/DOM99/issues)
+
+
+## Contributing
+
+[Contributing and things to do](CONTRIBUTING.md)
+
 
 ## License
 

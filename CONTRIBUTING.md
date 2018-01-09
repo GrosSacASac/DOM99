@@ -36,6 +36,15 @@ Feel free to query any kind of upgrades. Contributors are allowed to ask for pay
 
 ### Pull Request or Make any Changes
 
+To edit the core of dom99
+
+edit file js/dom99.js
+
+`npm run` to list all commands.
+
+`http-server` or `python -m http.server 8080` to serve static files. (use a second command prompt to be able to rebuild while serving)
+
+
  * Discuss with in the chat, and/or open issue first to discuss
  * Fork, create branch, make changes, Pull request (recommended)
  * OR clone + make changes + send changed files via message
