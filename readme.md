@@ -55,7 +55,7 @@ Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM9
 
 ## Contributing
 
-[Contributing and things to do](documentation/contributing.md)
+[Contributing and things to do](CONTRIBUTING.md)
 
 edit file js/dom99.js
 

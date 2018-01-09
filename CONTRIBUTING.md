@@ -1,17 +1,59 @@
 # Contributing
 
+
+## Code of Conduct
+
+Respect the [Code of Conduct](CODE_OF_CONDUCT.md)
+
+
+## About this guide
+
+
+Use this guide as guidance not as strict rules.
+
+
 ## How
 
- * Discuss with me in the chat, and open issue first to discuss
- * Fork + make changes + Pull request (recommended)
- * OR Copy + make changes + send changed files via message
- * What could be better ?
- 
-## To do
+### Questions
+
+Feel free to ask any question. 
 
 
- * make minimal example in readme
- * explain better where it comes from and what differentiates it
+### Reporting Bugs
+
+Thanks. Give as many relevant details as possible. 
+
+
+### Suggestions
+
+Thanks.
+
+
+### Queries
+
+Feel free to query any kind of upgrades. Contributors are allowed to ask for payment.
+
+
+### Pull Request or Make any Changes
+
+ * Discuss with in the chat, and/or open issue first to discuss
+ * Fork, create branch, make changes, Pull request (recommended)
+ * OR clone + make changes + send changed files via message
+
+
+### Donations
+
+Open an issue to make us open a donation channel
+
+
+## What to do
+
+
+ * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
+ * provide an optional wrapper for the API that seems to scales better for large teams
+ * compare values before updating ? with data-compare-before ?
+ * put minimal example in readme
+ * explain better where dom99 comes from and what differentiates it
  * Create a better documentation experience
  * Extract IE artefacts from core and put these in polyfills/extensions
  * make better link to components folder in the documentation
@@ -40,7 +82,7 @@
         * canvas
         * VR, AR
     * local navigation (menu bars, links, buttons)
-    * disabled js, and fallbacks
+    * disabled js, and fall-backs
     * cross device support, phone, tablets, fridges, smartwatch, tv
         * UX, css media queries, button size, pointer events, touch events, both
     * website monetization and growth
@@ -51,9 +93,9 @@
     * static
     * on the fly, streaming html
     * html + js + css in one file ? .vue ?
-    * html transpiler or research html template engine
+    * html Transpiler or research html template engine
  * streaming text editor
- * better developper tools
+ * better developer tools
     * indexed error messages in the doc
     * more warnings
     * text editors plugins
@@ -66,3 +108,26 @@
  that has data-*
  * hooks for custom elements after/before create 
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
+ * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
+ * make doc experience more streamlined
+ * enable and test tree shaking possibilities. Would it be better to export multiple things instead of 1 big
+ * finish https://github.com/GrosSacASac/DOM99/community
+
+
+## Coding Style Guides
+
+
+Read a bit of existing code to analyse the coding style.
+
+
+## Licensing
+
+Any contribution that is incorporated into the project has by default the license of the project. Until then, all contributions including issues are "CC0-1.0".
+
+
+## Attribution, Identities and links
+
+Any major contributor may ask (it is opt in) to have the name/username and 1 link and 1 private contact and 1 enterprise/donation link of the major contributor included in both readme and official documentation.
+
+A major contributor is someone who made at least 1 significant contribution.
+
