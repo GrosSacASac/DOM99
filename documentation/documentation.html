@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>dom99</h1>
-   
+
 <main>
 <nav>
     <a href="#about">About</a>
@@ -273,7 +273,7 @@ let commentsData = {
     },
     comment2: {
         text: "I really appreciate your work",
-        date: "just now" 
+        date: "just now"
     }
 };
 
@@ -303,23 +303,23 @@ const getDataFromFakeServer = function (urlOrWhat) {
             text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
             date: "just now"
         };
-        
+
         window.setTimeout(function () {
             resolve(fakeData);
         }, 2000);
-    }); 
+    });
 };
 
 d.functions.showNextComment = function (event) {
     currentCommentNumber += 1;
     let key = `${commentPrefix}${currentCommentNumber}`;
-    
+
     const customElementDescription = {
         tagName: "d-comment",
         "data-inside": key
     }
     const customElement = d.createElement2(customElementDescription);
-    
+
     d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
     getDataFromFakeServer("comment?id=42").then( //get data
@@ -335,7 +335,7 @@ let commentsData = { //initial
     },
     comment2: {
         text: "I really appreciate your work",
-        date: "yesterday" 
+        date: "yesterday"
     }
 };
 
@@ -359,7 +359,7 @@ d.activate();
     &lt;link rel=&quot;icon&quot; href=&quot;../images/visual2.jpg&quot;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  
+
 &lt;article&gt;
     &lt;h2&gt;Article Title&lt;/h2&gt;
     &lt;p&gt;Article&lt;/p&gt;&lt;p&gt;Blalblabla I give my opinion blabla&lt;/p&gt;
@@ -370,7 +370,7 @@ d.activate();
     &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
         &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
         &lt;time data-variable=&quot;date&quot;&gt;Loading date ...&lt;/time&gt;
-    &lt;/article&gt; 
+    &lt;/article&gt;
 &lt;/template&gt;
 
 &lt;!-- data-list=&quot;VARIABLE_NAME - CUSTOM-ELEMENT_NAME&quot; --&gt;
@@ -405,17 +405,17 @@ const fetchData = function (urlOrWhat) {
             text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
             date: "just now"
         };
-        
+
         window.setTimeout(function () {
             resolve(fakeData);
         }, 2000);
-    }); 
+    });
 };
 
 d.functions.showNextComment = function (event) {
 
     // in the meantime already display an empty comment for instant feedback
-    
+
     // remember the position to be updated later
     const position = commentsData.length;
     commentsData.push(undefined);
@@ -426,21 +426,21 @@ d.functions.showNextComment = function (event) {
     fetchData("comment?id=42").then( function (data) {
             update(data, position);
     });
-    
+
 };
 
 // comments are now stored inside an array
 // you can try to convert an Object to an Array using
 // Object.values(my_object);
 
-let commentsData = [ 
+let commentsData = [
     {
         text: "I am the first to comment, well written! Bravo!",
         date: "In the year 2016"
     },
     {
         text: "I really appreciate your work",
-        date: "yesterday" 
+        date: "yesterday"
     }
 ];
 
@@ -503,7 +503,7 @@ d.elements[d.contextFromArray(["key", "elementName"])].className = ...</code></p
     &lt;div data-inside="encapsulated" &gt;
         &lt;p data-variable="text" &gt;Other Default Text&lt;/p&gt;
     &lt;/div&gt;
-    
+
     Any HTML ...
 &lt;/template&gt;
 
@@ -542,7 +542,7 @@ d.functions.update = function (event) {
         const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
         const textVariable2 = d.variables[encapsulatedTextKey]; // read
         d.feed("New Encapsulated Text", encapsulatedTextKey); // write
-        
+
 
     // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
@@ -556,7 +556,7 @@ d.functions.update = function (event) {
 <h2>Some Examples</h2>
 <p id="errors"><noscript>Enable JavaScript to view certain part of this page.</noscript></p>
 <template data-template="d-htmljsresult">
-    <article class="htmljsandoutput">
+    <article class="htmljsandoutput" data-element="penContainer">
         <h3 data-variable="title"></h3>
         <section>
             <h4>HTML</h4>
@@ -577,6 +577,8 @@ d.functions.update = function (event) {
 <d-htmljsresult data-inside="Multiplier"></d-htmljsresult>
 <d-htmljsresult data-inside="Lists"></d-htmljsresult>
 <d-htmljsresult data-inside="Lists2"></d-htmljsresult>
+<d-htmljsresult data-inside="Composition"></d-htmljsresult>
+<!-- Note this code was written before data-list existed so it is not written pefectly-->
 </article>
 
 
@@ -614,8 +616,8 @@ d.functions.update = function (event) {
 
 <h3>General Tips</h3>
 
-<p>In short: Rendering and painting the DOM is slow, 
-JavaScript itself is fast. 
+<p>In short: Rendering and painting the DOM is slow,
+JavaScript itself is fast.
 Simply changing a class name of an element can cause the browser to do heavy computation under the hood.
  For very simple programs, performance may not be an issue at all.</p>
 
@@ -673,7 +675,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <ul>
     <li>forgetRemoveTemplate into deleteTemplate</li>
     <li>linkJsAndDom into activate</li>
-    
+
     <li>options.attributeValueDoneSign into options.doneSymbol</li>
     <li>options.elementsForUserInputList into options.tagNamesForUserInput</li>
     <li>options.directives.directiveFunction into options.directives.function</li>
@@ -793,16 +795,16 @@ the license in distributed executables or transpiled code</p>
 }
 </code></pre>
 <p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>d.functions must now be populated before D.activate() is called</p>
+<p>d.functions must now be populated before d.activate() is called</p>
 <p>
     eventFromTagAndType
         changed into eventNameFromElement
   </p>
-<p>  
+<p>
     variablePropertyFromTagAndType
         changed into variablePropertyFromElement
   </p>
-<p>      
+<p>
     elementsForUserInputList
         changed into tagNamesForUserInput</p>
 <p>data-template="d-name" added
@@ -875,8 +877,8 @@ d.feed({myVariable : "Hello World"});
 
 <!-- Hello World 2-->
 <template data-element="Hello World 2Html">
-<input data-variable="text"><br>
-<span data-variable="text"></span>
+<input data-variable="text">
+<p data-variable="text"></p>
 </template>
 
 <script nomodule data-element="Hello World 2Js">
@@ -895,6 +897,7 @@ d.feed({text : "Hello dom99"});
 <span>=</span>
 <output data-variable="result"></output>
 </template>
+
 <script nomodule data-element="MultiplierJs">
 
 d.functions.calculate = function (event) {
@@ -916,6 +919,7 @@ d.functions.calculate();
 <template data-element="ListsHtml">
 <ul data-list="fruits-li"></ul>
 </template>
+
 <script nomodule data-element="ListsJs">
 d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
 </script>
@@ -925,8 +929,8 @@ d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
 <img data-variable="image" alt="">
 <select data-variable="image" data-list="images-option" name="image"></select>
 <p>You selected <span data-variable="image"></span></p>
-
 </template>
+
 <script nomodule data-element="Lists2Js">
 d.feed([
     {
@@ -944,6 +948,40 @@ d.feed([
 ], "images");
 
 d.feed(d.variables.images[0].value, "image");
+</script>
+
+<!-- Composition -->
+<template data-element="CompositionHtml">
+    <!-- Define the template for an user
+    every user has a picture, a short biography, and a contact button -->
+
+    <template data-template="user-element">
+        <div class="user">
+            <img data-variable="picture" alt="user-picture" class="user-picture">
+            <p data-variable="bio" class="user-bio">SHORT BIO</p>
+            <button class="user-contact">Contact</button>
+        </div>
+    </template>
+
+    <!-- This div is the container for each user.
+    The list variable name is "users" and the template used is "user-element"
+    native html elements can also be used to display a list -->
+
+    <div data-list="users-user-element"></div>
+
+</template>
+<script nomodule data-element="CompositionJs">
+d.feed({users :
+    [
+        {
+            picture: "../images/boss.jpg",
+            bio: "Loves biking and skating"
+        },
+        {
+            picture: "../images/sister.jpg",
+            bio: "Drinks tons of café."
+        }
+]});
 </script>
 
 <script nomodule src="js/documentation.es5.min.js"></script>

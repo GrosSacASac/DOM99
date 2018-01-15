@@ -46,7 +46,7 @@ main > article {
   padding: 0.6em;
   border-bottom: 2px solid black;
 }
-  
+
 @media screen and (min-width: 960px) {
 
   main > nav > a {
@@ -55,7 +55,7 @@ main > article {
     text-align: left;
     font-size:1.4em;
   }
-  
+
   main > nav {
     position: fixed;
     width:16em;
@@ -101,4 +101,27 @@ d-htmljsresult {
 d-htmljsresult * {
   margin-bottom:1px;
   margin-top:1px;
+}
+
+
+.user {
+    background-color: #6293a6;  /* fallback */
+    background-image: linear-gradient(0, #f3a0a0, #427090);
+
+
+}
+
+.user-picture {
+    border-radius: 50%;
+
+
+}
+
+.user-bio {
+    text-indent: 2;
+    font-style: italic;
+}
+
+.user-contact {
+    
 }

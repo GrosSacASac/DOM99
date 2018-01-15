@@ -1,8 +1,9 @@
 // global d
 
-const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2"];
+const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2", "Composition"];
 
 const displayHtmlJsAndResult = function(name) {
+    d.elements[d.contextFromArray([name, "penContainer"])] .setAttribute("id", name); // for anchor links
     const JsSourceOriginal = d.elements[name+"Js"].textContent;
     const JsSourceDisplay = (
         `import d from "../dom99Module.js";

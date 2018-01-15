@@ -6,9 +6,3 @@
 .todo-item > [type=checkbox]:checked + [type=text] {
     text-decoration: line-through;
 }
-
-
-[hidden], template {
-    display: none;
-}
-
