@@ -29,49 +29,6 @@ You can also build the HTML with custom elements.
 </script>
 ```
 
-### [HTML Composition](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#Composition)
-
-```
-<!-- Define the template for an user
-every user has a picture, a short biography, and a contact button -->
-
-<template data-template="user-element">
-    <img alt="user-picture">
-    <p>SHORT BIO</p>
-    <button>Contact</button>
-</template>
-
-<!-- This div is the container for each user.
-The list variable name is "users" and the template used is "user-element"
-native html elements can also be used to display a list -->
-
-<div data-list="users-user-element"></div>
-
-<script>
-    d.feed({users :
-        [
-            {
-                picture: "usera.jpg",
-                bio: "Loves biking and skating"
-            },
-            {
-                picture: "userb.jpg",
-                bio: "Drinks tons of café."
-            }
-        ]
-    });
-    d.activate();
-</script>
-```
-
-<details>
-<summary>HTML Result</summary>
-<pre><code>
-
-&lt;div data-list=&quot;*users-user-element&quot;&gt;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;usera.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Loves biking and skating&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;userb.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Drinks tons of caf&eacute;.&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&lt;/div&gt;
-</code></pre>
-</details>
-
 
 
 
@@ -130,6 +87,51 @@ Locally in /documentation/documentation.html
 ## Examples
 
 [Graphs](https://github.com/GrosSacASac/graphs)
+
+
+### [HTML Composition](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#Composition)
+
+```
+<!--
+Define the template for an user
+every user has a picture, a short biography, and a contact button
+-->
+<template data-template="user-element">
+    <img data-variable="picture">
+    <p data-variable="bio">SHORT BIO</p>
+    <button>Contact</button>
+</template>
+
+<!--
+The list variable name is "users" and the template used is "user-element"
+native html elements can also be used to display a list
+-->
+<div data-list="users-user-element"></div>
+
+<script>
+    d.feed({users :
+        [
+            {
+                picture: "usera.jpg",
+                bio: "Loves biking and skating"
+            },
+            {
+                picture: "userb.jpg",
+                bio: "Drinks tons of café."
+            }
+        ]
+    });
+    d.activate();
+</script>
+```
+
+<details>
+<summary>HTML Result</summary>
+<pre><code>
+
+&lt;div data-list=&quot;*users-user-element&quot;&gt;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;usera.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Loves biking and skating&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;userb.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Drinks tons of caf&eacute;.&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&lt;/div&gt;
+</code></pre>
+</details>
 
 Other examples in examples/
 
