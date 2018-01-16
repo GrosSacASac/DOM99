@@ -108,7 +108,9 @@ native html elements can also be used to display a list
 -->
 <div data-list="users-user-element"></div>
 
+<script src="node_modules/dom99/js/dom99.js"></script>
 <script>
+    /* globals: d */
     d.feed({users :
         [
             {
@@ -133,7 +135,7 @@ native html elements can also be used to display a list
 </code></pre>
 </details>
 
-Other examples in examples/
+Other examples in [/examples](/examples)
 
 
 ## Discussion
