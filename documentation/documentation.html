@@ -628,11 +628,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <li>Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !</li>
 <li>If you have more performance issues, profile first to know what is the cause</li>
 <li>If you need to do heavy computation, consider using Web Workers</li>
-<li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li>
-<li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li>
+<li><a href="http://www.html5rocks.com/en/features/performance">More tips</a></li>
 <li><a href="https://gist.github.com/paulirish/5d52fb081b3570c81e3a">About layout trashing</a></li></ul>
-<h3>How is dom99 fast ?</h3>
 
+<h3>How is dom99 fast ?</h3>
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
 </article>
 
@@ -641,7 +640,14 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <h3>General tips</h3>
 
-<ul><li>Don't BlackList, Aggressively White-list</li><li>Don't mix data with code, use parameter injection with proper escaping and encoding</li><li>Don't trust what you don't control, validate size and format instead</li><li>Every software component should be so simple that it is obviously safe</li><li>Avoid complexity</li><li>Aggressively block if some behaviours are undefined</li><li>Talk with security experts</li></ul>
+<ul><li>Don't BlackList, Aggressively White-list</li>
+    <li>Don't mix data with code</li>
+    <li>Don't trust what you don't control, validate size and format instead</li>
+    <li>Every software component should be so simple that it is obviously safe</li>
+    <li>Avoid complexity</li>
+    <li>Prevent undefined states</li>
+    <li>Talk with security experts</li>
+</ul>
 
 <h3>dom99 and security</h3>
 
