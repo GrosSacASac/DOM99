@@ -30,7 +30,7 @@
 <p>dom99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
 framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>
 and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
-You can also build the HTML with custom elements.
+You can also build the HTML with custom elements.</p>
 <!--<a href="http://jsbin.com/tepezuj/3/embed?html,js,output">Try the intro playground</a> -->
 </section>
 
@@ -193,8 +193,8 @@ d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pr
 
 <pre><code>
 // manually
-d.feed("A new comment", "first>text");
-d.feed("Today", "first>date");
+d.feed("A new comment", "first&gt;text");
+d.feed("Today", "first&gt;date");
 
 // better
 d.feed({
@@ -479,9 +479,9 @@ d.elements["target"].appendChild(customElement);</code></pre>
 
 <p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>d.variables["key>text"] = "A string"
+<pre><code>d.variables["key&gt;text"] = "A string"
 
-d.elements["key>elementName"].className = ...</code></pre>
+d.elements["key&gt;elementName"].className = ...</code></pre>
 
 <p>Or</p>
 <pre><code>d.variables[d.contextFromArray(["key", "text"])] = "A string"
@@ -546,7 +546,7 @@ d.functions.update = function (event) {
 
     // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    d.variables["key>text"];
+    d.variables["key&gt;text"];
 };</code></pre>
 
 <p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>

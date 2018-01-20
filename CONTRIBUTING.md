@@ -16,12 +16,12 @@ Use this guide as guidance not as strict rules.
 
 ### Questions
 
-Feel free to ask any question. 
+Feel free to ask any question.
 
 
 ### Reporting Bugs
 
-Thanks. Give as many relevant details as possible. 
+Thanks. Give as many relevant details as possible.
 
 
 ### Suggestions
@@ -85,9 +85,9 @@ Open an issue to make us open a donation channel
         * biometric authentification (facial, voice, fingerprint recognition),
         * 2 factors (ex password + token)
         * social authentification (Open Auth ?)
-    * multimedia content, 
+    * multimedia content,
         * audio , text to speech
-        * video 
+        * video
         * canvas
         * VR, AR
     * local navigation (menu bars, links, buttons)
@@ -98,7 +98,7 @@ Open an issue to make us open a donation channel
         * navigator.share
         * social network sharing, email link
         * donation links
- * server side rendering 
+ * server side rendering
     * static
     * on the fly, streaming html
     * html + js + css in one file ? .vue ?
@@ -109,18 +109,20 @@ Open an issue to make us open a donation channel
     * more warnings
     * text editors plugins
  * create plugin system to add and remove data-* directives
- * lit-html 
+ * lit-html
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
  * make sure it integrates well with webpack, rollup, ie, "modules": false
  * make it easier to toggle attributes and class names from elements that are injected from template or from lists
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
- * hooks for custom elements after/before create 
+ * hooks for custom elements after/before create
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
  * make doc experience more streamlined
  * enable and test tree shaking possibilities. Would it be better to export multiple things instead of 1 big
  * finish https://github.com/GrosSacASac/DOM99/community
+ * add examples for async (network) data and how it looks
+ * regenerate landing-page.min.css from source landing-page.css
 
 
 ## Coding Style Guides
@@ -139,4 +141,3 @@ Any contribution that is incorporated into the project has by default the licens
 Any major contributor may ask (it is opt in) to have the name/username and 1 link and 1 private contact and 1 enterprise/donation link of the major contributor included in both readme and official documentation.
 
 A major contributor is someone who made at least 1 significant contribution.
-
