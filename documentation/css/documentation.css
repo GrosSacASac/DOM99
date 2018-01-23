@@ -34,6 +34,10 @@ main > nav > a {
   color: #111177;
   background-color: #eedeee;
 }
+.nav-ext {
+    margin-bottom: 1em;
+    color: #1314b9;
+}
 
 main > nav > a:hover,
 main > nav > a:focus {
@@ -123,5 +127,5 @@ d-htmljsresult * {
 }
 
 .user-contact {
-    
+
 }
