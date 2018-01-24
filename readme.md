@@ -1,4 +1,11 @@
-![DOM99](images/visual2.jpg)
+<div align="center">
+  <a href="https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/">
+    <img src="images/visual2.jpg">
+  </a>
+  <br>
+  <h1>dom99</h1>
+  <br>
+</div>
 
 
 ## What is dom99 ?

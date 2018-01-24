@@ -123,6 +123,7 @@ Open an issue to make us open a donation channel
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * regenerate landing-page.min.css from source landing-page.css
+ * use surge or gh-pages
 
 
 ## Coding Style Guides
