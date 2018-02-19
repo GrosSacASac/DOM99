@@ -177,6 +177,19 @@ var deleteRow = function (e) {
 };
 
 
+var handleRow = function (event) {
+    const dataElement = event.target.getAttribute("data-element");
+    if (!dataElement) {
+      return;
+    }
+    if (dataElement.includes("label")) {
+        selectRow(event);
+    }
+    console.log(event);
+    console.log(event.target);
+};
+
+
 var unselect = function () {
     if (selectedRowElement !== undefined) {
         selectedRowElement.className = "";
@@ -205,13 +218,12 @@ var selectRow = function (e) {
 
     store.select(index);
     select(rowElement);
-
+    console.log(context, index, rowElement);
     stopMeasure();
 };
 
 var functions = {
-    deleteRow,
-    selectRow,
+    handleRow,
     delegate: function (e) {
         // console.log("delegate");
         if (e.target.matches('#add')) {
