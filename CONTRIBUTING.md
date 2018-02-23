@@ -61,7 +61,6 @@ Open an issue to make us open a donation channel
  * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
  * provide an optional wrapper for the API that seems to scales better for large teams
  * compare values before updating ? with data-compare-before ?
- * put minimal example in readme
  * explain better where dom99 comes from and what differentiates it
  * Create a better documentation experience
  * Extract IE artefacts from core and put these in polyfills/extensions
@@ -101,7 +100,7 @@ Open an issue to make us open a donation channel
  * server side rendering
     * static
     * on the fly, streaming html
-    * html + js + css in one file ? .vue ?
+    * html + js + css in one file ? .vue
     * html Transpiler or research html template engine
  * streaming text editor
  * better developer tools
@@ -129,7 +128,7 @@ Open an issue to make us open a donation channel
 ## Coding Style Guides
 
 
-Read a bit of existing code to analyse the coding style.
+Read existing code to analyse the coding style.
 
 
 ## Licensing
