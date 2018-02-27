@@ -1,0 +1,44 @@
+header.masthead {
+    /* todo remove what these rules cancel*/
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.w100  {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+}
+
+.zbackground {
+    z-index: 0;
+}
+
+.relative {
+    position: relative;
+    top: 0;
+    z-index: 2;
+}
+
+.absolute {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+
+}
+
+.center-absolute {
+    top: 16vw;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.call-to-action {
+    /* todo remove what these rules cancel*/
+    padding-top: 0;
+    padding-bottom: 0;
+
+}
