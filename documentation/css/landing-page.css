@@ -3,8 +3,7 @@
  * Copyright 2013-2017 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
  */
-body {
-  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
 
 h1,
 h2,
@@ -12,7 +11,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700; }
 
 header.masthead {
@@ -32,13 +30,8 @@ header.masthead {
 .showcase .showcase-text {
   padding: 3rem; }
 
-.showcase .showcase-img {
-  min-height: 30rem;
-  background-size: cover; }
 
-@media (min-width: 768px) {
-  .showcase .showcase-text {
-    padding: 7rem; } }
+
 
 .features-icons {
   padding-top: 7rem;
