@@ -123,6 +123,7 @@ Open an issue to make us open a donation channel
  * add examples for async (network) data and how it looks
  * regenerate landing-page.min.css from source landing-page.css
  * use surge or gh-pages
+ * docs make code not look like plain text (more syntax colors)
 
 
 ## Coding Style Guides
