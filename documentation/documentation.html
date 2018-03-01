@@ -31,7 +31,7 @@
 
 <p>dom99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
 framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>
-and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
+and your program. You can pre-select DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
 You can also build the HTML with custom elements.</p>
 <a href="http://jsbin.com/tepezuj/edit?html,js,outpu">Try the intro playground</a>
 </section>
@@ -39,7 +39,7 @@ You can also build the HTML with custom elements.</p>
 <section>
 <h3>Why use dom99 ?</h3>
 
-<p>To spend less time in the developement. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents alot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependencies and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
+<p>To spend less time in the development. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents a lot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependencies and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
 
 <p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, dom99 is for you. It is very beginner friendly yet powerful. <a href="manychoicesforfrontend.md">Comparisons with other frameworks</a></p>
 </section>
@@ -49,7 +49,7 @@ You can also build the HTML with custom elements.</p>
 <ul>
 <li>No support for some old browsers</li>
 <li>Fear of the unknown</li>
-<li>You have already a working codebase that is mantainable</li>
+<li>You have already a working code base that is maintainable</li>
 <li>You need a comprehensive framework that has all the tools/components/css you need out of the box.(dom99 is not batteries included)</li>
 <li>No built in server side rendering mechanism</li>
 </ul>
@@ -171,7 +171,7 @@ d.activate();</code></pre>
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
 <h3>Use data-element and d.elements for direct element manipulation</h3>
-<p>To use a preselected element</p>
+<p>To use a pre-selected element</p>
 
 <pre><code>d.elements.bigTitle //An element reference, we can do what we want with it
 d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
@@ -383,8 +383,8 @@ d.activate();
 
 &lt;script nomodule src=&quot;../polyfill.min.js&quot;&gt;&lt;/script&gt;
 &lt;script nomodule src=&quot;polyfills/remove.js&quot;&gt;&lt;/script&gt;
-&lt;script  nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
-&lt;script  nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
 
 &lt;script type=&quot;module&quot; src=&quot;templates3.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
@@ -421,10 +421,10 @@ d.functions.showNextComment = function (event) {
     // remember the position to be updated later
     const position = commentsData.length;
     commentsData.push(undefined);
-    // undefined will simly have no effecton all data-variable
+    // undefined has no effect on all data-variable
     // so that will effectively uses the default textContent in the HTML
     d.feed(commentsData, "comments");
-    // force ui update
+    // force UI update
     fetchData("comment?id=42").then( function (data) {
             update(data, position);
     });
@@ -468,7 +468,7 @@ let customElementDescription = {
     "tagName": "d-tagname",
     "data-inside": "key"
 }
-// 1 create HTML ELement
+// 1 create HTML Element
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
@@ -551,7 +551,7 @@ d.functions.update = function (event) {
     d.variables["key&gt;text"];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completely delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
@@ -642,7 +642,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <h3>General tips</h3>
 
-<ul><li>Don't BlackList, Aggressively White-list</li>
+<ul><li>Don't Blacklist, Aggressively Whitelist</li>
     <li>Don't mix data with code</li>
     <li>Don't trust what you don't control, validate size and format instead</li>
     <li>Every software component should be so simple that it is obviously safe</li>
@@ -709,7 +709,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>Removed warnings that came from dom99</p>
 <p>Possible speed ups</p>
 <h4>Version 7.2.13</h4>
-<p>fixed a hard to find bug, that only occured on edge, but not IE</p>
+<p>fixed a hard to find bug, that only occurred on edge, but not IE</p>
 <p>overall small improvements</p>
 <h4>Version 7.2.5</h4>
 <p>New polyfill for hidden</p>
@@ -746,7 +746,7 @@ Good for encapsulation of independent components. See how it is used in componen
 <p>d.getParentContext removed. To navigate through context there are now  3 functions that work together:</p>
 <ul>
     <li><code>d.contextFromEvent</code> to get the context from the event</li>
-    <li><code>d.contextFromArray</code> to build up a direct acces string to go 1 level up the tree</li>
+    <li><code>d.contextFromArray</code> to build up a direct access string to go 1 level up the tree</li>
     <li><code>d.getParentContext</code>  to go 1 level down the tree</li>
 </ul>
 <p>this model is more flexible than before but requires more code, example to change color from sister element</p>
@@ -769,7 +769,7 @@ This would work too</p>
         &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
     &lt;/footer&gt;</code></pre>
 <p>To go one level down use d.getParentContext(context)</p>
-<p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
+<p>Now use boost license. It is more permissive than MIT because you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
 <p>Setting data uses           d.feed({
@@ -786,7 +786,7 @@ the license in distributed executables or transpiled code</p>
 <h4>Version 4.0.0</h4>
 <p>Unpublished</p>
 <h4>Version 3.0.3</h4>
-<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
+<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more information</p>
 <p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
 <h4>Version 3.0.1</h4>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
@@ -818,7 +818,7 @@ the license in distributed executables or transpiled code</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
 <hr>
-<p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
+<p>1.23.24 new dom99 components, see components/ folder for more information.</p>
 <p>1.23.0: Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
 <p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
 <p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
@@ -838,7 +838,7 @@ the license in distributed executables or transpiled code</p>
 <p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-variable optimization</p>
-<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
+<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is useful for events that happen a lot like mousemove</p>
 <h4>Breaking Changes from 1.9.x to 1.10+.x</h4>
 <p>Less Confusion:</p>
 <ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-inside="Key"</code> (in the documentation)</li></ul>
@@ -849,7 +849,7 @@ the license in distributed executables or transpiled code</p>
 <h4>What is coming soon:</h4>
 <ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update dom99</li></ul>
 <h4>Abstract directions for the future or Specification</h4>
-<ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloatware</li></ul>
+<ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloat ware</li></ul>
 <p>This leaves more freedom to combine dom99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside dom99 and anything else that is complementary to accelerate the development process.</p>
 </article>
 
