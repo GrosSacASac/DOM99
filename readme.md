@@ -76,9 +76,9 @@ dom99 can be used in a zero-second compile time development set-up with ES-modul
 No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
 
 
-### Unopiniated
+### Unopinionated
 
-dom99 is unopiniated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system...
+dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system...
 
 
 ## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
