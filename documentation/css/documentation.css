@@ -13,8 +13,12 @@ code {
   font-size: 1.25em;
 }
 
-pre > code {
-  white-space:pre-wrap;
+pre > code,
+ul > li,
+p {
+  white-space: pre-wrap;
+  /* in case the word makes more than 100% width break it*/
+  word-wrap: break-word;
 }
 
 p {
@@ -80,17 +84,18 @@ main > article {
 
 d-htmljsresult {
   border: 1px solid;
-  display:block;
+  display: block;
 }
 
-.htmljsandoutput {
-}
+/* .htmljsandoutput {
+} */
 
 .htmljsandoutput > section {
   display: inline-block;
-    vertical-align: top;
-  border: 1px solid;
+  max-width: 100%;
   min-height: 150px;
+  border: 1px solid;
+  vertical-align: top;
 }
 
 .htmljsandoutput > section > pre {

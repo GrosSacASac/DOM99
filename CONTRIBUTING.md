@@ -124,6 +124,7 @@ Open an issue to make us open a donation channel
  * regenerate landing-page.min.css from source landing-page.css
  * use surge or gh-pages
  * docs make code not look like plain text (more syntax colors)
+ * top level variable integration like displayjs
 
 
 ## Coding Style Guides
