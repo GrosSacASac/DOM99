@@ -31,22 +31,38 @@ const OPTIONS = {
 const thisName = "html minify";
 
 const HTMLFiles = {
-    [`documentation/documentation-original.html`]: `documentation/documentation.html`,
-    [`documentation/index-original.html`]: `documentation/index.html`,
-    [``]: ``,
+    [`documentation/documentation-original.html`]: {
+        to: `documentation/documentation.html`,
+        options: {
+            removeAttributeQuotes: false,
+            caseSensitive: true,
+            collapseBooleanAttributes: true,
+            collapseInlineTagWhitespace: false,
+            collapseWhitespace: false,
+            decodeEntities: true,
+            html5: true,
+            removeComments: false,
+            removeEmptyAttributes: true,
+            removeRedundantAttributes: false
+        }
+    },
+    [`documentation/index-original.html`]: {
+        to: `documentation/index.html`,
+        options: OPTIONS
+    }
 };
 
 Promise.all(
-    Object.entries(HTMLFiles).map(function ([from, to]) {
+    Object.entries(HTMLFiles).map(function ([from, {to, options}]) {
         return textFileContentPromiseFromPath(from).then(function (HTMLString) {
             let minifiedHtml;
             if (skipMinification) {
                 minifiedHtml = HTMLString;
             } else {
-                minifiedHtml = minify(HTMLString, OPTIONS);
+                minifiedHtml = minify(HTMLString, options);
             }
             return writeTextInFilePromiseFromPathAndString(to, minifiedHtml);
-        }));
+        });
     })
 ).then(function () {
     //console.log(thisName + " finished with success !");

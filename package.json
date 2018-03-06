@@ -37,7 +37,8 @@
     "examples": "npm run bundleExamples && npm run transpileExamples",
     "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run yesno"
+    "bhtml": "node tools/buildHTML",
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run yesno && npm run bhtml"
   },
   "babel-comment": "now transform-object-rest-spread is not used",
   "babel": {

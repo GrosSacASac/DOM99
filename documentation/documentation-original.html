@@ -65,7 +65,9 @@ You can also build the HTML with custom elements.</p>
 <p><a href="https://github.com/GrosSacASac/DOM99">GitHub</a></p>
 <ul>
     <li><code>npm install dom99</code></li>
-    <li><a download href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js">Production minified dom99.es5.min.js</a></li>
+    <li><a download
+        href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js"
+    >Production minified dom99.es5.min.js</a></li>
     <li>Use a <a href="https://github.com/GrosSacASac/create-dom99-app/">premade starter pack create-dom99-app</a></li>
     <li><code><del>bower install dom99</del></code></li>
 </ul>
@@ -87,7 +89,7 @@ Support may also require transpilation. You may also want to use built/dom99.es5
 <section>
 <h3>License</h3>
 <p>Copyright Cyril Walle 2017.</p>
-<p><a href="../LICENSE.txt">Distributed under the Boost Software License,
+<p><a href="../LICENSE.txt ">Distributed under the Boost Software License,
 Version 1.0: LICENSE.txt</a></p>
 </section>
 
@@ -127,19 +129,19 @@ Version 1.0: LICENSE.txt</a></p>
 
 <p>Examples:</p>
 
-<pre><code>&lt;input data-variable="b" type="text">
-&lt;nav data-element="myNav">Navigation Links&lt;/nav>
-&lt;button data-function="click-deleteFoto">Delete Foto&lt;/button>
-&lt;d-magicbutton data-inside="1">&lt;/d-magicbutton></code></pre>
+<pre><code>&lt;input data-variable="b" type="text"&gt;
+&lt;nav data-element="myNav"&gt;Navigation Links&lt;/nav&gt;
+&lt;button data-function="click-deleteFoto"&gt;Delete Foto&lt;/button&gt;
+&lt;d-magicbutton data-inside="1"&gt;&lt;/d-magicbutton&gt;</code></pre>
 
 <p>The general syntax is </p>
 
-<p><code>&lt;tag data-keyword="token1-token2" > bla bla &lt;/tag></code></p>
+<p><code>&lt;tag data-keyword="token1-token2" &gt; bla bla &lt;/tag&gt;</code></p>
 
 <p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
-<pre><code>&lt;script src="node_modules/dom99/js/dom99.js">&lt;/script>
-&lt;script src="js/yourJavascriptFile.js">&lt;/script></code></pre>
+<pre><code>&lt;script src="node_modules/dom99/js/dom99.js"&gt;&lt;/script&gt;
+&lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
 
 <h3>In your JavaScript:</h3>
 
@@ -155,16 +157,16 @@ d.activate();</code></pre>
 
 <p>aFunction is called when you click this button</p>
 
-<pre><code>&lt;button data-function="click-functionName">Action&lt;/button>
+<pre><code>&lt;button data-function="click-functionName"&gt;Action&lt;/button&gt;
 // "functionName" not "aFunction"</code></pre>
 
 
 <h3>Use data-variable + d.variables + d.feed for data bindings</h3>
-<p>To changes the text of <code>&lt;p data-variable="talkings">&lt;/p></code> and all other element that share the variable talkings</p>
+<p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
 
 <pre><code>d.feed({talkings: "Hi"});</code></pre>
 
-<p>Use the same data-variable="talkings" on <code>&lt;input></code> elements for two way data bindings</p>
+<p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
 
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
@@ -174,27 +176,27 @@ d.activate();</code></pre>
 <pre><code>d.elements.bigTitle //An element reference, we can do what we want with it
 d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
-<p>will remove <code>&lt;h1 data-element="bigTitle">You can remove me to make space&lt;/h1></code></p>
+<p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
 <h3>Use data-template to declare html templates</h3>
 <p>To compose html with predefined building blocks.</p>
 
-<pre><code>&lt;template data-template="d-comment">
-    &lt;p data-variable="text">&lt;/p>
-    &lt;time data-variable="date">&lt;/time>
-&lt;/template></code></pre>
+<pre><code>&lt;template data-template="d-comment"&gt;
+    &lt;p data-variable="text"&gt;&lt;/p&gt;
+    &lt;time data-variable="date"&gt;&lt;/time&gt;
+&lt;/template&gt;</code></pre>
 
 
 <h3>Use data-inside to put html templates copies</h3>
-<pre><code>&lt;d-comment data-inside="first">&lt;/d-comment>
-&lt;d-comment data-inside="second">&lt;/d-comment></code></pre>
+<pre><code>&lt;d-comment data-inside="first"&gt;&lt;/d-comment&gt;
+&lt;d-comment data-inside="second"&gt;&lt;/d-comment&gt;</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
 <pre><code>
 // manually
-d.feed("A new comment", "first>text");
-d.feed("Today", "first>date");
+d.feed("A new comment", "first&gt;text");
+d.feed("Today", "first&gt;date");
 
 // better
 d.feed({
@@ -236,26 +238,26 @@ When the page loads you want to display the article and already display the 2 la
 comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
 <p> Look at examples/templates1.html and examples/templates2.html and examples/templates3.html for now</p>
-<pre><code>&lt;html>
+<pre><code>&lt;html&gt;
 
-    &lt;article>
-        &lt;p>...&lt;/p>&lt;p>...&lt;/p>
-    &lt;/article>
+    &lt;article&gt;
+        &lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;
+    &lt;/article&gt;
 
-    &lt;!-- a comment is some text and a date -->
-    &lt;template data-template="d-comment">
-        &lt;p data-variable="text">&lt;/p>
-        &lt;time data-variable="date">&lt;/time>
-    &lt;/template>
+    &lt;!-- a comment is some text and a date --&gt;
+    &lt;template data-template="d-comment"&gt;
+        &lt;p data-variable="text"&gt;&lt;/p&gt;
+        &lt;time data-variable="date"&gt;&lt;/time&gt;
+    &lt;/template&gt;
 
-    &lt;d-comment data-inside="comment1">&lt;/d-comment>
-    &lt;d-comment data-inside="comment2">&lt;/d-comment>
+    &lt;d-comment data-inside="comment1"&gt;&lt;/d-comment&gt;
+    &lt;d-comment data-inside="comment2"&gt;&lt;/d-comment&gt;
 
-    &lt;button data-function="click-showNextComment">Show more comments&lt;/button>
+    &lt;button data-function="click-showNextComment"&gt;Show more comments&lt;/button&gt;
 
-&lt;/html>
+&lt;/html&gt;
 
-Note: `&lt;d-comment>` is a valid custom element, `&lt;comment>` is not.</code></pre>
+Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</code></pre>
 
 <p>Our initial JS code looks like this</p>
 
@@ -348,45 +350,45 @@ d.activate();
 <h3>Part 3</h3>
 <p>He we remove a lot of manual cruft, and use an array with data-list to display the comments</p>
 <h4>HTML</h4>
-<pre><code>&lt;!doctype html>
-&lt;html lang="en">
-&lt;head>
-    &lt;meta charset="utf-8">
-    &lt;title>dom99 DEMO templates 3&lt;/title>
-    &lt;meta name="viewport" content="width=device-width">
-    &lt;link rel="stylesheet" href="css/basics.css">
-    &lt;link rel="stylesheet" href="css/dcomment.css">
-    &lt;link rel="icon" href="../images/visual2.jpg">
-&lt;/head>
-&lt;body>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;dom99 DEMO templates 3&lt;/title&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
+    &lt;link rel=&quot;icon&quot; href=&quot;../images/visual2.jpg&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
 
-&lt;article>
-    &lt;h2>Article Title&lt;/h2>
-    &lt;p>Article&lt;/p>&lt;p>Blalblabla I give my opinion blabla&lt;/p>
-&lt;/article>
+&lt;article&gt;
+    &lt;h2&gt;Article Title&lt;/h2&gt;
+    &lt;p&gt;Article&lt;/p&gt;&lt;p&gt;Blalblabla I give my opinion blabla&lt;/p&gt;
+&lt;/article&gt;
 
-&lt;!-- a comment is some text and a date -->
-&lt;template data-template="d-comment">
-    &lt;article class="d-comment">&lt;!-- add a container for styling purposes -->
-        &lt;p data-variable="text">Loading text ... (fake response takes 2sec)&lt;/p>
-        &lt;time data-variable="date">Loading date ...&lt;/time>
-    &lt;/article>
-&lt;/template>
+&lt;!-- a comment is some text and a date --&gt;
+&lt;template data-template=&quot;d-comment&quot;&gt;
+    &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
+        &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
+        &lt;time data-variable=&quot;date&quot;&gt;Loading date ...&lt;/time&gt;
+    &lt;/article&gt;
+&lt;/template&gt;
 
-&lt;!-- data-list="VARIABLE_NAME - CUSTOM-ELEMENT_NAME" -->
-&lt;section data-list="comments-d-comment">&lt;/section>
-&lt;button data-function="click-showNextComment" >Show more comments&lt;/button>
+&lt;!-- data-list=&quot;VARIABLE_NAME - CUSTOM-ELEMENT_NAME&quot; --&gt;
+&lt;section data-list=&quot;comments-d-comment&quot;&gt;&lt;/section&gt;
+&lt;button data-function=&quot;click-showNextComment&quot; &gt;Show more comments&lt;/button&gt;
 
 
 
-&lt;script nomodule src="../polyfill.min.js">&lt;/script>
-&lt;script nomodule src="polyfills/remove.js">&lt;/script>
-&lt;script nomodule src="../built/dom99.es5.min.js">&lt;/script>
-&lt;script nomodule src="../exampleses5/templates3.js">&lt;/script>
+&lt;script nomodule src=&quot;../polyfill.min.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;polyfills/remove.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
 
-&lt;script type="module" src="templates3.js">&lt;/script>
-&lt;/body>
-&lt;/html></code></pre>
+&lt;script type=&quot;module&quot; src=&quot;templates3.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
 <h4>JS</h4>
 <pre><code>import d from "../built/dom99Module.js";
 
@@ -451,14 +453,14 @@ d.activate();
 
 <h3>Dynamic template injection in general</h3>
 
-<pre><code>&lt;body>
-&lt;template data-template="d-tagname">
-    &lt;p data-variable="text" >&lt;/p>
+<pre><code>&lt;body&gt;
+&lt;template data-template="d-tagname"&gt;
+    &lt;p data-variable="text" &gt;&lt;/p&gt;
     Any HTML ...
-&lt;/template>
+&lt;/template&gt;
 ...
-&lt;div data-element="target">&lt;/div>
-&lt;/body>
+&lt;div data-element="target"&gt;&lt;/div&gt;
+&lt;/body&gt;
 
 // manual, see templates3.html to see how to use shortcuts
 // 0 make a description
@@ -477,11 +479,11 @@ d.elements["target"].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template></code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>d.variables["key>text"] = "A string"
+<pre><code>d.variables["key&gt;text"] = "A string"
 
-d.elements["key>elementName"].className = ...</code></pre>
+d.elements["key&gt;elementName"].className = ...</code></pre>
 
 <p>Or</p>
 <pre><code>d.variables[d.contextFromArray(["key", "text"])] = "A string"
@@ -491,30 +493,30 @@ d.elements[d.contextFromArray(["key", "elementName"])].className = ...</code></p
 <p>d.functions function the other way around. You use the same event handlers for all template copies
  and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
 
-<pre><code>&lt;!-- HTML -->
-&lt;template data-template="d-tagname">
-    &lt;button data-function="close" >CLOSE (X)&lt;/button>
-    &lt;button data-function="update" >Update (X)&lt;/button>
-    &lt;p data-variable="text" >Default Text&lt;/p>
-    &lt;div data-element="status" class="status" >&lt;/div>
-    &lt;ul data-list="myList-li" >
-        &lt;li>Default List Item&lt;/li>
-    &lt;/ul>
-    &lt;div data-inside="encapsulated" >
-        &lt;p data-variable="text" >Other Default Text&lt;/p>
-    &lt;/div>
+<pre><code>&lt;!-- HTML --&gt;
+&lt;template data-template="d-tagname"&gt;
+    &lt;button data-function="close" &gt;CLOSE (X)&lt;/button&gt;
+    &lt;button data-function="update" &gt;Update (X)&lt;/button&gt;
+    &lt;p data-variable="text" &gt;Default Text&lt;/p&gt;
+    &lt;div data-element="status" class="status" &gt;&lt;/div&gt;
+    &lt;ul data-list="myList-li" &gt;
+        &lt;li&gt;Default List Item&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div data-inside="encapsulated" &gt;
+        &lt;p data-variable="text" &gt;Other Default Text&lt;/p&gt;
+    &lt;/div&gt;
 
     Any HTML ...
-&lt;/template>
+&lt;/template&gt;
 
-&lt;!-- used like -->
-&lt;d-tagName data-inside="myKey0">&lt;/d-tagName>
+&lt;!-- used like --&gt;
+&lt;d-tagName data-inside=&quot;myKey0&quot;&gt;&lt;/d-tagName&gt;
 
-&lt;!-- or -->
-&lt;div is="d-tagName" data-inside="myKey1">&lt;/div>
+&lt;!-- or --&gt;
+&lt;div is=&quot;d-tagName&quot; data-inside=&quot;myKey1&quot;&gt;&lt;/div&gt;
 
-&lt;!-- or -->
-&lt;div data-list="listKey-d-tagName">&lt;/div>
+&lt;!-- or --&gt;
+&lt;div data-list=&quot;listKey-d-tagName&quot;&gt;&lt;/div&gt;
 
 
 // JS
@@ -546,7 +548,7 @@ d.functions.update = function (event) {
 
     // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    d.variables["key>text"];
+    d.variables["key&gt;text"];
 };</code></pre>
 
 <p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completely delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
@@ -668,7 +670,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h3>Patch Notes</h3>
 <h4>Version 8.2.0</h4>
 <p>Support for cases when an element is inside another that uses
-<code>data-function</code> Ex. button > span</p>
+<code>data-function</code> Ex. button &gt; span</p>
 <h4>Version 8.1.0</h4>
 <p>New files are now built:</p>
 <ul>
@@ -748,8 +750,8 @@ Good for encapsulation of independent components. See how it is used in componen
     <li><code>d.getParentContext</code>  to go 1 level down the tree</li>
 </ul>
 <p>this model is more flexible than before but requires more code, example to change color from sister element</p>
-<pre><code>&lt;button data-function="changeSister">Click Me&lt;/button>
-&lt;div data-element="div">Lorem Ipsul sister&lt;/div>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
 
 d.functions.changeSister = function (event) {
     const thisContext = d.contextFromEvent(event);
@@ -762,10 +764,10 @@ d.functions.changeSister = function (event) {
 The div does not have to be a sister element html speaking, but only from dom99 point of view
 
 This would work too</p>
-<pre><code>&lt;button data-function="changeSister">Click Me&lt;/button>
-    &lt;footer>
-        &lt;time>&lt;div data-element="div">Lorem Ipsul sister&lt;/div>&lt;/time>
-    &lt;/footer></code></pre>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+    &lt;footer&gt;
+        &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
+    &lt;/footer&gt;</code></pre>
 <p>To go one level down use d.getParentContext(context)</p>
 <p>Now use boost license. It is more permissive than MIT because you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
@@ -833,7 +835,7 @@ the license in distributed executables or transpiled code</p>
     <li>Changed the way to configure dom99</li>
     <li>You can now control what gets changed with data-variable</li>
    </ul>
-<p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"> you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
+<p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
 <p>1.11.0 input type="range" now uses the change event</p>
 <p>In 1.10.3 data-variable optimization</p>
 <p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is useful for events that happen a lot like mousemove</p>
