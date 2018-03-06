@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "8.2.15",
+  "version": "8.2.16",
   "license": "BSL-1.0",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
@@ -20,6 +20,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "bootstrap": "^3.3.7",
+    "html-minifier": "^3.5.10",
     "rollup": "^0.50.0",
     "uglify-js": "^3.1.5",
     "utilsac": "^2.0.0"
@@ -40,7 +41,7 @@
   },
   "babel-comment": "now transform-object-rest-spread is not used",
   "babel": {
-    "plugins": [    ],
+    "plugins": [],
     "presets": [
       [
         "env",
