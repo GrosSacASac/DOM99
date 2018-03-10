@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-inside ?
-    
+
     addEventListener("x", y, {passive: true}); ? explore
 */
 /*jslint
@@ -69,10 +69,8 @@ const d = (function () {
         const length = liveCollection.length;
         const frozenArray = [];
         let i;
-        let node;
         for (i = 0; i < length; i += 1) {
-            node = liveCollection[i];
-            frozenArray.push(node);
+            frozenArray.push(liveCollection[i]);
         }
         return frozenArray;
     };
@@ -198,7 +196,7 @@ const d = (function () {
             "DETAILS"
         ]
     };
-    
+
     const createElement2 = function (elementDescription) {
         /*element.setAttribute(attr, value) is good to set
         initial attribute like when html is first loaded
@@ -282,7 +280,7 @@ const d = (function () {
             } else {
                 element = parent;
             }
-            
+
             if (hasOwnProperty.call(element, CONTEXT)) {
                 return element[CONTEXT];
             } else {
@@ -534,6 +532,9 @@ const d = (function () {
             element[ELEMENT_LIST_ITEM] = listItemTagName;
         }
 
+        // could send path as array directly
+        // but have to change notifyOneListSubscriber to take in path as Array or String
+        // before
         const path = contextFromArrayWith(pathIn, variableName);
 
         pushOrCreateArrayAt(listSubscribers, path, element);
@@ -685,7 +686,7 @@ const d = (function () {
                 }
             }
         });
-        
+
         directivePairs.forEach(function ([directiveName, applyDirective]) {
             if (!element.hasAttribute(directiveName)) {
                 return;
