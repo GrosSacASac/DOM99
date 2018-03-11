@@ -22,6 +22,7 @@
     "bootstrap": "^3.3.7",
     "html-minifier": "^3.5.10",
     "rollup": "^0.50.0",
+    "template-mb": "^2.0.6",
     "uglify-js": "^3.1.5",
     "utilsac": "^2.0.0"
   },
