@@ -10,7 +10,8 @@ const files = [
     "main",
     "dev",
     "limited",
-    "test"
+    "test",
+    "chat"
 ];
 
 

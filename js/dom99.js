@@ -250,27 +250,16 @@ const d = (function () {
         element.addEventListener(eventName, callBack, useCapture);
     };
 
-    const cloneTemplate = (function () {
-        if (document.createElement("template").content !== undefined) {
-            return function (template) {
-                if (!template) {
-                    console.error(
-                        `Template missing <template ${options.directives.template}="d-name">
-                            Template Content
-                        </template>`
-                    );
-                }
-                return document.importNode(template.content, true);
-            };
+    const cloneTemplate = function (template) {
+        if (!template) {
+            console.error(
+                `Template missing <template ${options.directives.template}="d-name">
+                    Template Content
+                </template>`
+            );
         }
-
-        return function (template) {
-            /* todo here we have a div too much (messes up css)*/
-            const clone = document.createElement("div");
-            clone.innerHTML = template.innerHTML;
-            return clone;
-        };
-    }());
+        return document.importNode(template.content, true);
+    };
 
     const contextFromEvent = function (event, parent) {
         if (event || parent) {
@@ -624,7 +613,7 @@ const d = (function () {
         return activatedClone;
     };
 
-    const applyinside = function (element, key) {
+    const applyInside = function (element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
         if (!key) {
@@ -727,7 +716,7 @@ const d = (function () {
                 [options.directives.variable, applyVariable],
                 [options.directives.function, applyFunctions],
                 [options.directives.list, applylist],
-                [options.directives.inside, applyinside],
+                [options.directives.inside, applyInside],
                 [options.directives.template, applytemplate]
             ];
         }

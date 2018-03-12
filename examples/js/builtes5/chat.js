@@ -270,18 +270,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         var contextFromEvent = function contextFromEvent(event, parent) {
             if (event || parent) {
-                var element = void 0;
+                var _element = void 0;
                 if (event && event.target) {
-                    element = event.target;
+                    _element = event.target;
                 } else {
-                    element = parent;
+                    _element = parent;
                 }
 
-                if (hasOwnProperty.call(element, CONTEXT)) {
-                    return element[CONTEXT];
+                if (hasOwnProperty.call(_element, CONTEXT)) {
+                    return _element[CONTEXT];
                 } else {
-                    if (element.parentNode) {
-                        return contextFromEvent(undefined, element.parentNode);
+                    if (_element.parentNode) {
+                        return contextFromEvent(undefined, _element.parentNode);
                     } else {}
                 }
             }
@@ -717,102 +717,90 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         });
     }();
 
-    var globalNumber = 0;
-    // increment local does not update the list, how to make the data flow
+    var fakeMessagesFromSister = ["Hey brother, what is up ?", "Long time not seen", "you should visit my new home", "remember the skateboard races we had when we were kids ?", "Hey answer please :)"];
+    var fakeMessagesFromBoss = ["Nice work kids", "I am going on a trip next week to meet new buisness partners", "Can you finish the project ?"];
 
-    var setAllGlobalCopyInside = function setAllGlobalCopyInside(value) {
-        var changeDescriptor = {
-            globalCopy: String(value)
+    var fakeSpeakGenerator = function fakeSpeakGenerator(array, authorName, authorFoto) {
+        var currentIndex = 0;
+        return function () {
+            var message = {
+                authorName: authorName,
+                authorFoto: authorFoto,
+                messageText: array[currentIndex % array.length]
+            };
+            currentIndex += 1;
+            return message;
         };
-
-        d.feed(changeDescriptor, d.contextFromArray(["outerList", 0]));
-        d.feed(changeDescriptor, d.contextFromArray(["outerList", 1]));
-        d.feed(changeDescriptor, d.contextFromArray(["outerList", 2]));
     };
 
-    var globalIncrement = function globalIncrement(event) {
-        globalNumber += 1;
-        setAllGlobalCopyInside(globalNumber);
+    var fakeSisterSpeak = fakeSpeakGenerator(fakeMessagesFromSister, "Sister", "../images/sister.jpg");
+    var fakeBossSpeak = fakeSpeakGenerator(fakeMessagesFromBoss, "Boss", "../images/boss.jpg");
+
+    // Does not use the new features of dom99 ...
+    var messageKeys = [];
+    var element = "element";
+    var MAX = 100;
+
+    var renderNewMessageElement = function renderNewMessageElement(data, key) {
+        // 1 create HTML ELement
+        var customElement = d.createElement2({
+            "tagName": "d-message",
+            "data-inside": key,
+            "data-element": element + key
+        });
+
+        // 2 link it
+        d.activate(customElement);
+
+        // 3 insert the Element that has a clone as a child in the dOM
+        d.elements["messagesContainer"].appendChild(customElement);
     };
 
-    var globalSet = function globalSet(event) {
-        var context = d.contextFromEvent(event);
-        var newGlobalNumber = Number(d.variables[d.contextFromArray([context, "globalCopy"])]);
-        globalNumber = newGlobalNumber;
+    var displayNewMessage = function displayNewMessage(data) {
+        var key = void 0;
+        if (messageKeys.length < MAX) {
+            //create a new key
+            key = String(messageKeys.length);
+            messageKeys.push(key); // length += 1
 
-        setAllGlobalCopyInside(globalNumber);
-    };
+            //render a new Element retrievable via the key
+            renderNewMessageElement(data, key);
+        } else {
+            //rotate the first element to end
+            key = messageKeys[0];
+            messageKeys = messageKeys.slice(1);
+            messageKeys.push(key);
 
-    var localIncrement = function localIncrement(event) {
-        var context = d.contextFromEvent(event);
-        var spanElement = d.elements[d.contextFromArray([context, "span"])];
-        var localNumber = Number(d.variables[d.contextFromArray([context, "local"])]) + 1;
-        var localColor = "rgb(" + localNumber * 25 % 255 + ",0,0)";
-
-        d.feed({
-            local: String(localNumber)
-        }, context);
-
-        spanElement.style.border = "1px " + localColor + " solid";
-    };
-
-    var listremake = function listremake(event) {
-        /* display list size of global, with value local */
-        var context = d.contextFromEvent(event);
-        var localNumber = Number(d.variables[d.contextFromArray([context, "local"])]);
-        var global = globalNumber;
-        var newList = [];
-        var i = void 0;
-        for (i = 0; i < global; i += 1) {
-            newList.push({
-                "a": localNumber,
-                "b": localNumber
-            });
+            //do the same rotation in the dOM
+            d.elements["messagesContainer"].appendChild(d.elements[element + key]);
         }
-        d.feed({
-            innerlist: newList
-        }, context);
-    };
-    var functions = {
-        globalIncrement: globalIncrement,
-        localIncrement: localIncrement,
-        listremake: listremake,
-        globalSet: globalSet
+        // Update
+
+        d.feed(data, key); // loops over
     };
 
-    var initialData = {
-
-        outerList: [{
-            globalCopy: String(globalNumber),
-            local: "-5",
-            innerlist: [{
-                a: "1 item a",
-                b: "1 item b"
-            }]
-        }, {
-            globalCopy: String(globalNumber),
-            local: "-2",
-            innerlist: [{
-                a: "crazy nesting 0 a aaa",
-                b: "crazy nesting 0 b"
-            }, {
-                a: "crazy nesting 1 a",
-                b: "crazy nesting 1 b"
-            }]
-        }, {
-            globalCopy: String(globalNumber),
-            local: "3",
-            innerlist: [{
-                a: "1crazy nesting 0 a",
-                b: "1crazy nesting 0 b"
-            }, {
-                a: "1crazy nesting 1 a",
-                b: "1crazy nesting 1 b zzz"
-            }, {
-                a: "third item (b is unset)"
-            }]
-        }]
+    d.functions.trySendMessage = function (event) {
+        // the data uses the same keys declared in the html
+        var data = {
+            authorName: "You",
+            authorFoto: "../images/you.jpg",
+            messageText: d.variables.currentMessage
+        };
+        // could send data to server here
+        displayNewMessage(data);
+        d.feed("", "currentMessage"); //reset the inputs
+        d.elements.textarea.focus(); //reset focus
     };
 
-    d.start(functions, initialData);
+    // initialize
+
+    d.feed("", "currentMessage"); //reset the inputs
+    d.activate(); //now we listen to all events
+
+    window.setInterval(function () {
+        displayNewMessage(fakeSisterSpeak());
+    }, 7500);
+    window.setInterval(function () {
+        displayNewMessage(fakeBossSpeak());
+    }, 12500);
 })();

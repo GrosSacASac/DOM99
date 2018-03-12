@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-inside ?
-    
+
     addEventListener("x", y, {passive: true}); ? explore
 */
 /*jslint
@@ -69,10 +69,8 @@ const d = (function () {
         const length = liveCollection.length;
         const frozenArray = [];
         let i;
-        let node;
         for (i = 0; i < length; i += 1) {
-            node = liveCollection[i];
-            frozenArray.push(node);
+            frozenArray.push(liveCollection[i]);
         }
         return frozenArray;
     };
@@ -198,7 +196,7 @@ const d = (function () {
             "DETAILS"
         ]
     };
-    
+
     const createElement2 = function (elementDescription) {
         /*element.setAttribute(attr, value) is good to set
         initial attribute like when html is first loaded
@@ -252,27 +250,16 @@ const d = (function () {
         element.addEventListener(eventName, callBack, useCapture);
     };
 
-    const cloneTemplate = (function () {
-        if (document.createElement("template").content !== undefined) {
-            return function (template) {
-                if (!template) {
-                    console.error(
-                        `Template missing <template ${options.directives.template}="d-name">
-                            Template Content
-                        </template>`
-                    );
-                }
-                return document.importNode(template.content, true);
-            };
+    const cloneTemplate = function (template) {
+        if (!template) {
+            console.error(
+                `Template missing <template ${options.directives.template}="d-name">
+                    Template Content
+                </template>`
+            );
         }
-
-        return function (template) {
-            /* todo here we have a div too much (messes up css)*/
-            const clone = document.createElement("div");
-            clone.innerHTML = template.innerHTML;
-            return clone;
-        };
-    }());
+        return document.importNode(template.content, true);
+    };
 
     const contextFromEvent = function (event, parent) {
         if (event || parent) {
@@ -282,7 +269,7 @@ const d = (function () {
             } else {
                 element = parent;
             }
-            
+
             if (hasOwnProperty.call(element, CONTEXT)) {
                 return element[CONTEXT];
             } else {
@@ -534,6 +521,9 @@ const d = (function () {
             element[ELEMENT_LIST_ITEM] = listItemTagName;
         }
 
+        // could send path as array directly
+        // but have to change notifyOneListSubscriber to take in path as Array or String
+        // before
         const path = contextFromArrayWith(pathIn, variableName);
 
         pushOrCreateArrayAt(listSubscribers, path, element);
@@ -623,7 +613,7 @@ const d = (function () {
         return activatedClone;
     };
 
-    const applyinside = function (element, key) {
+    const applyInside = function (element, key) {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
         if (!key) {
@@ -685,7 +675,7 @@ const d = (function () {
                 }
             }
         });
-        
+
         directivePairs.forEach(function ([directiveName, applyDirective]) {
             if (!element.hasAttribute(directiveName)) {
                 return;
@@ -726,7 +716,7 @@ const d = (function () {
                 [options.directives.variable, applyVariable],
                 [options.directives.function, applyFunctions],
                 [options.directives.list, applylist],
-                [options.directives.inside, applyinside],
+                [options.directives.inside, applyInside],
                 [options.directives.template, applytemplate]
             ];
         }

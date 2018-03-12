@@ -666,6 +666,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 9.0.0</h4>
+<p>IE 10 support is now mantained by external polyfills</p>
+<p>The result is that base dom99 is now even lighter</p>
+<p>To still support IE 10 <code>npm install template-mb</code> and iclude it like in the file examples/index.html</p>
 <h4>Version 8.2.0</h4>
 <p>Support for cases when an element is inside another that uses
 <code>data-function</code> Ex. button > span</p>
@@ -990,6 +994,8 @@ d.feed({users :
 ]});
 </script>
 
+<script nomodule src="../node_modules/template-mb/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
 <script nomodule src="js/documentation.es5.min.js"></script>
 <script type="module" src="js/documentation.js"></script>
 </main>
