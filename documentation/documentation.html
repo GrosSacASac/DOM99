@@ -67,21 +67,22 @@ You can also build the HTML with custom elements.</p>
     <li><code>npm install dom99</code></li>
     <li><a download href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js">Production minified dom99.es5.min.js</a></li>
     <li>Use a <a href="https://github.com/GrosSacASac/create-dom99-app/">premade starter pack create-dom99-app</a></li>
-    <li><code><del>bower install dom99</del></code></li>
 </ul>
 </section>
 
 <section>
 <h3>Browser Support</h3>
 <ul>
-    <li>Google Chrome</li>
-    <li>Mozilla Firefox</li>
+    <li>Chrome</li>
+    <li>Samsung Internet</li>
+    <li>Firefox</li>
     <li>Opera</li>
-    <li>Safari*</li>
-    <li>Internet Explorer 10+* </li>
+    <li>Safari</li>
+    <li>Edge</li>
+    <li>Internet Explorer 9+* </li>
 </ul>
-<p>*Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
-Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/</p>
+<p>* Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
+Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/ and examples/</p>
 </section>
 
 <section>
@@ -667,9 +668,11 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <article id="patchnotes">
 <h3>Patch Notes</h3>
 <h4>Version 9.0.0</h4>
-<p>IE 10 support is now mantained by external polyfills</p>
+<p>IE 9 support is now mantained by external polyfills</p>
 <p>The result is that base dom99 is now even lighter</p>
-<p>To still support IE 10 <code>npm install template-mb</code> and iclude it like in the file examples/index.html</p>
+<p>To still support IE 9+ <code>npm install template-mb</code> and include it like in the file <code>examples/index.html</code></p>
+<p>More updates like these are coming</p>
+<p>Bower and bower.json has been dropped</p>
 <h4>Version 8.2.0</h4>
 <p>Support for cases when an element is inside another that uses
 <code>data-function</code> Ex. button > span</p>
