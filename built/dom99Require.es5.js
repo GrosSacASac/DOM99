@@ -460,7 +460,7 @@ var d = function () {
         addEventListener(element, eventName, tempFunction, useCapture);
     };*/
 
-    var applyFunction = function applyFunction(element, eventName, functionName) {
+    var applyFunctionOriginal = function applyFunctionOriginal(element, eventName, functionName) {
         if (!functions[functionName]) {
             console.error("Event listener " + functionName + " not found.");
         }
@@ -468,6 +468,9 @@ var d = function () {
         // todo only add context when not top level ? (inside sommething)
         element[CONTEXT] = contextFromArray(pathIn);
     };
+
+    var pluggedFunctions = [];
+    var applyFunction = applyFunctionOriginal;
 
     var applyFunctions = function applyFunctions(element, attributeValue) {
         attributeValue.split(options.listSeparator).forEach(function (attributeValueSplit) {
@@ -638,7 +641,7 @@ var d = function () {
                 if (directives.includes(attribute.nodeName)) {
                     ;
                 } else {
-                    console.warn("dom99 does not recognize, " + attribute.nodeName);
+                    console.warn("dom99 does not recognize " + attribute.nodeName);
                 }
             }
         });
@@ -699,6 +702,28 @@ var d = function () {
         return callBack();
     };
 
+    var plugin = function plugin(featureToPlugIn) {
+
+        if (hasOwnProperty.call(featureToPlugIn, "directives")) {
+            if (hasOwnProperty.call(featureToPlugIn.directives, "function")) {
+                pluggedFunctions.push(featureToPlugIn.directives.function);
+                applyFunction = function applyFunction(element, eventName, functionName) {
+                    var defaultPrevented = false;
+                    var preventDefault = function preventDefault() {
+                        defaultPrevented = true;
+                    };
+                    pluggedFunctions.forEach(function (pluginFunction) {
+                        pluginFunction(element, eventName, functionName, functions, preventDefault);
+                    });
+                    if (defaultPrevented) {
+                        return;
+                    }
+                    applyFunctionOriginal(element, eventName, functionName);
+                };
+            }
+        }
+    };
+
     // https://github.com/piecioshka/test-freeze-vs-seal-vs-preventExtensions
     return Object.freeze({
         start: start,
@@ -713,7 +738,8 @@ var d = function () {
         contextFromArray: contextFromArray,
         contextFromEvent: contextFromEvent,
         getParentContext: getParentContext,
-        options: options
+        options: options,
+        plugin: plugin
     });
 }();
 
