@@ -1,5 +1,5 @@
 /* dom99.js */
- /*        Copyright Cyril Walle 2017.
+ /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     (See accompanying file LICENSE.txt or copy at
          http://www.boost.org/LICENSE_1_0.txt) */
@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-inside ?
 
-    addEventListener("x", y, {passive: true}); ? explore
+    addEventListener(`x`, y, {passive: true}); ? explore
 */
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
@@ -34,7 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
 const d = (function () {
     "use strict";
 
-    const NAME = "DOM99";
+    const NAME = `DOM99`;
     const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
     const CONTEXT = `${NAME}_C`;
     const LIST_ITEM_PROPERTY = `${NAME}_L`;
@@ -42,7 +42,7 @@ const d = (function () {
     const ELEMENT_LIST_ITEM = `${NAME}_I`;
     const CUSTOM_ELEMENT = `${NAME}_X`;
     const LIST_CHILDREN = `${NAME}_R`;
-    const INSIDE_SYMBOL = ">";
+    const INSIDE_SYMBOL = `>`;
 
     //root collections
     const variableSubscribers = {};
@@ -77,7 +77,7 @@ const d = (function () {
 
     const isObjectOrArray = function (x) {
         /*array or object*/
-        return (typeof x === "object" && x !== null);
+        return (typeof x === `object` && x !== null);
     };
 
     const copyArrayFlat = function (array) {
@@ -97,7 +97,7 @@ const d = (function () {
         }
     };
 
-    const MISS = "MISS";
+    const MISS = `MISS`;
     const valueElseMissDecorator = function (object) {
         /*Decorator function around an Object to provide a default value
         Decorated object must have a MISS key with the default value associated
@@ -113,55 +113,55 @@ const d = (function () {
 
     const propertyFromTag = valueElseMissDecorator({
         //Input Type : appropriate property name to retrieve and set the value
-        "INPUT": "value",
-        "TEXTAREA": "value",
-        "PROGRESS": "value",
-        "SELECT": "value",
-        "IMG": "src",
-        "SOURCE": "src",
-        "AUDIO": "src",
-        "VIDEO": "src",
-        "TRACK": "src",
-        "SCRIPT": "src",
-        "OPTION": "value",
-        "LINK": "href",
-        "DETAILS": "open",
-        MISS: "textContent"
+        [`INPUT`]: `value`,
+        [`TEXTAREA`]: `value`,
+        [`PROGRESS`]: `value`,
+        [`SELECT`]: `value`,
+        [`IMG`]: `src`,
+        [`SOURCE`]: `src`,
+        [`AUDIO`]: `src`,
+        [`VIDEO`]: `src`,
+        [`TRACK`]: `src`,
+        [`SCRIPT`]: `src`,
+        [`OPTION`]: `value`,
+        [`LINK`]: `href`,
+        [`DETAILS`]: `open`,
+        MISS: `textContent`
     });
 
     const propertyFromInputType = valueElseMissDecorator({
         //Input Type : appropriate property name to retrieve and set the value
-        "checkbox": "checked",
-        "radio": "checked",
-        MISS: "value"
+        [`checkbox`]: `checked`,
+        [`radio`]: `checked`,
+        MISS: `value`
     });
 
     const inputEventFromType = valueElseMissDecorator({
-        "checkbox": "change",
-        "radio": "change",
-        "range": "change",
-        "file": "change",
-        MISS: "input"
+        [`checkbox`]: `change`,
+        [`radio`]: `change`,
+        [`range`]: `change`,
+        [`file`]: `change`,
+        MISS: `input`
     });
 
     const eventFromTag = valueElseMissDecorator({
-        "SELECT": "change",
-        "TEXTAREA": "input",
-        "BUTTON": "click",
-        MISS: "click"
+        [`SELECT`]: `change`,
+        [`TEXTAREA`]: `input`,
+        [`BUTTON`]: `click`,
+        MISS: `click`
     });
 
     const options = {
-        doneSymbol: "*",
-        tokenSeparator: "-",
-        listSeparator: " ",
+        doneSymbol: `*`,
+        tokenSeparator: `-`,
+        listSeparator: ` `,
         directives: {
-            function: "data-function",
-            variable: "data-variable",
-            element: "data-element",
-            list: "data-list",
-            inside: "data-inside",
-            template: "data-template"
+            function: `data-function`,
+            variable: `data-variable`,
+            element: `data-element`,
+            list: `data-list`,
+            inside: `data-inside`,
+            template: `data-template`
         },
 
         propertyFromElement: function (element) {
@@ -173,7 +173,7 @@ const d = (function () {
             } else {
                 tagName = element;
             }
-            if (tagName === "INPUT") {
+            if (tagName === `INPUT`) {
                 return propertyFromInputType(element.type);
             }
             return propertyFromTag(tagName);
@@ -183,30 +183,30 @@ const d = (function () {
             // defines the default event for an element
             // i.e. when data-function is omitting the event
             const tagName = element.tagName;
-            if (tagName === "INPUT") {
+            if (tagName === `INPUT`) {
                 return inputEventFromType(element.type);
             }
             return eventFromTag(tagName);
         },
 
         tagNamesForUserInput: [
-            "INPUT",
-            "TEXTAREA",
-            "SELECT",
-            "DETAILS"
+            `INPUT`,
+            `TEXTAREA`,
+            `SELECT`,
+            `DETAILS`
         ]
     };
 
     const createElement2 = function (elementDescription) {
         /*element.setAttribute(attr, value) is good to set
         initial attribute like when html is first loaded
-        setAttribute won't change some "live" things like .value for input,
+        setAttribute won't change some live things like .value for input,
         for instance, setAttribute is the correct choice for creation
         element.attr = value is good to change the live values
         always follow these words to avoid rare bugs*/
         const element = document.createElement(elementDescription.tagName);
         Object.entries(elementDescription).forEach(function ([key, value]) {
-            if (key !== "tagName") {
+            if (key !== `tagName`) {
                 element.setAttribute(key, value);
             }
         });
@@ -224,7 +224,7 @@ const d = (function () {
 
     elementsDeepForEach = function (startElement, callBack) {
         callBack(startElement);
-        if ((startElement.tagName === undefined) || startElement.tagName !== "TEMPLATE") {
+        if ((startElement.tagName === undefined) || startElement.tagName !== `TEMPLATE`) {
             // IE bug: templates are not inert
             // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
             // is not supported in Edge/Safari on DocumentFragments
@@ -243,7 +243,7 @@ const d = (function () {
     };
 
     const customElementNameFromElement = function (element) {
-        return element.getAttribute("is") || element.tagName.toLowerCase();
+        return element.getAttribute(`is`) || element.tagName.toLowerCase();
     };
 
     const addEventListener = function (element, eventName, callBack, useCapture = false) {
@@ -284,7 +284,7 @@ const d = (function () {
             event,
             `has no context. contextFromEvent for top level elements is not needed.`
         );
-        return "";
+        return ``;
     };
 
     const contextFromArray = function (pathIn) {
@@ -313,8 +313,8 @@ const d = (function () {
     };
 
     const normalizeStartPath = function (startPath) {
-        // this is because "a>b>c" is irregular
-        // "a>b>c>" or ">a>b>c" would not need such normalization
+        // this is because `a>b>c` is irregular
+        // `a>b>c>` or `>a>b>c` would not need such normalization
         if (startPath) {
             return `${startPath}${INSIDE_SYMBOL}`;
         }
@@ -330,7 +330,7 @@ const d = (function () {
     };
 
     const forgetContext = function (path) {
-        /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
+        /*Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
         all the element references if you used the underlying nodes in dom99
         A removed element will continue receive invisible automatic updates
         it also takes space in the memory.
@@ -413,7 +413,7 @@ const d = (function () {
             });
             pathIn = previous;
         } else {
-            listContainer.innerHTML = "";
+            listContainer.innerHTML = ``;
             data.forEach(function (value) {
                 const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
                 if (isObjectOrArray(value)) {
@@ -433,7 +433,7 @@ const d = (function () {
         });
     };
 
-    feed = function (data, startPath = "") {
+    feed = function (data, startPath = ``) {
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
             if (hasOwnProperty.call(variableSubscribers, startPath)) {
@@ -504,7 +504,7 @@ const d = (function () {
             optional
         ] = attributeValue.split(options.tokenSeparator);
 
-        let fullName = "-";
+        let fullName = `-`;
 
         if (!variableName) {
             console.error(
@@ -539,9 +539,9 @@ const d = (function () {
     const applyVariable = function (element, variableName) {
         /* two-way bind
         example : called for <input data-variable="a">
-        in this example the variableName = "a"
+        in this example the variableName = `a`
         we push the <input data-variable="a" > element in the array
-        that holds all elements which share this same "a" variable
+        that holds all elements which share this same `a` variable
         undefined assignment are ignored, instead use empty string*/
 
         if (!variableName) {
@@ -670,7 +670,7 @@ const d = (function () {
         const directives = Object.values(options.directives);
         const asArray = Array.prototype.slice.call(element.attributes);
         asArray.forEach(function (attribute) {
-            if (attribute.nodeName.startsWith("data")) {
+            if (attribute.nodeName.startsWith(`data`)) {
                 if (directives.includes(attribute.nodeName)) {
                     ;
                 } else {

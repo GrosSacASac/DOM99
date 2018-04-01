@@ -2,10 +2,10 @@
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /* dom99.js */
-/*        Copyright Cyril Walle 2017.
+/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    (See accompanying file LICENSE.txt or copy at
         http://www.boost.org/LICENSE_1_0.txt) */
@@ -32,13 +32,15 @@ Distributed under the Boost Software License, Version 1.0.
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-inside ?
 
-    addEventListener("x", y, {passive: true}); ? explore
+    addEventListener(`x`, y, {passive: true}); ? explore
 */
 /*jslint
     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
 */
 var d = function () {
     "use strict";
+
+    var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
 
     var NAME = "DOM99";
     var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
@@ -83,7 +85,7 @@ var d = function () {
 
     var isObjectOrArray = function isObjectOrArray(x) {
         /*array or object*/
-        return (typeof x === "undefined" ? "undefined" : _typeof(x)) === "object" && x !== null;
+        return typeof x === "object" && x !== null;
     };
 
     var copyArrayFlat = function copyArrayFlat(array) {
@@ -117,45 +119,13 @@ var d = function () {
         };
     };
 
-    var propertyFromTag = valueElseMissDecorator({
-        //Input Type : appropriate property name to retrieve and set the value
-        "INPUT": "value",
-        "TEXTAREA": "value",
-        "PROGRESS": "value",
-        "SELECT": "value",
-        "IMG": "src",
-        "SOURCE": "src",
-        "AUDIO": "src",
-        "VIDEO": "src",
-        "TRACK": "src",
-        "SCRIPT": "src",
-        "OPTION": "value",
-        "LINK": "href",
-        "DETAILS": "open",
-        MISS: "textContent"
-    });
+    var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, "INPUT", "value"), _defineProperty(_valueElseMissDecorat, "TEXTAREA", "value"), _defineProperty(_valueElseMissDecorat, "PROGRESS", "value"), _defineProperty(_valueElseMissDecorat, "SELECT", "value"), _defineProperty(_valueElseMissDecorat, "IMG", "src"), _defineProperty(_valueElseMissDecorat, "SOURCE", "src"), _defineProperty(_valueElseMissDecorat, "AUDIO", "src"), _defineProperty(_valueElseMissDecorat, "VIDEO", "src"), _defineProperty(_valueElseMissDecorat, "TRACK", "src"), _defineProperty(_valueElseMissDecorat, "SCRIPT", "src"), _defineProperty(_valueElseMissDecorat, "OPTION", "value"), _defineProperty(_valueElseMissDecorat, "LINK", "href"), _defineProperty(_valueElseMissDecorat, "DETAILS", "open"), _defineProperty(_valueElseMissDecorat, "MISS", "textContent"), _valueElseMissDecorat));
 
-    var propertyFromInputType = valueElseMissDecorator({
-        //Input Type : appropriate property name to retrieve and set the value
-        "checkbox": "checked",
-        "radio": "checked",
-        MISS: "value"
-    });
+    var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, "checkbox", "checked"), _defineProperty(_valueElseMissDecorat2, "radio", "checked"), _defineProperty(_valueElseMissDecorat2, "MISS", "value"), _valueElseMissDecorat2));
 
-    var inputEventFromType = valueElseMissDecorator({
-        "checkbox": "change",
-        "radio": "change",
-        "range": "change",
-        "file": "change",
-        MISS: "input"
-    });
+    var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, "checkbox", "change"), _defineProperty(_valueElseMissDecorat3, "radio", "change"), _defineProperty(_valueElseMissDecorat3, "range", "change"), _defineProperty(_valueElseMissDecorat3, "file", "change"), _defineProperty(_valueElseMissDecorat3, "MISS", "input"), _valueElseMissDecorat3));
 
-    var eventFromTag = valueElseMissDecorator({
-        "SELECT": "change",
-        "TEXTAREA": "input",
-        "BUTTON": "click",
-        MISS: "click"
-    });
+    var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
 
     var options = {
         doneSymbol: "*",
@@ -201,7 +171,7 @@ var d = function () {
     var createElement2 = function createElement2(elementDescription) {
         /*element.setAttribute(attr, value) is good to set
         initial attribute like when html is first loaded
-        setAttribute won't change some "live" things like .value for input,
+        setAttribute won't change some live things like .value for input,
         for instance, setAttribute is the correct choice for creation
         element.attr = value is good to change the live values
         always follow these words to avoid rare bugs*/
@@ -313,8 +283,8 @@ var d = function () {
     };
 
     var normalizeStartPath = function normalizeStartPath(startPath) {
-        // this is because "a>b>c" is irregular
-        // "a>b>c>" or ">a>b>c" would not need such normalization
+        // this is because `a>b>c` is irregular
+        // `a>b>c>` or `>a>b>c` would not need such normalization
         if (startPath) {
             return "" + startPath + INSIDE_SYMBOL;
         }
@@ -330,7 +300,7 @@ var d = function () {
     };
 
     var forgetContext = function forgetContext(path) {
-        /*Removing a DOM element with .remove() or .innerHTML = "" will NOT delete
+        /*Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
         all the element references if you used the underlying nodes in dom99
         A removed element will continue receive invisible automatic updates
         it also takes space in the memory.
@@ -530,9 +500,9 @@ var d = function () {
     var applyVariable = function applyVariable(element, variableName) {
         /* two-way bind
         example : called for <input data-variable="a">
-        in this example the variableName = "a"
+        in this example the variableName = `a`
         we push the <input data-variable="a" > element in the array
-        that holds all elements which share this same "a" variable
+        that holds all elements which share this same `a` variable
         undefined assignment are ignored, instead use empty string*/
 
         if (!variableName) {
