@@ -1,13 +1,23 @@
 /*
-acceleration = acceleration or deceleration
-
 devicemotionListener must be used like this
-window.addEventListener(`devicemotion`, devicemotionListener(function () {
-    // do something when shake events occurs
-}), false);
-*/
-export {devicemotionListener, shakeSupport};
 
+import {devicemotionListener, shakeSupport} from "./shakeEvents.js";
+
+if (shakeSupport) {
+    window.addEventListener(`devicemotion`, devicemotionListener(function () {
+        // do something when shake events occurs
+    }), false);
+}
+
+The reason this module does not add the event listener itself: it allows to do other
+things on device motion event too if desired. It also allows event removal.
+
+*/
+
+export {devicemotionListener, shakeSupport};
+/*
+acceleration = acceleration or deceleration
+*/
 const minimumAcceleration = 25;
 const minimumTimeSpace = 600;
 const shakeSupport = window.ondevicemotion !== undefined;
