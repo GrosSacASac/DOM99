@@ -12,20 +12,20 @@
 
 
 
-<script src="../../js/dom99.js"></script>
-<script src="readTextFile.js"></script>
-<script>
-"use strict";
-dom99.activate();
+<script type="module">
+import d from "../../built/dom99Module.js";
+import {readTextFile} from "./readTextFile.js";
 
-dom99.fx.tryReadTextFile = function (event) {
+
+d.functions.tryReadTextFile = function (event) {
     readTextFile().then(function (value) {
-        dom99.vr.result = value;
+        d.feed(`result`, value);
     }).catch(function (reason) {
-        dom99.vr.result = "Error: " + reason;
+        d.feed(`result`, `Error: ${reason}`);
     });
 };
 
+d.activate();
 </script>
 </body>
 </html>
