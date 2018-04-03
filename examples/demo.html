@@ -16,7 +16,7 @@
    <input data-variable="text" type="text">
 
 <p data-variable="text">
-  is overriden with D.feed("Hi", "text");
+  is overriden with d.feed("text", "Hi");
 </p><br>
 
 
@@ -44,23 +44,23 @@ src="http://rawgit.com/GrosSacASac/DOM99/master/js/dom99.js"
 /* global d*/
 
 // manually set text variable
-d.feed("Hi", "text");
+d.feed("text", "Hi");
 
 
 // edit what is inside the first <d-comment>
 
-d.feed({
+d.feed("first", {
  text: "Nice job"
-}, "first");
+});
 
 
 // edit what is inside the second <d-comment>
 
-d.feed({
+d.feed("second", {
  text: "Thanks I did not know about worka,"+
         "I will install it from Github",
  date: "just now"
-}, "second");
+});
 
 
 d.activate(); //start

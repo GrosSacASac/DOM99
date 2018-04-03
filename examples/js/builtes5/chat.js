@@ -363,7 +363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 data.forEach(function (dataInside, i) {
                     pathInside = "" + normalizedPath + i;
-                    _feed(dataInside, pathInside);
+                    _feed(pathInside, dataInside);
                     if (i >= oldLength) {
                         // cannot remove document fragment after insert because they empty themselves
                         // have to freeze the children to still have a reference
@@ -395,9 +395,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         };
 
-        _feed = function feed(data) {
-            var startPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-
+        _feed = function feed(startPath, data) {
+            if (data === undefined) {
+                data = startPath;
+                startPath = "";
+            }
             if (!isObjectOrArray(data)) {
                 variables[startPath] = data;
                 if (hasOwnProperty.call(variableSubscribers, startPath)) {
@@ -416,7 +418,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         value = _ref4[1];
 
                     var path = "" + normalizedPath + key;
-                    _feed(value, path);
+                    _feed(path, value);
                 });
             }
         };
@@ -772,7 +774,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
         // Update
 
-        d.feed(data, key); // loops over
+        d.feed(key, data); // loops over
     };
 
     d.functions.trySendMessage = function (event) {
@@ -784,13 +786,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         };
         // could send data to server here
         displayNewMessage(data);
-        d.feed("", "currentMessage"); //reset the inputs
+        d.feed("currentMessage", ""); //reset the inputs
         d.elements.textarea.focus(); //reset focus
     };
 
     // initialize
 
-    d.feed("", "currentMessage"); //reset the inputs
+    d.feed("currentMessage", ""); //reset the inputs
     d.activate(); //now we listen to all events
 
     window.setInterval(function () {

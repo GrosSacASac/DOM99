@@ -396,7 +396,7 @@ const d = (function () {
 
             data.forEach(function (dataInside, i) {
                 pathInside = `${normalizedPath}${i}`;
-                feed(dataInside, pathInside);
+                feed(pathInside, dataInside);
                 if (i >= oldLength) {
                     // cannot remove document fragment after insert because they empty themselves
                     // have to freeze the children to still have a reference
@@ -433,7 +433,11 @@ const d = (function () {
         });
     };
 
-    feed = function (data, startPath = ``) {
+    feed = function (startPath, data) {
+        if (data === undefined) {
+            data = startPath;
+            startPath = ``;
+        }
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
             if (hasOwnProperty.call(variableSubscribers, startPath)) {
@@ -448,7 +452,7 @@ const d = (function () {
             const normalizedPath = normalizeStartPath(startPath);
             Object.entries(data).forEach(function ([key, value]) {
                 const path = `${normalizedPath}${key}`;
-                feed(value, path);
+                feed(path, value);
             });
         }
     };

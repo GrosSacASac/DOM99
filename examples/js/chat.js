@@ -42,7 +42,7 @@ const displayNewMessage = function(data) {
     }
     // Update
 
-    d.feed(data, key); // loops over
+    d.feed(key, data); // loops over
 };
 
 d.functions.trySendMessage = function(event) {
@@ -54,13 +54,13 @@ d.functions.trySendMessage = function(event) {
     };
     // could send data to server here
     displayNewMessage(data);
-    d.feed(``, `currentMessage`); //reset the inputs
+    d.feed(`currentMessage`, ``); //reset the inputs
     d.elements.textarea.focus(); //reset focus
 };
 
 // initialize
 
-d.feed(``, `currentMessage`); //reset the inputs
+d.feed(`currentMessage`, ``); //reset the inputs
 d.activate(); //now we listen to all events
 
 window.setInterval(function () {

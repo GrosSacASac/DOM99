@@ -194,14 +194,14 @@ d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pr
 
 <pre><code>
 // manually
-d.feed("A new comment", "first>text");
-d.feed("Today", "first>date");
+d.feed("first>text", "A new comment");
+d.feed("first>date", "Today");
 
 // better
-d.feed({
+d.feed("first", {
     text: "A new comment",
     date: "Today"
-}, "first");
+});
 
 </code></pre>
 
@@ -294,7 +294,7 @@ const commentPrefix = "comment";
 let currentCommentNumber = 2;
 
 const update = function (commentKey, commentObject) {
-    d.feed(commentObject, commentKey);
+    d.feed(commentKey, commentObject);
 };
 
 const getDataFromFakeServer = function (urlOrWhat) {
@@ -396,7 +396,7 @@ const update = function (commentObject, position) {
     commentsData[position] = commentObject;
     // could sort the comments with .sort(customFunction) too
     // pushes the update to the UI
-    d.feed(commentsData, "comments");
+    d.feed("comments", commentsData);
 };
 
 const fetchData = function (urlOrWhat) {
@@ -422,7 +422,7 @@ d.functions.showNextComment = function (event) {
     commentsData.push(undefined);
     // undefined has no effect on all data-variable
     // so that will effectively uses the default textContent in the HTML
-    d.feed(commentsData, "comments");
+    d.feed("comments", commentsData);
     // force UI update
     fetchData("comment?id=42").then( function (data) {
             update(data, position);
@@ -445,7 +445,7 @@ let commentsData = [
     }
 ];
 
-d.feed(commentsData, "comments");
+d.feed("comments", commentsData);
 d.activate();
 </code></pre>
 <p><a href="../examples/templates3.html">Try templates3.html</a></p>
@@ -525,7 +525,7 @@ d.functions.update = function (event) {
     //  - text -
         const textKey = d.contextFromArray([key, "text"]);
         const textVariable = d.variables[textKey]; // read
-        d.feed("New Text", textKey); // write
+        d.feed(textKey, "New Text"); // write
     // - elements -
         const statusKey = d.contextFromArray([key, "status"]);
         const statusDiv = d.variables[textKey]; // read
@@ -533,16 +533,16 @@ d.functions.update = function (event) {
     // - list -
         const listKey = d.contextFromArray([key, "myList"]);
         const listVariable = d.variables[listKey]; // read
-        d.feed([
+        d.feed(listKey, [
             "a",
             "b",
             "c"
-        ], listKey); // write with side effect
+        ]); // write with side effect
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
         const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
         const textVariable2 = d.variables[encapsulatedTextKey]; // read
-        d.feed("New Encapsulated Text", encapsulatedTextKey); // write
+        d.feed(encapsulatedTextKey, "New Encapsulated Text"); // write
 
 
     // this looks verbose but it works for any kind of deep html composition.
@@ -667,6 +667,17 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 10.0.0</h4>
+<p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
+<pre><code>
+    feed = function (startPath, data) {
+        if (data === undefined) {
+            data = startPath;
+            startPath = ``;
+        }
+</code></pre>
+<p>With one parameter the effect is the same as before</p>
+<p>With two parameters the startPath is now the first argument</p>
 <h4>Version 9.1.0</h4>
 <p>Plugins are introduced !</p>
 <p>New plugin: shake</p>
@@ -782,7 +793,7 @@ the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
 <p>Setting data uses           d.feed({
             result: "Please enter finite numbers"
-          }); or d.feed("Please enter finite numbers", "result");
+        }); or d.feed("result", "Please enter finite numbers");
           Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
 <p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
 
@@ -937,7 +948,7 @@ d.functions.calculate();
 </template>
 
 <script nomodule data-element="ListsJs">
-d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
+d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 </script>
 
 <!-- Lists2 -->
@@ -948,7 +959,7 @@ d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
 </template>
 
 <script nomodule data-element="Lists2Js">
-d.feed([
+d.feed("images", [
     {
         textContent: "you",
         value: "../images/you.jpg"
@@ -961,9 +972,9 @@ d.feed([
         textContent: "sister",
         value: "../images/sister.jpg"
     }
-], "images");
+]);
 
-d.feed(d.variables.images[0].value, "image");
+d.feed("image", d.variables.images[0].value);
 </script>
 
 <!-- Composition -->

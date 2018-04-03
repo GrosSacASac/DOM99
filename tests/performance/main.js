@@ -105,7 +105,7 @@ var selectedRowElement = undefined;
 
 
 var updateRows = function () {
-    d.feed(store.data, "rows");
+    d.feed("rows", store.data);
 };
 
 var run = function () {
@@ -148,7 +148,7 @@ var clear = function () {
 };
 
 var swapRows = function () {
-    startMeasure("swapRows");        
+    startMeasure("swapRows");
     let old_selection = store.selected;
     unselect();
     store.swapRows();
@@ -169,10 +169,10 @@ var deleteRow = function (e) {
     let context = d.contextFromEvent(e);
     let idContext = d.contextFromArray([context, "id"]);
     let id = d.variables[idContext];
-    
+
     startMeasure("delete");
     store.delete(id);
-    d.feed(store.data, "rows");
+    d.feed("rows", store.data);
     stopMeasure();
 };
 

@@ -363,7 +363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 data.forEach(function (dataInside, i) {
                     pathInside = "" + normalizedPath + i;
-                    _feed(dataInside, pathInside);
+                    _feed(pathInside, dataInside);
                     if (i >= oldLength) {
                         // cannot remove document fragment after insert because they empty themselves
                         // have to freeze the children to still have a reference
@@ -395,9 +395,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
         };
 
-        _feed = function feed(data) {
-            var startPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-
+        _feed = function feed(startPath, data) {
+            if (data === undefined) {
+                data = startPath;
+                startPath = "";
+            }
             if (!isObjectOrArray(data)) {
                 variables[startPath] = data;
                 if (hasOwnProperty.call(variableSubscribers, startPath)) {
@@ -416,7 +418,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         value = _ref4[1];
 
                     var path = "" + normalizedPath + key;
-                    _feed(value, path);
+                    _feed(path, value);
                 });
             }
         };
@@ -718,7 +720,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         commentsData[position] = commentObject;
         // could sort the comments with .sort(customFunction) too
         // pushes the update to the UI
-        d.feed(commentsData, "comments");
+        d.feed("comments", commentsData);
     };
 
     var fetchData = function fetchData(urlOrWhat) {
@@ -744,7 +746,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         commentsData.push(undefined);
         // undefined will simly have no effecton all data-variable
         // so that will effectively uses the default textContent in the HTML
-        d.feed(commentsData, "comments");
+        d.feed("comments", commentsData);
         // force ui update
         fetchData("comment?id=42").then(function (data) {
             update(data, position);
@@ -763,6 +765,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         date: "yesterday"
     }];
 
-    d.feed(commentsData, "comments");
+    d.feed("comments", commentsData);
     d.activate();
 })();

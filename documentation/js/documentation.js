@@ -11,11 +11,11 @@ ${JsSourceOriginal.trim()}
 
 d.activate();`);
     const HtmlSourceDisplay = d.elements[name+"Html"].innerHTML.trim();
-    d.feed({
+    d.feed(name, {
         title: name,
         JsSourceDisplay,
         HtmlSourceDisplay
-    }, name);
+    });
     const resultElement =  d.elements[d.contextFromArray([name, "ResultDisplay"])];
     resultElement.innerHTML = HtmlSourceDisplay;
     if (window.usesModules) {

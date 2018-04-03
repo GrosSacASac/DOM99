@@ -6,11 +6,11 @@ d.plugin(shake);
 let shaken = 0;
 d.functions.deviceShaked = function (event) {
     shaken += 1;
-    d.feed(shaken, `shakenCount`);
+    d.feed(`shakenCount`, shaken);
 };
 
 d.start(undefined, undefined, undefined, function () {
     if (!shakeSupport) {
-        d.feed(`No supoort for device motion`, `shakenCount`);
+        d.feed(`shakenCount`, `No supoort for device motion`);
     }
 });
