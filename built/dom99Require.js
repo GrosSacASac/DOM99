@@ -224,22 +224,21 @@ const d = (function () {
 
     elementsDeepForEach = function (startElement, callBack) {
         callBack(startElement);
-        if ((startElement.tagName === undefined) || startElement.tagName !== `TEMPLATE`) {
-            // IE bug: templates are not inert
-            // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
-            // is not supported in Edge/Safari on DocumentFragments
-            // let element = startElement.firstElementChild;
-            // this does not produce an error, but simply returns undefined
-            let node = startElement.firstChild;
-            while (node) {
-                if (node.nodeType === ELEMENT_NODE) {
-                    elementsDeepForEach(node, callBack);
-                    node = node.nextElementSibling;
-                } else {
-                    node = node.nextSibling;
-                }
+        // IE bug: templates are not inert
+        // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
+        // is not supported in Edge/Safari on DocumentFragments
+        // let element = startElement.firstElementChild;
+        // this does not produce an error, but simply returns undefined
+        let node = startElement.firstChild;
+        while (node) {
+            if (node.nodeType === ELEMENT_NODE) {
+                elementsDeepForEach(node, callBack);
+                node = node.nextElementSibling;
+            } else {
+                node = node.nextSibling;
             }
         }
+
     };
 
     const customElementNameFromElement = function (element) {
