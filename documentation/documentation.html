@@ -163,7 +163,7 @@ d.activate();</code></pre>
 <h3>Use data-variable + d.variables + d.feed for data bindings</h3>
 <p>To changes the text of <code>&lt;p data-variable="talkings">&lt;/p></code> and all other element that share the variable talkings</p>
 
-<pre><code>d.feed({talkings: "Hi"});</code></pre>
+<pre><code>d.feed({talkings: `Hi`});</code></pre>
 
 <p>Use the same data-variable="talkings" on <code>&lt;input></code> elements for two way data bindings</p>
 
@@ -194,13 +194,13 @@ d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pr
 
 <pre><code>
 // manually
-d.feed("first>text", "A new comment");
-d.feed("first>date", "Today");
+d.feed(`first>text`, `A new comment`);
+d.feed(`first>date`, `Today`);
 
 // better
-d.feed("first", {
-    text: "A new comment",
-    date: "Today"
+d.feed(`first`, {
+    text: `A new comment`,
+    date: `Today`
 });
 
 </code></pre>
@@ -269,12 +269,12 @@ d.functions.showNextComment = function(event) {
 
 let commentsData = {
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "just now"
+        text: `I really appreciate your work`,
+        date: `just now`
     }
 };
 
@@ -289,7 +289,7 @@ d.activate();</code></pre>
 <pre><code>
 import d from "../built/dom99Module.js";
 
-const commentPrefix = "comment";
+const commentPrefix = `comment`;
 
 let currentCommentNumber = 2;
 
@@ -301,8 +301,8 @@ const getDataFromFakeServer = function (urlOrWhat) {
     // fetch like simulation
     return new Promise(function (resolve, reject) {
         const fakeData = {
-            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-            date: "just now"
+            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
+            date: `just now`
         };
 
         window.setTimeout(function () {
@@ -316,14 +316,14 @@ d.functions.showNextComment = function (event) {
     let key = `${commentPrefix}${currentCommentNumber}`;
 
     const customElementDescription = {
-        tagName: "d-comment",
-        "data-inside": key
+        tagName: `d-comment`,
+        [`data-inside`]: key
     }
     const customElement = d.createElement2(customElementDescription);
 
     d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
-    getDataFromFakeServer("comment?id=42").then( //get data
+    getDataFromFakeServer(`comment?id=42`).then( //get data
         function (data) {
             update(key, data);
     });
@@ -331,12 +331,12 @@ d.functions.showNextComment = function (event) {
 
 let commentsData = { //initial
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "yesterday"
+        text: `I really appreciate your work`,
+        date: `yesterday`
     }
 };
 
@@ -396,15 +396,15 @@ const update = function (commentObject, position) {
     commentsData[position] = commentObject;
     // could sort the comments with .sort(customFunction) too
     // pushes the update to the UI
-    d.feed("comments", commentsData);
+    d.feed(`comments`, commentsData);
 };
 
 const fetchData = function (urlOrWhat) {
     // fetch like simulation
     return new Promise(function (resolve, reject) {
         const fakeData = {
-            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-            date: "just now"
+            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
+            date: `just now`
         };
 
         window.setTimeout(function () {
@@ -422,9 +422,9 @@ d.functions.showNextComment = function (event) {
     commentsData.push(undefined);
     // undefined has no effect on all data-variable
     // so that will effectively uses the default textContent in the HTML
-    d.feed("comments", commentsData);
+    d.feed(`comments`, commentsData);
     // force UI update
-    fetchData("comment?id=42").then( function (data) {
+    fetchData(`comment?id=42`).then( function (data) {
             update(data, position);
     });
 
@@ -436,16 +436,16 @@ d.functions.showNextComment = function (event) {
 
 let commentsData = [
     {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     {
-        text: "I really appreciate your work",
-        date: "yesterday"
+        text: `I really appreciate your work`,
+        date: `yesterday`
     }
 ];
 
-d.feed("comments", commentsData);
+d.feed(`comments`, commentsData);
 d.activate();
 </code></pre>
 <p><a href="../examples/templates3.html">Try templates3.html</a></p>
@@ -464,8 +464,8 @@ d.activate();
 // manual, see templates3.html to see how to use shortcuts
 // 0 make a description
 let customElementDescription = {
-    "tagName": "d-tagname",
-    "data-inside": "key"
+    [`tagName`]: `d-tagname`,
+    [`data-inside`]: `key`
 }
 // 1 create HTML Element
 let customElement = d.createElement2(customElementDescription);
@@ -474,20 +474,20 @@ let customElement = d.createElement2(customElementDescription);
 d.activate(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
-d.elements["target"].appendChild(customElement);</code></pre>
+d.elements[`target`].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
 <p>If you have a <code>&lt;template></code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>d.variables["key>text"] = "A string"
+<pre><code>d.variables[`key>text`] = `A string`;
 
-d.elements["key>elementName"].className = ...</code></pre>
+d.elements[`key>elementName`].className = `class-fun`;</code></pre>
 
 <p>Or</p>
-<pre><code>d.variables[d.contextFromArray(["key", "text"])] = "A string"
+<pre><code>d.variables[d.contextFromArray([`key`, `text`])] = `A string`;
 
-d.elements[d.contextFromArray(["key", "elementName"])].className = ...</code></pre>
+d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></pre>
 
 <p>d.functions function the other way around. You use the same event handlers for all template copies
  and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
@@ -523,31 +523,31 @@ d.functions.update = function (event) {
     const key = d.contextFromEvent(event);
     // you can access variables, elements, lists, subcontext with d.contextFromArray
     //  - text -
-        const textKey = d.contextFromArray([key, "text"]);
+        const textKey = d.contextFromArray([key, `text`]);
         const textVariable = d.variables[textKey]; // read
-        d.feed(textKey, "New Text"); // write
+        d.feed(textKey, `New Text`); // write
     // - elements -
-        const statusKey = d.contextFromArray([key, "status"]);
+        const statusKey = d.contextFromArray([key, `status`]);
         const statusDiv = d.variables[textKey]; // read
-        statusDiv.classList.add("updated") // use
+        statusDiv.classList.add(`updated`) // use
     // - list -
-        const listKey = d.contextFromArray([key, "myList"]);
+        const listKey = d.contextFromArray([key, `myList`]);
         const listVariable = d.variables[listKey]; // read
         d.feed(listKey, [
-            "a",
-            "b",
-            "c"
+            `a`,
+            `b`,
+            `c`
         ]); // write with side effect
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
-        const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
+        const encapsulatedTextKey = d.contextFromArray([key, `encapsulated`, `text`]);
         const textVariable2 = d.variables[encapsulatedTextKey]; // read
-        d.feed(encapsulatedTextKey, "New Encapsulated Text"); // write
+        d.feed(encapsulatedTextKey, `New Encapsulated Text`); // write
 
 
     // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    d.variables["key>text"];
+    d.variables[`key>text`];
 };</code></pre>
 
 <p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completely delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
@@ -667,6 +667,8 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 11.0.0</h4>
+<p>Removed a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
 <h4>Version 10.0.0</h4>
 <p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
 <pre><code>

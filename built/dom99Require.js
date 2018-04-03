@@ -224,7 +224,6 @@ const d = (function () {
 
     elementsDeepForEach = function (startElement, callBack) {
         callBack(startElement);
-        // IE bug: templates are not inert
         // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
         // is not supported in Edge/Safari on DocumentFragments
         // let element = startElement.firstElementChild;
