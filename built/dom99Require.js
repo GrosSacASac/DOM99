@@ -436,6 +436,12 @@ const d = (function () {
             data = startPath;
             startPath = ``;
         }
+        if (isObjectOrArray(startPath)) {
+            console.error(
+                `Incorrect types passed to d.feed,
+                d.feed(string, object) or d.feed(object)`
+            );
+        }
         if (!isObjectOrArray(data)) {
             variables[startPath] = data;
             if (hasOwnProperty.call(variableSubscribers, startPath)) {
