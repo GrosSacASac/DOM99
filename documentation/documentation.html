@@ -682,6 +682,13 @@ Simply changing a class name of an element can cause the browser to do heavy com
 </code></pre>
 <p>With one parameter the effect is the same as before</p>
 <p>With two parameters the startPath is now the first argument</p>
+
+<pre><code>
+    find:
+        d\.feed\((.+)\, (.+)\)
+    replace:
+        d.feed($2, $1)
+</code></pre>
 <h4>Version 9.1.0</h4>
 <p>Plugins are introduced !</p>
 <p>New plugin: shake</p>
