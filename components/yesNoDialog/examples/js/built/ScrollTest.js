@@ -745,14 +745,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var cleanUp = function cleanUp() {
         waiting = false;
         document.body.classList.remove(cssDialogActiveClass);
-        d.feed({
+        d.feed(thisNameSpace, {
             question: "",
             label: "",
             input: "",
             submitText: "",
             yesText: "",
             noText: ""
-        }, thisNameSpace);
+        });
         window.scrollTo(lastXPosition, lastYPosition);
     };
 
@@ -787,11 +787,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         d.elements[yesNoContainer].hidden = false;
         currentResolve = resolve;
-        d.feed({
+        d.feed(thisNameSpace, {
             question: question,
             yesText: yesText,
             noText: noText
-        }, thisNameSpace);
+        });
     };
 
     var preparePrompt = function preparePrompt(_ref8) {
@@ -803,12 +803,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         d.elements[promptContainer].hidden = false;
         currentResolve = resolve;
-        d.feed({
+        d.feed(thisNameSpace, {
             question: question,
             label: label,
             input: input,
             submitText: submitText
-        }, thisNameSpace);
+        });
         d.elements[promptInput].focus();
     };
 

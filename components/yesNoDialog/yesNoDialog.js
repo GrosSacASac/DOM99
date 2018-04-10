@@ -31,14 +31,14 @@ let lastYPosition = 0;
 const cleanUp = function () {
     waiting = false;
     document.body.classList.remove(cssDialogActiveClass);
-    d.feed({
+    d.feed(thisNameSpace, {
         question: ``,
         label: ``,
         input: ``,
         submitText: ``,
         yesText: ``,
         noText: ``,
-    }, thisNameSpace);
+    });
     window.scrollTo(lastXPosition, lastYPosition);
 };
 
@@ -68,22 +68,22 @@ const prepareNext = function () {
 const prepareYesNo = function ({resolve, question, yesText, noText}) {
     d.elements[yesNoContainer].hidden = false;
     currentResolve = resolve;
-    d.feed({
+    d.feed(thisNameSpace, {
         question,
         yesText,
         noText
-    }, thisNameSpace);
+    });
 };
 
 const preparePrompt = function ({resolve, question, label, input, submitText}) {
     d.elements[promptContainer].hidden = false;
     currentResolve = resolve;
-    d.feed({
+    d.feed(thisNameSpace, {
         question,
         label,
         input,
         submitText
-    }, thisNameSpace);
+    });
     d.elements[promptInput].focus();
 };
 
@@ -118,7 +118,7 @@ const yesNoDialog = function (question, yesText, noText) {
                 question,
                 yesText,
                 noText,
-                resolve   
+                resolve
             });
         }
     });
@@ -136,7 +136,7 @@ const textDialog = function (question, label, input, submitText) {
                 label,
                 input,
                 submitText,
-                resolve   
+                resolve
             });
         }
     });
