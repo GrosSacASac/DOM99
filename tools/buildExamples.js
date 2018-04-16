@@ -35,6 +35,6 @@ async function build(inputOptions, outputOptions) {
   return written;
 }
 
-everythingFinishPromise.then(function () {
-    console.log("success");
-});
+// everythingFinishPromise.then(function () {
+//     console.log("success");
+// });

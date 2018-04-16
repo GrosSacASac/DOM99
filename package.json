@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "11.1.3",
+  "version": "11.1.4",
   "license": "BSL-1.0",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
@@ -16,6 +16,7 @@
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-minify": "^0.4.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -29,7 +30,7 @@
   "scripts": {
     "transpile": "babel js/dom99.js > built/dom99.es5.js",
     "transpileminFAIL": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
-    "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
+    "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js && minify built/dom99Module.js --out-file built/dom99Module.min.js",
     "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
     "build": "npm run transpile && npm run minify && npm run buildModuleAndRequire",
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
