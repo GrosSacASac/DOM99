@@ -10,7 +10,7 @@
 
 ## What is dom99 ?
 
-dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](http://jsbin.com/tepezuj/edit?html,js,output)
+dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](https://jsbin.com/tepezuj/edit?html,js,output)
 
 ## Installation
 
