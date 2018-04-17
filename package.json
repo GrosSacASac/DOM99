@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "11.1.5",
+  "version": "11.1.6",
   "license": "BSL-1.0",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
@@ -25,7 +25,7 @@
     "rollup": "^0.50.0",
     "template-mb": "^2.0.6",
     "uglify-js": "^3.1.5",
-    "utilsac": "^2.0.0"
+    "utilsac": "^6.0.0"
   },
   "scripts": {
     "transpile": "babel js/dom99.js > built/dom99.es5.js",
@@ -36,7 +36,8 @@
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
-    "examples": "npm run bundleExamples && npm run transpileExamples",
+    "demoDependencies": "node tools/buildDemoDependencies.js",
+    "examples": "npm run bundleExamples && npm run transpileExamples && npm run demoDependencies",
     "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "bhtml": "node tools/buildHTML",
