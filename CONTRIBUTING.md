@@ -126,6 +126,7 @@ Open an issue to make us open a donation channel
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs
  * base dom99 lighter do not import everything
+ * include version in comment in built files
 
 
 ## Coding Style Guides

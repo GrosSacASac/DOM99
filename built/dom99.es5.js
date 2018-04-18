@@ -228,6 +228,9 @@ var d = function () {
         if (!template) {
             console.error("Template missing <template " + options.directives.template + "=\"d-name\">\n                    Template Content\n                </template>");
         }
+        if (!template.content) {
+            console.error("template.content is undefined, this can happen if a template is inside another template. Use only top level templates");
+        }
         return document.importNode(template.content, true);
     };
 

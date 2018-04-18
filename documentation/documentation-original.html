@@ -898,8 +898,6 @@ the license in distributed executables or transpiled code</p>
 </article>
 
 <script nomodule src="../polyfills/built/polyfill.min.js"></script>
-<script nomodule src="../polyfills/built/template.js"></script>
-<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
 <script nomodule src="../polyfills/built/remove.js"></script>
 <script nomodule src="../built/dom99.es5.min.js"></script>
 <script type="module">
@@ -995,17 +993,25 @@ d.feed("image", d.variables.images[0].value);
 </script>
 
 <!-- Composition -->
+<!-- Template inside template causes problems in IE -->
+<template data-template="user-element">
+    <div class="user">
+        <img data-variable="picture" alt="user-picture" class="user-picture">
+        <p data-variable="bio" class="user-bio">SHORT BIO</p>
+        <button class="user-contact">Contact</button>
+    </div>
+</template>
 <template data-element="CompositionHtml">
     <!-- Define the template for an user
     every user has a picture, a short biography, and a contact button -->
 
-    <template data-template="user-element">
+    <!-- <template data-template="user-element">
         <div class="user">
             <img data-variable="picture" alt="user-picture" class="user-picture">
             <p data-variable="bio" class="user-bio">SHORT BIO</p>
             <button class="user-contact">Contact</button>
         </div>
-    </template>
+    </template> -->
 
     <!-- This div is the container for each user.
     The list variable name is "users" and the template used is "user-element"
@@ -1027,7 +1033,9 @@ d.feed({users :
         }
 ]});
 </script>
-
+<!-- needs to run after all templates -->
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
 <script nomodule src="js/documentation.es5.min.js"></script>
 <script type="module" src="js/documentation.js"></script>
 </main>
