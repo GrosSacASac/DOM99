@@ -15,35 +15,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /*
         document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
         use WeakMap instead where supported
-    
-        decide when to use event
+          decide when to use event
             .target
             .orignialTarget
             .currentTarget
-    
-        when to use is="" syntax and when to use <x-element></x-element> ?
+          when to use is="" syntax and when to use <x-element></x-element> ?
         think about overlying framework
-    
-        add data-list-strategy to allow opt in declarative optimization
+          add data-list-strategy to allow opt in declarative optimization
             same length, different content
             same content, different length
             key based identification
         data-function-context to allow context less
-    
-        transform recursive into sequential flow
-    
-        add data-scoped for data-function to allow them to be
+          transform recursive into sequential flow
+          add data-scoped for data-function to allow them to be
         scoped inside an element with data-inside ?
-    
-        addEventListener(`x`, y, {passive: true}); ? explore
+          addEventListener(`x`, y, {passive: true}); ? explore
     */
     /*jslint
         es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
     */
 
     var d = function () {
-        "use strict";
-
         var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
 
         var NAME = "DOM99";
