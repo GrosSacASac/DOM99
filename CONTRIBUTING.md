@@ -59,22 +59,14 @@ Open an issue to make us open a donation channel
 
 
  * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
- * provide an optional wrapper for the API that seems to scales better for large teams
  * compare values before updating ? with data-compare-before ?
  * explain better where dom99 comes from and what differentiates it
  * Create a better documentation experience
- * Extract IE artefacts from core and put these in polyfills/extensions
  * make better link to components folder in the documentation
  * Define typical process of creating and composing with custom elements
- * ie seems to fill forms after script executes and load (onload ?)
+ * IE seems to fill forms after script executes and load (onload ?)
  * http://localhost:8080/examples/limited.html cannot set -4 in globalv
- * make a full stack creation template, (like create react app)
-    * also explain how to scale to a big team
-        * import export templates (<script type="module"> or <link rel="import">)
-    * webpack
-    * minifier, transpiler, etc
  * better explain the strengths and weaknesses of the library
-
  * see how checking for equality before assigning textContent affects performance
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
@@ -100,31 +92,27 @@ Open an issue to make us open a donation channel
  * server side rendering
     * static
     * on the fly, streaming html
-    * html + js + css in one file ? .vue
-    * html Transpiler or research html template engine
- * streaming text editor
  * better developer tools
     * indexed error messages in the doc
     * more warnings
     * text editors plugins
  * improve plugin system to add and remove data-* directives
- * lit-html
+ * lit-html compatible API could be interesting
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
- * make sure it integrates well with webpack, rollup, ie, "modules": false
  * make it easier to toggle attributes and class names from elements that are injected from template or from lists
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
  * hooks for custom elements after/before create
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
- * make doc experience more streamlined
  * enable and test tree shaking possibilities. Would it be better to export multiple things instead of 1 big
+ * provide non singleton export 
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * regenerate landing-page.min.css from source landing-page.css
  * use surge or gh-pages
  * docs make code not look like plain text (more syntax colors)
- * top level variable integration like displayjs
+ * top level variable integration like displayjs experiment
  * base dom99 lighter do not import everything
  * include version in comment in built files
 
