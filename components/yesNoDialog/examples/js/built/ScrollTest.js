@@ -712,15 +712,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     //yesNoDialog.js
 
+    var d$1 = void 0;
     var thisNameSpace = "yesNoDialog";
     var cssPrefix = "yes-no-dialog";
     var cssDialogActiveClass = cssPrefix + "-active";
-    var yesButton = d.contextFromArray([thisNameSpace, "yesButton"]);
-    var yesNoContainer = d.contextFromArray([thisNameSpace, "confirm"]);
-    var promptContainer = d.contextFromArray([thisNameSpace, "prompt"]);
-    var promptInput = d.contextFromArray([thisNameSpace, "input"]);
     var yesNoSymbol = 0;
     var promptSymbol = 1;
+
+    var yesButton = void 0;
+    var yesNoContainer = void 0;
+    var promptContainer = void 0;
+    var promptInput = void 0;
 
     var yesNoDialogQueue = [];
     var currentResolve = void 0;
@@ -728,10 +730,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var lastXPosition = 0;
     var lastYPosition = 0;
 
+    var useYesNoDialog = function useYesNoDialog(dom99) {
+        d$1 = dom99;
+
+        yesButton = d$1.contextFromArray([thisNameSpace, "yesButton"]);
+        yesNoContainer = d$1.contextFromArray([thisNameSpace, "confirm"]);
+        promptContainer = d$1.contextFromArray([thisNameSpace, "prompt"]);
+        promptInput = d$1.contextFromArray([thisNameSpace, "input"]);
+        d$1.functions.yesNoDialogAnswer = function (event) {
+            d$1.elements[yesNoContainer].hidden = true;
+            prepareNext();
+            currentResolve(event.target === d$1.elements[yesButton]);
+        };
+
+        d$1.functions.yesNoDialogSubmit = function (event) {
+            var input = d$1.variables[promptInput];
+            // prepareNext can overwrite d.variables[promptInput]
+            d$1.elements[promptContainer].hidden = true;
+            prepareNext();
+            currentResolve(input);
+        };
+
+        d$1.functions.yesNoDialogSubmitViaEnter = function (event) {
+            if (event.keyCode === 13) {
+                //Enter
+                d$1.functions.yesNoDialogSubmit();
+            }
+        };
+    };
+
     var cleanUp = function cleanUp() {
         waiting = false;
         document.body.classList.remove(cssDialogActiveClass);
-        d.feed(thisNameSpace, {
+        d$1.feed(thisNameSpace, {
             question: "",
             label: "",
             input: "",
@@ -755,7 +786,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         } else {
             var next = yesNoDialogQueue.shift();
             if (next.intent !== promptSymbol) {
-                d.elements[promptInput].blur();
+                d$1.elements[promptInput].blur();
             }
             if (next.intent === yesNoSymbol) {
                 prepareYesNo(next);
@@ -771,9 +802,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             yesText = _ref7.yesText,
             noText = _ref7.noText;
 
-        d.elements[yesNoContainer].hidden = false;
+        d$1.elements[yesNoContainer].hidden = false;
         currentResolve = resolve;
-        d.feed(thisNameSpace, {
+        d$1.feed(thisNameSpace, {
             question: question,
             yesText: yesText,
             noText: noText
@@ -787,36 +818,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             input = _ref8.input,
             submitText = _ref8.submitText;
 
-        d.elements[promptContainer].hidden = false;
+        d$1.elements[promptContainer].hidden = false;
         currentResolve = resolve;
-        d.feed(thisNameSpace, {
+        d$1.feed(thisNameSpace, {
             question: question,
             label: label,
             input: input,
             submitText: submitText
         });
-        d.elements[promptInput].focus();
-    };
-
-    d.functions.yesNoDialogAnswer = function (event) {
-        d.elements[yesNoContainer].hidden = true;
-        prepareNext();
-        currentResolve(event.target === d.elements[yesButton]);
-    };
-
-    d.functions.yesNoDialogSubmit = function (event) {
-        var input = d.variables[promptInput];
-        // prepareNext can overwrite d.variables[promptInput]
-        d.elements[promptContainer].hidden = true;
-        prepareNext();
-        currentResolve(input);
-    };
-
-    d.functions.yesNoDialogSubmitViaEnter = function (event) {
-        if (event.keyCode === 13) {
-            //Enter
-            d.functions.yesNoDialogSubmit();
-        }
+        d$1.elements[promptInput].focus();
     };
 
     var yesNoDialog = function yesNoDialog(question, yesText, noText) {
@@ -856,6 +866,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     // Import
 
+    useYesNoDialog(d);
     d.start({
         askSomething: function askSomething(event) {
             var questionText = "Do you think your scroll position will be remembered ?";
@@ -882,7 +893,5 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, {
         result: ""
     });
-
-    window.d = d; // for debugging
 })();
 

@@ -5,13 +5,17 @@
 /*global
     FileReader, Promise
 */
-import d from "../../built/dom99Module.js";
-export {readTextFile};
+export {readTextFile, useReadTextFile};
 
-const fileInputDescription = {
-    tagName: `input`,
-    type: `file`,
-    [`data-function`]: `xReadFileStart`
+let d;
+const useReadTextFile = function (dom99) {
+    d = dom99;
+	d.functions.xReadFileStart = function (event) {
+		const fileObject = event.target.files[0]; // FileList object
+		const reader = new FileReader();
+		reader.onload = readerOnLoadPrepare(event.target);
+		reader.readAsText(fileObject);
+	};
 };
 
 const readerOnLoadPrepare = function (inputElement) {
@@ -21,22 +25,19 @@ const readerOnLoadPrepare = function (inputElement) {
     };
 };
 
-d.functions.xReadFileStart = function (event) {
-    const fileObject = event.target.files[0]; // FileList object
-    const reader = new FileReader();
-    reader.onload = readerOnLoadPrepare(event.target);
-    reader.readAsText(fileObject);
-};
-
-const readFileSetup = function (resolve, reject) {
-    const fileInput = d.createElement2(fileInputDescription);
-    fileInput.readFileResolve = resolve;
-    fileInput.readFileReject = reject;
-    d.activate(fileInput);
-    d.elements.readTextFileContainer.appendChild(fileInput);
-    fileInput.click();
+const fileInputDescription = {
+    tagName: `input`,
+    type: `file`,
+    [`data-function`]: `xReadFileStart`
 };
 
 const readTextFile = function () {
-    return new Promise(readFileSetup);
+    return new Promise(function (resolve, reject) {
+		const fileInput = d.createElement2(fileInputDescription);
+		fileInput.readFileResolve = resolve;
+		fileInput.readFileReject = reject;
+		d.activate(fileInput);
+		d.elements.readTextFileContainer.appendChild(fileInput);
+		fileInput.click();
+	});
 };

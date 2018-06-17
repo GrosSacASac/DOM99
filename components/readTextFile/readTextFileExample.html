@@ -14,7 +14,7 @@
 
 <script type="module">
 import d from "../../built/dom99Module.js";
-import {readTextFile} from "./readTextFile.js";
+import {readTextFile, useReadTextFile} from "./readTextFile.js";
 
 
 d.functions.tryReadTextFile = function (event) {
@@ -24,7 +24,7 @@ d.functions.tryReadTextFile = function (event) {
         d.feed(`result`, `Error: ${reason}`);
     });
 };
-
+useReadTextFile(d);
 d.activate();
 </script>
 </body>

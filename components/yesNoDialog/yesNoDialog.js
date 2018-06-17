@@ -3,30 +3,60 @@
     es6, maxerr: 15, browser, devel, fudge, maxlen: 100
 */
 /*global
-    Promise, require
+    Promise
 */
 /*
 could remove and give back focus to the main document with document.activeElement
 as in https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.js
 */
-import d from "../../built/dom99Module.js";
-export {yesNoDialog, textDialog};
+export {yesNoDialog, textDialog, useYesNoDialog};
 
+let d;
 const thisNameSpace = `yesNoDialog`;
 const cssPrefix = `yes-no-dialog`;
 const cssDialogActiveClass = `${cssPrefix}-active`;
-const yesButton = d.contextFromArray([thisNameSpace, `yesButton`]);
-const yesNoContainer = d.contextFromArray([thisNameSpace, `confirm`]);
-const promptContainer = d.contextFromArray([thisNameSpace, `prompt`]);
-const promptInput = d.contextFromArray([thisNameSpace, `input`]);
 const yesNoSymbol = 0;
 const promptSymbol = 1;
+
+let yesButton;
+let yesNoContainer;
+let promptContainer;
+let promptInput;
 
 const yesNoDialogQueue = [];
 let currentResolve;
 let waiting = false;
 let lastXPosition = 0;
 let lastYPosition = 0;
+
+const useYesNoDialog = function (dom99) {
+    d = dom99;
+    
+	yesButton = d.contextFromArray([thisNameSpace, `yesButton`]);
+	yesNoContainer = d.contextFromArray([thisNameSpace, `confirm`]);
+	promptContainer = d.contextFromArray([thisNameSpace, `prompt`]);
+	promptInput = d.contextFromArray([thisNameSpace, `input`]);
+	d.functions.yesNoDialogAnswer = function (event) {
+		d.elements[yesNoContainer].hidden = true;
+		prepareNext();
+		currentResolve(event.target === d.elements[yesButton]);
+	};
+
+	d.functions.yesNoDialogSubmit = function (event) {
+		const input = d.variables[promptInput];
+		// prepareNext can overwrite d.variables[promptInput]
+		d.elements[promptContainer].hidden = true;
+		prepareNext();
+		currentResolve(input);
+	};
+
+	d.functions.yesNoDialogSubmitViaEnter = function (event) {
+		if (event.keyCode === 13) { //Enter
+			d.functions.yesNoDialogSubmit();
+		}
+	};
+
+};
 
 const cleanUp = function () {
     waiting = false;
@@ -85,26 +115,6 @@ const preparePrompt = function ({resolve, question, label, input, submitText}) {
         submitText
     });
     d.elements[promptInput].focus();
-};
-
-d.functions.yesNoDialogAnswer = function (event) {
-    d.elements[yesNoContainer].hidden = true;
-    prepareNext();
-    currentResolve(event.target === d.elements[yesButton]);
-};
-
-d.functions.yesNoDialogSubmit = function (event) {
-    const input = d.variables[promptInput];
-    // prepareNext can overwrite d.variables[promptInput]
-    d.elements[promptContainer].hidden = true;
-    prepareNext();
-    currentResolve(input);
-};
-
-d.functions.yesNoDialogSubmitViaEnter = function (event) {
-    if (event.keyCode === 13) { //Enter
-        d.functions.yesNoDialogSubmit();
-    }
 };
 
 const yesNoDialog = function (question, yesText, noText) {

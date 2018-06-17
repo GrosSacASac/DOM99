@@ -14,8 +14,9 @@ examples/ScrollTest.html
 
     // using es modules
     import d from "./node_modules/dom99/built/dom99Module.js";
-    import {yesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
-
+    import {yesNoDialog, useYesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
+	
+	useYesNoDialog(d);
     d.activate();
     
     //...
@@ -67,7 +68,7 @@ You need to include the html fragment and the css.
 The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body (see yesNoDialog.css). 
 The promise will never reject.
 It is possible to call yesNoDialog multiple times in a row even if the user is still answering previous questions.
-An encapsulated queue is used to handle that.
+An encapsulated queue is used to handle that. `useYesNoDialog(d)` is required once before `d.start()` or similar.
 
 ## Motivation
 
@@ -82,6 +83,10 @@ Cannot use the class Name "yes-no-dialog" in other HTML elements.
 Maybe obsoleted by `<dialog>` element. (Future)
 
 ## Changelog
+
+###  17/06/2018
+
+useYesNoDialog is now required once
 
 ### 3/12/2017
 

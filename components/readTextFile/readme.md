@@ -15,9 +15,9 @@ See readTextFileExample.html for a minimal example
 
 ```
 import d from "../../built/dom99Module.js";
-import {readTextFile} from "./readTextFile.js";
+import {readTextFile, useReadTextFile} from "./readTextFile.js";
 
-
+useReadTextFile(d);
 d.activate();
 
 readTextFile().then(function (value) {
