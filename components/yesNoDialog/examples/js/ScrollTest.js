@@ -1,5 +1,5 @@
 // Import
-import d from "../../../../built/dom99Module.js";
+import d from "../../../../source/dom99.js";
 import {yesNoDialog, textDialog, useYesNoDialog} from "../../yesNoDialog.js";
 
 useYesNoDialog(d);

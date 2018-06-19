@@ -1,4 +1,4 @@
-import d from "../../built/dom99Module.js";
+import d from "../../source/dom99.js";
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData

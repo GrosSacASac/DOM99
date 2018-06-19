@@ -1,5 +1,5 @@
 // Import
-import d from "../../built/dom99Module.js";
+import d from "../../source/dom99.js";
 
 
 

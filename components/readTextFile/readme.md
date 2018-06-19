@@ -14,7 +14,7 @@ See readTextFileExample.html for a minimal example
 ## Usage
 
 ```
-import d from "../../built/dom99Module.js";
+import d from "../../source/dom99.js";
 import {readTextFile, useReadTextFile} from "./readTextFile.js";
 
 useReadTextFile(d);
