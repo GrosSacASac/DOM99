@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "12.0.1",
+  "version": "12.0.2",
   "license": "BSL-1.0",
   "main": "built/dom99Require.js",
   "module": "built/dom99Module.js",
@@ -22,7 +22,7 @@
     "babel-preset-env": "^1.7.0",
     "bootstrap": "^3.3.7",
     "html-minifier": "^3.5.10",
-    "rollup": "^0.58.0",
+    "rollup": "^0.60.7",
     "template-mb": "^2.0.6",
     "uglify-js": "^3.1.5",
     "utilsac": "^6.0.0"
