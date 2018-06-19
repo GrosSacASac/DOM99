@@ -1,4 +1,4 @@
-/*dom99 v13.0.0*/
+/*dom99 v13.0.3*/
 'use strict';
 
 /*        Copyright Cyril Walle 2018.
