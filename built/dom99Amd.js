@@ -1,4 +1,4 @@
-/*dom99 v13.0.5*/
+/*dom99 v13.0.6*/
 define('dom99', ['exports'], function (exports) { 'use strict';
 
 	/*        Copyright Cyril Walle 2018.

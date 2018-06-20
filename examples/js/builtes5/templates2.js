@@ -168,6 +168,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
 	};
 
+	var createElement2 = function createElement2(elementDescription) {
+		/*element.setAttribute(attr, value) is good to set
+  initial attribute like when html is first loaded
+  setAttribute won't change some live things like .value for input,
+  for instance, setAttribute is the correct choice for creation
+  element.attr = value is good to change the live values
+  always follow these words to avoid rare bugs*/
+		var element = document.createElement(elementDescription.tagName);
+		Object.entries(elementDescription).forEach(function (_ref) {
+			var _ref2 = _slicedToArray(_ref, 2),
+			    key = _ref2[0],
+			    value = _ref2[1];
+
+			if (key !== "tagName") {
+				element.setAttribute(key, value);
+			}
+		});
+		return element;
+	};
+
 	// alternative not used yet
 	// const createElement2 = function ({tagName, ...elementDescription}) {
 	// const element = document.createElement(tagName);
@@ -391,10 +411,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
-			Object.entries(data).forEach(function (_ref) {
-				var _ref2 = _slicedToArray(_ref, 2),
-				    key = _ref2[0],
-				    value = _ref2[1];
+			Object.entries(data).forEach(function (_ref3) {
+				var _ref4 = _slicedToArray(_ref3, 2),
+				    key = _ref4[0],
+				    value = _ref4[1];
 
 				var path = "" + normalizedPath + key;
 				_feed(path, value);
@@ -595,10 +615,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		});
 
-		directivePairs.forEach(function (_ref3) {
-			var _ref4 = _slicedToArray(_ref3, 2),
-			    directiveName = _ref4[0],
-			    applyDirective = _ref4[1];
+		directivePairs.forEach(function (_ref5) {
+			var _ref6 = _slicedToArray(_ref5, 2),
+			    directiveName = _ref6[0],
+			    applyDirective = _ref6[1];
 
 			if (!element.hasAttribute(directiveName)) {
 				return;
@@ -695,7 +715,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			tagName: "d-comment",
 			"data-inside": key
 		};
-		var customElement = dom99core.createElement2(customElementDescription);
+		var customElement = createElement2(customElementDescription);
 
 		dom99core.activate(customElement);
 		dom99core.elements.commentSection.appendChild(customElement);

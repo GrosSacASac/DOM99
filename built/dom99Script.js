@@ -1,4 +1,4 @@
-/*dom99 v13.0.5*/
+/*dom99 v13.0.6*/
 var dom99 = (function (exports) {
 	'use strict';
 

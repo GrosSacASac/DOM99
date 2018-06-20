@@ -5,7 +5,7 @@ const commentPrefix = "comment";
 let currentCommentNumber = 2;
 
 const update = function (commentKey, commentObject) {
-    d.feed( commentKey, commentObject,);
+    d.feed( commentKey, commentObject);
 };
 
 const getDataFromFakeServer = function (urlOrWhat) {
@@ -30,7 +30,7 @@ d.functions.showNextComment = function (event) {
         tagName: "d-comment",
         "data-inside": key
     }
-    const customElement = d.createElement2(customElementDescription);
+    const customElement = createElement2(customElementDescription);
 
     d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
