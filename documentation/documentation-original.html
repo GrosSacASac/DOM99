@@ -147,7 +147,7 @@ Version 1.0: LICENSE.txt</a></p>
 <h3>In your JavaScript:</h3>
 
 <pre><code>
-import d from "./node_modules/dom99/source/dom99.js";
+import {d, plugin, options, createElement2} from "./node_modules/dom99/source/dom99.js";
 //to start using dom99 pre selected elements use this statement
 d.activate();</code></pre>
 
@@ -263,7 +263,7 @@ Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</
 <p>Our initial JS code looks like this</p>
 
 <pre><code>
-import d from "../source/dom99.js";
+import {d, plugin, options, createElement2} from "../source/dom99.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo
@@ -289,7 +289,7 @@ d.activate();</code></pre>
 
 <h3>Part 2</h3>
 <pre><code>
-import d from "../source/dom99.js";
+import {d, plugin, options, createElement2} from "../source/dom99.js";
 
 const commentPrefix = `comment`;
 
@@ -391,7 +391,7 @@ d.activate();
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <h4>JS</h4>
-<pre><code>import d from "../source/dom99.js";
+<pre><code>import {d, plugin, options, createElement2} from "../source/dom99.js";
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
@@ -904,7 +904,7 @@ the license in distributed executables or transpiled code</p>
 <script nomodule src="../built/dom99.es5.min.js"></script>
 <script type="module">
 // Import
-import d from "../built/dom99Module.min.js";
+import {d, plugin, options, createElement2} from "../built/dom99Module.min.js";
 window.d = d;
 window.usesModules = true;
 </script>

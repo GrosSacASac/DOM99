@@ -775,19 +775,19 @@ const plugin = function (featureToPlugIn) {
 	}
 };
 
-export default Object.freeze({
+const core = Object.freeze({
 	start,
 	activate,
 	elements,
 	functions,
 	variables,
 	feed,
-	createElement2,
 	forgetContext,
 	deleteTemplate,
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-	options,
-	plugin
 });
+
+export {d, plugin, options, createElement2};
+

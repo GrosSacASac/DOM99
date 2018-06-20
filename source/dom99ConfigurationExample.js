@@ -18,7 +18,7 @@ warning, needs revisit,
 //custom attribute names should start with "data-" see
 // https://docs.webplatform.org/wiki/html/attributes/data-* 
 
-import d from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
+import {d, plugin, options, createElement2} from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
 
 // Example for more compact syntax:
 Object.assign(d.options.directives, {

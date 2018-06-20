@@ -1,4 +1,4 @@
-import d from "../../../source/dom99.js";
+import {d, plugin, options, createElement2} from "../../../source/dom99.js";
 import {shake, shakeSupport} from "../shake.js";
 
 d.plugin(shake);

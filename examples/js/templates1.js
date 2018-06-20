@@ -1,4 +1,4 @@
-import d from "../../source/dom99.js";
+import {d, plugin, options, createElement2} from "../../source/dom99.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo
