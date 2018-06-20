@@ -1,5 +1,7 @@
-/*dom99 v13.0.3*/
+/*dom99 v13.0.5*/
 'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
 
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
@@ -774,21 +776,21 @@ const plugin = function (featureToPlugIn) {
 	}
 };
 
-var dom99 = Object.freeze({
+const dom99core = Object.freeze({
 	start,
 	activate,
 	elements,
 	functions,
 	variables,
 	feed,
-	createElement2,
 	forgetContext,
 	deleteTemplate,
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-	options,
-	plugin
 });
 
-module.exports = dom99;
+exports.d = dom99core;
+exports.plugin = plugin;
+exports.options = options;
+exports.createElement2 = createElement2;

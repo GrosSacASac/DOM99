@@ -1,5 +1,5 @@
-/*dom99 v13.0.3*/
-define('d', function () { 'use strict';
+/*dom99 v13.0.5*/
+define('dom99', ['exports'], function (exports) { 'use strict';
 
 	/*        Copyright Cyril Walle 2018.
 	Distributed under the Boost Software License, Version 1.0.
@@ -774,23 +774,25 @@ define('d', function () { 'use strict';
 		}
 	};
 
-	var dom99 = Object.freeze({
+	const dom99core = Object.freeze({
 		start,
 		activate,
 		elements,
 		functions,
 		variables,
 		feed,
-		createElement2,
 		forgetContext,
 		deleteTemplate,
 		contextFromArray,
 		contextFromEvent,
 		getParentContext,
-		options,
-		plugin
 	});
 
-	return dom99;
+	exports.d = dom99core;
+	exports.plugin = plugin;
+	exports.options = options;
+	exports.createElement2 = createElement2;
+
+	Object.defineProperty(exports, '__esModule', { value: true });
 
 });

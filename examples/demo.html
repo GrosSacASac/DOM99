@@ -15,53 +15,44 @@
 <body>
    <input data-variable="text" type="text">
 
-<p data-variable="text">
-  is overriden with d.feed("text", "Hi");
-</p><br>
+	<p data-variable="text">
+	  is overriden with d.feed("text", "Hi");
+	</p>
 
+	<br>
 
-<template data-template="d-comment">
-  <p data-variable="text">A comment</p>
-  <!-- variable text does not clash with outside -->
-  <datetime data-variable="date">05/04/2016</datetime>
-</template>
+	<template data-template="d-comment">
+	  <p data-variable="text">A comment</p>
+	  <time data-variable="date">05/04/2016</time>
+	</template>
 
-<d-comment data-inside="first"></d-comment>
-<d-comment data-inside="second"></d-comment>
+	<d-comment data-inside="first"></d-comment>
+	<d-comment data-inside="second"></d-comment>
 
-
-
-<br>
-<a
-href="https://github.com/GrosSacASac/DOM99"
->Github</a>
+	<br><a
+	href="https://github.com/GrosSacASac/DOM99"
+	>Github</a>
 
 <!-- dom99 -->
 <script
-src="http://rawgit.com/GrosSacASac/DOM99/master/js/dom99.js"
+src="../built/dom99Script.js"
 ></script>
 <script>
-/* global d*/
+const {d, plugin, options, createElement2} = dom99;
 
 // manually set text variable
 d.feed("text", "Hi");
 
-
 // edit what is inside the first <d-comment>
-
 d.feed("first", {
  text: "Nice job"
 });
 
-
 // edit what is inside the second <d-comment>
-
 d.feed("second", {
- text: "Thanks I did not know about worka,"+
-        "I will install it from Github",
+ text: "Thanks !",
  date: "just now"
 });
-
 
 d.start();
 </script>

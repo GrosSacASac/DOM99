@@ -168,26 +168,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
 	};
 
-	var createElement2 = function createElement2(elementDescription) {
-		/*element.setAttribute(attr, value) is good to set
-  initial attribute like when html is first loaded
-  setAttribute won't change some live things like .value for input,
-  for instance, setAttribute is the correct choice for creation
-  element.attr = value is good to change the live values
-  always follow these words to avoid rare bugs*/
-		var element = document.createElement(elementDescription.tagName);
-		Object.entries(elementDescription).forEach(function (_ref) {
-			var _ref2 = _slicedToArray(_ref, 2),
-			    key = _ref2[0],
-			    value = _ref2[1];
-
-			if (key !== "tagName") {
-				element.setAttribute(key, value);
-			}
-		});
-		return element;
-	};
-
 	// alternative not used yet
 	// const createElement2 = function ({tagName, ...elementDescription}) {
 	// const element = document.createElement(tagName);
@@ -411,10 +391,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
-			Object.entries(data).forEach(function (_ref3) {
-				var _ref4 = _slicedToArray(_ref3, 2),
-				    key = _ref4[0],
-				    value = _ref4[1];
+			Object.entries(data).forEach(function (_ref) {
+				var _ref2 = _slicedToArray(_ref, 2),
+				    key = _ref2[0],
+				    value = _ref2[1];
 
 				var path = "" + normalizedPath + key;
 				_feed(path, value);
@@ -441,8 +421,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		// todo only add context when not top level ? (inside sommething)
 		element[CONTEXT] = contextFromArray(pathIn);
 	};
-
-	var pluggedFunctions = [];
 	var applyFunction = applyFunctionOriginal;
 
 	var applyFunctions = function applyFunctions(element, attributeValue) {
@@ -617,10 +595,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		});
 
-		directivePairs.forEach(function (_ref5) {
-			var _ref6 = _slicedToArray(_ref5, 2),
-			    directiveName = _ref6[0],
-			    applyDirective = _ref6[1];
+		directivePairs.forEach(function (_ref3) {
+			var _ref4 = _slicedToArray(_ref3, 2),
+			    directiveName = _ref4[0],
+			    applyDirective = _ref4[1];
 
 			if (!element.hasAttribute(directiveName)) {
 				return;
@@ -673,43 +651,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return callBack();
 	};
 
-	var plugin = function plugin(featureToPlugIn) {
-
-		if (hasOwnProperty.call(featureToPlugIn, "directives")) {
-			if (hasOwnProperty.call(featureToPlugIn.directives, "function")) {
-				pluggedFunctions.push(featureToPlugIn.directives.function);
-				applyFunction = function applyFunction(element, eventName, functionName) {
-					var defaultPrevented = false;
-					var preventDefault = function preventDefault() {
-						defaultPrevented = true;
-					};
-					pluggedFunctions.forEach(function (pluginFunction) {
-						pluginFunction(element, eventName, functionName, functions, preventDefault);
-					});
-					if (defaultPrevented) {
-						return;
-					}
-					applyFunctionOriginal(element, eventName, functionName);
-				};
-			}
-		}
-	};
-
-	var d = Object.freeze({
+	var dom99core = Object.freeze({
 		start: start,
 		activate: activate,
 		elements: elements,
 		functions: functions,
 		variables: variables,
 		feed: _feed,
-		createElement2: createElement2,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
 		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext,
-		options: options,
-		plugin: plugin
+		getParentContext: getParentContext
 	});
 
 	// Import
@@ -720,52 +673,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var files = ["beach.jpg", "letter_for_johan.txt", "letter_for_sintia.txt", "recipe.md", "readme.md"];
 	var files2 = ["za.jpg", "zu.txt", "zo.txt", "zooo.md", "evil.md"];
 
-	d.functions.filter = function (event) {
-		var context = d.contextFromEvent(event);
-		var filterText = d.variables[d.contextFromArray([context, "filterText"])];
+	dom99core.functions.filter = function (event) {
+		var context = dom99core.contextFromEvent(event);
+		var filterText = dom99core.variables[dom99core.contextFromArray([context, "filterText"])];
 		var filterElement = event.target;
 		/* or
   const filterElement = d.elements[d.contextFromArray([context, "filter"])];
   */
 
-		var messagePath = d.contextFromArray([context, "message"]);
+		var messagePath = dom99core.contextFromArray([context, "message"]);
 
 		if (filterText) {
-			d.feed(messagePath, "filtering " + filterText);
+			dom99core.feed(messagePath, "filtering " + filterText);
 			filterElement.classList.add("grey");
 		} else {
-			d.feed(messagePath, "Displaying all files");
+			dom99core.feed(messagePath, "Displaying all files");
 			filterElement.classList.remove("grey");
 		}
 
-		var parentContext = d.getParentContext(context);
+		var parentContext = dom99core.getParentContext(context);
 
-		var originalFiles = d.variables[d.contextFromArray([parentContext, "originalFiles"])];
+		var originalFiles = dom99core.variables[dom99core.contextFromArray([parentContext, "originalFiles"])];
 		var filteredFiles = originalFiles.filter(function (file) {
 			return file.match(filterText);
 		});
 
-		d.feed(parentContext, {
+		dom99core.feed(parentContext, {
 			files: filteredFiles
 		});
 	};
 
-	d.feed("explorer1", {
+	dom99core.feed("explorer1", {
 		files: files,
 		originalFiles: files
 	});
 
-	d.feed("explorer2", {
+	dom99core.feed("explorer2", {
 		files: files2,
 		originalFiles: files2
 	});
 
-	d.activate(); // for performance put this at the end
+	dom99core.activate(); // for performance put this at the end
 	// here at the beginning for testing purposes
 
 
 	var list1 = ["a", "b", "c", "d"];
-	d.feed("list1", list1);
+	dom99core.feed("list1", list1);
 	list1.push("gg");
-	d.feed("list1", list1); // force update
+	dom99core.feed("list1", list1); // force update
 })();

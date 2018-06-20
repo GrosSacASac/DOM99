@@ -1,5 +1,5 @@
-/*dom99 v13.0.3*/
-var d = (function () {
+/*dom99 v13.0.5*/
+var dom99 = (function (exports) {
 	'use strict';
 
 	/*        Copyright Cyril Walle 2018.
@@ -775,23 +775,25 @@ var d = (function () {
 		}
 	};
 
-	var dom99 = Object.freeze({
+	const dom99core = Object.freeze({
 		start,
 		activate,
 		elements,
 		functions,
 		variables,
 		feed,
-		createElement2,
 		forgetContext,
 		deleteTemplate,
 		contextFromArray,
 		contextFromEvent,
 		getParentContext,
-		options,
-		plugin
 	});
 
-	return dom99;
+	exports.d = dom99core;
+	exports.plugin = plugin;
+	exports.options = options;
+	exports.createElement2 = createElement2;
 
-}());
+	return exports;
+
+}({}));

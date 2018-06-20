@@ -775,7 +775,7 @@ const plugin = function (featureToPlugIn) {
 	}
 };
 
-const core = Object.freeze({
+const dom99core = Object.freeze({
 	start,
 	activate,
 	elements,
@@ -789,5 +789,5 @@ const core = Object.freeze({
 	getParentContext,
 });
 
-export {d, plugin, options, createElement2};
+export {dom99core as d, plugin, options, createElement2};
 

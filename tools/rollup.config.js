@@ -2,7 +2,7 @@
 import __package from "../package.json";
 
 const VERSION = __package.version;
-const GLOBAL_NAME = `d`;
+const GLOBAL_NAME = `dom99`;
 
 	const commonOutputOptions = {
 	// core output options

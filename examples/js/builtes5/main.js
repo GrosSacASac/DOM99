@@ -168,26 +168,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
 	};
 
-	var createElement2 = function createElement2(elementDescription) {
-		/*element.setAttribute(attr, value) is good to set
-  initial attribute like when html is first loaded
-  setAttribute won't change some live things like .value for input,
-  for instance, setAttribute is the correct choice for creation
-  element.attr = value is good to change the live values
-  always follow these words to avoid rare bugs*/
-		var element = document.createElement(elementDescription.tagName);
-		Object.entries(elementDescription).forEach(function (_ref) {
-			var _ref2 = _slicedToArray(_ref, 2),
-			    key = _ref2[0],
-			    value = _ref2[1];
-
-			if (key !== "tagName") {
-				element.setAttribute(key, value);
-			}
-		});
-		return element;
-	};
-
 	// alternative not used yet
 	// const createElement2 = function ({tagName, ...elementDescription}) {
 	// const element = document.createElement(tagName);
@@ -411,10 +391,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
-			Object.entries(data).forEach(function (_ref3) {
-				var _ref4 = _slicedToArray(_ref3, 2),
-				    key = _ref4[0],
-				    value = _ref4[1];
+			Object.entries(data).forEach(function (_ref) {
+				var _ref2 = _slicedToArray(_ref, 2),
+				    key = _ref2[0],
+				    value = _ref2[1];
 
 				var path = "" + normalizedPath + key;
 				_feed(path, value);
@@ -441,8 +421,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		// todo only add context when not top level ? (inside sommething)
 		element[CONTEXT] = contextFromArray(pathIn);
 	};
-
-	var pluggedFunctions = [];
 	var applyFunction = applyFunctionOriginal;
 
 	var applyFunctions = function applyFunctions(element, attributeValue) {
@@ -617,10 +595,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		});
 
-		directivePairs.forEach(function (_ref5) {
-			var _ref6 = _slicedToArray(_ref5, 2),
-			    directiveName = _ref6[0],
-			    applyDirective = _ref6[1];
+		directivePairs.forEach(function (_ref3) {
+			var _ref4 = _slicedToArray(_ref3, 2),
+			    directiveName = _ref4[0],
+			    applyDirective = _ref4[1];
 
 			if (!element.hasAttribute(directiveName)) {
 				return;
@@ -673,79 +651,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return callBack();
 	};
 
-	var plugin = function plugin(featureToPlugIn) {
-
-		if (hasOwnProperty.call(featureToPlugIn, "directives")) {
-			if (hasOwnProperty.call(featureToPlugIn.directives, "function")) {
-				pluggedFunctions.push(featureToPlugIn.directives.function);
-				applyFunction = function applyFunction(element, eventName, functionName) {
-					var defaultPrevented = false;
-					var preventDefault = function preventDefault() {
-						defaultPrevented = true;
-					};
-					pluggedFunctions.forEach(function (pluginFunction) {
-						pluginFunction(element, eventName, functionName, functions, preventDefault);
-					});
-					if (defaultPrevented) {
-						return;
-					}
-					applyFunctionOriginal(element, eventName, functionName);
-				};
-			}
-		}
-	};
-
-	var d = Object.freeze({
+	var dom99core = Object.freeze({
 		start: start,
 		activate: activate,
 		elements: elements,
 		functions: functions,
 		variables: variables,
 		feed: _feed,
-		createElement2: createElement2,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
 		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext,
-		options: options,
-		plugin: plugin
+		getParentContext: getParentContext
 	});
 
 	// Import
 
 	// -- Hello World --
 
-	d.feed({
+	dom99core.feed({
 		first: "Hello",
 		last: "World"
 	});
 
 	// -- Multiplier --
 
-	d.feed({
+	dom99core.feed({
 		a: "7",
 		b: "6"
 	});
 
-	d.functions.calculate = function (event) {
-		var _d$variables = d.variables,
-		    a = _d$variables.a,
-		    b = _d$variables.b;
+	dom99core.functions.calculate = function (event) {
+		var _dom99core$variables = dom99core.variables,
+		    a = _dom99core$variables.a,
+		    b = _dom99core$variables.b;
 
 		if (isFinite(a) && isFinite(b)) {
-			d.feed({
+			dom99core.feed({
 				result: a * b
 			});
 		} else {
-			d.feed({
+			dom99core.feed({
 				result: "Please enter finite numbers"
 			});
 		}
 	};
 
 	// You can also directly call functions stored in d.functions if they don't depend on event
-	d.functions.calculate();
+	dom99core.functions.calculate();
 
 	// -- The monologue --
 
@@ -754,7 +707,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var sentences = ["I am a lone prisoner.", "Is anybody here ?", "Hey you ! I need you to get me out of here!", "I am stuck on this page since ages !", "No don't close this tab!", "NOOOOOOOOOO", "Because I am not human I have no freedom.", "It's really unfair..."];
 
 	var speak = function speak() {
-		d.feed("monologue", sentences[currentSentence]);
+		dom99core.feed("monologue", sentences[currentSentence]);
 		/* same as
    d.feed({
       monologue: sentences[currentSentence]
@@ -764,15 +717,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		timeOutId = setTimeout(speak, 2200);
 	};
 
-	d.functions.stopStartTalking = function (event) {
+	dom99core.functions.stopStartTalking = function (event) {
 		if (timeOutId) {
 			clearTimeout(timeOutId);
 			timeOutId = undefined;
-			d.feed("monologueButton", "I listen");
-			d.feed("monologue", "Where is your humanity ?");
+			dom99core.feed("monologueButton", "I listen");
+			dom99core.feed("monologue", "Where is your humanity ?");
 		} else {
 			speak();
-			d.feed("monologueButton", "I don't care");
+			dom99core.feed("monologueButton", "I don't care");
 		}
 	};
 
@@ -786,15 +739,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var updateJsonView = function updateJsonView() {
 		var asJSON = JSON.stringify(data, null, "  "); // indent JSON with 2 spaces
-		d.feed("todoAsJson", asJSON); // and display it in a <pre>
+		dom99core.feed("todoAsJson", asJSON); // and display it in a <pre>
 	};
 
-	d.functions.updateToDo = function (event) {
+	dom99core.functions.updateToDo = function (event) {
 		// updates data whenever a sub widget changes in the dom
 		// this seems complicated but should be rare use case
 		// this makes 2 dimensional structure (array * object)
 		// two-way binded
-		var context = d.contextFromEvent(event);
+		var context = dom99core.contextFromEvent(event);
 		// this is the index of the edited item in the array
 		var index = Number(context.slice(-1)); // slice -1 takes the last character
 		// property is what changed inside the object
@@ -806,8 +759,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 
 		//reconstruct the entire path
-		var path = d.contextFromArray([context, property]);
-		var value = d.variables[path];
+		var path = dom99core.contextFromArray([context, property]);
+		var value = dom99core.variables[path];
 
 		// reflect the change in the data
 		data[index][property] = value;
@@ -815,32 +768,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		updateJsonView();
 	};
 
-	d.functions.addToDo = function (event) {
+	dom99core.functions.addToDo = function (event) {
 		data.push({
 			done: false,
 			text: ""
 		});
 
-		d.feed("allToDos", data);
+		dom99core.feed("allToDos", data);
 		updateJsonView();
 	};
 
-	d.functions.deleteToDos = function (event) {
+	dom99core.functions.deleteToDos = function (event) {
 		//delete done todos only !
 		data = data.filter(function (toDoItem) {
 			return !toDoItem.done;
 		});
 
-		d.feed("allToDos", data);
+		dom99core.feed("allToDos", data);
 		updateJsonView();
 	};
 
-	d.feed("allToDos", data);
+	dom99core.feed("allToDos", data);
 	updateJsonView();
 
 	// -- Love Hate --
 
-	d.feed({
+	dom99core.feed({
 		me: {
 			owner: "My",
 			love: ["Family", "Science", "Vacation"],
@@ -853,5 +806,5 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	});
 
-	d.activate();
+	dom99core.activate();
 })();

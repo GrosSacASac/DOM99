@@ -4,8 +4,8 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v13.0.3*/
-var d = function () {
+/*dom99 v13.0.5*/
+var dom99 = function (exports) {
 	'use strict';
 
 	/*        Copyright Cyril Walle 2018.
@@ -696,23 +696,25 @@ var d = function () {
 		}
 	};
 
-	var dom99 = Object.freeze({
+	var dom99core = Object.freeze({
 		start: start,
 		activate: activate,
 		elements: elements,
 		functions: functions,
 		variables: variables,
 		feed: _feed,
-		createElement2: createElement2,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
 		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext,
-		options: options,
-		plugin: plugin
+		getParentContext: getParentContext
 	});
 
-	return dom99;
-}();
+	exports.d = dom99core;
+	exports.plugin = plugin;
+	exports.options = options;
+	exports.createElement2 = createElement2;
+
+	return exports;
+}({});
 
