@@ -18,6 +18,8 @@
     <a href="#about">About</a>
     <a href="#examples1">Examples</a>
     <a href="#howto">Documentation</a>
+    <a href="#components">Components</a>
+    <a href="#plugins">Plugins</a>
     <a href="#details">Details</a>
     <a href="#timeline">Time-Line</a>
 </nav>
@@ -584,6 +586,19 @@ d.functions.update = function (event) {
 </article>
 
 
+<article id="components">
+<h2>Components</h2>
+<h3>Dialogs</h3>
+<p><a href="../components/yesNoDialog/readme.md">Readme (Markdown)</a></p>
+<h3>ReadTextFile</h3>
+<p><a href="../components/readTextFile/readme.md">Readme (Markdown)</a></p>
+</article>
+
+<article id="plugins">
+<h2>Plugins</h2>
+<h3>Shake</h3>
+<p><a href="../plugins/shake/readme.md">Readme (Markdown)</a></p>
+</article>
 
 <article id="details">
 <h2>Details</h2>
@@ -872,37 +887,34 @@ the license in distributed executables or transpiled code</p>
         changed into tagNamesForUserInput</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
-<hr>
-<p>1.23.24 new dom99 components, see components/ folder for more information.</p>
-<p>1.23.0: Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
-<p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
-<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
-<p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
-<p>1.19.0: data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
-<p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
-<h4>Breaking Changes with 1.17.*</h4>
+
+<h4>Version 1.23.24</h4>
+<p>New dom99 components, see components/ folder for more information.</p>
+<p>Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
+<p>Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack.</p>
+<p>Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
+<p>It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
+<p>data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
+<p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
+<h4>Version 1.17.0</h4>
 <p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
-<p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
-<h4>Breaking Changes from 1.12.x to 1.15+.x</h4>
-<p>1.15.1 </p>
+<p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
+<h4>Version 1.15.0</h4>
 <ul>
     <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
     <li>Changed the way to configure dom99</li>
     <li>You can now control what gets changed with data-variable</li>
    </ul>
-<p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
-<p>1.11.0 input type="range" now uses the change event</p>
-<p>In 1.10.3 data-variable optimization</p>
-<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is useful for events that happen a lot like mousemove</p>
-<h4>Breaking Changes from 1.9.x to 1.10+.x</h4>
+<h4>Version 1.12.0</h4>
+<p>function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
+<p>input type="range" now uses the change event</p>
+<h4>Version 1.10.0</h4>
 <p>Less Confusion:</p>
-<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-inside="Key"</code> (in the documentation)</li></ul>
+<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li></ul>
 </article>
 
 <article>
 <h3>Future</h3>
-<h4>What is coming soon:</h4>
-<ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update dom99</li></ul>
 <h4>Abstract directions for the future or Specification</h4>
 <ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloat ware</li></ul>
 <p>This leaves more freedom to combine dom99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside dom99 and anything else that is complementary to accelerate the development process.</p>
