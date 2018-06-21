@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "13.0.7",
+  "version": "13.0.8",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99Require.js",
@@ -13,37 +13,29 @@
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-minify": "^0.4.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "bootstrap": "^3.3.7",
     "html-minifier": "^3.5.16",
     "rollup": "^0.60.7",
     "template-mb": "^2.0.6",
     "terser": "^3.7.6",
-    "uglify-js": "^3.4.1",
     "utilsac": "^6.0.2"
   },
   "scripts": {
     "roll": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
-    "minify": "uglifyjs built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js",
-	"todo minify again USE terser": "minify source/dom99.js --type module --out-file built/dom99.min.js",
+    "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser source/dom99.js --type module --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.min.js",
+    "todo minify again USE terser": "minify source/dom99.js --type module --out-file built/dom99.min.js",
     "build": "npm run roll && npm run transpile && npm run minify",
-	
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
-	
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
     "demoDependencies": "node tools/buildDemoDependencies.js",
     "examples": "npm run bundleExamples && npm run transpileExamples && npm run demoDependencies",
-    
-	"doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
+    "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "bhtml": "node tools/buildHTML",
-	
-	"yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-    
+    "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run bhtml && npm run yesno"
   },
   "babel": {
