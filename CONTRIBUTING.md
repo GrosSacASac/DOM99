@@ -105,7 +105,6 @@ Open an issue to make us open a donation channel
  * hooks for custom elements after/before create
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
- * enable and test tree shaking possibilities. Would it be better to export multiple things instead of 1 big
  * provide non singleton export 
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
@@ -114,7 +113,6 @@ Open an issue to make us open a donation channel
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter do not import everything
- * include version in comment in built files
 
 
 ## Coding Style Guides

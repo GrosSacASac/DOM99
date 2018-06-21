@@ -12,6 +12,7 @@
 
 dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](https://jsbin.com/tepezuj/edit?html,js,output)
 
+
 ## Installation
 
 `npm install dom99`
@@ -35,7 +36,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 ```
 
 
-
+##  [CHANGELOG](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#timeline)
 
 ## Design philosophy
 
