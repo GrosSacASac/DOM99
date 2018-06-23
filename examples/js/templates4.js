@@ -1,5 +1,5 @@
 import {d, plugin, options, createElement2} from "../../source/dom99.js";
-
+window.d = d;
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
     commentsData[position] = commentObject;
@@ -37,6 +37,14 @@ d.functions.showNextComment = function (event) {
 		update(data, position);
     });
 
+};
+
+d.functions.delete = function (event) {
+	console.log(d.contextFromEvent(event));
+	const specificPosition = 0;
+	commentsData.splice(specificPosition, 1);
+    
+    d.feed(`comments`, commentsData);
 };
 
 // comments are now stored inside an array

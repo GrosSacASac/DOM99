@@ -392,7 +392,7 @@ d.activate();
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <h4>JS</h4>
-<pre><code>import {d, plugin, options, createElement2} from "../source/dom99.js";
+<pre><code>import {d, plugin, options, createElement2} from "../../source/dom99.js";
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
@@ -428,7 +428,7 @@ d.functions.showNextComment = function (event) {
     d.feed(`comments`, commentsData);
     // force UI update
     fetchData(`comment?id=42`).then( function (data) {
-            update(data, position);
+        update(data, position);
     });
 
 };

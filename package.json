@@ -1,11 +1,11 @@
 {
   "name": "dom99",
-  "version": "13.0.8",
+  "version": "13.0.9",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99Require.js",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/",
-  "description": "Extend html with directives to manipulate the dom with simple JavaScript",
+  "description": "Extend html with directives to manipulate the dom with JavaScript",
   "repository": {
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"

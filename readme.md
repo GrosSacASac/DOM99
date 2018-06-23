@@ -36,7 +36,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 ```
 
 
-##  [CHANGELOG](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#timeline)
+##  [Changelog](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#timeline)
 
 ## Design philosophy
 

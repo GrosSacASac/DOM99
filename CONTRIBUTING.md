@@ -112,7 +112,7 @@ Open an issue to make us open a donation channel
  * use surge or gh-pages
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
- * base dom99 lighter do not import everything
+ * base dom99 lighter
 
 
 ## Coding Style Guides
