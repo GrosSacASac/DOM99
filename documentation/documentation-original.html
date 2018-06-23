@@ -688,16 +688,16 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h4>Version 13.0.0</h4>
 <p>The library is now an ES module first. From that, <em>script require and amd</em> are built. The default export is split into 4 named exports <code>{d, plugin, options, createElement2}</code></p>
 
-<p>Changes required in the code:</em></p>
-<p><code><em>d.plugin --> plugin</em></code></p>
-<p><code><em>d.options --> options</em></code></p>
-<p><code><em>d.createElement2 --> createElement2</em></code></p>
+<p>Changes required in the code:</p>
+<p><code><em>d.plugin --&gt; plugin</em></code></p>
+<p><code><em>d.options --&gt; options</em></code></p>
+<p><code><em>d.createElement2 --&gt; createElement2</em></code></p>
 
-<p>For ES module users: <em>built/dom99Module.js --> source/dom99.js</em></p>
+<p>For ES module users: <em>built/dom99Module.js --&gt; source/dom99.js</em></p>
 <p>Replace <code>import d from "...built/dom99Module.js";</code> with <br><code>import {d, plugin, options, createElement2} from ".../source/dom99.js";</code></p>
 
-<p>For script users: <em>js/dom99.js --> built/dom99Script.js</em></p>
-<p><em>built/dom99.es5.min.js --> built/dom99Script.es5.min.js</em></p>
+<p>For script users: <em>js/dom99.js --&gt; built/dom99Script.js</em></p>
+<p><em>built/dom99.es5.min.js --&gt; built/dom99Script.es5.min.js</em></p>
 <p>Add <code>const {d, plugin, options, createElement2} = dom99;</code></p>
 
 <p>For browserify users</p>
