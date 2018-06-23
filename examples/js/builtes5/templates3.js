@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -20,9 +20,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
          .orignialTarget
          .currentTarget
  
-     when to use is="" syntax and when to use <x-element></x-element> ?
-     think about overlying framework
- 
      add data-list-strategy to allow opt in declarative optimization
          same length, different content
          same content, different length
@@ -34,25 +31,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      add data-scoped for data-function to allow them to be
      scoped inside an element with data-inside ?
  
-     addEventListener(`x`, y, {passive: true}); ? explore
- */
-	/*jslint
-     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
+     explore addEventListener(`x`, y, {passive: true});
  */
 
 	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
 
-	var NAME = "DOM99";
+	var NAME = 'DOM99';
 	var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
-	var CONTEXT = NAME + "_C";
-	var LIST_ITEM_PROPERTY = NAME + "_L";
-	var ELEMENT_PROPERTY = NAME + "_E";
-	var ELEMENT_LIST_ITEM = NAME + "_I";
-	var CUSTOM_ELEMENT = NAME + "_X";
-	var LIST_CHILDREN = NAME + "_R";
-	var INSIDE_SYMBOL = ">";
+	var CONTEXT = NAME + '_C';
+	var LIST_ITEM_PROPERTY = NAME + '_L';
+	var ELEMENT_PROPERTY = NAME + '_E';
+	var ELEMENT_LIST_ITEM = NAME + '_I';
+	var CUSTOM_ELEMENT = NAME + '_X';
+	var LIST_CHILDREN = NAME + '_R';
+	var INSIDE_SYMBOL = '>';
 
-	//root collections
 	var variableSubscribers = {};
 	var listSubscribers = {};
 	var variables = {};
@@ -63,12 +56,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var pathIn = [];
 
 	var directivePairs = void 0;
-
-	// recursive or have tri+-dependent graph
-	var _feed = void 0;
-	var _elementsDeepForEach = void 0;
-	var activate = void 0;
-	var activateCloneTemplate = void 0;
 
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -85,7 +72,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var isObjectOrArray = function isObjectOrArray(x) {
 		/*array or object*/
-		return typeof x === "object" && x !== null;
+		return typeof x === 'object' && x !== null;
 	};
 
 	var copyArrayFlat = function copyArrayFlat(array) {
@@ -105,7 +92,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	var MISS = "MISS";
+	var MISS = 'MISS';
 	var valueElseMissDecorator = function valueElseMissDecorator(object) {
 		/*Decorator function around an Object to provide a default value
   Decorated object must have a MISS key with the default value associated
@@ -119,25 +106,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		};
 	};
 
-	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, "INPUT", "value"), _defineProperty(_valueElseMissDecorat, "TEXTAREA", "value"), _defineProperty(_valueElseMissDecorat, "PROGRESS", "value"), _defineProperty(_valueElseMissDecorat, "SELECT", "value"), _defineProperty(_valueElseMissDecorat, "IMG", "src"), _defineProperty(_valueElseMissDecorat, "SOURCE", "src"), _defineProperty(_valueElseMissDecorat, "AUDIO", "src"), _defineProperty(_valueElseMissDecorat, "VIDEO", "src"), _defineProperty(_valueElseMissDecorat, "TRACK", "src"), _defineProperty(_valueElseMissDecorat, "SCRIPT", "src"), _defineProperty(_valueElseMissDecorat, "OPTION", "value"), _defineProperty(_valueElseMissDecorat, "LINK", "href"), _defineProperty(_valueElseMissDecorat, "DETAILS", "open"), _defineProperty(_valueElseMissDecorat, "MISS", "textContent"), _valueElseMissDecorat));
+	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, 'INPUT', 'value'), _defineProperty(_valueElseMissDecorat, 'TEXTAREA', 'value'), _defineProperty(_valueElseMissDecorat, 'PROGRESS', 'value'), _defineProperty(_valueElseMissDecorat, 'SELECT', 'value'), _defineProperty(_valueElseMissDecorat, 'IMG', 'src'), _defineProperty(_valueElseMissDecorat, 'SOURCE', 'src'), _defineProperty(_valueElseMissDecorat, 'AUDIO', 'src'), _defineProperty(_valueElseMissDecorat, 'VIDEO', 'src'), _defineProperty(_valueElseMissDecorat, 'TRACK', 'src'), _defineProperty(_valueElseMissDecorat, 'SCRIPT', 'src'), _defineProperty(_valueElseMissDecorat, 'OPTION', 'value'), _defineProperty(_valueElseMissDecorat, 'LINK', 'href'), _defineProperty(_valueElseMissDecorat, 'DETAILS', 'open'), _defineProperty(_valueElseMissDecorat, 'MISS', 'textContent'), _valueElseMissDecorat));
 
-	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, "checkbox", "checked"), _defineProperty(_valueElseMissDecorat2, "radio", "checked"), _defineProperty(_valueElseMissDecorat2, "MISS", "value"), _valueElseMissDecorat2));
+	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, 'checkbox', 'checked'), _defineProperty(_valueElseMissDecorat2, 'radio', 'checked'), _defineProperty(_valueElseMissDecorat2, 'MISS', 'value'), _valueElseMissDecorat2));
 
-	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, "checkbox", "change"), _defineProperty(_valueElseMissDecorat3, "radio", "change"), _defineProperty(_valueElseMissDecorat3, "range", "change"), _defineProperty(_valueElseMissDecorat3, "file", "change"), _defineProperty(_valueElseMissDecorat3, "MISS", "input"), _valueElseMissDecorat3));
+	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, 'checkbox', 'change'), _defineProperty(_valueElseMissDecorat3, 'radio', 'change'), _defineProperty(_valueElseMissDecorat3, 'range', 'change'), _defineProperty(_valueElseMissDecorat3, 'file', 'change'), _defineProperty(_valueElseMissDecorat3, 'MISS', 'input'), _valueElseMissDecorat3));
 
-	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
+	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, 'MISS', 'click'), _valueElseMissDecorat4));
 
 	var options = {
-		doneSymbol: "*",
-		tokenSeparator: "-",
-		listSeparator: " ",
+		doneSymbol: '*',
+		tokenSeparator: '-',
+		listSeparator: ' ',
 		directives: {
-			function: "data-function",
-			variable: "data-variable",
-			element: "data-element",
-			list: "data-list",
-			inside: "data-inside",
-			template: "data-template"
+			function: 'data-function',
+			variable: 'data-variable',
+			element: 'data-element',
+			list: 'data-list',
+			inside: 'data-inside',
+			template: 'data-template'
 		},
 
 		propertyFromElement: function propertyFromElement(element) {
@@ -149,7 +136,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			} else {
 				tagName = element;
 			}
-			if (tagName === "INPUT") {
+			if (tagName === 'INPUT') {
 				return propertyFromInputType(element.type);
 			}
 			return propertyFromTag(tagName);
@@ -159,25 +146,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			// defines the default event for an element
 			// i.e. when data-function is omitting the event
 			var tagName = element.tagName;
-			if (tagName === "INPUT") {
+			if (tagName === 'INPUT') {
 				return inputEventFromType(element.type);
 			}
 			return eventFromTag(tagName);
 		},
 
-		tagNamesForUserInput: ["INPUT", "TEXTAREA", "SELECT", "DETAILS"]
+		tagNamesForUserInput: ['INPUT', 'TEXTAREA', 'SELECT', 'DETAILS']
 	};
 
-	// alternative not used yet
-	// const createElement2 = function ({tagName, ...elementDescription}) {
-	// const element = document.createElement(tagName);
-	// Object.entries(elementDescription).forEach(function ([key, value]) {
-	// element.setAttribute(key, value);
-	// });
-	// return element;
-	// };
-
-	_elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
+	var elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
 		callBack(startElement);
 		// https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
 		// is not supported in Edge/Safari on DocumentFragments
@@ -186,7 +164,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var node = startElement.firstChild;
 		while (node) {
 			if (node.nodeType === ELEMENT_NODE) {
-				_elementsDeepForEach(node, callBack);
+				elementsDeepForEach(node, callBack);
 				node = node.nextElementSibling;
 			} else {
 				node = node.nextSibling;
@@ -195,7 +173,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var customElementNameFromElement = function customElementNameFromElement(element) {
-		return element.getAttribute("is") || element.tagName.toLowerCase();
+		var isAttributeValue = element.getAttribute('is');
+		if (isAttributeValue) {
+			return isAttributeValue;
+		}
+		return element.tagName.toLowerCase();
 	};
 
 	var addEventListener = function addEventListener(element, eventName, callBack) {
@@ -206,10 +188,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var cloneTemplate = function cloneTemplate(template) {
 		if (!template) {
-			console.error("Template missing <template " + options.directives.template + "=\"d-name\">\n\t\t\t\tTemplate Content\n\t\t\t</template>");
+			console.error('Template missing <template ' + options.directives.template + '="d-name">\n\t\t\t\tTemplate Content\n\t\t\t</template>');
 		}
 		if (!template.content) {
-			console.error("template.content is undefined, this can happen if a template is inside another template. Use only top level templates");
+			console.error('template.content is undefined, this can happen if a template is inside another template. Use only top level templates');
 		}
 		return document.importNode(template.content, true);
 	};
@@ -231,8 +213,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				}
 			}
 		}
-		console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
-		return "";
+		console.warn(event, 'has no context. contextFromEvent for top level elements is not needed.');
+		return '';
 	};
 
 	var contextFromArray = function contextFromArray(pathIn) {
@@ -257,14 +239,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		if (pathIn.length === 0) {
 			return withWhat;
 		}
-		return "" + contextFromArray(pathIn) + INSIDE_SYMBOL + withWhat;
+		return '' + contextFromArray(pathIn) + INSIDE_SYMBOL + withWhat;
 	};
 
 	var normalizeStartPath = function normalizeStartPath(startPath) {
 		// this is because `a>b>c` is irregular
 		// `a>b>c>` or `>a>b>c` would not need such normalization
 		if (startPath) {
-			return "" + startPath + INSIDE_SYMBOL;
+			return '' + startPath + INSIDE_SYMBOL;
 		}
 		return startPath;
 	};
@@ -326,7 +308,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				if (oldLength > newLength) {
 					var i = void 0;
 					for (i = newLength; i < oldLength; i += 1) {
-						pathInside = "" + normalizedPath + i;
+						pathInside = '' + normalizedPath + i;
 						listContainer[LIST_CHILDREN][i].forEach(removeNode);
 						forgetContext(pathInside);
 					}
@@ -338,8 +320,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 
 			data.forEach(function (dataInside, i) {
-				pathInside = "" + normalizedPath + i;
-				_feed(pathInside, dataInside);
+				pathInside = '' + normalizedPath + i;
+				feed(pathInside, dataInside);
 				if (i >= oldLength) {
 					// cannot remove document fragment after insert because they empty themselves
 					// have to freeze the children to still have a reference
@@ -351,7 +333,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			});
 			pathIn = previous;
 		} else {
-			listContainer.innerHTML = "";
+			listContainer.innerHTML = '';
 			data.forEach(function (value) {
 				var listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
 				if (isObjectOrArray(value)) {
@@ -371,13 +353,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		});
 	};
 
-	_feed = function feed(startPath, data) {
+	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
-			startPath = "";
+			startPath = '';
 		}
 		if (isObjectOrArray(startPath)) {
-			console.error("Incorrect types passed to d.feed,\n\t\t\td.feed(string, object) or d.feed(object)");
+			console.error('Incorrect types passed to d.feed,\n\t\t\td.feed(string, object) or d.feed(object)');
 		}
 		if (!isObjectOrArray(data)) {
 			variables[startPath] = data;
@@ -396,26 +378,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				    key = _ref2[0],
 				    value = _ref2[1];
 
-				var path = "" + normalizedPath + key;
-				_feed(path, value);
+				var path = '' + normalizedPath + key;
+				feed(path, value);
 			});
 		}
 	};
 
-	/*not used
- alternative use the new third argument options, once
- const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
- 	let tempFunction = function (event) {
- 		//called once only
- 		callBack(event);
- 		element.removeEventListener(eventName, tempFunction, useCapture);
- 	};
- 	addEventListener(element, eventName, tempFunction, useCapture);
- };*/
-
 	var applyFunctionOriginal = function applyFunctionOriginal(element, eventName, functionName) {
 		if (!functions[functionName]) {
-			console.error("Event listener " + functionName + " not found.");
+			console.error('Event listener ' + functionName + ' not found.');
 		}
 		addEventListener(element, eventName, functions[functionName]);
 		// todo only add context when not top level ? (inside sommething)
@@ -442,24 +413,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var applylist = function applylist(element, attributeValue) {
-		/* js array --> DOM list
-  <ul data-list="var-li"></ul>
-  			*/
 		var _attributeValue$split = attributeValue.split(options.tokenSeparator),
 		    _attributeValue$split2 = _slicedToArray(_attributeValue$split, 3),
 		    variableName = _attributeValue$split2[0],
 		    listItemTagName = _attributeValue$split2[1],
 		    optional = _attributeValue$split2[2];
 
-		var fullName = "-";
+		var fullName = '-';
 
 		if (!variableName) {
-			console.error(element, "Use " + options.directives.list + "=\"variableName-tagName\" format!");
+			console.error(element, 'Use ' + options.directives.list + '="variableName-tagName" format!');
 		}
 
 		if (optional) {
 			// for custom elements
-			fullName = listItemTagName + "-" + optional;
+			fullName = listItemTagName + '-' + optional;
 			element[CUSTOM_ELEMENT] = fullName;
 		} else {
 			element[LIST_ITEM_PROPERTY] = options.propertyFromElement(listItemTagName.toUpperCase());
@@ -487,7 +455,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   undefined assignment are ignored, instead use empty string*/
 
 		if (!variableName) {
-			console.error(element, "Use " + options.directives.variable + "=\"variableName\" format!");
+			console.error(element, 'Use ' + options.directives.variable + '="variableName" format!');
 		}
 
 		element[ELEMENT_PROPERTY] = options.propertyFromElement(element);
@@ -520,7 +488,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var elementName = attributeValue;
 
 		if (!elementName) {
-			console.error(element, "Use " + options.directives.element + "=\"elementName\" format!");
+			console.error(element, 'Use ' + options.directives.element + '="elementName" format!');
 		}
 		var path = contextFromArrayWith(pathIn, elementName);
 		elements[path] = element;
@@ -529,13 +497,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var applytemplate = function applytemplate(element, attributeValue) {
 		/* stores a template element for later reuse !*/
 		if (!attributeValue) {
-			console.error(element, "Use " + options.directives.template + "=\"d-name\" format!");
+			console.error(element, 'Use ' + options.directives.template + '="d-name" format!');
 		}
 
 		templateFromName[attributeValue] = element;
 	};
 
-	activateCloneTemplate = function activateCloneTemplate(template, key) {
+	var activateCloneTemplate = function activateCloneTemplate(template, key) {
 		/* clones a template and activates it
   */
 		enterObject(key);
@@ -549,7 +517,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		/* looks for an html template to render
   also calls applyDirectiveElement with key!*/
 		if (!key) {
-			console.error(element, "Use " + options.directives.inside + "=\"insidewhat\" format!");
+			console.error(element, 'Use ' + options.directives.inside + '="insidewhat" format!');
 		}
 
 		var template = templateFromName[customElementNameFromElement(element)];
@@ -570,7 +538,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var deleteTemplate = function deleteTemplate(name) {
 		/* Removes a template */
 		if (!hasOwnProperty.call(templateFromName, name)) {
-			console.error("<template " + options.directives.template + "=" + name + ">\n\t\t\t</template> not found or already deleted and removed.");
+			console.error('<template ' + options.directives.template + '=' + name + '>\n\t\t\t</template> not found or already deleted and removed.');
 		}
 		templateFromName[name].remove();
 		delete templateFromName[name];
@@ -586,11 +554,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 		// spellsheck atributes
 		var directives = Object.values(options.directives);
-		var asArray = Array.prototype.slice.call(element.attributes);
-		asArray.forEach(function (attribute) {
-			if (attribute.nodeName.startsWith("data")) {
+		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
+			if (attribute.nodeName.startsWith('data')) {
 				if (directives.includes(attribute.nodeName)) ;else {
-					console.warn("dom99 does not recognize " + attribute.nodeName);
+					console.warn('dom99 does not recognize ' + attribute.nodeName);
 				}
 			}
 		});
@@ -609,7 +576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 			applyDirective(element, attributeValue);
 			// ensure the directive is only applied once
-			element.setAttribute(directiveName, options.doneSymbol + attributeValue);
+			element.setAttribute(directiveName, '' + options.doneSymbol + attributeValue);
 		});
 		if (element.hasAttribute(options.directives.inside) || element.hasAttribute(options.directives.list)) {
 			return;
@@ -621,7 +588,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	activate = function activate() {
+	var activate = function activate() {
 		var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
 		//build array only once and use up to date options, they should not reset twice
@@ -631,7 +598,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    we can use the just changed live variable in the bind function*/
 			[options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyInside], [options.directives.template, applytemplate]];
 		}
-		_elementsDeepForEach(startElement, tryApplyDirectives);
+		elementsDeepForEach(startElement, tryApplyDirectives);
 		return startElement;
 	};
 
@@ -643,7 +610,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 		Object.assign(functions, userFunctions);
-		_feed(initialFeed);
+		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
 			return;
@@ -657,7 +624,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		elements: elements,
 		functions: functions,
 		variables: variables,
-		feed: _feed,
+		feed: feed,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
@@ -670,15 +637,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		commentsData[position] = commentObject;
 		// could sort the comments with .sort(customFunction) too
 		// pushes the update to the UI
-		dom99core.feed("comments", commentsData);
+		dom99core.feed('comments', commentsData);
 	};
 
 	var fetchData = function fetchData(urlOrWhat) {
 		// fetch like simulation
 		return new Promise(function (resolve, reject) {
 			var fakeData = {
-				text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-				date: "just now"
+				text: 'This is a comment that could come from the server about bla bla hard coded but could come from the server',
+				date: 'just now'
 			};
 
 			window.setTimeout(function () {
@@ -694,11 +661,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		// remember the position to be updated later
 		var position = commentsData.length;
 		commentsData.push(undefined);
-		// undefined will simly have no effecton all data-variable
+		// undefined has no effect on all data-variable
 		// so that will effectively uses the default textContent in the HTML
-		dom99core.feed("comments", commentsData);
-		// force ui update
-		fetchData("comment?id=42").then(function (data) {
+		dom99core.feed('comments', commentsData);
+		// force UI update
+		fetchData('comment?id=42').then(function (data) {
 			update(data, position);
 		});
 	};
@@ -708,13 +675,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	// Object.values(my_object);
 
 	var commentsData = [{
-		text: "I am the first to comment, well written! Bravo!",
-		date: "In the year 2016"
+		text: 'I am the first to comment, well written! Bravo!',
+		date: 'In the year 2016'
 	}, {
-		text: "I really appreciate your work",
-		date: "yesterday"
+		text: 'I really appreciate your work',
+		date: 'yesterday'
 	}];
 
-	dom99core.feed("comments", commentsData);
+	dom99core.feed('comments', commentsData);
 	dom99core.activate();
 })();

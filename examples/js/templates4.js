@@ -1,5 +1,11 @@
 import {d, plugin, options, createElement2} from "../../source/dom99.js";
 window.d = d;
+const lastPart = function (string) {
+    const split = string.split(">")
+    return split[split.length - 1];
+
+};
+
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
     commentsData[position] = commentObject;
@@ -40,11 +46,24 @@ d.functions.showNextComment = function (event) {
 };
 
 d.functions.delete = function (event) {
-	console.log(d.contextFromEvent(event));
-	const specificPosition = 0;
-	commentsData.splice(specificPosition, 1);
-    
+    const context = d.contextFromEvent(event);
+    const index = Number(lastPart(context));
+
+    commentsData.splice(index, 1);
     d.feed(`comments`, commentsData);
+};
+
+d.functions.alternate_delete = function (event) {
+    /* does not touch commentsData array at all,
+    if commentsData is deleted down the line, it is still kept in dom99 singleton
+    (potential memory leak)
+    potentially faster
+    */
+    const context = d.contextFromEvent(event);
+    const containerContext = d.contextFromArray([context, "comment"]);
+
+    d.elements[containerContext].remove();
+    d.forgetContext(context);
 };
 
 // comments are now stored inside an array
@@ -64,3 +83,4 @@ let commentsData = [
 
 d.feed(`comments`, commentsData);
 d.activate();
+window.commentsData = commentsData;

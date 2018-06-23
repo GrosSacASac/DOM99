@@ -1,4 +1,4 @@
-/*dom99 v13.0.8*/
+/*dom99 v13.0.9*/
 var dom99 = (function (exports) {
 	'use strict';
 
@@ -15,9 +15,6 @@ var dom99 = (function (exports) {
 	        .orignialTarget
 	        .currentTarget
 
-	    when to use is="" syntax and when to use <x-element></x-element> ?
-	    think about overlying framework
-
 	    add data-list-strategy to allow opt in declarative optimization
 	        same length, different content
 	        same content, different length
@@ -29,10 +26,7 @@ var dom99 = (function (exports) {
 	    add data-scoped for data-function to allow them to be
 	    scoped inside an element with data-inside ?
 
-	    addEventListener(`x`, y, {passive: true}); ? explore
-	*/
-	/*jslint
-	    es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
+	    explore addEventListener(`x`, y, {passive: true});
 	*/
 
 	const NAME = `DOM99`;
@@ -45,7 +39,6 @@ var dom99 = (function (exports) {
 	const LIST_CHILDREN = `${NAME}_R`;
 	const INSIDE_SYMBOL = `>`;
 
-	//root collections
 	const variableSubscribers = {};
 	const listSubscribers = {};
 	const variables = {};
@@ -56,12 +49,6 @@ var dom99 = (function (exports) {
 	let pathIn = [];
 
 	let directivePairs;
-
-	// recursive or have tri+-dependent graph
-	let feed;
-	let elementsDeepForEach;
-	let activate;
-	let activateCloneTemplate;
 
 	const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -78,7 +65,7 @@ var dom99 = (function (exports) {
 
 	const isObjectOrArray = function (x) {
 		/*array or object*/
-		return (typeof x === `object` && x !== null);
+		return typeof x === `object` && x !== null;
 	};
 
 	const copyArrayFlat = function (array) {
@@ -214,16 +201,7 @@ var dom99 = (function (exports) {
 		return element;
 	};
 
-	// alternative not used yet
-	// const createElement2 = function ({tagName, ...elementDescription}) {
-		// const element = document.createElement(tagName);
-		// Object.entries(elementDescription).forEach(function ([key, value]) {
-			// element.setAttribute(key, value);
-		// });
-		// return element;
-	// };
-
-	elementsDeepForEach = function (startElement, callBack) {
+	const elementsDeepForEach = function (startElement, callBack) {
 		callBack(startElement);
 		// https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
 		// is not supported in Edge/Safari on DocumentFragments
@@ -242,7 +220,11 @@ var dom99 = (function (exports) {
 	};
 
 	const customElementNameFromElement = function (element) {
-		return element.getAttribute(`is`) || element.tagName.toLowerCase();
+		const isAttributeValue = element.getAttribute(`is`);
+		if (isAttributeValue) {
+			return isAttributeValue;
+		}
+		return element.tagName.toLowerCase();
 	};
 
 	const addEventListener = function (element, eventName, callBack, useCapture = false) {
@@ -435,7 +417,7 @@ var dom99 = (function (exports) {
 		});
 	};
 
-	feed = function (startPath, data) {
+	const feed = function (startPath, data) {
 		if (data === undefined) {
 			data = startPath;
 			startPath = ``;
@@ -464,17 +446,6 @@ var dom99 = (function (exports) {
 			});
 		}
 	};
-
-	/*not used
-	alternative use the new third argument options, once
-	const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
-		let tempFunction = function (event) {
-			//called once only
-			callBack(event);
-			element.removeEventListener(eventName, tempFunction, useCapture);
-		};
-		addEventListener(element, eventName, tempFunction, useCapture);
-	};*/
 
 	const applyFunctionOriginal = function (element, eventName, functionName) {
 		if (!functions[functionName]) {
@@ -506,10 +477,6 @@ var dom99 = (function (exports) {
 	};
 
 	const applylist = function (element, attributeValue) {
-		/* js array --> DOM list
-		<ul data-list="var-li"></ul>
-
-			*/
 		const [
 			variableName,
 			listItemTagName,
@@ -618,7 +585,7 @@ var dom99 = (function (exports) {
 		templateFromName[attributeValue] = element;
 	};
 
-	activateCloneTemplate = function (template, key) {
+	const activateCloneTemplate = function (template, key) {
 		/* clones a template and activates it
 		*/
 		enterObject(key);
@@ -670,6 +637,7 @@ var dom99 = (function (exports) {
 		delete templateFromName[name];
 	};
 
+
 	const tryApplyDirectives = function (element) {
 		/* looks if the element has dom99 specific attributes and tries to handle it*/
 		// todo make sure no impact-full read write
@@ -680,8 +648,7 @@ var dom99 = (function (exports) {
 
 		// spellsheck atributes
 		const directives = Object.values(options.directives);
-		const asArray = Array.prototype.slice.call(element.attributes);
-		asArray.forEach(function (attribute) {
+		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith(`data`)) {
 				if (directives.includes(attribute.nodeName)) ; else {
 					console.warn(`dom99 does not recognize ${attribute.nodeName}`);
@@ -701,7 +668,7 @@ var dom99 = (function (exports) {
 			// ensure the directive is only applied once
 			element.setAttribute(
 				directiveName,
-				options.doneSymbol + attributeValue
+				`${options.doneSymbol}${attributeValue}`
 			);
 		});
 		if (
@@ -719,7 +686,7 @@ var dom99 = (function (exports) {
 		}
 	};
 
-	activate = function (startElement = document.body) {
+	const activate = function (startElement = document.body) {
 		//build array only once and use up to date options, they should not reset twice
 		if (!directivePairs) {
 			directivePairs = [
@@ -754,7 +721,6 @@ var dom99 = (function (exports) {
 	};
 
 	const plugin = function (featureToPlugIn) {
-
 		if (hasOwnProperty.call(featureToPlugIn, `directives`)) {
 			if (hasOwnProperty.call(featureToPlugIn.directives, `function`)) {
 				pluggedFunctions.push(featureToPlugIn.directives.function);

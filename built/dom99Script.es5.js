@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v13.0.8*/
+/*dom99 v13.0.9*/
 var dom99 = function (exports) {
 	'use strict';
 
@@ -21,9 +21,6 @@ var dom99 = function (exports) {
          .orignialTarget
          .currentTarget
  
-     when to use is="" syntax and when to use <x-element></x-element> ?
-     think about overlying framework
- 
      add data-list-strategy to allow opt in declarative optimization
          same length, different content
          same content, different length
@@ -35,10 +32,7 @@ var dom99 = function (exports) {
      add data-scoped for data-function to allow them to be
      scoped inside an element with data-inside ?
  
-     addEventListener(`x`, y, {passive: true}); ? explore
- */
-	/*jslint
-     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
+     explore addEventListener(`x`, y, {passive: true});
  */
 
 	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
@@ -53,7 +47,6 @@ var dom99 = function (exports) {
 	var LIST_CHILDREN = NAME + '_R';
 	var INSIDE_SYMBOL = '>';
 
-	//root collections
 	var variableSubscribers = {};
 	var listSubscribers = {};
 	var variables = {};
@@ -64,12 +57,6 @@ var dom99 = function (exports) {
 	var pathIn = [];
 
 	var directivePairs = void 0;
-
-	// recursive or have tri+-dependent graph
-	var _feed = void 0;
-	var _elementsDeepForEach = void 0;
-	var activate = void 0;
-	var activateCloneTemplate = void 0;
 
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -189,16 +176,7 @@ var dom99 = function (exports) {
 		return element;
 	};
 
-	// alternative not used yet
-	// const createElement2 = function ({tagName, ...elementDescription}) {
-	// const element = document.createElement(tagName);
-	// Object.entries(elementDescription).forEach(function ([key, value]) {
-	// element.setAttribute(key, value);
-	// });
-	// return element;
-	// };
-
-	_elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
+	var elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
 		callBack(startElement);
 		// https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
 		// is not supported in Edge/Safari on DocumentFragments
@@ -207,7 +185,7 @@ var dom99 = function (exports) {
 		var node = startElement.firstChild;
 		while (node) {
 			if (node.nodeType === ELEMENT_NODE) {
-				_elementsDeepForEach(node, callBack);
+				elementsDeepForEach(node, callBack);
 				node = node.nextElementSibling;
 			} else {
 				node = node.nextSibling;
@@ -216,7 +194,11 @@ var dom99 = function (exports) {
 	};
 
 	var customElementNameFromElement = function customElementNameFromElement(element) {
-		return element.getAttribute('is') || element.tagName.toLowerCase();
+		var isAttributeValue = element.getAttribute('is');
+		if (isAttributeValue) {
+			return isAttributeValue;
+		}
+		return element.tagName.toLowerCase();
 	};
 
 	var addEventListener = function addEventListener(element, eventName, callBack) {
@@ -360,7 +342,7 @@ var dom99 = function (exports) {
 
 			data.forEach(function (dataInside, i) {
 				pathInside = '' + normalizedPath + i;
-				_feed(pathInside, dataInside);
+				feed(pathInside, dataInside);
 				if (i >= oldLength) {
 					// cannot remove document fragment after insert because they empty themselves
 					// have to freeze the children to still have a reference
@@ -392,7 +374,7 @@ var dom99 = function (exports) {
 		});
 	};
 
-	_feed = function feed(startPath, data) {
+	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
 			startPath = '';
@@ -418,21 +400,10 @@ var dom99 = function (exports) {
 				    value = _ref4[1];
 
 				var path = '' + normalizedPath + key;
-				_feed(path, value);
+				feed(path, value);
 			});
 		}
 	};
-
-	/*not used
- alternative use the new third argument options, once
- const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
- 	let tempFunction = function (event) {
- 		//called once only
- 		callBack(event);
- 		element.removeEventListener(eventName, tempFunction, useCapture);
- 	};
- 	addEventListener(element, eventName, tempFunction, useCapture);
- };*/
 
 	var applyFunctionOriginal = function applyFunctionOriginal(element, eventName, functionName) {
 		if (!functions[functionName]) {
@@ -465,9 +436,6 @@ var dom99 = function (exports) {
 	};
 
 	var applylist = function applylist(element, attributeValue) {
-		/* js array --> DOM list
-  <ul data-list="var-li"></ul>
-  			*/
 		var _attributeValue$split = attributeValue.split(options.tokenSeparator),
 		    _attributeValue$split2 = _slicedToArray(_attributeValue$split, 3),
 		    variableName = _attributeValue$split2[0],
@@ -558,7 +526,7 @@ var dom99 = function (exports) {
 		templateFromName[attributeValue] = element;
 	};
 
-	activateCloneTemplate = function activateCloneTemplate(template, key) {
+	var activateCloneTemplate = function activateCloneTemplate(template, key) {
 		/* clones a template and activates it
   */
 		enterObject(key);
@@ -609,8 +577,7 @@ var dom99 = function (exports) {
 
 		// spellsheck atributes
 		var directives = Object.values(options.directives);
-		var asArray = Array.prototype.slice.call(element.attributes);
-		asArray.forEach(function (attribute) {
+		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith('data')) {
 				if (directives.includes(attribute.nodeName)) ;else {
 					console.warn('dom99 does not recognize ' + attribute.nodeName);
@@ -632,7 +599,7 @@ var dom99 = function (exports) {
 			}
 			applyDirective(element, attributeValue);
 			// ensure the directive is only applied once
-			element.setAttribute(directiveName, options.doneSymbol + attributeValue);
+			element.setAttribute(directiveName, '' + options.doneSymbol + attributeValue);
 		});
 		if (element.hasAttribute(options.directives.inside) || element.hasAttribute(options.directives.list)) {
 			return;
@@ -644,7 +611,7 @@ var dom99 = function (exports) {
 		}
 	};
 
-	activate = function activate() {
+	var activate = function activate() {
 		var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
 		//build array only once and use up to date options, they should not reset twice
@@ -654,7 +621,7 @@ var dom99 = function (exports) {
    we can use the just changed live variable in the bind function*/
 			[options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyInside], [options.directives.template, applytemplate]];
 		}
-		_elementsDeepForEach(startElement, tryApplyDirectives);
+		elementsDeepForEach(startElement, tryApplyDirectives);
 		return startElement;
 	};
 
@@ -666,7 +633,7 @@ var dom99 = function (exports) {
 
 
 		Object.assign(functions, userFunctions);
-		_feed(initialFeed);
+		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
 			return;
@@ -675,7 +642,6 @@ var dom99 = function (exports) {
 	};
 
 	var plugin = function plugin(featureToPlugIn) {
-
 		if (hasOwnProperty.call(featureToPlugIn, 'directives')) {
 			if (hasOwnProperty.call(featureToPlugIn.directives, 'function')) {
 				pluggedFunctions.push(featureToPlugIn.directives.function);
@@ -702,7 +668,7 @@ var dom99 = function (exports) {
 		elements: elements,
 		functions: functions,
 		variables: variables,
-		feed: _feed,
+		feed: feed,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,

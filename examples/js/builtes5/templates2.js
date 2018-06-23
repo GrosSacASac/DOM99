@@ -20,9 +20,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
          .orignialTarget
          .currentTarget
  
-     when to use is="" syntax and when to use <x-element></x-element> ?
-     think about overlying framework
- 
      add data-list-strategy to allow opt in declarative optimization
          same length, different content
          same content, different length
@@ -34,10 +31,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      add data-scoped for data-function to allow them to be
      scoped inside an element with data-inside ?
  
-     addEventListener(`x`, y, {passive: true}); ? explore
- */
-	/*jslint
-     es6, maxerr: 200, browser, devel, fudge, maxlen: 100, node, for
+     explore addEventListener(`x`, y, {passive: true});
  */
 
 	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
@@ -52,7 +46,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var LIST_CHILDREN = NAME + "_R";
 	var INSIDE_SYMBOL = ">";
 
-	//root collections
 	var variableSubscribers = {};
 	var listSubscribers = {};
 	var variables = {};
@@ -63,12 +56,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var pathIn = [];
 
 	var directivePairs = void 0;
-
-	// recursive or have tri+-dependent graph
-	var _feed = void 0;
-	var _elementsDeepForEach = void 0;
-	var activate = void 0;
-	var activateCloneTemplate = void 0;
 
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -188,16 +175,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return element;
 	};
 
-	// alternative not used yet
-	// const createElement2 = function ({tagName, ...elementDescription}) {
-	// const element = document.createElement(tagName);
-	// Object.entries(elementDescription).forEach(function ([key, value]) {
-	// element.setAttribute(key, value);
-	// });
-	// return element;
-	// };
-
-	_elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
+	var elementsDeepForEach = function elementsDeepForEach(startElement, callBack) {
 		callBack(startElement);
 		// https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
 		// is not supported in Edge/Safari on DocumentFragments
@@ -206,7 +184,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		var node = startElement.firstChild;
 		while (node) {
 			if (node.nodeType === ELEMENT_NODE) {
-				_elementsDeepForEach(node, callBack);
+				elementsDeepForEach(node, callBack);
 				node = node.nextElementSibling;
 			} else {
 				node = node.nextSibling;
@@ -215,7 +193,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var customElementNameFromElement = function customElementNameFromElement(element) {
-		return element.getAttribute("is") || element.tagName.toLowerCase();
+		var isAttributeValue = element.getAttribute("is");
+		if (isAttributeValue) {
+			return isAttributeValue;
+		}
+		return element.tagName.toLowerCase();
 	};
 
 	var addEventListener = function addEventListener(element, eventName, callBack) {
@@ -359,7 +341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 			data.forEach(function (dataInside, i) {
 				pathInside = "" + normalizedPath + i;
-				_feed(pathInside, dataInside);
+				feed(pathInside, dataInside);
 				if (i >= oldLength) {
 					// cannot remove document fragment after insert because they empty themselves
 					// have to freeze the children to still have a reference
@@ -391,7 +373,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		});
 	};
 
-	_feed = function feed(startPath, data) {
+	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
 			startPath = "";
@@ -417,21 +399,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				    value = _ref4[1];
 
 				var path = "" + normalizedPath + key;
-				_feed(path, value);
+				feed(path, value);
 			});
 		}
 	};
-
-	/*not used
- alternative use the new third argument options, once
- const onceAddEventListener = function (element, eventName, callBack, useCapture=false) {
- 	let tempFunction = function (event) {
- 		//called once only
- 		callBack(event);
- 		element.removeEventListener(eventName, tempFunction, useCapture);
- 	};
- 	addEventListener(element, eventName, tempFunction, useCapture);
- };*/
 
 	var applyFunctionOriginal = function applyFunctionOriginal(element, eventName, functionName) {
 		if (!functions[functionName]) {
@@ -462,9 +433,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var applylist = function applylist(element, attributeValue) {
-		/* js array --> DOM list
-  <ul data-list="var-li"></ul>
-  			*/
 		var _attributeValue$split = attributeValue.split(options.tokenSeparator),
 		    _attributeValue$split2 = _slicedToArray(_attributeValue$split, 3),
 		    variableName = _attributeValue$split2[0],
@@ -555,7 +523,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		templateFromName[attributeValue] = element;
 	};
 
-	activateCloneTemplate = function activateCloneTemplate(template, key) {
+	var activateCloneTemplate = function activateCloneTemplate(template, key) {
 		/* clones a template and activates it
   */
 		enterObject(key);
@@ -606,8 +574,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 		// spellsheck atributes
 		var directives = Object.values(options.directives);
-		var asArray = Array.prototype.slice.call(element.attributes);
-		asArray.forEach(function (attribute) {
+		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith("data")) {
 				if (directives.includes(attribute.nodeName)) ;else {
 					console.warn("dom99 does not recognize " + attribute.nodeName);
@@ -629,7 +596,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 			applyDirective(element, attributeValue);
 			// ensure the directive is only applied once
-			element.setAttribute(directiveName, options.doneSymbol + attributeValue);
+			element.setAttribute(directiveName, "" + options.doneSymbol + attributeValue);
 		});
 		if (element.hasAttribute(options.directives.inside) || element.hasAttribute(options.directives.list)) {
 			return;
@@ -641,7 +608,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	activate = function activate() {
+	var activate = function activate() {
 		var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
 		//build array only once and use up to date options, they should not reset twice
@@ -651,7 +618,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    we can use the just changed live variable in the bind function*/
 			[options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyInside], [options.directives.template, applytemplate]];
 		}
-		_elementsDeepForEach(startElement, tryApplyDirectives);
+		elementsDeepForEach(startElement, tryApplyDirectives);
 		return startElement;
 	};
 
@@ -663,7 +630,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 		Object.assign(functions, userFunctions);
-		_feed(initialFeed);
+		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
 			return;
@@ -677,7 +644,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		elements: elements,
 		functions: functions,
 		variables: variables,
-		feed: _feed,
+		feed: feed,
 		forgetContext: forgetContext,
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
