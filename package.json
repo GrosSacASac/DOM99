@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "13.0.10",
+  "version": "14.0.0",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99Require.js",
@@ -36,7 +36,8 @@
     "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "bhtml": "node tools/buildHTML",
     "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run bhtml && npm run yesno"
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run bhtml && npm run yesno",
+    "d": "npm run build && npm run bhtml"
   },
   "babel": {
     "plugins": [],

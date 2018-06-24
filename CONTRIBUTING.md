@@ -96,16 +96,13 @@ Open an issue to make us open a donation channel
     * indexed error messages in the doc
     * more warnings
     * text editors plugins
- * improve plugin system to add and remove data-* directives
  * lit-html compatible API could be interesting
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
- * make it easier to toggle attributes and class names from elements that are injected from template or from lists
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
- * hooks for custom elements after/before create
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
- * provide non singleton export 
+ * provide non singleton export
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * regenerate landing-page.min.css from source landing-page.css

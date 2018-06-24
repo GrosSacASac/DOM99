@@ -1,4 +1,4 @@
-/*dom99 v13.0.9*/
+/*dom99 v14.0.0*/
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -48,6 +48,10 @@ const templateFromName = {};
 const functions = {};
 
 let pathIn = [];
+
+
+const functionPlugins = [];
+const feedPlugins = [];
 
 let directivePairs;
 
@@ -418,6 +422,7 @@ const notifyListSubscribers = function (subscribers, startPath, data) {
 	});
 };
 
+let alreadyHooked = false;
 const feed = function (startPath, data) {
 	if (data === undefined) {
 		data = startPath;
@@ -428,6 +433,9 @@ const feed = function (startPath, data) {
 			`Incorrect types passed to d.feed,
 			d.feed(string, object) or d.feed(object)`
 		);
+	}
+	if (!alreadyHooked) {
+		feedHook(startPath, data);
 	}
 	if (!isObjectOrArray(data)) {
 		variables[startPath] = data;
@@ -441,10 +449,12 @@ const feed = function (startPath, data) {
 		}
 	} else {
 		const normalizedPath = normalizeStartPath(startPath);
+		alreadyHooked = true;
 		Object.entries(data).forEach(function ([key, value]) {
 			const path = `${normalizedPath}${key}`;
 			feed(path, value);
 		});
+		alreadyHooked = false;
 	}
 };
 
@@ -457,7 +467,6 @@ const applyFunctionOriginal = function (element, eventName, functionName) {
 	element[CONTEXT] = contextFromArray(pathIn);
 };
 
-const pluggedFunctions = [];
 let applyFunction = applyFunctionOriginal;
 
 const applyFunctions = function (element, attributeValue) {
@@ -544,6 +553,7 @@ const applyVariable = function (element, variableName) {
 			//wil call setter to broadcast the value
 			const value = event.target[event.target[ELEMENT_PROPERTY]];
 			variables[path] = value;
+			feedHook(path, value);
 			// would notify everything including itself
 			// notifyVariableSubscribers(variableSubscribers[path], value);
 			variableSubscribers[path].forEach(function (variableSubscriber) {
@@ -721,24 +731,49 @@ const start = function (
 	return callBack();
 };
 
+
+const originalFeedHook = function () {
+
+};
+let feedHook = originalFeedHook;
+
 const plugin = function (featureToPlugIn) {
-	if (hasOwnProperty.call(featureToPlugIn, `directives`)) {
-		if (hasOwnProperty.call(featureToPlugIn.directives, `function`)) {
-			pluggedFunctions.push(featureToPlugIn.directives.function);
-			applyFunction = function (element, eventName, functionName) {
-				let defaultPrevented = false;
-				const preventDefault = function () {
-					defaultPrevented = true;
-				};
-				pluggedFunctions.forEach(function (pluginFunction) {
-					pluginFunction(element, eventName, functionName, functions, preventDefault);
-				});
-				if (defaultPrevented) {
-					return;
-				}
-				applyFunctionOriginal(element, eventName, functionName);
-			};
+	if (!isObjectOrArray(featureToPlugIn)) {
+		console.error(`plugin({
+			type,
+			plugin
+		});`);
+	}
+	if (featureToPlugIn.type === `function`) {
+		functionPlugins.push(featureToPlugIn.plugin);
+		if (applyFunction !== applyFunctionOriginal) {
+			return;
 		}
+		applyFunction = function (element, eventName, functionName) {
+			let defaultPrevented = false;
+			const preventDefault = function () {
+				defaultPrevented = true;
+			};
+			functionPlugins.forEach(function (pluginFunction) {
+				pluginFunction(element, eventName, functionName, functions, preventDefault);
+			});
+			if (defaultPrevented) {
+				return;
+			}
+			applyFunctionOriginal(element, eventName, functionName);
+		};
+	} else if (featureToPlugIn.type === `variable`) {
+		feedPlugins.push(featureToPlugIn.plugin);
+		if (feedHook !== originalFeedHook) {
+			return;
+		}
+		feedHook = function (startPath, data) {
+			feedPlugins.forEach(function (feedPlugin) {
+				feedPlugin(startPath, data);
+			});
+		};
+	} else {
+		console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
 	}
 };
 

@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v13.0.9*/
+/*dom99 v14.0.0*/
 var dom99 = function (exports) {
 	'use strict';
 
@@ -55,6 +55,9 @@ var dom99 = function (exports) {
 	var functions = {};
 
 	var pathIn = [];
+
+	var functionPlugins = [];
+	var feedPlugins = [];
 
 	var directivePairs = void 0;
 
@@ -374,6 +377,7 @@ var dom99 = function (exports) {
 		});
 	};
 
+	var alreadyHooked = false;
 	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
@@ -381,6 +385,9 @@ var dom99 = function (exports) {
 		}
 		if (isObjectOrArray(startPath)) {
 			console.error('Incorrect types passed to d.feed,\n\t\t\td.feed(string, object) or d.feed(object)');
+		}
+		if (!alreadyHooked) {
+			feedHook(startPath, data);
 		}
 		if (!isObjectOrArray(data)) {
 			variables[startPath] = data;
@@ -394,6 +401,7 @@ var dom99 = function (exports) {
 			}
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
+			alreadyHooked = true;
 			Object.entries(data).forEach(function (_ref3) {
 				var _ref4 = _slicedToArray(_ref3, 2),
 				    key = _ref4[0],
@@ -402,6 +410,7 @@ var dom99 = function (exports) {
 				var path = '' + normalizedPath + key;
 				feed(path, value);
 			});
+			alreadyHooked = false;
 		}
 	};
 
@@ -414,7 +423,6 @@ var dom99 = function (exports) {
 		element[CONTEXT] = contextFromArray(pathIn);
 	};
 
-	var pluggedFunctions = [];
 	var applyFunction = applyFunctionOriginal;
 
 	var applyFunctions = function applyFunctions(element, attributeValue) {
@@ -494,6 +502,7 @@ var dom99 = function (exports) {
 				//wil call setter to broadcast the value
 				var value = event.target[event.target[ELEMENT_PROPERTY]];
 				variables[path] = value;
+				feedHook(path, value);
 				// would notify everything including itself
 				// notifyVariableSubscribers(variableSubscribers[path], value);
 				variableSubscribers[path].forEach(function (variableSubscriber) {
@@ -641,24 +650,43 @@ var dom99 = function (exports) {
 		return callBack();
 	};
 
+	var originalFeedHook = function originalFeedHook() {};
+	var feedHook = originalFeedHook;
+
 	var plugin = function plugin(featureToPlugIn) {
-		if (hasOwnProperty.call(featureToPlugIn, 'directives')) {
-			if (hasOwnProperty.call(featureToPlugIn.directives, 'function')) {
-				pluggedFunctions.push(featureToPlugIn.directives.function);
-				applyFunction = function applyFunction(element, eventName, functionName) {
-					var defaultPrevented = false;
-					var preventDefault = function preventDefault() {
-						defaultPrevented = true;
-					};
-					pluggedFunctions.forEach(function (pluginFunction) {
-						pluginFunction(element, eventName, functionName, functions, preventDefault);
-					});
-					if (defaultPrevented) {
-						return;
-					}
-					applyFunctionOriginal(element, eventName, functionName);
-				};
+		if (!isObjectOrArray(featureToPlugIn)) {
+			console.error('plugin({\n\t\t\ttype,\n\t\t\tplugin\n\t\t});');
+		}
+		if (featureToPlugIn.type === 'function') {
+			functionPlugins.push(featureToPlugIn.plugin);
+			if (applyFunction !== applyFunctionOriginal) {
+				return;
 			}
+			applyFunction = function applyFunction(element, eventName, functionName) {
+				var defaultPrevented = false;
+				var preventDefault = function preventDefault() {
+					defaultPrevented = true;
+				};
+				functionPlugins.forEach(function (pluginFunction) {
+					pluginFunction(element, eventName, functionName, functions, preventDefault);
+				});
+				if (defaultPrevented) {
+					return;
+				}
+				applyFunctionOriginal(element, eventName, functionName);
+			};
+		} else if (featureToPlugIn.type === 'variable') {
+			feedPlugins.push(featureToPlugIn.plugin);
+			if (feedHook !== originalFeedHook) {
+				return;
+			}
+			feedHook = function feedHook(startPath, data) {
+				feedPlugins.forEach(function (feedPlugin) {
+					feedPlugin(startPath, data);
+				});
+			};
+		} else {
+			console.warn('plugin type ' + featureToPlugIn.type + ' not yet implemented');
 		}
 	};
 
