@@ -964,7 +964,7 @@ d.feed({myVariable : "Hello World"});
 
 <!-- Hello World 2-->
 <template data-element="Hello World 2Html">
-<input data-variable="text">
+<label>Input: <input data-variable="text"></label>
 <p data-variable="text"></p>
 </template>
 
@@ -974,9 +974,9 @@ d.feed({text : "Hello dom99"});
 
 <!-- Multiplier-->
 <template data-element="MultiplierHtml">
-<input data-variable="a" data-function="calculate" type="range" min="-1" max="12" step="1">
+<label>a<input data-variable="a" data-function="calculate" type="range" min="-1" max="12" step="1"></label>
 <span>X</span>
-<input data-variable="b" data-function="calculate" type="range" min="-1" max="12" step="1">
+<label>b: <input data-variable="b" data-function="calculate" type="range" min="-1" max="12" step="1"></label>
 
 <span data-variable="a"></span>
 <span>X</span>
