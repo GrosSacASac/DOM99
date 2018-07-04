@@ -1,4 +1,4 @@
-/*dom99 v14.0.0*/
+/*dom99 v14.1.0*/
 var dom99 = (function (exports) {
 	'use strict';
 
@@ -51,6 +51,11 @@ var dom99 = (function (exports) {
 
 	const functionPlugins = [];
 	const feedPlugins = [];
+	const clonePlugins = [];
+			
+	let cloneHook = function () {
+
+	};
 
 	let directivePairs;
 
@@ -245,7 +250,7 @@ var dom99 = (function (exports) {
 		}
 		if (!template.content) {
 			console.error(
-				`template.content is undefined, this can happen if a template is inside another template. Use only top level templates`
+				`template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`
 			);
 		}
 		return document.importNode(template.content, true);
@@ -601,6 +606,7 @@ var dom99 = (function (exports) {
 		enterObject(key);
 		const activatedClone = cloneTemplate(template);
 		activate(activatedClone);
+		cloneHook();
 		leaveObject();
 		return activatedClone;
 	};
@@ -769,6 +775,15 @@ var dom99 = (function (exports) {
 			feedHook = function (startPath, data) {
 				feedPlugins.forEach(function (feedPlugin) {
 					feedPlugin(startPath, data);
+				});
+			};
+		} else if (featureToPlugIn.type === `cloned`) {
+			clonePlugins.push(featureToPlugIn.plugin);
+			
+			cloneHook = function () {
+				const context = contextFromArray(pathIn);
+				clonePlugins.forEach(function (clonePlugin) {
+					clonePlugin(context);
 				});
 			};
 		} else {

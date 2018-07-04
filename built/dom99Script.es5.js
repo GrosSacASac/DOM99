@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v14.0.0*/
+/*dom99 v14.1.0*/
 var dom99 = function (exports) {
 	'use strict';
 
@@ -58,6 +58,9 @@ var dom99 = function (exports) {
 
 	var functionPlugins = [];
 	var feedPlugins = [];
+	var clonePlugins = [];
+
+	var cloneHook = function cloneHook() {};
 
 	var directivePairs = void 0;
 
@@ -215,7 +218,7 @@ var dom99 = function (exports) {
 			console.error('Template missing <template ' + options.directives.template + '="d-name">\n\t\t\t\tTemplate Content\n\t\t\t</template>');
 		}
 		if (!template.content) {
-			console.error('template.content is undefined, this can happen if a template is inside another template. Use only top level templates');
+			console.error('template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills');
 		}
 		return document.importNode(template.content, true);
 	};
@@ -541,6 +544,7 @@ var dom99 = function (exports) {
 		enterObject(key);
 		var activatedClone = cloneTemplate(template);
 		activate(activatedClone);
+		cloneHook();
 		leaveObject();
 		return activatedClone;
 	};
@@ -683,6 +687,15 @@ var dom99 = function (exports) {
 			feedHook = function feedHook(startPath, data) {
 				feedPlugins.forEach(function (feedPlugin) {
 					feedPlugin(startPath, data);
+				});
+			};
+		} else if (featureToPlugIn.type === 'cloned') {
+			clonePlugins.push(featureToPlugIn.plugin);
+
+			cloneHook = function cloneHook() {
+				var context = contextFromArray(pathIn);
+				clonePlugins.forEach(function (clonePlugin) {
+					clonePlugin(context);
 				});
 			};
 		} else {

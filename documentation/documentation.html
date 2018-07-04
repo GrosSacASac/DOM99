@@ -681,6 +681,8 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 14.1.0</h4>
+<p>Added plugin type <em>cloned</em>. It allows to target a template copy just before it is inserted into the document</p>
 <h4>Version 14.0.0</h4>
 <p>Added plugin system for variables:</p>
     <ul>
@@ -710,10 +712,11 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>For browserify users</p>
 <p>Replace <code>const d = require("dom99");</code> with <br><code>const {d, plugin, options, createElement2} = require("dom99");</code></p>
 
+<p>Added dom99Amd.js</p>
 <h4>Version 12.0.0</h4>
 <p>Components readTextFile and yesNoDialog now use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
 <h4>Version 11.1.4</h4>
-<p>New file built: <em>built/dom99Module.min.js</em></p>
+<p>File built: <em>built/dom99Module.min.js</em></p>
 <h4>Version 11.1.0</h4>
 <p>ReadTextFile component is available</p>
 <h4>Version 11.0.0</h4>
@@ -738,7 +741,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 </code></pre>
 <h4>Version 9.1.0</h4>
 <p>Plugins are introduced !</p>
-<p>New plugin: shake</p>
+<p>Plugin: shake</p>
 <h4>Version 9.0.0</h4>
 <p>IE 9 support is now mantained by external polyfills</p>
 <p>The result is that base dom99 is now even lighter</p>
@@ -749,7 +752,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>Support for cases when an element is inside another that uses
 <code>data-function</code> Ex. button > span</p>
 <h4>Version 8.1.0</h4>
-<p>New files are now built:</p>
+<p>Files are now built:</p>
 <ul>
     <li>built/dom99Module.es5.js</li>
     <li>built/dom99Require.es5.js</li>
@@ -789,7 +792,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>fixed a hard to find bug, that only occurred on edge, but not IE</p>
 <p>overall small improvements</p>
 <h4>Version 7.2.5</h4>
-<p>New polyfill for hidden</p>
+<p>Polyfill for hidden</p>
 <p>Better css</p>
 <p>prompt equivalent now in yesNoDialog components folder</p>
 <h4>Version 7.2.3</h4>
@@ -797,7 +800,6 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>Doc hyperlink is now latest in readme</p>
 <h4>Version 7.2.1</h4>
 <p>Fixed non html-escaped issues in the doc</p>
-<p>New examples templates3.html</p>
 <h4>Version 7.2.0</h4>
 <p>data-inside extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-inside attribute.
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
@@ -864,7 +866,6 @@ the license in distributed executables or transpiled code</p>
 <p>Unpublished</p>
 <h4>Version 3.0.3</h4>
 <p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more information</p>
-<p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
 <h4>Version 3.0.1</h4>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
@@ -896,7 +897,7 @@ the license in distributed executables or transpiled code</p>
     data-element="template-d-name" removed</p>
 
 <h4>Version 1.23.24</h4>
-<p>New dom99 components, see components/ folder for more information.</p>
+<p>dom99 components, see components/ folder for more information.</p>
 <p>Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
 <p>Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack.</p>
 <p>Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
@@ -904,7 +905,7 @@ the license in distributed executables or transpiled code</p>
 <p>data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
 <p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
 <h4>Version 1.17.0</h4>
-<p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
+<p>Directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
 <p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h4>Version 1.15.0</h4>
 <ul>

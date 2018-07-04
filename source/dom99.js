@@ -47,6 +47,11 @@ let pathIn = [];
 
 const functionPlugins = [];
 const feedPlugins = [];
+const clonePlugins = []
+		
+let cloneHook = function () {
+
+};
 
 let directivePairs;
 
@@ -241,7 +246,7 @@ const cloneTemplate = function (template) {
 	}
 	if (!template.content) {
 		console.error(
-			`template.content is undefined, this can happen if a template is inside another template. Use only top level templates`
+			`template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`
 		);
 	}
 	return document.importNode(template.content, true);
@@ -599,6 +604,7 @@ const activateCloneTemplate = function (template, key) {
 	enterObject(key);
 	const activatedClone = cloneTemplate(template);
 	activate(activatedClone);
+	cloneHook();
 	leaveObject();
 	return activatedClone;
 };
@@ -770,9 +776,18 @@ const plugin = function (featureToPlugIn) {
 			feedPlugins.forEach(function (feedPlugin) {
 				feedPlugin(startPath, data);
 			});
-		}
+		};
+	} else if (featureToPlugIn.type === `cloned`) {
+		clonePlugins.push(featureToPlugIn.plugin);
+		
+		cloneHook = function () {
+			const context = contextFromArray(pathIn);
+			clonePlugins.forEach(function (clonePlugin) {
+				clonePlugin(context);
+			});
+		};
 	} else {
-		console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`)
+		console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
 	}
 };
 
