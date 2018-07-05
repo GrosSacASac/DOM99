@@ -115,7 +115,7 @@ Open an issue to make us open a donation channel
 ## Coding Style Guides
 
 
-Read existing code to analyse the coding style.
+Read existing code to analyze the coding style.
 
 
 ## Licensing

@@ -1,32 +1,42 @@
-/*dom99 v14.1.0*/
+/*dom99 v14.2.0*/
 define('dom99', ['exports'], function (exports) { 'use strict';
+
+	const createElement2 = function (elementDescription) {
+		/*element.setAttribute(attr, value) is good to set
+		initial attribute like when html is first loaded
+		setAttribute won't change some live things like .value for input,
+		for instance, setAttribute is the correct choice for creation
+		element.attr = value is good to change the live values
+		always follow these words to avoid rare bugs*/
+		const element = document.createElement(elementDescription.tagName);
+		Object.entries(elementDescription).forEach(function ([key, value]) {
+			if (key !== `tagName`) {
+				element.setAttribute(key, value);
+			}
+		});
+		return element;
+	};
+
+	/*idGenerator()
+
+	generates a predictable new id each time
+	perfect for DOM id requirements
+	*/
+
+	const prefix = `id-`;
+
+	let next = Number.MAX_SAFE_INTEGER;
+
+	const idGenerator = function () {
+		const id = `${prefix}${next}`;
+		next -= 1;
+		return id;
+	};
 
 	/*        Copyright Cyril Walle 2018.
 	Distributed under the Boost Software License, Version 1.0.
 	    See accompanying file LICENSE.txt or copy at
 	         https://www.boost.org/LICENSE_1_0.txt */
-	/*
-	    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
-	    use WeakMap instead where supported
-
-	    decide when to use event
-	        .target
-	        .orignialTarget
-	        .currentTarget
-
-	    add data-list-strategy to allow opt in declarative optimization
-	        same length, different content
-	        same content, different length
-	        key based identification
-	    data-function-context to allow context less
-
-	    transform recursive into sequential flow
-
-	    add data-scoped for data-function to allow them to be
-	    scoped inside an element with data-inside ?
-
-	    explore addEventListener(`x`, y, {passive: true});
-	*/
 
 	const NAME = `DOM99`;
 	const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
@@ -191,22 +201,6 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 			`SELECT`,
 			`DETAILS`
 		]
-	};
-
-	const createElement2 = function (elementDescription) {
-		/*element.setAttribute(attr, value) is good to set
-		initial attribute like when html is first loaded
-		setAttribute won't change some live things like .value for input,
-		for instance, setAttribute is the correct choice for creation
-		element.attr = value is good to change the live values
-		always follow these words to avoid rare bugs*/
-		const element = document.createElement(elementDescription.tagName);
-		Object.entries(elementDescription).forEach(function ([key, value]) {
-			if (key !== `tagName`) {
-				element.setAttribute(key, value);
-			}
-		});
-		return element;
 	};
 
 	const elementsDeepForEach = function (startElement, callBack) {
@@ -808,6 +802,7 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 	exports.plugin = plugin;
 	exports.options = options;
 	exports.createElement2 = createElement2;
+	exports.idGenerator = idGenerator;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
