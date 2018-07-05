@@ -70,6 +70,10 @@ export default { // can be an array (for multiple inputs)
 			id: GLOBAL_NAME
 		}
 	}, commonOutputOptions),
+	Object.assign({
+		format: `es`,
+		file : `built/dom99ES.js`
+	}, commonOutputOptions),
   ],
 
   watch: {
