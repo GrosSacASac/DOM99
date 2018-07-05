@@ -62,11 +62,32 @@ Open an issue to make us open a donation channel
  * compare values before updating ? with data-compare-before ?
  * explain better where dom99 comes from and what differentiates it
  * Create a better documentation experience
- * make better link to components folder in the documentation
+	* New html page with articles
+		* Security
+		* Performance
+		* DOM the good parts
+	* Redefine sections
+		* About
+			* Move to Details everything except the essential
+			* Add 2 inlines examples, (move all other inline examples to another html page)
+				* Proper syntax highlighting
+		* Step by step
+			* Install
+			* Setup
+			* Hello World
+			
+		* Advanced concepts
+		* API (every single export explained JS doc style)
+		* Components
+		* Plugins
+		* Details (license, chat, contribute etc)
+		* Changelog (recent)
+			* Move full timeline elsewhere
+	
+	
  * Define typical process of creating and composing with custom elements
  * IE seems to fill forms after script executes and load (onload ?)
  * http://localhost:8080/examples/limited.html cannot set -4 in globalv
- * better explain the strengths and weaknesses of the library
  * see how checking for equality before assigning textContent affects performance
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
