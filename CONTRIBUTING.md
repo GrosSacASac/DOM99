@@ -84,7 +84,7 @@ Open an issue to make us open a donation channel
 		* Changelog (recent)
 			* Move full timeline elsewhere
 	
-	
+ * split source file more not just, createElement2
  * Define typical process of creating and composing with custom elements
  * IE seems to fill forms after script executes and load (onload ?)
  * http://localhost:8080/examples/limited.html cannot set -4 in globalv
