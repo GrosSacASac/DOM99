@@ -15,7 +15,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 
 ## Installation
 
-`[npm install dom99](https://www.npmjs.com/package/dom99)`
+[npm install dom99](https://www.npmjs.com/package/dom99)
 
 
 ## Basic Use
