@@ -131,6 +131,8 @@ Open an issue to make us open a donation channel
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter
+ * revisit the context API
+ * jsdoc show better optional parameters
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 

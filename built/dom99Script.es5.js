@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v14.3.0*/
+/*dom99 v14.3.4*/
 var dom99 = function (exports) {
 	'use strict';
 
@@ -30,6 +30,46 @@ var dom99 = function (exports) {
 		return element;
 	};
 
+	/**
+ @private
+ 
+ @param {any} x
+ @return {boolean}
+ */
+	var isObjectOrArray = function isObjectOrArray(x) {
+		/*array or object*/
+		return typeof x === 'object' && x !== null;
+	};
+
+	var copyArrayShallow = function copyArrayShallow(array) {
+		return array.slice();
+	};
+
+	/**
+ 	freezes HTMLCollection or Node.childNodes
+ 	by returning an array that does not change
+ 	
+ 		
+ 	@param {arrayLike} liveCollection
+ 	@return {array}
+ */
+	var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
+		var length = liveCollection.length;
+		var frozenArray = [];
+		var i = void 0;
+		for (i = 0; i < length; i += 1) {
+			frozenArray.push(liveCollection[i]);
+		}
+		return frozenArray;
+	};
+
+	/*todo compare with different implementation:
+ 
+ const freezeLiveCollection = function (liveCollection) {
+ 	return Array.prototype.slice.call(liveCollection);
+ };
+ */
+
 	/*idGenerator()
  
  generates a predictable new id each time
@@ -51,8 +91,10 @@ var dom99 = function (exports) {
      See accompanying file LICENSE.txt or copy at
           https://www.boost.org/LICENSE_1_0.txt */
 
-	var NAME = 'DOM99';
 	var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+	var NAME = 'DOM99';
 	var CONTEXT = NAME + '_C';
 	var LIST_ITEM_PROPERTY = NAME + '_L';
 	var ELEMENT_PROPERTY = NAME + '_E';
@@ -64,6 +106,14 @@ var dom99 = function (exports) {
 	var variableSubscribers = {};
 	var listSubscribers = {};
 	var variables = {};
+
+	/**
+ Retrieve 
+ 
+ @param {string} path
+ 
+ @return {Element}
+ */
 	var elements = {};
 	var templateFromName = {};
 	var functions = {};
@@ -77,28 +127,6 @@ var dom99 = function (exports) {
 	var cloneHook = function cloneHook() {};
 
 	var directivePairs = void 0;
-
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-	var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
-		/* freezes HTMLCollection or Node.childNodes*/
-		var length = liveCollection.length;
-		var frozenArray = [];
-		var i = void 0;
-		for (i = 0; i < length; i += 1) {
-			frozenArray.push(liveCollection[i]);
-		}
-		return frozenArray;
-	};
-
-	var isObjectOrArray = function isObjectOrArray(x) {
-		/*array or object*/
-		return typeof x === 'object' && x !== null;
-	};
-
-	var copyArrayFlat = function copyArrayFlat(array) {
-		return array.slice();
-	};
 
 	var pushOrCreateArrayAt = function pushOrCreateArrayAt(object, key, valueToPush) {
 		// don't need to use hasOwnProp as there is no array in the prototype
@@ -317,7 +345,7 @@ var dom99 = function (exports) {
 		if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) && hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])) {
 			// composing with custom element
 			var template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-			var previous = copyArrayFlat(pathIn);
+			var previous = copyArrayShallow(pathIn);
 			pathIn = startPath.split(INSIDE_SYMBOL);
 			var normalizedPath = normalizeStartPath(startPath);
 			var newLength = data.length;
@@ -582,7 +610,7 @@ var dom99 = function (exports) {
 			return;
 		}
 
-		// spellsheck atributes
+		// spellcheck atributes
 		var directives = Object.values(options.directives);
 		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith('data')) {
@@ -618,6 +646,14 @@ var dom99 = function (exports) {
 		}
 	};
 
+	/**
+ Activates the DOM by reading data- attributes, starting from startElement
+ and walking inside its tree
+ 
+ @param {Element} startElement
+ 
+ @return {Element} startElement
+ */
 	var activate = function activate() {
 		var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
@@ -632,14 +668,25 @@ var dom99 = function (exports) {
 		return startElement;
 	};
 
+	/**
+ Convenience function for activate, feed and assigning functions from
+ an object
+ 
+ @param {object} dataFunctions
+ @param {object} initialFeed
+ @param {Element} startElement
+ @param {function} callBack
+ 
+ @return {any} callBack return value
+ */
 	var start = function start() {
-		var userFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+		var dataFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 		var initialFeed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 		var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
 		var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
 
 
-		Object.assign(functions, userFunctions);
+		Object.assign(functions, dataFunctions);
 		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
@@ -651,6 +698,13 @@ var dom99 = function (exports) {
 	var originalFeedHook = function originalFeedHook() {};
 	var feedHook = originalFeedHook;
 
+	/**
+ Plug in a plugin (hook) into the core functionality
+ 
+ @param {object} featureToPlugIn
+ 
+ @return {undefined}
+ */
 	var plugin = function plugin(featureToPlugIn) {
 		if (!isObjectOrArray(featureToPlugIn)) {
 			console.error('plugin({\n\t\t\ttype,\n\t\t\tplugin\n\t\t});');

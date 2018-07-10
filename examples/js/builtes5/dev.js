@@ -7,37 +7,64 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 (function () {
 	'use strict';
 
-	/*        Copyright Cyril Walle 2018.
- Distributed under the Boost Software License, Version 1.0.
-     See accompanying file LICENSE.txt or copy at
-          https://www.boost.org/LICENSE_1_0.txt */
-	/*
-     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
-     use WeakMap instead where supported
+	/**
+ @private
  
-     decide when to use event
-         .target
-         .orignialTarget
-         .currentTarget
- 
-     add data-list-strategy to allow opt in declarative optimization
-         same length, different content
-         same content, different length
-         key based identification
-     data-function-context to allow context less
- 
-     transform recursive into sequential flow
- 
-     add data-scoped for data-function to allow them to be
-     scoped inside an element with data-inside ?
- 
-     explore addEventListener(`x`, y, {passive: true});
+ @param {any} x
+ @return {boolean}
  */
 
 	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
 
-	var NAME = "DOM99";
+	var isObjectOrArray = function isObjectOrArray(x) {
+		/*array or object*/
+		return typeof x === "object" && x !== null;
+	};
+
+	var copyArrayShallow = function copyArrayShallow(array) {
+		return array.slice();
+	};
+
+	/**
+ 	freezes HTMLCollection or Node.childNodes
+ 	by returning an array that does not change
+ 	
+ 		
+ 	@param {arrayLike} liveCollection
+ 	@return {array}
+ */
+	var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
+		var length = liveCollection.length;
+		var frozenArray = [];
+		var i = void 0;
+		for (i = 0; i < length; i += 1) {
+			frozenArray.push(liveCollection[i]);
+		}
+		return frozenArray;
+	};
+
+	/*todo compare with different implementation:
+ 
+ const freezeLiveCollection = function (liveCollection) {
+ 	return Array.prototype.slice.call(liveCollection);
+ };
+ */
+
+	/*idGenerator()
+ 
+ generates a predictable new id each time
+ perfect for DOM id requirements
+ */
+
+	/*        Copyright Cyril Walle 2018.
+ Distributed under the Boost Software License, Version 1.0.
+     See accompanying file LICENSE.txt or copy at
+          https://www.boost.org/LICENSE_1_0.txt */
+
 	var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+	var NAME = "DOM99";
 	var CONTEXT = NAME + "_C";
 	var LIST_ITEM_PROPERTY = NAME + "_L";
 	var ELEMENT_PROPERTY = NAME + "_E";
@@ -49,35 +76,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var variableSubscribers = {};
 	var listSubscribers = {};
 	var variables = {};
+
+	/**
+ Retrieve 
+ 
+ @param {string} path
+ 
+ @return {Element}
+ */
 	var elements = {};
 	var templateFromName = {};
 	var functions = {};
 
 	var pathIn = [];
 
+	var cloneHook = function cloneHook() {};
+
 	var directivePairs = void 0;
-
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-	var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
-		/* freezes HTMLCollection or Node.childNodes*/
-		var length = liveCollection.length;
-		var frozenArray = [];
-		var i = void 0;
-		for (i = 0; i < length; i += 1) {
-			frozenArray.push(liveCollection[i]);
-		}
-		return frozenArray;
-	};
-
-	var isObjectOrArray = function isObjectOrArray(x) {
-		/*array or object*/
-		return typeof x === "object" && x !== null;
-	};
-
-	var copyArrayFlat = function copyArrayFlat(array) {
-		return array.slice();
-	};
 
 	var pushOrCreateArrayAt = function pushOrCreateArrayAt(object, key, valueToPush) {
 		// don't need to use hasOwnProp as there is no array in the prototype
@@ -191,7 +206,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			console.error("Template missing <template " + options.directives.template + "=\"d-name\">\n\t\t\t\tTemplate Content\n\t\t\t</template>");
 		}
 		if (!template.content) {
-			console.error("template.content is undefined, this can happen if a template is inside another template. Use only top level templates");
+			console.error("template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills");
 		}
 		return document.importNode(template.content, true);
 	};
@@ -296,7 +311,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) && hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])) {
 			// composing with custom element
 			var template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-			var previous = copyArrayFlat(pathIn);
+			var previous = copyArrayShallow(pathIn);
 			pathIn = startPath.split(INSIDE_SYMBOL);
 			var normalizedPath = normalizeStartPath(startPath);
 			var newLength = data.length;
@@ -353,6 +368,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		});
 	};
 
+	var alreadyHooked = false;
 	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
@@ -360,6 +376,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 		if (isObjectOrArray(startPath)) {
 			console.error("Incorrect types passed to d.feed,\n\t\t\td.feed(string, object) or d.feed(object)");
+		}
+		if (!alreadyHooked) {
+			feedHook(startPath, data);
 		}
 		if (!isObjectOrArray(data)) {
 			variables[startPath] = data;
@@ -373,6 +392,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
+			alreadyHooked = true;
 			Object.entries(data).forEach(function (_ref) {
 				var _ref2 = _slicedToArray(_ref, 2),
 				    key = _ref2[0],
@@ -381,6 +401,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				var path = "" + normalizedPath + key;
 				feed(path, value);
 			});
+			alreadyHooked = false;
 		}
 	};
 
@@ -392,6 +413,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		// todo only add context when not top level ? (inside sommething)
 		element[CONTEXT] = contextFromArray(pathIn);
 	};
+
 	var applyFunction = applyFunctionOriginal;
 
 	var applyFunctions = function applyFunctions(element, attributeValue) {
@@ -471,6 +493,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				//wil call setter to broadcast the value
 				var value = event.target[event.target[ELEMENT_PROPERTY]];
 				variables[path] = value;
+				feedHook(path, value);
 				// would notify everything including itself
 				// notifyVariableSubscribers(variableSubscribers[path], value);
 				variableSubscribers[path].forEach(function (variableSubscriber) {
@@ -509,6 +532,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		enterObject(key);
 		var activatedClone = cloneTemplate(template);
 		activate(activatedClone);
+		cloneHook();
 		leaveObject();
 		return activatedClone;
 	};
@@ -552,7 +576,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			return;
 		}
 
-		// spellsheck atributes
+		// spellcheck atributes
 		var directives = Object.values(options.directives);
 		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith("data")) {
@@ -588,6 +612,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
+	/**
+ Activates the DOM by reading data- attributes, starting from startElement
+ and walking inside its tree
+ 
+ @param {Element} startElement
+ 
+ @return {Element} startElement
+ */
 	var activate = function activate() {
 		var startElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
 
@@ -602,14 +634,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return startElement;
 	};
 
+	/**
+ Convenience function for activate, feed and assigning functions from
+ an object
+ 
+ @param {object} dataFunctions
+ @param {object} initialFeed
+ @param {Element} startElement
+ @param {function} callBack
+ 
+ @return {any} callBack return value
+ */
 	var start = function start() {
-		var userFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+		var dataFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 		var initialFeed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 		var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
 		var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
 
 
-		Object.assign(functions, userFunctions);
+		Object.assign(functions, dataFunctions);
 		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
@@ -617,6 +660,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 		return callBack();
 	};
+
+	var originalFeedHook = function originalFeedHook() {};
+	var feedHook = originalFeedHook;
 
 	var dom99core = Object.freeze({
 		start: start,

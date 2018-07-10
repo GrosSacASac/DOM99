@@ -24,6 +24,14 @@ const INSIDE_SYMBOL = `>`;
 const variableSubscribers = {};
 const listSubscribers = {};
 const variables = {};
+
+/**
+Retrieve elements that have data-element attribute (Read only)
+
+@param {string} path
+
+@return {Element}
+*/
 const elements = {};
 const templateFromName = {};
 const functions = {};
@@ -646,6 +654,14 @@ const tryApplyDirectives = function (element) {
 	}
 };
 
+/**
+Activates the DOM by reading data- attributes, starting from startElement
+and walking inside its tree
+
+@param {Element} startElement
+
+@return {Element} startElement
+*/
 const activate = function (startElement = document.body) {
 	//build array only once and use up to date options, they should not reset twice
 	if (!directivePairs) {
@@ -664,14 +680,25 @@ const activate = function (startElement = document.body) {
 	return startElement;
 };
 
+/**
+Convenience function for activate, feed and assigning functions from
+an object
+
+@param {object} dataFunctions
+@param {object} initialFeed
+@param {Element} startElement
+@param {function} callBack
+
+@return {any} callBack return value
+*/
 const start = function (
-	userFunctions = {},
+	dataFunctions = {},
 	initialFeed = {},
 	startElement = document.body,
 	callBack = undefined
 ) {
 
-	Object.assign(functions, userFunctions);
+	Object.assign(functions, dataFunctions);
 	feed(initialFeed);
 	activate(startElement);
 	if (!callBack) {
@@ -686,6 +713,13 @@ const originalFeedHook = function () {
 };
 let feedHook = originalFeedHook;
 
+/**
+Plug in a plugin (hook) into the core functionality
+
+@param {object} featureToPlugIn
+
+@return {undefined}
+*/
 const plugin = function (featureToPlugIn) {
 	if (!isObjectOrArray(featureToPlugIn)) {
 		console.error(`plugin({

@@ -1,4 +1,4 @@
-/*dom99 v14.3.0*/
+/*dom99 v14.3.4*/
 define('dom99', ['exports'], function (exports) { 'use strict';
 
 	const createElement2 = function (elementDescription) {
@@ -16,6 +16,46 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		});
 		return element;
 	};
+
+	/**
+	@private
+
+	@param {any} x
+	@return {boolean}
+	*/
+	const isObjectOrArray = function (x) {
+		/*array or object*/
+		return typeof x === `object` && x !== null;
+	};
+
+	const copyArrayShallow = function (array) {
+		return array.slice();
+	};
+
+	/**
+		freezes HTMLCollection or Node.childNodes
+		by returning an array that does not change
+		
+			
+		@param {arrayLike} liveCollection
+		@return {array}
+	*/
+	const freezeLiveCollection = function (liveCollection) {
+		const length = liveCollection.length;
+		const frozenArray = [];
+		let i;
+		for (i = 0; i < length; i += 1) {
+			frozenArray.push(liveCollection[i]);
+		}
+		return frozenArray;
+	};
+
+	/*todo compare with different implementation:
+
+	const freezeLiveCollection = function (liveCollection) {
+		return Array.prototype.slice.call(liveCollection);
+	};
+	*/
 
 	/*idGenerator()
 
@@ -38,8 +78,11 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 	    See accompanying file LICENSE.txt or copy at
 	         https://www.boost.org/LICENSE_1_0.txt */
 
-	const NAME = `DOM99`;
 	const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
+	const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+
+	const NAME = `DOM99`;
 	const CONTEXT = `${NAME}_C`;
 	const LIST_ITEM_PROPERTY = `${NAME}_L`;
 	const ELEMENT_PROPERTY = `${NAME}_E`;
@@ -51,44 +94,27 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 	const variableSubscribers = {};
 	const listSubscribers = {};
 	const variables = {};
+
+	/**
+	Retrieve 
+
+	@param {string} path
+
+	@return {Element}
+	*/
 	const elements = {};
 	const templateFromName = {};
 	const functions = {};
 
 	let pathIn = [];
 
-
 	const functionPlugins = [];
 	const feedPlugins = [];
 	const clonePlugins = [];
 			
-	let cloneHook = function () {
-
-	};
+	let cloneHook = function () {};
 
 	let directivePairs;
-
-	const hasOwnProperty = Object.prototype.hasOwnProperty;
-
-	const freezeLiveCollection = function (liveCollection) {
-	  /* freezes HTMLCollection or Node.childNodes*/
-		const length = liveCollection.length;
-		const frozenArray = [];
-		let i;
-		for (i = 0; i < length; i += 1) {
-			frozenArray.push(liveCollection[i]);
-		}
-		return frozenArray;
-	};
-
-	const isObjectOrArray = function (x) {
-		/*array or object*/
-		return typeof x === `object` && x !== null;
-	};
-
-	const copyArrayFlat = function (array) {
-		return array.slice();
-	};
 
 	const pushOrCreateArrayAt = function (object, key, valueToPush) {
 	  // don't need to use hasOwnProp as there is no array in the prototype
@@ -357,7 +383,7 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		) {
 			// composing with custom element
 			const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-			const previous = copyArrayFlat(pathIn);
+			const previous = copyArrayShallow(pathIn);
 			pathIn = startPath.split(INSIDE_SYMBOL);
 			const normalizedPath = normalizeStartPath(startPath);
 			const newLength = data.length;
@@ -646,7 +672,6 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		delete templateFromName[name];
 	};
 
-
 	const tryApplyDirectives = function (element) {
 		/* looks if the element has dom99 specific attributes and tries to handle it*/
 		// todo make sure no impact-full read write
@@ -655,7 +680,7 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 			return;
 		}
 
-		// spellsheck atributes
+		// spellcheck atributes
 		const directives = Object.values(options.directives);
 		Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 			if (attribute.nodeName.startsWith(`data`)) {
@@ -695,6 +720,14 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		}
 	};
 
+	/**
+	Activates the DOM by reading data- attributes, starting from startElement
+	and walking inside its tree
+
+	@param {Element} startElement
+
+	@return {Element} startElement
+	*/
 	const activate = function (startElement = document.body) {
 		//build array only once and use up to date options, they should not reset twice
 		if (!directivePairs) {
@@ -713,14 +746,25 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		return startElement;
 	};
 
+	/**
+	Convenience function for activate, feed and assigning functions from
+	an object
+
+	@param {object} dataFunctions
+	@param {object} initialFeed
+	@param {Element} startElement
+	@param {function} callBack
+
+	@return {any} callBack return value
+	*/
 	const start = function (
-		userFunctions = {},
+		dataFunctions = {},
 		initialFeed = {},
 		startElement = document.body,
 		callBack = undefined
 	) {
 
-		Object.assign(functions, userFunctions);
+		Object.assign(functions, dataFunctions);
 		feed(initialFeed);
 		activate(startElement);
 		if (!callBack) {
@@ -735,6 +779,13 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 	};
 	let feedHook = originalFeedHook;
 
+	/**
+	Plug in a plugin (hook) into the core functionality
+
+	@param {object} featureToPlugIn
+
+	@return {undefined}
+	*/
 	const plugin = function (featureToPlugIn) {
 		if (!isObjectOrArray(featureToPlugIn)) {
 			console.error(`plugin({
