@@ -131,6 +131,26 @@ Open an issue to make us open a donation channel
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter
+    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
+    use WeakMap instead where supported
+
+    decide when to use event
+        .target
+        .orignialTarget
+        .currentTarget
+
+    add data-list-strategy to allow opt in declarative optimization
+        same length, different content
+        same content, different length
+        key based identification
+    data-function-context to allow context less
+
+    transform recursive into sequential flow
+
+    add data-scoped for data-function to allow them to be
+    scoped inside an element with data-inside ?
+
+    explore addEventListener(`x`, y, {passive: true});
 
 
 ## Coding Style Guides

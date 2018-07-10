@@ -2,32 +2,17 @@
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
          https://www.boost.org/LICENSE_1_0.txt */
-/*
-    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
-    use WeakMap instead where supported
 
-    decide when to use event
-        .target
-        .orignialTarget
-        .currentTarget
-
-    add data-list-strategy to allow opt in declarative optimization
-        same length, different content
-        same content, different length
-        key based identification
-    data-function-context to allow context less
-
-    transform recursive into sequential flow
-
-    add data-scoped for data-function to allow them to be
-    scoped inside an element with data-inside ?
-
-    explore addEventListener(`x`, y, {passive: true});
-*/
 import {createElement2} from "./createElement2.js";
+import {isObjectOrArray} from "./isObjectOrArray.js";
+import {copyArrayShallow} from "./copyArrayShallow.js";
+import {freezeLiveCollection} from "./freezeLiveCollection.js";
+
+const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
 
 const NAME = `DOM99`;
-const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
 const CONTEXT = `${NAME}_C`;
 const LIST_ITEM_PROPERTY = `${NAME}_L`;
 const ELEMENT_PROPERTY = `${NAME}_E`;
@@ -45,44 +30,13 @@ const functions = {};
 
 let pathIn = [];
 
-
 const functionPlugins = [];
 const feedPlugins = [];
 const clonePlugins = []
 		
-let cloneHook = function () {
-
-};
+let cloneHook = function () {};
 
 let directivePairs;
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-
-const freezeLiveCollection = function (liveCollection) {
-  /* freezes HTMLCollection or Node.childNodes*/
-	const length = liveCollection.length;
-	const frozenArray = [];
-	let i;
-	for (i = 0; i < length; i += 1) {
-		frozenArray.push(liveCollection[i]);
-	}
-	return frozenArray;
-};
-
-/**
-@private
-
-@param {any} x
-@return {boolean}
-*/
-const isObjectOrArray = function (x) {
-	/*array or object*/
-	return typeof x === `object` && x !== null;
-};
-
-const copyArrayFlat = function (array) {
-	return array.slice();
-};
 
 const pushOrCreateArrayAt = function (object, key, valueToPush) {
   // don't need to use hasOwnProp as there is no array in the prototype
@@ -353,7 +307,7 @@ const notifyOneListSubscriber = function (listContainer, startPath, data) {
 	) {
 		// composing with custom element
 		const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-		const previous = copyArrayFlat(pathIn);
+		const previous = copyArrayShallow(pathIn);
 		pathIn = startPath.split(INSIDE_SYMBOL);
 		const normalizedPath = normalizeStartPath(startPath);
 		const newLength = data.length;
@@ -642,7 +596,6 @@ const deleteTemplate = function (name) {
 	delete templateFromName[name];
 };
 
-
 const tryApplyDirectives = function (element) {
 	/* looks if the element has dom99 specific attributes and tries to handle it*/
 	// todo make sure no impact-full read write
@@ -651,7 +604,7 @@ const tryApplyDirectives = function (element) {
 		return;
 	}
 
-	// spellsheck atributes
+	// spellcheck atributes
 	const directives = Object.values(options.directives);
 	Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 		if (attribute.nodeName.startsWith(`data`)) {
