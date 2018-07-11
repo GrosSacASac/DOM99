@@ -118,6 +118,7 @@ Open an issue to make us open a donation channel
     * more warnings
     * text editors plugins
  * lit-html compatible API could be interesting
+ * remove built/dom99.min.js (replaced by built/dom99ES.min.js)
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
