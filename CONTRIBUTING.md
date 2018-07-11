@@ -126,12 +126,13 @@ Open an issue to make us open a donation channel
  * provide non singleton export
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
- * regenerate landing-page.min.css from source landing-page.css
+ * re-generate landing-page.min.css from source landing-page.css
  * use surge or gh-pages
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter
  * revisit the context API
+ * harmonize the vocabulary for context path etc
  * jsdoc show better optional parameters
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported

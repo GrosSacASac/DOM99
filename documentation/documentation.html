@@ -681,6 +681,8 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 14.4.0</h4>
+<p>Added built/dom99ES.min.js, deprecated built/dom99.min.js</p>
 <h4>Version 14.3.0</h4>
 <p>Added built/dom99ES.js (single file)</p>
 <h4>Version 14.2.0</h4>
@@ -947,7 +949,7 @@ the license in distributed executables or transpiled code</p>
 <script nomodule src="../built/dom99Script.es5.min.js"></script>
 <script type="module">
 // Import
-import {d} from "../built/dom99ES.js";
+import {d} from "../built/dom99ES.min.js";
 window.d = d;
 window.usesModules = true;
 </script>

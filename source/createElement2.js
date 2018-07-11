@@ -1,5 +1,12 @@
 export {createElement2};
 
+/**
+Creates an element with elementDescription 
+
+@param {object} elementDescription tagName key is required
+
+@return {Element}
+*/
 const createElement2 = function (elementDescription) {
 	/*element.setAttribute(attr, value) is good to set
 	initial attribute like when html is first loaded

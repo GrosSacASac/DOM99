@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "14.3.4",
+  "version": "14.4.0",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99Require.js",
@@ -26,8 +26,7 @@
   "scripts": {
     "roll": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
-    "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser source/dom99.js --type module --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.min.js",
-    "todo minify again USE terser": "minify source/dom99.js --type module --out-file built/dom99.min.js",
+    "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
     "build": "npm run roll && npm run transpile && npm run minify",
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
@@ -67,6 +66,10 @@
     "elements",
     "web",
     "component",
+	"framework",
+	"library",
+	"reactive",
+	"data-attributes",
     "light",
     "browser"
   ]

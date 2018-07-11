@@ -4,9 +4,22 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*dom99 v14.3.4*/
+/* dom99 v14.4.0 */
+/*        Copyright Cyril Walle 2018.
+Distributed under the Boost Software License, Version 1.0.
+   See accompanying file LICENSE.txt or copy at
+        https://www.boost.org/LICENSE_1_0.txt */
+
 var dom99 = function (exports) {
 	'use strict';
+
+	/**
+ Creates an element with elementDescription 
+ 
+ @param {object} elementDescription tagName key is required
+ 
+ @return {Element}
+ */
 
 	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
 
@@ -86,11 +99,6 @@ var dom99 = function (exports) {
 		return id;
 	};
 
-	/*        Copyright Cyril Walle 2018.
- Distributed under the Boost Software License, Version 1.0.
-     See accompanying file LICENSE.txt or copy at
-          https://www.boost.org/LICENSE_1_0.txt */
-
 	var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -105,10 +113,19 @@ var dom99 = function (exports) {
 
 	var variableSubscribers = {};
 	var listSubscribers = {};
+
+	/**
+ Retrieve variable values that have been modified by d.feed or 
+ 2 way data binded element with data-variable attribute (Read only)
+ 
+ @param {string} path
+ 
+ @return {any}
+ */
 	var variables = {};
 
 	/**
- Retrieve 
+ Retrieve elements that have data-element attribute (Read only)
  
  @param {string} path
  
@@ -116,14 +133,23 @@ var dom99 = function (exports) {
  */
 	var elements = {};
 	var templateFromName = {};
+
+	/**
+ Set event listener that are going to be attached to elements
+ with data-function
+ 
+ @param {string} name
+ 
+ @return {function}
+ */
 	var functions = {};
 
 	var pathIn = [];
 
 	var functionPlugins = [];
+	var alreadyHooked = false;
 	var feedPlugins = [];
 	var clonePlugins = [];
-
 	var cloneHook = function cloneHook() {};
 
 	var directivePairs = void 0;
@@ -163,6 +189,10 @@ var dom99 = function (exports) {
 
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, 'MISS', 'click'), _valueElseMissDecorat4));
 
+	/**
+ internal dom99 options, look at dom99ConfigurationExample.js	
+ to learn how to configure it
+ */
 	var options = {
 		doneSymbol: '*',
 		tokenSeparator: '-',
@@ -245,6 +275,20 @@ var dom99 = function (exports) {
 		return document.importNode(template.content, true);
 	};
 
+	/**
+ contextFromEvent gets the starting path for an event issued inside a component
+ 
+ in combination with contextFromArray it allows to access sibling elements and variables
+ 
+ d.functions.clickedButton = function (event) {
+ 	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
+ 		.classList.add(`active`);
+ };
+  
+ @param {Event} event 
+ 
+ @return {string} path
+ */
 	var contextFromEvent = function contextFromEvent(event, parent) {
 		if (event || parent) {
 			var element = void 0;
@@ -266,6 +310,16 @@ var dom99 = function (exports) {
 		return '';
 	};
 
+	/**
+ contextFromArray joins paths to create a valid path to use with
+ 
+ d.variables[path]
+ d.elements[path]
+  
+ @param {array} Array 
+ 
+ @return {string} path
+ */
 	var contextFromArray = function contextFromArray(pathIn) {
 		return pathIn.join(INSIDE_SYMBOL);
 	};
@@ -278,6 +332,13 @@ var dom99 = function (exports) {
 		pathIn.pop();
 	};
 
+	/**
+ getParentContext
+ 
+ @param {string} context 
+ 
+ @return {string} parentContext
+ */
 	var getParentContext = function getParentContext(context) {
 		var split = context.split(INSIDE_SYMBOL);
 		split.pop();
@@ -308,13 +369,20 @@ var dom99 = function (exports) {
 		});
 	};
 
+	/**
+ removes a path and all its child from the dom99 singleton memory
+ 
+ Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
+ 	all the element references if you used the underlying nodes in dom99
+ 	A removed element will continue receive invisible automatic updates
+ 	it also takes space in the memory.
+ 
+ 	And all of this doesn't matter for 1-100 elements, but it does matter,
+ 	for an infinitely growing list
+ 	
+ @param {string} path
+ */
 	var forgetContext = function forgetContext(path) {
-		/*Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
-  all the element references if you used the underlying nodes in dom99
-  A removed element will continue receive invisible automatic updates
-  it also takes space in the memory.
-  		And all of this doesn't matter for 1-100 elements
-  		*/
 		deleteAllStartsWith(variableSubscribers, path);
 		deleteAllStartsWith(listSubscribers, path);
 		deleteAllStartsWith(variables, path);
@@ -402,7 +470,18 @@ var dom99 = function (exports) {
 		});
 	};
 
-	var alreadyHooked = false;
+	/**
+ Feed data, for element with corresponding data-variable and data-list
+ 
+ @param {string} startPath
+ @param {any} data
+ 
+ @or
+ 
+ @param {any} data
+ 
+ @return {Element} startElement
+ */
 	var feed = function feed(startPath, data) {
 		if (data === undefined) {
 			data = startPath;
@@ -593,8 +672,12 @@ var dom99 = function (exports) {
 		}
 	};
 
+	/**
+ Removes a template from the DOM and from dom99 memory  
+ @param {string} name
+ 
+ */
 	var deleteTemplate = function deleteTemplate(name) {
-		/* Removes a template */
 		if (!hasOwnProperty.call(templateFromName, name)) {
 			console.error('<template ' + options.directives.template + '=' + name + '>\n\t\t\t</template> not found or already deleted and removed.');
 		}
@@ -703,7 +786,6 @@ var dom99 = function (exports) {
  
  @param {object} featureToPlugIn
  
- @return {undefined}
  */
 	var plugin = function plugin(featureToPlugIn) {
 		if (!isObjectOrArray(featureToPlugIn)) {

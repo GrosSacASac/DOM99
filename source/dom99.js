@@ -1,8 +1,3 @@
-/*        Copyright Cyril Walle 2018.
-Distributed under the Boost Software License, Version 1.0.
-    See accompanying file LICENSE.txt or copy at
-         https://www.boost.org/LICENSE_1_0.txt */
-
 import {createElement2} from "./createElement2.js";
 import {isObjectOrArray} from "./isObjectOrArray.js";
 import {copyArrayShallow} from "./copyArrayShallow.js";
@@ -23,6 +18,15 @@ const INSIDE_SYMBOL = `>`;
 
 const variableSubscribers = {};
 const listSubscribers = {};
+
+/**
+Retrieve variable values that have been modified by d.feed or 
+2 way data binded element with data-variable attribute (Read only)
+
+@param {string} path
+
+@return {any}
+*/
 const variables = {};
 
 /**
@@ -34,14 +38,23 @@ Retrieve elements that have data-element attribute (Read only)
 */
 const elements = {};
 const templateFromName = {};
+
+/**
+Set event listener that are going to be attached to elements
+with data-function
+
+@param {string} name
+
+@return {function}
+*/
 const functions = {};
 
 let pathIn = [];
 
 const functionPlugins = [];
+let alreadyHooked = false;
 const feedPlugins = [];
 const clonePlugins = []
-		
 let cloneHook = function () {};
 
 let directivePairs;
@@ -113,6 +126,10 @@ const eventFromTag = valueElseMissDecorator({
 	MISS: `click`
 });
 
+/**
+internal dom99 options, look at dom99ConfigurationExample.js	
+to learn how to configure it
+*/
 const options = {
 	doneSymbol: `*`,
 	tokenSeparator: `-`,
@@ -205,6 +222,21 @@ const cloneTemplate = function (template) {
 	return document.importNode(template.content, true);
 };
 
+
+/**
+contextFromEvent gets the starting path for an event issued inside a component
+
+in combination with contextFromArray it allows to access sibling elements and variables
+
+d.functions.clickedButton = function (event) {
+	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
+		.classList.add(`active`);
+};
+ 
+@param {Event} event 
+
+@return {string} path
+*/
 const contextFromEvent = function (event, parent) {
 	if (event || parent) {
 		let element
@@ -231,6 +263,16 @@ const contextFromEvent = function (event, parent) {
 	return ``;
 };
 
+/**
+contextFromArray joins paths to create a valid path to use with
+
+d.variables[path]
+d.elements[path]
+ 
+@param {array} Array 
+
+@return {string} path
+*/
 const contextFromArray = function (pathIn) {
 	return pathIn.join(INSIDE_SYMBOL);
 };
@@ -243,6 +285,14 @@ const leaveObject = function () {
 	pathIn.pop();
 };
 
+
+/**
+getParentContext
+
+@param {string} context 
+
+@return {string} parentContext
+*/
 const getParentContext = function (context) {
 	const split = context.split(INSIDE_SYMBOL);
 	split.pop();
@@ -273,15 +323,20 @@ const deleteAllStartsWith = function (object, prefix) {
 	});
 };
 
-const forgetContext = function (path) {
-	/*Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
+/**
+removes a path and all its child from the dom99 singleton memory
+
+Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
 	all the element references if you used the underlying nodes in dom99
 	A removed element will continue receive invisible automatic updates
 	it also takes space in the memory.
 
-	And all of this doesn't matter for 1-100 elements
-
-	*/
+	And all of this doesn't matter for 1-100 elements, but it does matter,
+	for an infinitely growing list
+	
+@param {string} path
+*/
+const forgetContext = function (path) {
 	deleteAllStartsWith(variableSubscribers, path);
 	deleteAllStartsWith(listSubscribers, path);
 	deleteAllStartsWith(variables, path);
@@ -377,7 +432,19 @@ const notifyListSubscribers = function (subscribers, startPath, data) {
 	});
 };
 
-let alreadyHooked = false;
+
+/**
+Feed data, for element with corresponding data-variable and data-list
+
+@param {string} startPath
+@param {any} data
+
+@or
+
+@param {any} data
+
+@return {Element} startElement
+*/
 const feed = function (startPath, data) {
 	if (data === undefined) {
 		data = startPath;
@@ -592,8 +659,12 @@ const applyInside = function (element, key) {
 	}
 };
 
+/**
+Removes a template from the DOM and from dom99 memory  
+@param {string} name
+
+*/
 const deleteTemplate = function (name) {
-	/* Removes a template */
 	if (!hasOwnProperty.call(templateFromName, name)) {
 		console.error(
 			`<template ${options.directives.template}=${name}>
@@ -718,7 +789,6 @@ Plug in a plugin (hook) into the core functionality
 
 @param {object} featureToPlugIn
 
-@return {undefined}
 */
 const plugin = function (featureToPlugIn) {
 	if (!isObjectOrArray(featureToPlugIn)) {

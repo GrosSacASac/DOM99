@@ -113,10 +113,8 @@ The list variable name is "users" and the template used is "user-element"
 native html elements can also be used to display a list
 -->
 <div data-list="users-user-element"></div>
-
-<script src="node_modules/dom99/built/dom99Script.js"></script>
-<script>
-    const {d, options} = dom99;
+<script type="module">
+    import {d} from "./node_modules/dom99/built/dom99ES.js";
 
     d.feed({users :
         [
