@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <!-- Demo used on JSBIN -->
     <title>DOM99 DEMO</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
@@ -14,57 +15,48 @@
 <body>
    <input data-variable="text" type="text">
 
-<p data-variable="text">
-  is overriden with D.feed("Hi", "text");
-</p><br>
+	<p data-variable="text">
+	  is overriden with d.feed("text", "Hi");
+	</p>
 
+	<br>
 
-<template data-template="d-comment">
-  <p data-variable="text">A comment</p>
-  <!-- variable text does not clash with outside -->
-  <datetime data-variable="date">05/04/2016</datetime>
-</template>
+	<template data-template="d-comment">
+	  <p data-variable="text">A comment</p>
+	  <time data-variable="date">05/04/2016</time>
+	</template>
 
-<d-comment data-inside="first"></d-comment>
-<d-comment data-inside="second"></d-comment>
-  
-  
-  
-<br>
-<a 
-href="https://github.com/GrosSacASac/DOM99"
->Github</a>
-  
+	<d-comment data-inside="first"></d-comment>
+	<d-comment data-inside="second"></d-comment>
+
+	<br><a
+	href="https://github.com/GrosSacASac/DOM99"
+	>Github</a>
+
 <!-- dom99 -->
 <script
-src="http://rawgit.com/GrosSacASac/DOM99/master/js/dom99.js"
+src="../built/dom99Script.js"
 ></script>
 <script>
-/* global d*/
+const {d, plugin, options, createElement2} = dom99;
 
 // manually set text variable
-d.feed("Hi", "text");
-
+d.feed("text", "Hi");
 
 // edit what is inside the first <d-comment>
-
-d.feed({
+d.feed("first", {
  text: "Nice job"
-}, "first");
-
+});
 
 // edit what is inside the second <d-comment>
-
-d.feed({
- text: "Thanks I did not know about worka,"+ 
-        "I will install it from Github",
+d.feed("second", {
+ text: "Thanks !",
  date: "just now"
-}, "second");
+});
 
-
-d.activate(); //start
+d.start();
 </script>
-    
+
 
 
 </body>

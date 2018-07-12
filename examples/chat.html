@@ -19,15 +19,17 @@
             <p data-variable="messageText"></p>
         </li>
     </template>
-    
-    <ol data-element="messagesContainer"></ol>
-    
-    <textarea data-element="textarea" data-variable="currentMessage" autofocus></textarea>
-    <button data-function="click-trySendMessage">Send !</button>
 
-<script src="../polyfill.min.js"></script>
-<script src="../js/dom99.es5.min.js"></script>
-<script src="../exampleses5/chat_simulation.js"></script>
-<script src="../exampleses5/chat.js"></script>
+    <ol data-element="messagesContainer"></ol>
+
+    <textarea data-element="textarea" data-variable="currentMessage" autofocus></textarea>
+    <button data-function="trySendMessage">Send !</button>
+
+<script nomodule src="../polyfills/built/polyfill.min.js"></script>
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
+<script nomodule src="js/builtes5/chat.js"></script>
+
+<script type="module" src="js/chat.js"></script>
 </body>
 </html>

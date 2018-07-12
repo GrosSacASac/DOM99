@@ -6,16 +6,16 @@ const displayHtmlJsAndResult = function(name) {
     d.elements[d.contextFromArray([name, "penContainer"])] .setAttribute("id", name); // for anchor links
     const JsSourceOriginal = d.elements[name+"Js"].textContent;
     const JsSourceDisplay = (
-        `import d from "../dom99Module.js";
+        `import {d} from "dom99";
 ${JsSourceOriginal.trim()}
 
 d.activate();`);
     const HtmlSourceDisplay = d.elements[name+"Html"].innerHTML.trim();
-    d.feed({
+    d.feed(name, {
         title: name,
         JsSourceDisplay,
         HtmlSourceDisplay
-    }, name);
+    });
     const resultElement =  d.elements[d.contextFromArray([name, "ResultDisplay"])];
     resultElement.innerHTML = HtmlSourceDisplay;
     if (window.usesModules) {

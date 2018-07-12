@@ -1,4 +1,4 @@
-import d from "../../built/dom99Module.js";
+import {d, plugin, options, createElement2} from "../../source/dom99.js";
 let globalNumber = 0;
 // increment local does not update the list, how to make the data flow
 
@@ -7,9 +7,9 @@ const setAllGlobalCopyInside = function (value) {
         globalCopy: String(value),
     };
 
-    d.feed(changeDescriptor, d.contextFromArray(["outerList", 0]));
-    d.feed(changeDescriptor, d.contextFromArray(["outerList", 1]));
-    d.feed(changeDescriptor, d.contextFromArray(["outerList", 2]));
+    d.feed(d.contextFromArray(["outerList", 0]), changeDescriptor);
+    d.feed(d.contextFromArray(["outerList", 1]), changeDescriptor);
+    d.feed(d.contextFromArray(["outerList", 2]), changeDescriptor);
 };
 
 const globalIncrement = function (event) {
@@ -25,7 +25,7 @@ const globalSet = function (event) {
             d.contextFromArray([context, "globalCopy"])
         ]);
     globalNumber = newGlobalNumber;
-    
+
     setAllGlobalCopyInside(globalNumber);
 };
 
@@ -42,7 +42,7 @@ const localIncrement = function (event) {
         local: String(localNumber)
     },
     context);
-    
+
     spanElement.style.border = `1px ${localColor} solid`;
 };
 
@@ -62,10 +62,9 @@ const listremake = function (event) {
             "b": localNumber
         });
     }
-    d.feed({
+    d.feed(context, {
         innerlist: newList
-    },
-    context);
+    });
 
 };
 const functions = {
@@ -76,7 +75,7 @@ const functions = {
 };
 
 const initialData = {
-    
+
     outerList: [
         {
             globalCopy: String(globalNumber),

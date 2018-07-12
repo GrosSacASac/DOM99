@@ -1,14 +1,11 @@
 {
   "name": "dom99",
-  "version": "8.2.6",
+  "version": "14.4.0",
   "license": "BSL-1.0",
+  "module": "source/dom99.js",
   "main": "built/dom99Require.js",
-  "module": "built/dom99Module.js",
-  "scriptFileBrowser": "js/dom99.js",
-  "scriptFileBrowserES5": "built/dom99.es5.min.js",
-  "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#about",
-  "licenseLink": "http://www.boost.org/LICENSE_1_0.txt",
-  "description": "HTML/DOM manipulation made easier",
+  "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/",
+  "description": "Extend html with directives to manipulate the dom with JavaScript",
   "repository": {
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
@@ -18,30 +15,33 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "bootstrap": "^3.3.7",
-    "rollup": "^0.50.0",
-    "uglify-js": "^3.1.5",
-    "utilsac": "^2.0.0"
+    "babel-preset-env": "^1.7.0",
+    "html-minifier": "^3.5.16",
+    "jsdoc": "^3.5.5",
+    "rollup": "^0.60.7",
+    "template-mb": "^2.0.6",
+    "terser": "^3.7.6",
+    "utilsac": "^6.0.2"
   },
   "scripts": {
-    "transpile": "babel js/dom99.js > built/dom99.es5.js",
-    "transpileminFAIL": "babel minified=true js/dom99.js > built/dom99.es5.min.js",
-    "minify": "uglifyjs built/dom99.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es5.min.js",
-    "buildModuleAndRequire": "node tools/buildModuleAndRequire.js",
-    "build": "npm run transpile && npm run minify && npm run buildModuleAndRequire",
+    "roll": "rollup --config tools/rollup.config.js",
+    "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
+    "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
+    "build": "npm run roll && npm run transpile && npm run minify",
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
-    "examples": "npm run bundleExamples && npm run transpileExamples",
+    "demoDependencies": "node tools/buildDemoDependencies.js",
+    "examples": "npm run bundleExamples && npm run transpileExamples && npm run demoDependencies",
     "doc": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
+    "bhtml": "node tools/buildHTML",
     "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run yesno"
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run bhtml && npm run yesno",
+	"jsdoc": "jsdoc source/dom99.js",
+    "d": "npm run build && npm run bhtml"
   },
   "babel": {
-    "plugins": [
-      "transform-object-rest-spread"
-    ],
+    "plugins": [],
     "presets": [
       [
         "env",
@@ -59,13 +59,17 @@
     ]
   },
   "keywords": [
-    "HTML",
-    "DOM",
+    "html",
+    "dom",
     "declarative",
     "custom",
     "elements",
     "web",
     "component",
+	"framework",
+	"library",
+	"reactive",
+	"data-attributes",
     "light",
     "browser"
   ]

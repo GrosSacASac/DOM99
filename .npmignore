@@ -1,4 +1,5 @@
 #npm only
+out/
 documentation/
 examples/
 images/
@@ -6,6 +7,13 @@ tests/
 tools/
 bower.json
 .gitattributes
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+# use what is in /built instead
+polyfills/dom-hidden.js
+polyfills/remove.js
+OUTDATED.js
+OUTDATED2.js
 
 # to get these files copy from github
 
@@ -13,7 +21,6 @@ examples/js/built
 todolistmultiuserx/
 learnjavascriptx/
 node_modules/
-commands.txt
 documentation/personal_notes.txt
 documentation/personal_htmltests.html
 examples/todolistmultiuser/node_modules

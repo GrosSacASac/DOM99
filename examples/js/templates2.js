@@ -1,11 +1,11 @@
-import d from "../../built/dom99Module.js";
+import {d, plugin, options, createElement2} from "../../source/dom99.js";
 
 const commentPrefix = "comment";
 
 let currentCommentNumber = 2;
 
 const update = function (commentKey, commentObject) {
-    d.feed(commentObject, commentKey);
+    d.feed( commentKey, commentObject);
 };
 
 const getDataFromFakeServer = function (urlOrWhat) {
@@ -15,23 +15,23 @@ const getDataFromFakeServer = function (urlOrWhat) {
             text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
             date: "just now"
         };
-        
+
         window.setTimeout(function () {
             resolve(fakeData);
         }, 2000);
-    }); 
+    });
 };
 
 d.functions.showNextComment = function (event) {
     currentCommentNumber += 1;
     let key = `${commentPrefix}${currentCommentNumber}`;
-    
+
     const customElementDescription = {
         tagName: "d-comment",
         "data-inside": key
     }
-    const customElement = d.createElement2(customElementDescription);
-    
+    const customElement = createElement2(customElementDescription);
+
     d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
     getDataFromFakeServer("comment?id=42").then( //get data
@@ -47,7 +47,7 @@ let commentsData = { //initial
     },
     comment2: {
         text: "I really appreciate your work",
-        date: "yesterday" 
+        date: "yesterday"
     }
 };
 

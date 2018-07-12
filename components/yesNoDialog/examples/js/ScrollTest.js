@@ -1,7 +1,8 @@
 // Import
-import d from "../../../../built/dom99Module.js";
-import {yesNoDialog, textDialog} from "../../yesNoDialog.js";
+import {d, plugin, options, createElement2} from "../../../../source/dom99.js";
+import {yesNoDialog, textDialog, useYesNoDialog} from "../../yesNoDialog.js";
 
+useYesNoDialog(d);
 d.start({
     askSomething: function (event) {
         const questionText = "Do you think your scroll position will be remembered ?";
@@ -29,5 +30,3 @@ d.start({
     {
     result: ""
 });
-
-window.d = d; // for debugging

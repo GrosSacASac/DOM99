@@ -1,15 +1,21 @@
-![DOM99](images/visual2.jpg)
+<div align="center">
+  <a href="https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/">
+    <img src="images/visual2.jpg">
+  </a>
+  <br>
+  <h1>dom99</h1>
+  <br>
+</div>
 
 
 ## What is dom99 ?
 
-dom99 is a JavaScript framework to ease the interaction between the HTML and your program. Declaratively select HTML elements, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
-You can also build the HTML with custom elements.
-<!-- [Demo](http://jsbin.com/tepezuj/3/embed?html,js,output) -->
+dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](https://jsbin.com/tepezuj/edit?html,js,output)
+
 
 ## Installation
 
-`npm install dom99`
+[npm install dom99](https://www.npmjs.com/package/dom99)
 
 
 ## Basic Use
@@ -30,7 +36,7 @@ You can also build the HTML with custom elements.
 ```
 
 
-
+##  [Changelog](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#timeline)
 
 ## Design philosophy
 
@@ -43,12 +49,12 @@ By default dom99 is optimized for first page load, that means the size is small.
 
 ### HTML for mark-up, JS for logic
 
-dom99 does not attempt to invent for the nth time how to write `if` statements and `for loops` inside HTML. Put logic in JS, and mark-up that you already know in HTML.
+Get up an running fast. dom99 does not attempt to invent for the n<sup>th</sup> time how to write <code>if</code> statements and <code>for</code> loops inside HTML. Put logic in JS, and mark-up that you already know in HTML.
 
 
-### Designers and coders can work on the same files
+### Designers and Developers can work on the same files
 
-Elements in the mark-up linked to the DOM use `data-*` instead of the overused `class` and `id`. The benefits to this approach is that the js programmer can safely add data-attributes to stylized components without breaking the styles, and the designers can safely add `classes` and `ids` without breaking anything.
+Elements in the mark-up linked to the DOM use `data-*` instead of the overused `class` and `id`. The benefits to this approach is that the developers can safely add data-attributes to stylized components without breaking the styles, and the designers can safely add `classes` and `ids` without breaking anything.
 
 
 ### Easy to learn
@@ -56,7 +62,7 @@ Elements in the mark-up linked to the DOM use `data-*` instead of the overused `
 Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 
-### Work with the platform
+### Work with the Web platform
 
 dom99 is a web framework and is an extension to web standards HTML, CSS and JS, and does not intent to be a replacement.
 
@@ -71,9 +77,9 @@ dom99 can be used in a zero-second compile time development set-up with ES-modul
 No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
 
 
-### Unopiniated
+### Unopinionated
 
-dom99 is unopiniated and bigger frameworks can be built on top of it. That means you can chose your own router, state management system, etc.
+dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system...
 
 
 ## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
@@ -107,8 +113,9 @@ The list variable name is "users" and the template used is "user-element"
 native html elements can also be used to display a list
 -->
 <div data-list="users-user-element"></div>
+<script type="module">
+    import {d} from "./node_modules/dom99/built/dom99ES.js";
 
-<script>
     d.feed({users :
         [
             {
@@ -133,12 +140,14 @@ native html elements can also be used to display a list
 </code></pre>
 </details>
 
-Other examples in examples/
+Other examples in [/examples](/examples)
 
 
 ## Discussion
 
-[Chat](https://dystroy.org/miaou/3)
+
+[![Chat on Miaou](https://dystroy.org/miaou/static/shields/room-en.svg?v=1)](https://dystroy.org/miaou/2813?dom99)
+
 
 [Issues reports](https://github.com/GrosSacASac/DOM99/issues)
 

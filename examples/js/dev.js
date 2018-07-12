@@ -1,4 +1,4 @@
-import d from "../../built/dom99Module.js";
+import {d, plugin, options, createElement2} from "../../source/dom99.js";
 
 d.feed({
     x: "XXX",

@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
     <link rel="icon" href="../images/visual2.jpg">
+    <link rel="prefetch" href="./">
 </head>
 <body>
 <h1>dom99</h1>
 
 <main>
 <nav>
+    <a href="./" class="nav-ext">Overview</a>
     <a href="#about">About</a>
     <a href="#examples1">Examples</a>
     <a href="#howto">Documentation</a>
+    <a href="#components">Components</a>
+    <a href="#plugins">Plugins</a>
     <a href="#details">Details</a>
     <a href="#timeline">Time-Line</a>
 </nav>
@@ -29,15 +33,15 @@
 
 <p>dom99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
 framework to ease the interaction between the <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>
-and your program. You can preselect DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
-You can also build the HTML with custom elements.
-<!--<a href="http://jsbin.com/tepezuj/3/embed?html,js,output">Try the intro playground</a> -->
+and your program. You can pre-select DOM nodes, add event listeners and synchronize UI elements and JavaScript variables, populate HTML templates with data and insert it in the document.
+You can also build the HTML with custom elements.</p>
+<a href="https://jsbin.com/tepezuj/edit?html,js,output">Try the intro playground</a>
 </section>
 
 <section>
 <h3>Why use dom99 ?</h3>
 
-<p>To spend less time in the developement. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents alot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependency and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
+<p>To spend less time in the development. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents a lot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependencies and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
 
 <p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, dom99 is for you. It is very beginner friendly yet powerful. <a href="manychoicesforfrontend.md">Comparisons with other frameworks</a></p>
 </section>
@@ -47,7 +51,7 @@ You can also build the HTML with custom elements.
 <ul>
 <li>No support for some old browsers</li>
 <li>Fear of the unknown</li>
-<li>You have already a working codebase that is mantainable</li>
+<li>You have already a working code base that is maintainable</li>
 <li>You need a comprehensive framework that has all the tools/components/css you need out of the box.(dom99 is not batteries included)</li>
 <li>No built in server side rendering mechanism</li>
 </ul>
@@ -62,32 +66,31 @@ You can also build the HTML with custom elements.
 <h3>Download</h3>
 <p><a href="https://github.com/GrosSacASac/DOM99">GitHub</a></p>
 <ul>
-    <li><code>npm install dom99</code></li>
-    <li><a download
-        href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99.es5.min.js"
-    >Production minified dom99.es5.min.js</a></li>
+    <li><code><a href="https://www.npmjs.com/package/dom99">npm install dom99</a></code></li>
+    <li><a download="dom99Script.es5.min.js" href="https://raw.githubusercontent.com/GrosSacASac/DOM99/master/built/dom99Script.es5.min.js">Production minified dom99Script.es5.min.js</a></li>
     <li>Use a <a href="https://github.com/GrosSacASac/create-dom99-app/">premade starter pack create-dom99-app</a></li>
-    <li><code><del>bower install dom99</del></code></li>
 </ul>
 </section>
 
 <section>
 <h3>Browser Support</h3>
 <ul>
-    <li>Google Chrome</li>
-    <li>Mozilla Firefox</li>
+    <li>Chrome</li>
+    <li>Samsung Internet</li>
+    <li>Firefox</li>
     <li>Opera</li>
-    <li>Safari*</li>
-    <li>Internet Explorer 10+* </li>
+    <li>Safari</li>
+    <li>Edge</li>
+    <li>Internet Explorer 9+* </li>
 </ul>
-<p>*Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
-Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/</p>
+<p>* Supports may also requires a <a href="https://github.com/babel/babel/tree/master/packages/babel-polyfill">ES2015 polyfill</a>. A copy is included for convenience. The file is named polyfill.min.js.
+Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/ and examples/</p>
 </section>
 
 <section>
 <h3>License</h3>
-<p>Copyright Cyril Walle 2017.</p>
-<p><a href="../LICENSE.txt ">Distributed under the Boost Software License,
+<p>Copyright Cyril Walle 2018.</p>
+<p><a href="../LICENSE.txt">Distributed under the Boost Software License,
 Version 1.0: LICENSE.txt</a></p>
 </section>
 
@@ -96,7 +99,7 @@ Version 1.0: LICENSE.txt</a></p>
 
 <h4>Chat</h4>
 
-<p><a href="https://dystroy.org/miaou/3">Chat (requires a GitHub account)</a></p>
+<p><a href="https://dystroy.org/miaou/2813?dom99"><img alt="Chat on Miaou" src="https://dystroy.org/miaou/static/shields/room-en.svg?v=1"></a></p>
 
 <h4>Issues reports</h4>
 
@@ -127,24 +130,24 @@ Version 1.0: LICENSE.txt</a></p>
 
 <p>Examples:</p>
 
-<pre><code>&lt;input data-variable="b" type="text"&gt;
-&lt;nav data-element="myNav"&gt;Navigation Links&lt;/nav&gt;
-&lt;button data-function="click-deleteFoto"&gt;Delete Foto&lt;/button&gt;
-&lt;d-magicbutton data-inside="1"&gt;&lt;/d-magicbutton&gt;</code></pre>
+<pre><code>&lt;input data-variable="b" type="text">
+&lt;nav data-element="myNav">Navigation Links&lt;/nav>
+&lt;button data-function="click-deleteFoto">Delete Foto&lt;/button>
+&lt;d-magicbutton data-inside="1">&lt;/d-magicbutton></code></pre>
 
 <p>The general syntax is </p>
 
-<p><code>&lt;tag data-keyword="token1-token2" &gt; bla bla &lt;/tag&gt;</code></p>
+<p><code>&lt;tag data-keyword="token1-token2" > bla bla &lt;/tag></code></p>
 
 <p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
-<pre><code>&lt;script src="node_modules/dom99/js/dom99.js"&gt;&lt;/script&gt;
-&lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
+<pre><code>&lt;script src="node_modules/dom99/js/dom99.js">&lt;/script>
+&lt;script src="js/yourJavascriptFile.js">&lt;/script></code></pre>
 
 <h3>In your JavaScript:</h3>
 
 <pre><code>
-import d from "./node_modules/dom99/built/dom99Module.js";
+import {d, plugin, options, createElement2} from "./node_modules/dom99/source/dom99.js";
 //to start using dom99 pre selected elements use this statement
 d.activate();</code></pre>
 
@@ -155,52 +158,52 @@ d.activate();</code></pre>
 
 <p>aFunction is called when you click this button</p>
 
-<pre><code>&lt;button data-function="click-functionName"&gt;Action&lt;/button&gt;
+<pre><code>&lt;button data-function="click-functionName">Action&lt;/button>
 // "functionName" not "aFunction"</code></pre>
 
 
 <h3>Use data-variable + d.variables + d.feed for data bindings</h3>
-<p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
+<p>To changes the text of <code>&lt;p data-variable="talkings">&lt;/p></code> and all other element that share the variable talkings</p>
 
-<pre><code>d.feed({talkings: "Hi"});</code></pre>
+<pre><code>d.feed({talkings: `Hi`});</code></pre>
 
-<p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
+<p>Use the same data-variable="talkings" on <code>&lt;input></code> elements for two way data bindings</p>
 
 <h3>Use data-list="x-li" to display a list</h3>
 <p>See examples</p>
 <h3>Use data-element and d.elements for direct element manipulation</h3>
-<p>To use a preselected element</p>
+<p>To use a pre-selected element</p>
 
 <pre><code>d.elements.bigTitle //An element reference, we can do what we want with it
 d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
 
-<p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
+<p>will remove <code>&lt;h1 data-element="bigTitle">You can remove me to make space&lt;/h1></code></p>
 
 <h3>Use data-template to declare html templates</h3>
 <p>To compose html with predefined building blocks.</p>
 
-<pre><code>&lt;template data-template="d-comment"&gt;
-    &lt;p data-variable="text"&gt;&lt;/p&gt;
-    &lt;time data-variable="date"&gt;&lt;/time&gt;
-&lt;/template&gt;</code></pre>
+<pre><code>&lt;template data-template="d-comment">
+    &lt;p data-variable="text">&lt;/p>
+    &lt;time data-variable="date">&lt;/time>
+&lt;/template></code></pre>
 
 
 <h3>Use data-inside to put html templates copies</h3>
-<pre><code>&lt;d-comment data-inside="first"&gt;&lt;/d-comment&gt;
-&lt;d-comment data-inside="second"&gt;&lt;/d-comment&gt;</code></pre>
+<pre><code>&lt;d-comment data-inside="first">&lt;/d-comment>
+&lt;d-comment data-inside="second">&lt;/d-comment></code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
 <pre><code>
 // manually
-d.feed("A new comment", "first>text");
-d.feed("Today", "first>date");
+d.feed(`first>text`, `A new comment`);
+d.feed(`first>date`, `Today`);
 
 // better
-d.feed({
-    text: "A new comment",
-    date: "Today"
-}, "first");
+d.feed(`first`, {
+    text: `A new comment`,
+    date: `Today`
+});
 
 </code></pre>
 
@@ -236,31 +239,31 @@ When the page loads you want to display the article and already display the 2 la
 comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
 <p> Look at examples/templates1.html and examples/templates2.html and examples/templates3.html for now</p>
-<pre><code>&lt;html&gt;
+<pre><code>&lt;html>
 
-    &lt;article&gt;
-        &lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;
-    &lt;/article&gt;
+    &lt;article>
+        &lt;p>...&lt;/p>&lt;p>...&lt;/p>
+    &lt;/article>
 
-    &lt;!-- a comment is some text and a date --&gt;
-    &lt;template data-template="d-comment"&gt;
-        &lt;p data-variable="text"&gt;&lt;/p&gt;
-        &lt;time data-variable="date"&gt;&lt;/time&gt;
-    &lt;/template&gt;
+    &lt;!-- a comment is some text and a date -->
+    &lt;template data-template="d-comment">
+        &lt;p data-variable="text">&lt;/p>
+        &lt;time data-variable="date">&lt;/time>
+    &lt;/template>
 
-    &lt;d-comment data-inside="comment1"&gt;&lt;/d-comment&gt;
-    &lt;d-comment data-inside="comment2"&gt;&lt;/d-comment&gt;
+    &lt;d-comment data-inside="comment1">&lt;/d-comment>
+    &lt;d-comment data-inside="comment2">&lt;/d-comment>
 
-    &lt;button data-function="click-showNextComment"&gt;Show more comments&lt;/button&gt;
+    &lt;button data-function="click-showNextComment">Show more comments&lt;/button>
 
-&lt;/html&gt;
+&lt;/html>
 
-Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</code></pre>
+Note: `&lt;d-comment>` is a valid custom element, `&lt;comment>` is not.</code></pre>
 
 <p>Our initial JS code looks like this</p>
 
 <pre><code>
-import d from "../built/dom99Module.js";
+import {d, plugin, options, createElement2} from "../source/dom99.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo
@@ -268,12 +271,12 @@ d.functions.showNextComment = function(event) {
 
 let commentsData = {
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "just now"
+        text: `I really appreciate your work`,
+        date: `just now`
     }
 };
 
@@ -286,22 +289,22 @@ d.activate();</code></pre>
 
 <h3>Part 2</h3>
 <pre><code>
-import d from "../built/dom99Module.js";
+import {d, plugin, options, createElement2} from "../source/dom99.js";
 
-const commentPrefix = "comment";
+const commentPrefix = `comment`;
 
 let currentCommentNumber = 2;
 
 const update = function (commentKey, commentObject) {
-    d.feed(commentObject, commentKey);
+    d.feed(commentKey, commentObject);
 };
 
 const getDataFromFakeServer = function (urlOrWhat) {
     // fetch like simulation
     return new Promise(function (resolve, reject) {
         const fakeData = {
-            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-            date: "just now"
+            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
+            date: `just now`
         };
 
         window.setTimeout(function () {
@@ -315,14 +318,14 @@ d.functions.showNextComment = function (event) {
     let key = `${commentPrefix}${currentCommentNumber}`;
 
     const customElementDescription = {
-        tagName: "d-comment",
-        "data-inside": key
+        tagName: `d-comment`,
+        [`data-inside`]: key
     }
     const customElement = d.createElement2(customElementDescription);
 
     d.activate(customElement);
     d.elements.commentSection.appendChild(customElement);
-    getDataFromFakeServer("comment?id=42").then( //get data
+    getDataFromFakeServer(`comment?id=42`).then( //get data
         function (data) {
             update(key, data);
     });
@@ -330,12 +333,12 @@ d.functions.showNextComment = function (event) {
 
 let commentsData = { //initial
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "yesterday"
+        text: `I really appreciate your work`,
+        date: `yesterday`
     }
 };
 
@@ -348,62 +351,62 @@ d.activate();
 <h3>Part 3</h3>
 <p>He we remove a lot of manual cruft, and use an array with data-list to display the comments</p>
 <h4>HTML</h4>
-<pre><code>&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;title&gt;dom99 DEMO templates 3&lt;/title&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
-    &lt;link rel=&quot;icon&quot; href=&quot;../images/visual2.jpg&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
+<pre><code>&lt;!doctype html>
+&lt;html lang="en">
+&lt;head>
+    &lt;meta charset="utf-8">
+    &lt;title>dom99 DEMO templates 3&lt;/title>
+    &lt;meta name="viewport" content="width=device-width">
+    &lt;link rel="stylesheet" href="css/basics.css">
+    &lt;link rel="stylesheet" href="css/dcomment.css">
+    &lt;link rel="icon" href="../images/visual2.jpg">
+&lt;/head>
+&lt;body>
 
-&lt;article&gt;
-    &lt;h2&gt;Article Title&lt;/h2&gt;
-    &lt;p&gt;Article&lt;/p&gt;&lt;p&gt;Blalblabla I give my opinion blabla&lt;/p&gt;
-&lt;/article&gt;
+&lt;article>
+    &lt;h2>Article Title&lt;/h2>
+    &lt;p>Article&lt;/p>&lt;p>Blalblabla I give my opinion blabla&lt;/p>
+&lt;/article>
 
-&lt;!-- a comment is some text and a date --&gt;
-&lt;template data-template=&quot;d-comment&quot;&gt;
-    &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
-        &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
-        &lt;time data-variable=&quot;date&quot;&gt;Loading date ...&lt;/time&gt;
-    &lt;/article&gt;
-&lt;/template&gt;
+&lt;!-- a comment is some text and a date -->
+&lt;template data-template="d-comment">
+    &lt;article class="d-comment">&lt;!-- add a container for styling purposes -->
+        &lt;p data-variable="text">Loading text ... (fake response takes 2sec)&lt;/p>
+        &lt;time data-variable="date">Loading date ...&lt;/time>
+    &lt;/article>
+&lt;/template>
 
-&lt;!-- data-list=&quot;VARIABLE_NAME - CUSTOM-ELEMENT_NAME&quot; --&gt;
-&lt;section data-list=&quot;comments-d-comment&quot;&gt;&lt;/section&gt;
-&lt;button data-function=&quot;click-showNextComment&quot; &gt;Show more comments&lt;/button&gt;
+&lt;!-- data-list="VARIABLE_NAME - CUSTOM-ELEMENT_NAME" -->
+&lt;section data-list="comments-d-comment">&lt;/section>
+&lt;button data-function="click-showNextComment" >Show more comments&lt;/button>
 
 
 
-&lt;script nomodule src=&quot;../polyfill.min.js&quot;&gt;&lt;/script&gt;
-&lt;script nomodule src=&quot;polyfills/remove.js&quot;&gt;&lt;/script&gt;
-&lt;script  nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
-&lt;script  nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
+&lt;script nomodule src="../polyfill.min.js">&lt;/script>
+&lt;script nomodule src="polyfills/remove.js">&lt;/script>
+&lt;script nomodule src="../built/dom99.es5.min.js">&lt;/script>
+&lt;script nomodule src="../exampleses5/templates3.js">&lt;/script>
 
-&lt;script type=&quot;module&quot; src=&quot;templates3.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+&lt;script type="module" src="templates3.js">&lt;/script>
+&lt;/body>
+&lt;/html></code></pre>
 <h4>JS</h4>
-<pre><code>import d from "../built/dom99Module.js";
+<pre><code>import {d, plugin, options, createElement2} from "../../source/dom99.js";
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
     commentsData[position] = commentObject;
     // could sort the comments with .sort(customFunction) too
     // pushes the update to the UI
-    d.feed(commentsData, "comments");
+    d.feed(`comments`, commentsData);
 };
 
 const fetchData = function (urlOrWhat) {
     // fetch like simulation
     return new Promise(function (resolve, reject) {
         const fakeData = {
-            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-            date: "just now"
+            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
+            date: `just now`
         };
 
         window.setTimeout(function () {
@@ -419,12 +422,12 @@ d.functions.showNextComment = function (event) {
     // remember the position to be updated later
     const position = commentsData.length;
     commentsData.push(undefined);
-    // undefined will simly have no effecton all data-variable
+    // undefined has no effect on all data-variable
     // so that will effectively uses the default textContent in the HTML
-    d.feed(commentsData, "comments");
-    // force ui update
-    fetchData("comment?id=42").then( function (data) {
-            update(data, position);
+    d.feed(`comments`, commentsData);
+    // force UI update
+    fetchData(`comment?id=42`).then( function (data) {
+        update(data, position);
     });
 
 };
@@ -435,86 +438,86 @@ d.functions.showNextComment = function (event) {
 
 let commentsData = [
     {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     {
-        text: "I really appreciate your work",
-        date: "yesterday"
+        text: `I really appreciate your work`,
+        date: `yesterday`
     }
 ];
 
-d.feed(commentsData, "comments");
+d.feed(`comments`, commentsData);
 d.activate();
 </code></pre>
 <p><a href="../examples/templates3.html">Try templates3.html</a></p>
 
 <h3>Dynamic template injection in general</h3>
 
-<pre><code>&lt;body&gt;
-&lt;template data-template="d-tagname"&gt;
-    &lt;p data-variable="text" &gt;&lt;/p&gt;
+<pre><code>&lt;body>
+&lt;template data-template="d-tagname">
+    &lt;p data-variable="text" >&lt;/p>
     Any HTML ...
-&lt;/template&gt;
+&lt;/template>
 ...
-&lt;div data-element="target"&gt;&lt;/div&gt;
-&lt;/body&gt;
+&lt;div data-element="target">&lt;/div>
+&lt;/body>
 
 // manual, see templates3.html to see how to use shortcuts
 // 0 make a description
 let customElementDescription = {
-    "tagName": "d-tagname",
-    "data-inside": "key"
+    [`tagName`]: `d-tagname`,
+    [`data-inside`]: `key`
 }
-// 1 create HTML ELement
+// 1 create HTML Element
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
 d.activate(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
-d.elements["target"].appendChild(customElement);</code></pre>
+d.elements[`target`].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template></code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
-<pre><code>d.variables["key>text"] = "A string"
+<pre><code>d.variables[`key>text`] = `A string`;
 
-d.elements["key>elementName"].className = ...</code></pre>
+d.elements[`key>elementName`].className = `class-fun`;</code></pre>
 
 <p>Or</p>
-<pre><code>d.variables[d.contextFromArray(["key", "text"])] = "A string"
+<pre><code>d.variables[d.contextFromArray([`key`, `text`])] = `A string`;
 
-d.elements[d.contextFromArray(["key", "elementName"])].className = ...</code></pre>
+d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></pre>
 
 <p>d.functions function the other way around. You use the same event handlers for all template copies
  and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
 
-<pre><code>&lt;!-- HTML --&gt;
-&lt;template data-template="d-tagname"&gt;
-    &lt;button data-function="close" &gt;CLOSE (X)&lt;/button&gt;
-    &lt;button data-function="update" &gt;Update (X)&lt;/button&gt;
-    &lt;p data-variable="text" &gt;Default Text&lt;/p&gt;
-    &lt;div data-element="status" class="status" &gt;&lt;/div&gt;
-    &lt;ul data-list="myList-li" &gt;
-        &lt;li&gt;Default List Item&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;div data-inside="encapsulated" &gt;
-        &lt;p data-variable="text" &gt;Other Default Text&lt;/p&gt;
-    &lt;/div&gt;
+<pre><code>&lt;!-- HTML -->
+&lt;template data-template="d-tagname">
+    &lt;button data-function="close" >CLOSE (X)&lt;/button>
+    &lt;button data-function="update" >Update (X)&lt;/button>
+    &lt;p data-variable="text" >Default Text&lt;/p>
+    &lt;div data-element="status" class="status" >&lt;/div>
+    &lt;ul data-list="myList-li" >
+        &lt;li>Default List Item&lt;/li>
+    &lt;/ul>
+    &lt;div data-inside="encapsulated" >
+        &lt;p data-variable="text" >Other Default Text&lt;/p>
+    &lt;/div>
 
     Any HTML ...
-&lt;/template&gt;
+&lt;/template>
 
-&lt;!-- used like --&gt;
-&lt;d-tagName data-inside=&quot;myKey0&quot;&gt;&lt;/d-tagName&gt;
+&lt;!-- used like -->
+&lt;d-tagName data-inside="myKey0">&lt;/d-tagName>
 
-&lt;!-- or --&gt;
-&lt;div is=&quot;d-tagName&quot; data-inside=&quot;myKey1&quot;&gt;&lt;/div&gt;
+&lt;!-- or -->
+&lt;div is="d-tagName" data-inside="myKey1">&lt;/div>
 
-&lt;!-- or --&gt;
-&lt;div data-list=&quot;listKey-d-tagName&quot;&gt;&lt;/div&gt;
+&lt;!-- or -->
+&lt;div data-list="listKey-d-tagName">&lt;/div>
 
 
 // JS
@@ -522,34 +525,34 @@ d.functions.update = function (event) {
     const key = d.contextFromEvent(event);
     // you can access variables, elements, lists, subcontext with d.contextFromArray
     //  - text -
-        const textKey = d.contextFromArray([key, "text"]);
+        const textKey = d.contextFromArray([key, `text`]);
         const textVariable = d.variables[textKey]; // read
-        d.feed("New Text", textKey); // write
+        d.feed(textKey, `New Text`); // write
     // - elements -
-        const statusKey = d.contextFromArray([key, "status"]);
+        const statusKey = d.contextFromArray([key, `status`]);
         const statusDiv = d.variables[textKey]; // read
-        statusDiv.classList.add("updated") // use
+        statusDiv.classList.add(`updated`) // use
     // - list -
-        const listKey = d.contextFromArray([key, "myList"]);
+        const listKey = d.contextFromArray([key, `myList`]);
         const listVariable = d.variables[listKey]; // read
-        d.feed([
-            "a",
-            "b",
-            "c"
-        ], listKey); // write with side effect
+        d.feed(listKey, [
+            `a`,
+            `b`,
+            `c`
+        ]); // write with side effect
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
-        const encapsulatedTextKey = d.contextFromArray([key, "encapsulated", "text"]);
+        const encapsulatedTextKey = d.contextFromArray([key, `encapsulated`, `text`]);
         const textVariable2 = d.variables[encapsulatedTextKey]; // read
-        d.feed("New Encapsulated Text", encapsulatedTextKey); // write
+        d.feed(encapsulatedTextKey, `New Encapsulated Text`); // write
 
 
     // this looks verbose but it works for any kind of deep html composition.
     //If you want to target a specific element or variable you can directly write
-    d.variables["key>text"];
+    d.variables[`key>text`];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completly delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completely delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
 </article>
 
 <article id="examples1">
@@ -582,6 +585,19 @@ d.functions.update = function (event) {
 </article>
 
 
+<article id="components">
+<h2>Components</h2>
+<h3>Dialogs</h3>
+<p><a href="../components/yesNoDialog/readme.md">Readme (Markdown)</a></p>
+<h3>ReadTextFile</h3>
+<p><a href="../components/readTextFile/readme.md">Readme (Markdown)</a></p>
+</article>
+
+<article id="plugins">
+<h2>Plugins</h2>
+<h3>Shake</h3>
+<p><a href="../plugins/shake/readme.md">Readme (Markdown)</a></p>
+</article>
 
 <article id="details">
 <h2>Details</h2>
@@ -628,11 +644,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <li>Use callbacks or Promises or equivalent for future events (example XMLHttpRequest), never block !</li>
 <li>If you have more performance issues, profile first to know what is the cause</li>
 <li>If you need to do heavy computation, consider using Web Workers</li>
-<li><a href="https://docs.webplatform.org/wiki/tutorials/speed_best_practices">More tips</a></li>
-<li><a href="http://www.html5rocks.com/en/features/performance">Even more tips</a></li>
+<li><a href="http://www.html5rocks.com/en/features/performance">More tips</a></li>
 <li><a href="https://gist.github.com/paulirish/5d52fb081b3570c81e3a">About layout trashing</a></li></ul>
-<h3>How is dom99 fast ?</h3>
 
+<h3>How is dom99 fast ?</h3>
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
 </article>
 
@@ -641,7 +656,14 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <h3>General tips</h3>
 
-<ul><li>Don't BlackList, Aggressively White-list</li><li>Don't mix data with code, use parameter injection with proper escaping and encoding</li><li>Don't trust what you don't control, validate size and format instead</li><li>Every software component should be so simple that it is obviously safe</li><li>Avoid complexity</li><li>Aggressively block if some behaviours are undefined</li><li>Talk with security experts</li></ul>
+<ul><li>Don't Blacklist, Aggressively Whitelist</li>
+    <li>Don't mix data with code</li>
+    <li>Don't trust what you don't control, validate size and format instead</li>
+    <li>Every software component should be so simple that it is obviously safe</li>
+    <li>Avoid complexity</li>
+    <li>Prevent undefined states</li>
+    <li>Talk with security experts</li>
+</ul>
 
 <h3>dom99 and security</h3>
 
@@ -654,17 +676,89 @@ Simply changing a class name of an element can cause the browser to do heavy com
 </article>
 
 
-
 <article id="timeline">
 <h2>Time-Line</h2>
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 14.4.0</h4>
+<p>Added built/dom99ES.min.js, deprecated built/dom99.min.js</p>
+<h4>Version 14.3.0</h4>
+<p>Added built/dom99ES.js (single file)</p>
+<h4>Version 14.2.0</h4>
+<p>Added export <code>idGenerator</code></p>
+<h4>Version 14.1.0</h4>
+<p>Added plugin type <em>cloned</em>. It allows to target a template copy just before it is inserted into the document</p>
+<h4>Version 14.0.0</h4>
+<p>Added plugin system for variables:</p>
+    <ul>
+        <li><code>d.feed</code></li>
+        <li><code>data-variable="a"</code></li>
+        <li><code>data-list="list-li"</code></li>
+    </ul>
+<p>Refactored plugin system</p>
+<h4>Version 13.0.8</h4>
+<p>terser is used for minifying</p>
+
+<h4>Version 13.0.0</h4>
+<p>The library is now an ES module first. From that, <em>script require and amd</em> are built. The default export is split into 4 named exports <code>{d, plugin, options, createElement2}</code></p>
+
+<p>Changes required in the code:</p>
+<p><code><em>d.plugin --> plugin</em></code></p>
+<p><code><em>d.options --> options</em></code></p>
+<p><code><em>d.createElement2 --> createElement2</em></code></p>
+
+<p>For ES module users: <em>built/dom99Module.js --> source/dom99.js</em></p>
+<p>Replace <code>import d from "...built/dom99Module.js";</code> with <br><code>import {d, plugin, options, createElement2} from ".../source/dom99.js";</code></p>
+
+<p>For script users: <em>js/dom99.js --> built/dom99Script.js</em></p>
+<p><em>built/dom99.es5.min.js --> built/dom99Script.es5.min.js</em></p>
+<p>Add <code>const {d, plugin, options, createElement2} = dom99;</code></p>
+
+<p>For browserify users</p>
+<p>Replace <code>const d = require("dom99");</code> with <br><code>const {d, plugin, options, createElement2} = require("dom99");</code></p>
+
+<p>Added dom99Amd.js</p>
+<h4>Version 12.0.0</h4>
+<p>Components readTextFile and yesNoDialog now use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
+<h4>Version 11.1.4</h4>
+<p>File built: <em>built/dom99Module.min.js</em></p>
+<h4>Version 11.1.0</h4>
+<p>ReadTextFile component is available</p>
+<h4>Version 11.0.0</h4>
+<p>Removed a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
+<h4>Version 10.0.0</h4>
+<p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
+<pre><code>
+    feed = function (startPath, data) {
+        if (data === undefined) {
+            data = startPath;
+            startPath = ``;
+        }
+</code></pre>
+<p>With one parameter the effect is the same as before</p>
+<p>With two parameters the startPath is now the first argument</p>
+
+<pre><code>
+    find:
+        d\.feed\((.+)\, (.+)\)
+    replace:
+        d.feed($2, $1)
+</code></pre>
+<h4>Version 9.1.0</h4>
+<p>Plugins are introduced !</p>
+<p>Plugin: shake</p>
+<h4>Version 9.0.0</h4>
+<p>IE 9 support is now mantained by external polyfills</p>
+<p>The result is that base dom99 is now even lighter</p>
+<p>To still support IE 9+ <code>npm install template-mb</code> and include it like in the file <code>examples/index.html</code></p>
+<p>More updates like these are coming</p>
+<p>Bower and bower.json has been dropped</p>
 <h4>Version 8.2.0</h4>
 <p>Support for cases when an element is inside another that uses
-<code>data-function</code> Ex. button &gt; span</p>
+<code>data-function</code> Ex. button > span</p>
 <h4>Version 8.1.0</h4>
-<p>New files are now built:</p>
+<p>Files are now built:</p>
 <ul>
     <li>built/dom99Module.es5.js</li>
     <li>built/dom99Require.es5.js</li>
@@ -701,10 +795,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>Removed warnings that came from dom99</p>
 <p>Possible speed ups</p>
 <h4>Version 7.2.13</h4>
-<p>fixed a hard to find bug, that only occured on edge, but not IE</p>
+<p>fixed a hard to find bug, that only occurred on edge, but not IE</p>
 <p>overall small improvements</p>
 <h4>Version 7.2.5</h4>
-<p>New polyfill for hidden</p>
+<p>Polyfill for hidden</p>
 <p>Better css</p>
 <p>prompt equivalent now in yesNoDialog components folder</p>
 <h4>Version 7.2.3</h4>
@@ -712,7 +806,6 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>Doc hyperlink is now latest in readme</p>
 <h4>Version 7.2.1</h4>
 <p>Fixed non html-escaped issues in the doc</p>
-<p>New examples templates3.html</p>
 <h4>Version 7.2.0</h4>
 <p>data-inside extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-inside attribute.
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
@@ -738,12 +831,12 @@ Good for encapsulation of independent components. See how it is used in componen
 <p>d.getParentContext removed. To navigate through context there are now  3 functions that work together:</p>
 <ul>
     <li><code>d.contextFromEvent</code> to get the context from the event</li>
-    <li><code>d.contextFromArray</code> to build up a direct acces string to go 1 level up the tree</li>
+    <li><code>d.contextFromArray</code> to build up a direct access string to go 1 level up the tree</li>
     <li><code>d.getParentContext</code>  to go 1 level down the tree</li>
 </ul>
 <p>this model is more flexible than before but requires more code, example to change color from sister element</p>
-<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
-&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
+<pre><code>&lt;button data-function="changeSister">Click Me&lt;/button>
+&lt;div data-element="div">Lorem Ipsul sister&lt;/div>
 
 d.functions.changeSister = function (event) {
     const thisContext = d.contextFromEvent(event);
@@ -756,17 +849,17 @@ d.functions.changeSister = function (event) {
 The div does not have to be a sister element html speaking, but only from dom99 point of view
 
 This would work too</p>
-<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
-    &lt;footer&gt;
-        &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
-    &lt;/footer&gt;</code></pre>
+<pre><code>&lt;button data-function="changeSister">Click Me&lt;/button>
+    &lt;footer>
+        &lt;time>&lt;div data-element="div">Lorem Ipsul sister&lt;/div>&lt;/time>
+    &lt;/footer></code></pre>
 <p>To go one level down use d.getParentContext(context)</p>
-<p>Now use boost license. It is more permissive than MIT becuase you don't need to include (but still can if you want)
+<p>Now use boost license. It is more permissive than MIT because you don't need to include (but still can if you want)
 the license in distributed executables or transpiled code</p>
 <p>Getting data uses d.variables</p>
 <p>Setting data uses           d.feed({
             result: "Please enter finite numbers"
-          }); or d.feed("Please enter finite numbers", "result");
+        }); or d.feed("result", "Please enter finite numbers");
           Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
 <p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
 
@@ -778,8 +871,7 @@ the license in distributed executables or transpiled code</p>
 <h4>Version 4.0.0</h4>
 <p>Unpublished</p>
 <h4>Version 3.0.3</h4>
-<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more info</p>
-<p>Some outdated examples have been removed while being edited to avoid confusion. Will come back when up to date with the new changes</p>
+<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more information</p>
 <h4>Version 3.0.1</h4>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
@@ -809,39 +901,36 @@ the license in distributed executables or transpiled code</p>
         changed into tagNamesForUserInput</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
-<hr>
-<p>1.23.24 new dom99 components, see components/ folder for more infos.</p>
-<p>1.23.0: Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
-<p>1.22.0: Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack. The documentation will be updated soon.</p>
-<p>1.21.0: Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
-<p>1.20.0: It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
-<p>1.19.0: data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
-<p>1.18.0 You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
-<h4>Breaking Changes with 1.17.*</h4>
-<p>New directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
-<p>1.16.0 now we only have two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
-<h4>Breaking Changes from 1.12.x to 1.15+.x</h4>
-<p>1.15.1 </p>
+
+<h4>Version 1.23.24</h4>
+<p>dom99 components, see components/ folder for more information.</p>
+<p>Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
+<p>Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack.</p>
+<p>Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
+<p>It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
+<p>data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
+<p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
+<h4>Version 1.17.0</h4>
+<p>Directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
+<p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
+<h4>Version 1.15.0</h4>
 <ul>
     <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
     <li>Changed the way to configure dom99</li>
     <li>You can now control what gets changed with data-variable</li>
    </ul>
-<p>1.12.0 new function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
-<p>1.11.0 input type="range" now uses the change event</p>
-<p>In 1.10.3 data-variable optimization</p>
-<p>In 1.10.2 data-function with 1 event and 1 function only, is faster. This is usefull for events that happen alot like mousemove</p>
-<h4>Breaking Changes from 1.9.x to 1.10+.x</h4>
+<h4>Version 1.12.0</h4>
+<p>function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"> you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
+<p>input type="range" now uses the change event</p>
+<h4>Version 1.10.0</h4>
 <p>Less Confusion:</p>
-<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li><li><code>data-scope="scopeName"</code> becomes <code>data-inside="Key"</code> (in the documentation)</li></ul>
+<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li></ul>
 </article>
 
 <article>
 <h3>Future</h3>
-<h4>What is coming soon:</h4>
-<ul><li>System improvements</li><li>Better documentation</li><li>Built in server side rendering tools</li><li>Custom Element Life cycle declaration</li><li>Waiting for custom-element spec to finalize to update dom99</li></ul>
 <h4>Abstract directions for the future or Specification</h4>
-<ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloatware</li></ul>
+<ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloat ware</li></ul>
 <p>This leaves more freedom to combine dom99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside dom99 and anything else that is complementary to accelerate the development process.</p>
 </article>
 
@@ -857,10 +946,10 @@ the license in distributed executables or transpiled code</p>
 
 <script nomodule src="../polyfills/built/polyfill.min.js"></script>
 <script nomodule src="../polyfills/built/remove.js"></script>
-<script nomodule src="../built/dom99.es5.min.js"></script>
+<script nomodule src="../built/dom99Script.es5.min.js"></script>
 <script type="module">
 // Import
-import d from "../built/dom99Module.js";
+import {d} from "../built/dom99ES.min.js";
 window.d = d;
 window.usesModules = true;
 </script>
@@ -871,13 +960,17 @@ window.usesModules = true;
 <span data-variable="myVariable"></span>
 </template>
 
+<script nomodule>
+Object.assign(window, dom99);
+</script>
+
 <script nomodule data-element="Hello WorldJs">
 d.feed({myVariable : "Hello World"});
 </script>
 
 <!-- Hello World 2-->
 <template data-element="Hello World 2Html">
-<input data-variable="text">
+<label>Input: <input data-variable="text"></label>
 <p data-variable="text"></p>
 </template>
 
@@ -887,9 +980,9 @@ d.feed({text : "Hello dom99"});
 
 <!-- Multiplier-->
 <template data-element="MultiplierHtml">
-<input data-variable="a" data-function="calculate" type="range" min="-1" max="12" step="1">
+<label>a<input data-variable="a" data-function="calculate" type="range" min="-1" max="12" step="1"></label>
 <span>X</span>
-<input data-variable="b" data-function="calculate" type="range" min="-1" max="12" step="1">
+<label>b: <input data-variable="b" data-function="calculate" type="range" min="-1" max="12" step="1"></label>
 
 <span data-variable="a"></span>
 <span>X</span>
@@ -921,7 +1014,7 @@ d.functions.calculate();
 </template>
 
 <script nomodule data-element="ListsJs">
-d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
+d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 </script>
 
 <!-- Lists2 -->
@@ -932,7 +1025,7 @@ d.feed(["apple", "kiwi", "banana", "orange"], "fruits");
 </template>
 
 <script nomodule data-element="Lists2Js">
-d.feed([
+d.feed("images", [
     {
         textContent: "you",
         value: "../images/you.jpg"
@@ -945,23 +1038,31 @@ d.feed([
         textContent: "sister",
         value: "../images/sister.jpg"
     }
-], "images");
+]);
 
-d.feed(d.variables.images[0].value, "image");
+d.feed("image", d.variables.images[0].value);
 </script>
 
 <!-- Composition -->
+<!-- Template inside template causes problems in IE -->
+<template data-template="user-element">
+    <div class="user">
+        <img data-variable="picture" alt="user-picture" class="user-picture">
+        <p data-variable="bio" class="user-bio">SHORT BIO</p>
+        <button class="user-contact">Contact</button>
+    </div>
+</template>
 <template data-element="CompositionHtml">
     <!-- Define the template for an user
     every user has a picture, a short biography, and a contact button -->
 
-    <template data-template="user-element">
+    <!-- <template data-template="user-element">
         <div class="user">
             <img data-variable="picture" alt="user-picture" class="user-picture">
             <p data-variable="bio" class="user-bio">SHORT BIO</p>
             <button class="user-contact">Contact</button>
         </div>
-    </template>
+    </template> -->
 
     <!-- This div is the container for each user.
     The list variable name is "users" and the template used is "user-element"
@@ -983,7 +1084,9 @@ d.feed({users :
         }
 ]});
 </script>
-
+<!-- needs to run after all templates -->
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
 <script nomodule src="js/documentation.es5.min.js"></script>
 <script type="module" src="js/documentation.js"></script>
 </main>
