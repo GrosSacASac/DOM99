@@ -1,4 +1,4 @@
-'use strict';
+import {d} from "../../source/dom99-perf.js";
 
 var startTime;
 var lastMeasure;
@@ -6,10 +6,11 @@ var startMeasure = function(name) {
     startTime = performance.now();
     lastMeasure = name;
 }
+
 var stopMeasure = function() {
     var last = lastMeasure;
     if (lastMeasure) {
-        window.setTimeout(function () {
+        setTimeout(function () {
             lastMeasure = null;
             var stop = performance.now();
             var duration = 0;
@@ -39,6 +40,7 @@ class Store {
             data.push({id: this.id++, label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)] });
         return data;
     }
+	
     updateData(mod = 10) {
         // updates all 10th data
         for (let i=0;i<this.data.length;i+=10) {
@@ -46,27 +48,33 @@ class Store {
             // this.data[i] = Object.assign({}, this.data[i], {label: this.data[i].label +' !!!'});
         }
     }
+	
     delete(id) {
         // deletes a data by id
         const idx = this.data.findIndex(d => d.id==id);
         this.data = this.data.filter((e,i) => i!=idx);
         return this;
     }
+	
     run() {
         this.data = this.buildData();
         this.selected = null;
     }
+	
     add() {
         this.data = this.data.concat(this.buildData(1000));
         this.selected = null;
     }
+	
     update() {
         this.updateData();
         this.selected = null;
     }
+	
     select(id) {
         this.selected = id;
     }
+	
     // hideAll() {
         // this.backup = this.data;
         // this.data = [];
@@ -77,14 +85,17 @@ class Store {
         // this.backup = null;
         // this.selected = null;
     // }
+	
     runLots() {
         this.data = this.buildData(10000);
         this.selected = null;
     }
+	
     clear() {
         this.data = [];
         this.selected = null;
     }
+	
     swapRows() {
         if(this.data.length > 998) {
             var a = this.data[1];
@@ -177,17 +188,17 @@ var deleteRow = function (e) {
 };
 
 
-var handleRow = function (event) {
-    const dataElement = event.target.getAttribute("data-element");
-    if (!dataElement) {
-      return;
-    }
-    if (dataElement.includes("label")) {
-        selectRow(event);
-    }
-    console.log(event);
-    console.log(event.target);
-};
+// var handleRow = function (event) {
+    // const dataElement = event.target.getAttribute("data-element");
+    // if (!dataElement) {
+      // return;
+    // }
+    // if (dataElement.includes("label")) {
+        // selectRow(event);
+    // }
+    // console.log(event);
+    // console.log(event.target);
+// };
 
 
 var unselect = function () {
@@ -218,12 +229,13 @@ var selectRow = function (e) {
 
     store.select(index);
     select(rowElement);
-    console.log(context, index, rowElement);
     stopMeasure();
 };
 
 var functions = {
-    handleRow,
+    // handleRow,
+	delete: deleteRow,
+	select: selectRow,
     delegate: function (e) {
         // console.log("delegate");
         if (e.target.matches('#add')) {

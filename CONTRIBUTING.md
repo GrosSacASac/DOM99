@@ -135,6 +135,8 @@ Open an issue to make us open a donation channel
  * revisit the context API
  * harmonize the vocabulary for context path etc
  * jsdoc show better optional parameters
+ * solve race conditions in templates4.html
+ * has no context. contextFromEvent for top level elements is not needed. could warn when empty string or undefined is returned
     document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
     use WeakMap instead where supported
 
