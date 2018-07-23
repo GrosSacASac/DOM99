@@ -1,4 +1,5 @@
-import {d} from "../../source/dom99-perf.js";
+import {d, plugin} from "../../source/dom99-perf.js";
+import {parentIdFromEvent} from "../../source/parentIdFromEvent.js";
 
 var startTime;
 var lastMeasure;
@@ -187,20 +188,6 @@ var deleteRow = function (e) {
     stopMeasure();
 };
 
-
-// var handleRow = function (event) {
-    // const dataElement = event.target.getAttribute("data-element");
-    // if (!dataElement) {
-      // return;
-    // }
-    // if (dataElement.includes("label")) {
-        // selectRow(event);
-    // }
-    // console.log(event);
-    // console.log(event.target);
-// };
-
-
 var unselect = function () {
     if (selectedRowElement !== undefined) {
         selectedRowElement.className = "";
@@ -232,10 +219,35 @@ var selectRow = function (e) {
     stopMeasure();
 };
 
+const handleClickTable  = function (event) {
+			
+		event.preventDefault();
+		event.stopPropagation();
+	const id = parentIdFromEvent(event);
+	const elementAttribute = event.target.getAttribute("data-element");
+	console.log(elementAttribute);
+	console.log(id);
+	if (elementAttribute.includes("delete")) {
+		startMeasure("delete");
+		store.delete(id);
+		console.log(store.data.length);
+		d.feed("rows", store.data);
+		stopMeasure();
+	} else if (elementAttribute.includes("select")) {
+		startMeasure("select");
+		unselect();
+		let rowContext = d.contextFromArray(["rows", id, "row"]);
+		let rowElement = d.elements[rowContext];
+		store.select(id);
+		select(rowElement);
+		stopMeasure();
+	} else {
+		console.log("clicked outside");
+	}
+};
+
 var functions = {
-    // handleRow,
-	delete: deleteRow,
-	select: selectRow,
+	handleClickTable,
     delegate: function (e) {
         // console.log("delegate");
         if (e.target.matches('#add')) {
@@ -281,6 +293,26 @@ var functions = {
 
     }
 };
+const childContext = function (context) {
+	return context.split(">").pop();
+};
+// plugin({type: "cloned",
+	// plugin: function (context) {
+		// problem goes out of sync , because feed reuses the elements
+		// const id = childContext(context);// would be the current index of the array
+		// const realId = d.variables[d.contextFromArray([context, "id"])];
+		// d.elements[d.contextFromArray([context, 'row'])].setAttribute('data-id', realId);
+	// }
+// });
+plugin({type: "variable",
+	plugin: function (startPath, data) {
+		console.log(startPath);
+		console.log(data);
+		if (startPath.startsWith("rows")) {
+				d.elements[d.contextFromArray([startPath, 'row'])].setAttribute('data-id', data.id);
+		}
+	}
+});
 
 var initialFeed = {};
 var startElement = document.body;
@@ -288,3 +320,4 @@ d.start(functions, initialFeed, startElement, function () {
     // console.log("ready");
     // run();
 });
+window.d = d;

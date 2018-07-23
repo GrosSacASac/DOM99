@@ -455,9 +455,6 @@ const feed = function (startPath, data) {
 			d.feed(string, object) or d.feed(object)`
 		);
 	}
-	if (!alreadyHooked) {
-		feedHook(startPath, data);
-	}
 	if (!isObjectOrArray(data)) {
 		variables[startPath] = data;
 		if (hasOwnProperty.call(variableSubscribers, startPath)) {
@@ -476,6 +473,12 @@ const feed = function (startPath, data) {
 			feed(path, value);
 		});
 		alreadyHooked = false;
+	}
+	
+	if (!alreadyHooked) {
+		console.log(elements);
+		console.log(Object.keys(elements));
+		feedHook(startPath, data);
 	}
 };
 
