@@ -394,7 +394,7 @@ const notifyOneListSubscriber = function (listContainer, startPath, data) {
 
 		data.forEach(function (dataInside, i) {
 			pathInside = `${normalizedPath}${i}`;
-			feed(pathInside, dataInside);
+			// feed here would create clones with the right info already
 			if (i >= oldLength) {
 				// cannot remove document fragment after insert because they empty themselves
 				// have to freeze the children to still have a reference
@@ -407,6 +407,7 @@ const notifyOneListSubscriber = function (listContainer, startPath, data) {
 				);
 				fragment.appendChild(activatedClone);
 			}
+			feed(pathInside, dataInside);
 			// else reusing, feed updated with new data the old nodes
 		});
 		pathIn = previous;
@@ -476,8 +477,6 @@ const feed = function (startPath, data) {
 	}
 	
 	if (!alreadyHooked) {
-		console.log(elements);
-		console.log(Object.keys(elements));
 		feedHook(startPath, data);
 	}
 };

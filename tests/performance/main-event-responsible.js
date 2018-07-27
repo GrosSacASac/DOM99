@@ -52,6 +52,9 @@ class Store {
 	
     delete(id) {
         // deletes a data by id
+		if (this.selected === id) {
+			this.selected = null;
+		}
         const idx = this.data.findIndex(d => d.id==id);
         this.data = this.data.filter((e,i) => i!=idx);
         return this;
@@ -110,8 +113,6 @@ class Store {
 
 var store = new Store();
 var start = 0;
-var rows = [];
-var data = [];
 var selectedRowElement = undefined;
 
 
@@ -223,7 +224,7 @@ const handleClickTable  = function (event) {
 			
 		event.preventDefault();
 		event.stopPropagation();
-	const id = parentIdFromEvent(event);
+	const id = Number(parentIdFromEvent(event));
 	const elementAttribute = event.target.getAttribute("data-element");
 	console.log(elementAttribute);
 	console.log(id);
@@ -236,7 +237,11 @@ const handleClickTable  = function (event) {
 	} else if (elementAttribute.includes("select")) {
 		startMeasure("select");
 		unselect();
-		let rowContext = d.contextFromArray(["rows", id, "row"]);
+		const index = store.data.findIndex(function ({id: idAtIndex}) {
+			return id === idAtIndex;
+		});
+		console.log(index);
+		let rowContext = d.contextFromArray(["rows", index, "row"]);
 		let rowElement = d.elements[rowContext];
 		store.select(id);
 		select(rowElement);
@@ -307,10 +312,26 @@ const childContext = function (context) {
 plugin({type: "variable",
 	plugin: function (startPath, data) {
 		console.log(startPath);
-		console.log(data);
-		if (startPath.startsWith("rows")) {
+		// console.log(data);
+		if (startPath.startsWith("rows>")) {
 				d.elements[d.contextFromArray([startPath, 'row'])].setAttribute('data-id', data.id);
-		}
+		} else if (startPath.startsWith("rows")) {
+			// reselect
+			    if (selectedRowElement !== undefined) {
+					selectedRowElement.className = "";
+					
+					const index = store.data.findIndex(function ({id: idAtIndex}) {
+						return store.selected === idAtIndex;
+					});
+					console.log(index);
+					if (index === -1) {
+						return;
+					}
+					let rowContext = d.contextFromArray(["rows", index, "row"]);
+					selectedRowElement = d.elements[rowContext];
+					selectedRowElement.className = "danger";
+				}
+		} 
 	}
 });
 
