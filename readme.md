@@ -1,5 +1,4 @@
 <h1>dom99</h1>
-<hr>
 
 [![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/react.svg?style=plastic)](https://bundlephobia.com/result?p=dom99)
 [![npm](https://img.shields.io/npm/v/dom99.svg?style=plastic)](https://www.npmjs.com/package/dom99)
