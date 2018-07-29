@@ -1,12 +1,11 @@
-<div align="center">
-  <a href="https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/">
-    <img src="images/visual2.jpg">
-  </a>
-  <br>
-  <h1>dom99</h1>
-  <br>
-</div>
 
+  <h1>dom99</h1>
+  <hr>
+
+  
+  <hr>
+  ![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react.svg?style=plastic)
+  [![npm](https://img.shields.io/npm/v/dom99.svg?style=plastic)](https://www.npmjs.com/package/dom99)
 
 ## What is dom99 ?
 
