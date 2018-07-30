@@ -1,6 +1,6 @@
 <h1>dom99</h1>
 
-[![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/react.svg?style=plastic)](https://bundlephobia.com/result?p=dom99)
+[![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/dom99.svg?style=plastic)](https://bundlephobia.com/result?p=dom99)
 [![npm](https://img.shields.io/npm/v/dom99.svg?style=plastic)](https://www.npmjs.com/package/dom99)
 [![Chat on Miaou](https://dystroy.org/miaou/static/shields/room-en.svg?v=1)](https://dystroy.org/miaou/2813?dom99)
 
