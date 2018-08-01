@@ -294,7 +294,9 @@ var functions = {
     }
 };
 
-var initialFeed = {};
+var initialFeed = {
+	displayAllResults: true
+};
 var startElement = document.body;
 d.start(functions, initialFeed, startElement, function () {
     // console.log("ready");
