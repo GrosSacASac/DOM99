@@ -1,5 +1,5 @@
 import {d, plugin} from "../../source/dom99-perf.js";
-import {parentIdFromEvent} from "../../source/parentIdFromEvent.js";
+import {firstAncestorValue, idFromEvent, idFromNode} from "../../source/parentIdFromEvent.js";
 
 var startTime;
 var lastMeasure;
@@ -224,8 +224,10 @@ const handleClickTable  = function (event) {
 			
 		event.preventDefault();
 		event.stopPropagation();
-	const id = Number(parentIdFromEvent(event));
-	const elementAttribute = event.target.getAttribute("data-element");
+	const id = Number(idFromEvent(event));
+	const elementAttribute = firstAncestorValue(event.target, function (node) {
+		return node.getAttribute("data-element");
+	});
 	console.log(elementAttribute);
 	console.log(id);
 	if (elementAttribute.includes("delete")) {
@@ -323,7 +325,6 @@ plugin({type: "variable",
 					const index = store.data.findIndex(function ({id: idAtIndex}) {
 						return store.selected === idAtIndex;
 					});
-					console.log(index);
 					if (index === -1) {
 						return;
 					}

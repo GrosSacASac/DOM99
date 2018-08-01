@@ -7,14 +7,26 @@ var startMeasure = function(name) {
     lastMeasure = name;
 }
 
+let displayAllResults = function () {
+	if (!d.variables.displayAllResults) {
+		return;
+	}
+	d.feed(measures);
+};
+const totalMeasures = 6;
+const measures = {};
 var stopMeasure = function() {
     var last = lastMeasure;
     if (lastMeasure) {
         setTimeout(function () {
-            lastMeasure = null;
             var stop = performance.now();
-            var duration = 0;
-            console.log(last+" took "+(stop-startTime));
+            var duration = stop-startTime;
+			measures[lastMeasure] = duration;
+            lastMeasure = null;
+			if (Object.keys(measures).length === totalMeasures) {
+				displayAllResults();
+			}
+            console.log(last+" took "+(duration));
         }, 0);
     }
 }
