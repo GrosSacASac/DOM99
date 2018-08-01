@@ -1,11 +1,11 @@
 <h1>dom99</h1>
 
-[![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/dom99.svg?style=plastic)](https://bundlephobia.com/result?p=dom99)
-[![npm](https://img.shields.io/npm/v/dom99.svg?style=plastic)](https://www.npmjs.com/package/dom99)
-[![Chat on Miaou](https://dystroy.org/miaou/static/shields/room-en.svg?v=1)](https://dystroy.org/miaou/2813?dom99)
+[![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/dom99.svg)](https://bundlephobia.com/result?p=dom99)
+[![npm](https://img.shields.io/npm/v/dom99.svg)](https://www.npmjs.com/package/dom99)
+[![Chat on Miaou](https://miaou.dystroy.org/static/shields/room-en.svg?v=1)](https://miaou.dystroy.org/2813?dom99)
 
   <hr>
-  
+
 ## What is dom99 ?
 
 dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](https://jsbin.com/tepezuj/edit?html,js,output)
