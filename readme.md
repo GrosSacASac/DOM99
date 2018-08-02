@@ -144,7 +144,7 @@ Other examples in [/examples](/examples)
 ## Discussion
 
 
-[![Chat on Miaou](https://dystroy.org/miaou/static/shields/room-en.svg?v=1)](https://dystroy.org/miaou/2813?dom99)
+[![Chat on Miaou](https://miaou.dystroy.org/static/shields/room-en.svg?v=1)](https://miaou.dystroy.org/2813?dom99)
 
 
 [Issues reports](https://github.com/GrosSacASac/DOM99/issues)
