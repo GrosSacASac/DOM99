@@ -6,7 +6,7 @@ export {isObjectOrArray};
 @param {any} x
 @return {boolean}
 */
-const isObjectOrArray = function (x) {
+const isObjectOrArray = (x) => {
 	/*array or object*/
 	return typeof x === `object` && x !== null;
 };

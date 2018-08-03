@@ -10,7 +10,7 @@ const prefix = `id-`;
 
 let next = Number.MAX_SAFE_INTEGER;
 
-const idGenerator = function () {
+const idGenerator = () => {
 	const id = `${prefix}${next}`;
 	next -= 1;
 	return id;

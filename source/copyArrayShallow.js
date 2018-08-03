@@ -1,5 +1,5 @@
 export {copyArrayShallow};
 
-const copyArrayShallow = function (array) {
+const copyArrayShallow = (array) => {
 	return array.slice();
 };

@@ -3,12 +3,12 @@ export {freezeLiveCollection};
 /**
 	freezes HTMLCollection or Node.childNodes
 	by returning an array that does not change
-	
-		
+
+
 	@param {arrayLike} liveCollection
 	@return {array}
 */
-const freezeLiveCollection = function (liveCollection) {
+const freezeLiveCollection = (liveCollection) => {
 	const length = liveCollection.length;
 	const frozenArray = [];
 	let i;
