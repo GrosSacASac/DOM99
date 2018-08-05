@@ -77,7 +77,7 @@ Open an issue to make us open a donation channel
 			* Hello World
 
 		* Advanced concepts
-		* API (every single export explained JS doc style)
+		* make a link to API
 		* Components
 		* Plugins
 		* Details (license, chat, contribute etc)
