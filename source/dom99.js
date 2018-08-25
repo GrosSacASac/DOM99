@@ -839,7 +839,9 @@ const plugin = (featureToPlugIn) => {
 	}
 };
 
-const dom99core = Object.freeze({
+
+
+export {
 	start,
 	activate,
 	elements,
@@ -851,7 +853,8 @@ const dom99core = Object.freeze({
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-});
-
-export {dom99core as d, plugin, options, createElement2};
+	plugin,
+	options,
+	createElement2
+};
 export {idGenerator} from "./idGenerator.js";

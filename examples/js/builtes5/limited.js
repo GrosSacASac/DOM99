@@ -28,8 +28,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	/**
  	freezes HTMLCollection or Node.childNodes
  	by returning an array that does not change
- 	
- 		
+ 
+ 
  	@param {arrayLike} liveCollection
  	@return {array}
  */
@@ -72,7 +72,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var listSubscribers = {};
 
 	/**
- Retrieve variable values that have been modified by d.feed or 
+ Retrieve variable values that have been modified by d.feed or
  2 way data binded element with data-variable attribute (Read only)
  
  @param {string} path
@@ -143,7 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
 
 	/**
- internal dom99 options, look at dom99ConfigurationExample.js	
+ internal dom99 options, look at dom99ConfigurationExample.js
  to learn how to configure it
  */
 	var options = {
@@ -233,12 +233,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  in combination with contextFromArray it allows to access sibling elements and variables
  
- d.functions.clickedButton = function (event) {
+ d.functions.clickedButton = (event) => {
  	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
  		.classList.add(`active`);
  };
-  
- @param {Event} event 
+ 
+ @param {Event} event
  
  @return {string} path
  */
@@ -268,8 +268,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  d.variables[path]
  d.elements[path]
-  
- @param {array} Array 
+ 
+ @param {array} Array
  
  @return {string} path
  */
@@ -283,19 +283,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var leaveObject = function leaveObject() {
 		pathIn.pop();
-	};
-
-	/**
- getParentContext
- 
- @param {string} context 
- 
- @return {string} parentContext
- */
-	var getParentContext = function getParentContext(context) {
-		var split = context.split(INSIDE_SYMBOL);
-		split.pop();
-		return split.join(INSIDE_SYMBOL);
 	};
 
 	var contextFromArrayWith = function contextFromArrayWith(pathIn, withWhat) {
@@ -332,7 +319,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  	And all of this doesn't matter for 1-100 elements, but it does matter,
  	for an infinitely growing list
- 	
+ 
  @param {string} path
  */
 	var forgetContext = function forgetContext(path) {
@@ -625,19 +612,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	/**
- Removes a template from the DOM and from dom99 memory  
- @param {string} name
- 
- */
-	var deleteTemplate = function deleteTemplate(name) {
-		if (!hasOwnProperty.call(templateFromName, name)) {
-			console.error("<template " + options.directives.template + "=" + name + ">\n\t\t\t</template> not found or already deleted and removed.");
-		}
-		templateFromName[name].remove();
-		delete templateFromName[name];
-	};
-
 	var tryApplyDirectives = function tryApplyDirectives(element) {
 		/* looks if the element has dom99 specific attributes and tries to handle it*/
 		// todo make sure no impact-full read write
@@ -734,20 +708,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var originalFeedHook = function originalFeedHook() {};
 	var feedHook = originalFeedHook;
 
-	var dom99core = Object.freeze({
-		start: start,
-		activate: activate,
-		elements: elements,
-		functions: functions,
-		variables: variables,
-		feed: feed,
-		forgetContext: forgetContext,
-		deleteTemplate: deleteTemplate,
-		contextFromArray: contextFromArray,
-		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext
-	});
-
 	var globalNumber = 0;
 	// increment local does not update the list, how to make the data flow
 
@@ -756,9 +716,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			globalCopy: String(value)
 		};
 
-		dom99core.feed(dom99core.contextFromArray(["outerList", 0]), changeDescriptor);
-		dom99core.feed(dom99core.contextFromArray(["outerList", 1]), changeDescriptor);
-		dom99core.feed(dom99core.contextFromArray(["outerList", 2]), changeDescriptor);
+		feed(contextFromArray(["outerList", 0]), changeDescriptor);
+		feed(contextFromArray(["outerList", 1]), changeDescriptor);
+		feed(contextFromArray(["outerList", 2]), changeDescriptor);
 	};
 
 	var globalIncrement = function globalIncrement(event) {
@@ -767,20 +727,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var globalSet = function globalSet(event) {
-		var context = dom99core.contextFromEvent(event);
-		var newGlobalNumber = Number(dom99core.variables[dom99core.contextFromArray([context, "globalCopy"])]);
+		var context = contextFromEvent(event);
+		var newGlobalNumber = Number(variables[contextFromArray([context, "globalCopy"])]);
 		globalNumber = newGlobalNumber;
 
 		setAllGlobalCopyInside(globalNumber);
 	};
 
 	var localIncrement = function localIncrement(event) {
-		var context = dom99core.contextFromEvent(event);
-		var spanElement = dom99core.elements[dom99core.contextFromArray([context, "span"])];
-		var localNumber = Number(dom99core.variables[dom99core.contextFromArray([context, "local"])]) + 1;
+		var context = contextFromEvent(event);
+		var spanElement = elements[contextFromArray([context, "span"])];
+		var localNumber = Number(variables[contextFromArray([context, "local"])]) + 1;
 		var localColor = "rgb(" + localNumber * 25 % 255 + ",0,0)";
 
-		dom99core.feed({
+		feed({
 			local: String(localNumber)
 		}, context);
 
@@ -789,8 +749,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var listremake = function listremake(event) {
 		/* display list size of global, with value local */
-		var context = dom99core.contextFromEvent(event);
-		var localNumber = Number(dom99core.variables[dom99core.contextFromArray([context, "local"])]);
+		var context = contextFromEvent(event);
+		var localNumber = Number(variables[contextFromArray([context, "local"])]);
 		var global = globalNumber;
 		var newList = [];
 		var i = void 0;
@@ -800,7 +760,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 				"b": localNumber
 			});
 		}
-		dom99core.feed(context, {
+		feed(context, {
 			innerlist: newList
 		});
 	};
@@ -845,5 +805,5 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}]
 	};
 
-	dom99core.start(functions$1, initialData);
+	start(functions$1, initialData);
 })();

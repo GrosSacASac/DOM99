@@ -1,10 +1,10 @@
-/* dom99 v14.4.11 */
+/* dom99 v15.0.0 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
          https://www.boost.org/LICENSE_1_0.txt */
 
-define('dom99', ['exports'], function (exports) { 'use strict';
+define('d', ['exports'], function (exports) { 'use strict';
 
 	/**
 	Creates an element with elementDescription
@@ -917,21 +917,17 @@ define('dom99', ['exports'], function (exports) { 'use strict';
 		}
 	};
 
-	const dom99core = Object.freeze({
-		start,
-		activate,
-		elements,
-		functions,
-		variables,
-		feed,
-		forgetContext,
-		deleteTemplate,
-		contextFromArray,
-		contextFromEvent,
-		getParentContext,
-	});
-
-	exports.d = dom99core;
+	exports.start = start;
+	exports.activate = activate;
+	exports.elements = elements;
+	exports.functions = functions;
+	exports.variables = variables;
+	exports.feed = feed;
+	exports.forgetContext = forgetContext;
+	exports.deleteTemplate = deleteTemplate;
+	exports.contextFromArray = contextFromArray;
+	exports.contextFromEvent = contextFromEvent;
+	exports.getParentContext = getParentContext;
 	exports.plugin = plugin;
 	exports.options = options;
 	exports.createElement2 = createElement2;

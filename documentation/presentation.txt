@@ -1,0 +1,5 @@
+people want more than a library they want a framework
+	naming conventions, privates variable, 1 class per file etc
+	
+people want more than a framework, they want an experience
+	community, documentation, small step learning curve, tools, plugins

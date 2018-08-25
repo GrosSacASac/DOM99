@@ -1,4 +1,4 @@
-import {d} from "../../source/dom99-perf.js";
+import * as d from "../../source/dom99-perf.js";
 
 var startTime;
 var lastMeasure;

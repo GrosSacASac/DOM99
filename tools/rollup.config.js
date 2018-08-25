@@ -2,7 +2,7 @@
 import __package from "../package.json";
 
 const VERSION = __package.version;
-const GLOBAL_NAME = `dom99`;
+const GLOBAL_NAME = `d`;
 
 	const commonOutputOptions = {
 	// core output options
@@ -31,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 	strict: true,
 	// freeze,
 	namespaceToStringTag: false
-	
+
 	// experimental
 	// entryFileNames,
 	// chunkFileNames,
@@ -57,8 +57,8 @@ export default { // can be an array (for multiple inputs)
   },
   // context,
   // moduleContext,
-  
-  
+
+
   output: [  // required (can be an array, for multiple outputs)
 	Object.assign({
 		format: `iife`,

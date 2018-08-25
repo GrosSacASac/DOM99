@@ -148,8 +148,8 @@ Version 1.0: LICENSE.txt</a></p>
 <h3>In your JavaScript:</h3>
 
 <pre><code>
-import {d, plugin, options, createElement2} from "./node_modules/dom99/source/dom99.js";
-//to start using dom99 pre selected elements use this statement
+import * as d from "./node_modules/dom99/source/dom99.js";
+// to start using dom99 pre selected elements use this statement
 d.activate();</code></pre>
 
 <h3>Use data-function and d.functions for event listeners</h3>
@@ -264,7 +264,7 @@ Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</
 <p>Our initial JS code looks like this</p>
 
 <pre><code>
-import {d, plugin, options, createElement2} from "../source/dom99.js";
+import * as d from "../source/dom99.js";
 
 d.functions.showNextComment = function(event) {
     ;//todo
@@ -290,7 +290,7 @@ d.activate();</code></pre>
 
 <h3>Part 2</h3>
 <pre><code>
-import {d, plugin, options, createElement2} from "../source/dom99.js";
+import * as d from "../source/dom99.js";
 
 const commentPrefix = `comment`;
 
@@ -392,7 +392,7 @@ d.activate();
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <h4>JS</h4>
-<pre><code>import {d, plugin, options, createElement2} from "../../source/dom99.js";
+<pre><code>import * as d from "../../source/dom99.js";
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
@@ -682,6 +682,45 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+
+<h4>Version 15.0.0</h4>
+<p> The new way of importing is
+    <code>import * as d from "./node_modules/built/dom99ES.js";</code>
+    It is equivalent to
+
+<pre>
+<code>import {
+    start,
+    activate,
+    elements,
+    functions,
+    variables,
+    feed,
+    forgetContext,
+    deleteTemplate,
+    contextFromArray,
+    contextFromEvent,
+    getParentContext, plugin, options, createElement2
+} from "./node_modules/built/dom99ES.js";
+const d = {
+    start,
+    activate,
+    elements,
+    functions,
+    variables,
+    feed,
+    forgetContext,
+    deleteTemplate,
+    contextFromArray,
+    contextFromEvent,
+    getParentContext, plugin, options, createElement2
+};</code>
+</pre>
+but without runtime overhead.
+</p>
+<p>
+    Removed built/dom99.min.js
+</p>
 <h4>Version 14.4.0</h4>
 <p>Added built/dom99ES.min.js, deprecated built/dom99.min.js</p>
 <h4>Version 14.3.0</h4>
@@ -950,7 +989,7 @@ the license in distributed executables or transpiled code</p>
 <script nomodule src="../built/dom99Script.es5.min.js"></script>
 <script type="module">
 // Import
-import {d} from "../built/dom99ES.min.js";
+import * as d from "../built/dom99ES.min.js";
 window.d = d;
 window.usesModules = true;
 </script>

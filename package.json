@@ -1,8 +1,8 @@
 {
   "name": "dom99",
-  "version": "14.4.11",
+  "version": "15.0.0",
   "license": "BSL-1.0",
-  "module": "source/dom99.js",
+  "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
   "url": "https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/",
   "description": "Extend html with directives to manipulate the dom with JavaScript",
