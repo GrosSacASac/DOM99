@@ -1,4 +1,4 @@
-import {d, plugin} from "../../source/dom99-perf.js";
+import {d, plugin} from "../../source/dom99-perf-event-responsible.js";
 import {firstAncestorValue, idFromEvent, idFromNode} from "../../source/parentIdFromEvent.js";
 
 var startTime;
