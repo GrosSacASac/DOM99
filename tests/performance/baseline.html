@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
     <title>dom99</title>
-    <link href="css/currentStyle.css" rel="stylesheet"/>
+    <link href="css/currentStyle.css" rel="stylesheet">
+    <script type="module" src='baseline.js'></script>
 </head>
 <body>
-<!-- outdated see perf-test.html -->
+
 <template data-template="row-template">
     <tr data-element="row">
         <td class="col-md-1" data-variable="id">ID</td>
         <td class="col-md-4">
-            <a data-element="select" data-variable="label">LABEL</a>
+            <a data-function="select" data-variable="label">LABEL</a>
         </td>
         <td class="col-md-1">
-            <a data-element="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            <a data-function="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
         </td>
         <td class="col-md-6"></td>
     </tr>
@@ -23,6 +24,31 @@
 <div id='main' data-function="click-delegate">
     <div class="container">
         <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Baseline</h2>
+                    <p><a href="./candidate.html">Switch to Candidate</a></p>
+                    <label>Display Results<input type="checkbox" data-variable="displayAllResults"></label>.
+                    <button data-function="runAll">runAll</button>
+                </div>
+
+                <div class="col-md-6">
+                    <dl>
+								<dt>run</dt>
+								<dd data-variable="run"></dd>
+								<dt>add</dt>
+								<dd data-variable="add"></dd>
+								<dt>runLots</dt>
+								<dd data-variable="runLots"></dd>
+								<dt>update</dt>
+								<dd data-variable="update"></dd>
+								<dt>clear</dt>
+								<dd data-variable="clear"></dd>
+								<dt>swapRows</dt>
+								<dd data-variable="swapRows"></dd>
+							</dl>
+                </div>
+				</div>
             <div class="row">
                 <div class="col-md-6">
                     <h1>dom99</h1>
@@ -51,12 +77,11 @@
                 </div>
             </div>
         </div>
-        <table class="table table-hover table-striped test-data" data-function="handleClickTable">
+        <table class="table table-hover table-striped test-data">
             <tbody id="tbody" data-element="tbody" data-list="rows-row-template"></tbody>
         </table>
         <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 </div>
-<script type="module" src='main-event-responsible.js'></script>
 </body>
 </html>

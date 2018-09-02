@@ -21,7 +21,7 @@
     "rollup": "^0.60.7",
     "template-mb": "^2.0.6",
     "terser": "^3.7.6",
-    "utilsac": "^6.0.2"
+    "utilsac": "^9.0.1"
   },
   "scripts": {
     "roll": "rollup --config tools/rollup.config.js",
@@ -37,7 +37,7 @@
     "bhtml": "node tools/buildHTML",
     "yesno": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "buildAll": "npm run build && npm run transpilePolyfills && npm run examples && npm run doc && npm run bhtml && npm run yesno",
-	"jsdoc": "jsdoc source/dom99.js",
+    "jsdoc": "jsdoc source/dom99.js",
     "d": "npm run build && npm run bhtml"
   },
   "babel": {
@@ -66,10 +66,10 @@
     "elements",
     "web",
     "component",
-	"framework",
-	"library",
-	"reactive",
-	"data-attributes",
+    "framework",
+    "library",
+    "reactive",
+    "data-attributes",
     "light",
     "browser"
   ]

@@ -1,3 +1,4 @@
+// outdated see main.js
 import {d, plugin} from "../../source/dom99-perf-event-responsible.js";
 import {firstAncestorValue, idFromEvent, idFromNode} from "../../source/parentIdFromEvent.js";
 
@@ -41,7 +42,7 @@ class Store {
             data.push({id: this.id++, label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)] });
         return data;
     }
-	
+
     updateData(mod = 10) {
         // updates all 10th data
         for (let i=0;i<this.data.length;i+=10) {
@@ -49,7 +50,7 @@ class Store {
             // this.data[i] = Object.assign({}, this.data[i], {label: this.data[i].label +' !!!'});
         }
     }
-	
+
     delete(id) {
         // deletes a data by id
 		if (this.selected === id) {
@@ -59,26 +60,26 @@ class Store {
         this.data = this.data.filter((e,i) => i!=idx);
         return this;
     }
-	
+
     run() {
         this.data = this.buildData();
         this.selected = null;
     }
-	
+
     add() {
         this.data = this.data.concat(this.buildData(1000));
         this.selected = null;
     }
-	
+
     update() {
         this.updateData();
         this.selected = null;
     }
-	
+
     select(id) {
         this.selected = id;
     }
-	
+
     // hideAll() {
         // this.backup = this.data;
         // this.data = [];
@@ -89,17 +90,17 @@ class Store {
         // this.backup = null;
         // this.selected = null;
     // }
-	
+
     runLots() {
         this.data = this.buildData(10000);
         this.selected = null;
     }
-	
+
     clear() {
         this.data = [];
         this.selected = null;
     }
-	
+
     swapRows() {
         if(this.data.length > 998) {
             var a = this.data[1];
@@ -221,7 +222,7 @@ var selectRow = function (e) {
 };
 
 const handleClickTable  = function (event) {
-			
+
 		event.preventDefault();
 		event.stopPropagation();
 	const id = Number(idFromEvent(event));
@@ -321,7 +322,7 @@ plugin({type: "variable",
 			// reselect
 			    if (selectedRowElement !== undefined) {
 					selectedRowElement.className = "";
-					
+
 					const index = store.data.findIndex(function ({id: idAtIndex}) {
 						return store.selected === idAtIndex;
 					});
@@ -332,7 +333,7 @@ plugin({type: "variable",
 					selectedRowElement = d.elements[rowContext];
 					selectedRowElement.className = "danger";
 				}
-		} 
+		}
 	}
 });
 
