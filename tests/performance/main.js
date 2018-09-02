@@ -1,5 +1,18 @@
 import {d} from "../../source/dom99-perf.js";
 
+const runAll = function () {
+    chainRequestAnimationFrame([
+        run,
+        add,
+        update,
+        swapRows,
+        runLots,
+        clear
+    ]).then((x) => {
+        console.log(...x);
+    });
+};
+
 var startTime;
 var lastMeasure;
 var startMeasure = function(name) {
@@ -13,6 +26,7 @@ let displayAllResults = function () {
 	}
 	d.feed(measures);
 };
+
 const totalMeasures = 6;
 const measures = {};
 var stopMeasure = function() {
@@ -52,7 +66,7 @@ class Store {
             data.push({id: this.id++, label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)] });
         return data;
     }
-	
+
     updateData(mod = 10) {
         // updates all 10th data
         for (let i=0;i<this.data.length;i+=10) {
@@ -60,33 +74,33 @@ class Store {
             // this.data[i] = Object.assign({}, this.data[i], {label: this.data[i].label +' !!!'});
         }
     }
-	
+
     delete(id) {
         // deletes a data by id
         const idx = this.data.findIndex(d => d.id==id);
         this.data = this.data.filter((e,i) => i!=idx);
         return this;
     }
-	
+
     run() {
         this.data = this.buildData();
         this.selected = null;
     }
-	
+
     add() {
         this.data = this.data.concat(this.buildData(1000));
         this.selected = null;
     }
-	
+
     update() {
         this.updateData();
         this.selected = null;
     }
-	
+
     select(id) {
         this.selected = id;
     }
-	
+
     // hideAll() {
         // this.backup = this.data;
         // this.data = [];
@@ -97,17 +111,17 @@ class Store {
         // this.backup = null;
         // this.selected = null;
     // }
-	
+
     runLots() {
         this.data = this.buildData(10000);
         this.selected = null;
     }
-	
+
     clear() {
         this.data = [];
         this.selected = null;
     }
-	
+
     swapRows() {
         if(this.data.length > 998) {
             var a = this.data[1];
@@ -246,6 +260,7 @@ var selectRow = function (e) {
 
 var functions = {
     // handleRow,
+    runAll,
 	delete: deleteRow,
 	select: selectRow,
     delegate: function (e) {
@@ -302,3 +317,28 @@ d.start(functions, initialFeed, startElement, function () {
     // console.log("ready");
     // run();
 });
+
+
+// from utilsac
+const chainRequestAnimationFrame = function (functions) {
+    return new Promise(function (resolve, reject) {
+        const values = [];
+        const length = functions.length;
+        let i = 0;
+        const next = function (timing) {
+            i += 1;
+            if (i < length) {
+                try {
+                    values.push(functions[i]());
+                } catch (error) {
+                    reject(error);
+                    return;
+                }
+                requestAnimationFrame(next);
+            } else {
+                resolve(values);
+            }
+        };
+        next();
+    });
+};

@@ -1,4 +1,3 @@
-@@ -0,0 +1,856 @@
 import {createElement2} from "./createElement2.js";
 import {isObjectOrArray} from "./isObjectOrArray.js";
 import {copyArrayShallow} from "./copyArrayShallow.js";
@@ -20,7 +19,7 @@ const variableSubscribers = {};
 const listSubscribers = {};
 
 /**
-Retrieve variable values that have been modified by d.feed or 
+Retrieve variable values that have been modified by d.feed or
 2 way data binded element with data-variable attribute (Read only)
 
 @param {string} path
@@ -127,7 +126,7 @@ const eventFromTag = valueElseMissDecorator({
 });
 
 /**
-internal dom99 options, look at dom99ConfigurationExample.js	
+internal dom99 options, look at dom99ConfigurationExample.js
 to learn how to configure it
 */
 const options = {
@@ -232,8 +231,8 @@ d.functions.clickedButton = function (event) {
 	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
 		.classList.add(`active`);
 };
- 
-@param {Event} event 
+
+@param {Event} event
 
 @return {string} path
 */
@@ -268,8 +267,8 @@ contextFromArray joins paths to create a valid path to use with
 
 d.variables[path]
 d.elements[path]
- 
-@param {array} Array 
+
+@param {array} Array
 
 @return {string} path
 */
@@ -289,7 +288,7 @@ const leaveObject = function () {
 /**
 getParentContext
 
-@param {string} context 
+@param {string} context
 
 @return {string} parentContext
 */
@@ -333,7 +332,7 @@ Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
 
 	And all of this doesn't matter for 1-100 elements, but it does matter,
 	for an infinitely growing list
-	
+
 @param {string} path
 */
 const forgetContext = function (path) {
@@ -562,7 +561,7 @@ const applyVariable = function (element, variableName) {
 		);
 	}
 
-	
+
 	const path = contextFromArrayWith(pathIn, variableName);
 	pushOrCreateArrayAt(variableSubscribers, path, element);
 	const lastValue = variables[path]; // has latest
@@ -660,7 +659,7 @@ const applyInside = function (element, key) {
 };
 
 /**
-Removes a template from the DOM and from dom99 memory  
+Removes a template from the DOM and from dom99 memory
 @param {string} name
 
 */
@@ -827,7 +826,7 @@ const plugin = function (featureToPlugIn) {
 		};
 	} else if (featureToPlugIn.type === `cloned`) {
 		clonePlugins.push(featureToPlugIn.plugin);
-		
+
 		cloneHook = function () {
 			const context = contextFromArray(pathIn);
 			clonePlugins.forEach(function (clonePlugin) {
