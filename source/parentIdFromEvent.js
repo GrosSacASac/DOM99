@@ -21,17 +21,6 @@ const idFromNode = function (node) {
 	return firstAncestorValue(node, getDataId);
 };
 
-// alternative
-// const idFromNode = function (node) {
-	// if (node.hasAttribute(`data-id`)) {
-		// return node.getAttribute(`data-id`);
-	// }
-	// const parent = node.parentNode;
-	// if (parent) {
-		// return idFromNode(parent);
-	// }
-// };
-
 
 /**
 @param {Event}
