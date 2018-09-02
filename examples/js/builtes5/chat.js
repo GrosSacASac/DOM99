@@ -89,7 +89,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var NAME = "DOM99";
 	var CONTEXT = NAME + "_C";
 	var LIST_ITEM_PROPERTY = NAME + "_L";
-	var ELEMENT_PROPERTY = NAME + "_E";
 	var ELEMENT_LIST_ITEM = NAME + "_I";
 	var CUSTOM_ELEMENT = NAME + "_X";
 	var LIST_CHILDREN = NAME + "_R";
@@ -130,7 +129,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var pathIn = [];
 	var alreadyHooked = false;
-	var cloneHook = function cloneHook() {};
+	var feedPlugins = [];
+	var clonePlugins = [];
 
 	var directivePairs = void 0;
 
@@ -322,7 +322,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var notifyOneVariableSubscriber = function notifyOneVariableSubscriber(variableSubscriber, value) {
-		variableSubscriber[variableSubscriber[ELEMENT_PROPERTY]] = value;
+		variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 	};
 
 	var notifyVariableSubscribers = function notifyVariableSubscribers(subscribers, value) {
@@ -525,7 +525,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			console.error(element, "Use " + options.directives.variable + "=\"variableName\" format!");
 		}
 
-		element[ELEMENT_PROPERTY] = options.propertyFromElement(element);
 		var path = contextFromArrayWith(pathIn, variableName);
 		pushOrCreateArrayAt(variableSubscribers, path, element);
 		var lastValue = variables[path]; // has latest
@@ -533,22 +532,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			notifyOneVariableSubscriber(element, lastValue);
 		}
 
-		if (options.tagNamesForUserInput.includes(element.tagName)) {
-			var broadcastValue = function broadcastValue(event) {
-				//wil call setter to broadcast the value
-				var value = event.target[event.target[ELEMENT_PROPERTY]];
-				variables[path] = value;
-				feedHook(path, value);
-				// would notify everything including itself
-				// notifyVariableSubscribers(variableSubscribers[path], value);
-				variableSubscribers[path].forEach(function (variableSubscriber) {
-					if (variableSubscriber !== element) {
-						notifyOneVariableSubscriber(variableSubscriber, value);
-					}
-				});
-			};
-			addEventListener(element, options.eventNameFromElement(element), broadcastValue);
+		if (!options.tagNamesForUserInput.includes(element.tagName)) {
+			return;
 		}
+		var broadcastValue = function broadcastValue(event) {
+			//wil call setter to broadcast the value
+			var value = element[options.propertyFromElement(element)];
+			variables[path] = value;
+			feedHook(path, value);
+			// would notify everything including itself
+			// notifyVariableSubscribers(variableSubscribers[path], value);
+			variableSubscribers[path].forEach(function (variableSubscriber) {
+				if (variableSubscriber !== element) {
+					notifyOneVariableSubscriber(variableSubscriber, value);
+				}
+			});
+		};
+		addEventListener(element, options.eventNameFromElement(element), broadcastValue);
 	};
 
 	var applyDirectiveElement = function applyDirectiveElement(element, attributeValue) {
@@ -670,8 +670,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return startElement;
 	};
 
-	var originalFeedHook = function originalFeedHook() {};
-	var feedHook = originalFeedHook;
+	var cloneHook = function cloneHook() {
+		var context = contextFromArray(pathIn);
+		clonePlugins.forEach(function (clonePlugin) {
+			clonePlugin(context);
+		});
+	};
+
+	var feedHook = function feedHook(startPath, data) {
+		feedPlugins.forEach(function (feedPlugin) {
+			feedPlugin(startPath, data);
+		});
+	};
 
 	var fakeMessagesFromSister = ["Hey brother, what is up ?", "Long time not seen", "you should visit my new home", "remember the skateboard races we had when we were kids ?", "Hey answer please :)"];
 	var fakeMessagesFromBoss = ["Nice work kids", "I am going on a trip next week to meet new buisness partners", "Can you finish the project ?"];

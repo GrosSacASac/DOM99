@@ -1,4 +1,4 @@
-/* dom99 v15.0.0 */
+/* dom99 v15.0.1 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -71,6 +71,18 @@ const freezeLiveCollection = function (liveCollection) {
 };
 */
 
+const firstAncestorValue = function (node, accessor) {
+	const potentialValue = accessor(node);
+	if (potentialValue) {
+		return potentialValue;
+	}
+	const parent = node.parentNode;
+	if (parent) {
+		return firstAncestorValue(parent, accessor);
+	}
+	// return undefined;
+};
+
 /*idGenerator()
 
 generates a predictable new id each time
@@ -94,7 +106,6 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 const NAME = `DOM99`;
 const CONTEXT = `${NAME}_C`;
 const LIST_ITEM_PROPERTY = `${NAME}_L`;
-const ELEMENT_PROPERTY = `${NAME}_E`;
 const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
@@ -139,7 +150,6 @@ const functionPlugins = [];
 let alreadyHooked = false;
 const feedPlugins = [];
 const clonePlugins = [];
-let cloneHook = function () {};
 
 let directivePairs;
 
@@ -308,6 +318,15 @@ const cloneTemplate = (template) => {
 
 
 /**
+@param {Element}
+
+@return {string | undefined} context
+*/
+const contextFromElement = (element) => {
+	return element[CONTEXT];
+};
+
+/**
 contextFromEvent gets the starting path for an event issued inside a component
 
 in combination with contextFromArray it allows to access sibling elements and variables
@@ -321,28 +340,8 @@ d.functions.clickedButton = (event) => {
 
 @return {string} path
 */
-const contextFromEvent = (event, parent) => {
-	if (event || parent) {
-		let element;
-		if (event && event.target) {
-			element = event.target;
-		} else {
-			element = parent;
-		}
-
-		if (hasOwnProperty.call(element, CONTEXT)) {
-			return element[CONTEXT];
-		} else {
-			if (element.parentNode) {
-				return contextFromEvent(undefined, element.parentNode);
-			}
-		}
-	}
-	console.warn(
-		event,
-		`has no context. contextFromEvent for top level elements is not needed.`
-	);
-	return ``;
+const contextFromEvent = (event) => {
+	return firstAncestorValue(event.target, contextFromElement) || ``;
 };
 
 /**
@@ -426,7 +425,7 @@ const forgetContext = (path) => {
 };
 
 const notifyOneVariableSubscriber = (variableSubscriber, value) => {
-	variableSubscriber[variableSubscriber[ELEMENT_PROPERTY]] = value;
+	variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 };
 
 const notifyVariableSubscribers = (subscribers, value) => {
@@ -644,7 +643,6 @@ const applyVariable = (element, variableName) => {
 		);
 	}
 
-	element[ELEMENT_PROPERTY] = options.propertyFromElement(element);
 	const path = contextFromArrayWith(pathIn, variableName);
 	pushOrCreateArrayAt(variableSubscribers, path, element);
 	const lastValue = variables[path]; // has latest
@@ -652,26 +650,28 @@ const applyVariable = (element, variableName) => {
 		notifyOneVariableSubscriber(element, lastValue);
 	}
 
-	if (options.tagNamesForUserInput.includes(element.tagName)) {
-		const broadcastValue = (event) => {
-			//wil call setter to broadcast the value
-			const value = event.target[event.target[ELEMENT_PROPERTY]];
-			variables[path] = value;
-			feedHook(path, value);
-			// would notify everything including itself
-			// notifyVariableSubscribers(variableSubscribers[path], value);
-			variableSubscribers[path].forEach((variableSubscriber) => {
-				if (variableSubscriber !== element) {
-					notifyOneVariableSubscriber(variableSubscriber, value);
-				}
-			});
-		};
-		addEventListener(
-			element,
-			options.eventNameFromElement(element),
-			broadcastValue
-		);
+	if (!options.tagNamesForUserInput.includes(element.tagName)) {
+		return;
 	}
+	const broadcastValue = (event) => {
+		//wil call setter to broadcast the value
+		const value = element[options.propertyFromElement(element)];
+		variables[path] = value;
+		feedHook(path, value);
+		// would notify everything including itself
+		// notifyVariableSubscribers(variableSubscribers[path], value);
+		variableSubscribers[path].forEach((variableSubscriber) => {
+			if (variableSubscriber !== element) {
+				notifyOneVariableSubscriber(variableSubscriber, value);
+			}
+		});
+	};
+	addEventListener(
+		element,
+		options.eventNameFromElement(element),
+		broadcastValue
+	);
+
 };
 
 const applyDirectiveElement = (element, attributeValue) => {
@@ -858,11 +858,18 @@ const start = (
 	return callBack();
 };
 
-
-const originalFeedHook = function () {
-
+const cloneHook = function () {
+	const context = contextFromArray(pathIn);
+	clonePlugins.forEach((clonePlugin) => {
+		clonePlugin(context);
+	});
 };
-let feedHook = originalFeedHook;
+
+const feedHook = (startPath, data) => {
+	feedPlugins.forEach((feedPlugin) => {
+		feedPlugin(startPath, data);
+	});
+};
 
 /**
 Plug in a plugin (hook) into the core functionality
@@ -879,9 +886,6 @@ const plugin = (featureToPlugIn) => {
 	}
 	if (featureToPlugIn.type === `function`) {
 		functionPlugins.push(featureToPlugIn.plugin);
-		if (applyFunction !== applyFunctionOriginal) {
-			return;
-		}
 		applyFunction = (element, eventName, functionName) => {
 			let defaultPrevented = false;
 			const preventDefault = function () {
@@ -897,23 +901,8 @@ const plugin = (featureToPlugIn) => {
 		};
 	} else if (featureToPlugIn.type === `variable`) {
 		feedPlugins.push(featureToPlugIn.plugin);
-		if (feedHook !== originalFeedHook) {
-			return;
-		}
-		feedHook = (startPath, data) => {
-			feedPlugins.forEach((feedPlugin) => {
-				feedPlugin(startPath, data);
-			});
-		};
 	} else if (featureToPlugIn.type === `cloned`) {
 		clonePlugins.push(featureToPlugIn.plugin);
-
-		cloneHook = function () {
-			const context = contextFromArray(pathIn);
-			clonePlugins.forEach((clonePlugin) => {
-				clonePlugin(context);
-			});
-		};
 	} else {
 		console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
 	}

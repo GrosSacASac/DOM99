@@ -5,8 +5,8 @@
 "use strict";
 
 const {
-    textFileContentPromiseFromPath,
-    writeTextInFilePromiseFromPathAndString,
+    textFileContent,
+    writeTextInFile,
     copyFile
 } = require("utilsac");
 
@@ -54,14 +54,14 @@ const HTMLFiles = {
 
 Promise.all(
     Object.entries(HTMLFiles).map(function ([from, {to, options}]) {
-        return textFileContentPromiseFromPath(from).then(function (HTMLString) {
+        return textFileContent(from).then(function (HTMLString) {
             let minifiedHtml;
             if (skipMinification) {
                 minifiedHtml = HTMLString;
             } else {
                 minifiedHtml = minify(HTMLString, options);
             }
-            return writeTextInFilePromiseFromPathAndString(to, minifiedHtml);
+            return writeTextInFile(to, minifiedHtml);
         });
     })
 ).then(function () {

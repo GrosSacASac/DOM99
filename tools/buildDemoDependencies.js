@@ -2,7 +2,7 @@
 "use strict";
 const {
     copyFile,
-    writeTextInFilePromiseFromPathAndString,
+    writeTextInFile,
     concatenateFiles
 } = require("utilsac");
 
