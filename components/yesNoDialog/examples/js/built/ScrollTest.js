@@ -8,14 +8,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	'use strict';
 
 	/**
+ Creates an element with elementDescription
+ 
+ @param {object} elementDescription tagName key is required
+ 
+ @return {Element}
+ */
+
+	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
+
+	var createElement2 = function createElement2(elementDescription) {
+		/*element.setAttribute(attr, value) is good to set
+  initial attribute like when html is first loaded
+  setAttribute won't change some live things like .value for input,
+  for instance, setAttribute is the correct choice for creation
+  element.attr = value is good to change the live values
+  always follow these words to avoid rare bugs*/
+		var element = document.createElement(elementDescription.tagName);
+		Object.entries(elementDescription).forEach(function (_ref) {
+			var _ref2 = _slicedToArray(_ref, 2),
+			    key = _ref2[0],
+			    value = _ref2[1];
+
+			if (key !== "tagName") {
+				element.setAttribute(key, value);
+			}
+		});
+		return element;
+	};
+
+	/**
  @private
  
  @param {any} x
  @return {boolean}
  */
-
-	var _valueElseMissDecorat, _valueElseMissDecorat2, _valueElseMissDecorat3, _valueElseMissDecorat4;
-
 	var isObjectOrArray = function isObjectOrArray(x) {
 		/*array or object*/
 		return typeof x === "object" && x !== null;
@@ -28,8 +55,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	/**
  	freezes HTMLCollection or Node.childNodes
  	by returning an array that does not change
- 	
- 		
+ 
+ 
  	@param {arrayLike} liveCollection
  	@return {array}
  */
@@ -56,6 +83,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  perfect for DOM id requirements
  */
 
+	var prefix = "id-";
+
+	var next = Number.MAX_SAFE_INTEGER;
+
+	var idGenerator = function idGenerator() {
+		var id = "" + prefix + next;
+		next -= 1;
+		return id;
+	};
+
 	var ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -72,7 +109,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var listSubscribers = {};
 
 	/**
- Retrieve variable values that have been modified by d.feed or 
+ Retrieve variable values that have been modified by d.feed or
  2 way data binded element with data-variable attribute (Read only)
  
  @param {string} path
@@ -102,7 +139,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var functions = {};
 
 	var pathIn = [];
+
+	var functionPlugins = [];
 	var alreadyHooked = false;
+	var feedPlugins = [];
+	var clonePlugins = [];
 	var cloneHook = function cloneHook() {};
 
 	var directivePairs = void 0;
@@ -143,7 +184,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
 
 	/**
- internal dom99 options, look at dom99ConfigurationExample.js	
+ internal dom99 options, look at dom99ConfigurationExample.js
  to learn how to configure it
  */
 	var options = {
@@ -233,12 +274,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  in combination with contextFromArray it allows to access sibling elements and variables
  
- d.functions.clickedButton = function (event) {
+ d.functions.clickedButton = (event) => {
  	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
  		.classList.add(`active`);
  };
-  
- @param {Event} event 
+ 
+ @param {Event} event
  
  @return {string} path
  */
@@ -268,8 +309,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  d.variables[path]
  d.elements[path]
-  
- @param {array} Array 
+ 
+ @param {array} Array
  
  @return {string} path
  */
@@ -288,7 +329,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	/**
  getParentContext
  
- @param {string} context 
+ @param {string} context
  
  @return {string} parentContext
  */
@@ -332,7 +373,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  	And all of this doesn't matter for 1-100 elements, but it does matter,
  	for an infinitely growing list
- 	
+ 
  @param {string} path
  */
 	var forgetContext = function forgetContext(path) {
@@ -459,10 +500,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		} else {
 			var normalizedPath = normalizeStartPath(startPath);
 			alreadyHooked = true;
-			Object.entries(data).forEach(function (_ref) {
-				var _ref2 = _slicedToArray(_ref, 2),
-				    key = _ref2[0],
-				    value = _ref2[1];
+			Object.entries(data).forEach(function (_ref3) {
+				var _ref4 = _slicedToArray(_ref3, 2),
+				    key = _ref4[0],
+				    value = _ref4[1];
 
 				var path = "" + normalizedPath + key;
 				feed(path, value);
@@ -626,7 +667,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	/**
- Removes a template from the DOM and from dom99 memory  
+ Removes a template from the DOM and from dom99 memory
  @param {string} name
  
  */
@@ -656,10 +697,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 		});
 
-		directivePairs.forEach(function (_ref3) {
-			var _ref4 = _slicedToArray(_ref3, 2),
-			    directiveName = _ref4[0],
-			    applyDirective = _ref4[1];
+		directivePairs.forEach(function (_ref5) {
+			var _ref6 = _slicedToArray(_ref5, 2),
+			    directiveName = _ref6[0],
+			    applyDirective = _ref6[1];
 
 			if (!element.hasAttribute(directiveName)) {
 				return;
@@ -734,7 +775,59 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var originalFeedHook = function originalFeedHook() {};
 	var feedHook = originalFeedHook;
 
-	var dom99core = Object.freeze({
+	/**
+ Plug in a plugin (hook) into the core functionality
+ 
+ @param {object} featureToPlugIn
+ 
+ */
+	var plugin = function plugin(featureToPlugIn) {
+		if (!isObjectOrArray(featureToPlugIn)) {
+			console.error("plugin({\n\t\t\ttype,\n\t\t\tplugin\n\t\t});");
+		}
+		if (featureToPlugIn.type === "function") {
+			functionPlugins.push(featureToPlugIn.plugin);
+			if (applyFunction !== applyFunctionOriginal) {
+				return;
+			}
+			applyFunction = function applyFunction(element, eventName, functionName) {
+				var defaultPrevented = false;
+				var preventDefault = function preventDefault() {
+					defaultPrevented = true;
+				};
+				functionPlugins.forEach(function (pluginFunction) {
+					pluginFunction(element, eventName, functionName, functions, preventDefault);
+				});
+				if (defaultPrevented) {
+					return;
+				}
+				applyFunctionOriginal(element, eventName, functionName);
+			};
+		} else if (featureToPlugIn.type === "variable") {
+			feedPlugins.push(featureToPlugIn.plugin);
+			if (feedHook !== originalFeedHook) {
+				return;
+			}
+			feedHook = function feedHook(startPath, data) {
+				feedPlugins.forEach(function (feedPlugin) {
+					feedPlugin(startPath, data);
+				});
+			};
+		} else if (featureToPlugIn.type === "cloned") {
+			clonePlugins.push(featureToPlugIn.plugin);
+
+			cloneHook = function cloneHook() {
+				var context = contextFromArray(pathIn);
+				clonePlugins.forEach(function (clonePlugin) {
+					clonePlugin(context);
+				});
+			};
+		} else {
+			console.warn("plugin type " + featureToPlugIn.type + " not yet implemented");
+		}
+	};
+
+	var d = /*#__PURE__*/Object.freeze({
 		start: start,
 		activate: activate,
 		elements: elements,
@@ -745,12 +838,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		deleteTemplate: deleteTemplate,
 		contextFromArray: contextFromArray,
 		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext
+		getParentContext: getParentContext,
+		plugin: plugin,
+		options: options,
+		createElement2: createElement2,
+		idGenerator: idGenerator
 	});
 
 	//yesNoDialog.js
 
-	var d = void 0;
+	var d$1 = void 0;
 	var thisNameSpace = "yesNoDialog";
 	var cssPrefix = "yes-no-dialog";
 	var cssDialogActiveClass = cssPrefix + "-active";
@@ -769,30 +866,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var lastYPosition = 0;
 
 	var useYesNoDialog = function useYesNoDialog(dom99) {
-		d = dom99;
+		d$1 = dom99;
 
-		yesButton = d.contextFromArray([thisNameSpace, "yesButton"]);
-		yesNoContainer = d.contextFromArray([thisNameSpace, "confirm"]);
-		promptContainer = d.contextFromArray([thisNameSpace, "prompt"]);
-		promptInput = d.contextFromArray([thisNameSpace, "input"]);
-		d.functions.yesNoDialogAnswer = function (event) {
-			d.elements[yesNoContainer].hidden = true;
+		yesButton = d$1.contextFromArray([thisNameSpace, "yesButton"]);
+		yesNoContainer = d$1.contextFromArray([thisNameSpace, "confirm"]);
+		promptContainer = d$1.contextFromArray([thisNameSpace, "prompt"]);
+		promptInput = d$1.contextFromArray([thisNameSpace, "input"]);
+		d$1.functions.yesNoDialogAnswer = function (event) {
+			d$1.elements[yesNoContainer].hidden = true;
 			prepareNext();
-			currentResolve(event.target === d.elements[yesButton]);
+			currentResolve(event.target === d$1.elements[yesButton]);
 		};
 
-		d.functions.yesNoDialogSubmit = function (event) {
-			var input = d.variables[promptInput];
+		d$1.functions.yesNoDialogSubmit = function (event) {
+			var input = d$1.variables[promptInput];
 			// prepareNext can overwrite d.variables[promptInput]
-			d.elements[promptContainer].hidden = true;
+			d$1.elements[promptContainer].hidden = true;
 			prepareNext();
 			currentResolve(input);
 		};
 
-		d.functions.yesNoDialogSubmitViaEnter = function (event) {
+		d$1.functions.yesNoDialogSubmitViaEnter = function (event) {
 			if (event.keyCode === 13) {
 				//Enter
-				d.functions.yesNoDialogSubmit();
+				d$1.functions.yesNoDialogSubmit();
 			}
 		};
 	};
@@ -800,7 +897,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var cleanUp = function cleanUp() {
 		waiting = false;
 		document.body.classList.remove(cssDialogActiveClass);
-		d.feed(thisNameSpace, {
+		d$1.feed(thisNameSpace, {
 			question: "",
 			label: "",
 			input: "",
@@ -822,49 +919,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		if (yesNoDialogQueue.length === 0) {
 			cleanUp();
 		} else {
-			var next = yesNoDialogQueue.shift();
-			if (next.intent !== promptSymbol) {
-				d.elements[promptInput].blur();
+			var _next = yesNoDialogQueue.shift();
+			if (_next.intent !== promptSymbol) {
+				d$1.elements[promptInput].blur();
 			}
-			if (next.intent === yesNoSymbol) {
-				prepareYesNo(next);
-			} else if (next.intent === promptSymbol) {
-				preparePrompt(next);
+			if (_next.intent === yesNoSymbol) {
+				prepareYesNo(_next);
+			} else if (_next.intent === promptSymbol) {
+				preparePrompt(_next);
 			}
 		}
 	};
 
-	var prepareYesNo = function prepareYesNo(_ref5) {
-		var resolve = _ref5.resolve,
-		    question = _ref5.question,
-		    yesText = _ref5.yesText,
-		    noText = _ref5.noText;
+	var prepareYesNo = function prepareYesNo(_ref7) {
+		var resolve = _ref7.resolve,
+		    question = _ref7.question,
+		    yesText = _ref7.yesText,
+		    noText = _ref7.noText;
 
-		d.elements[yesNoContainer].hidden = false;
+		d$1.elements[yesNoContainer].hidden = false;
 		currentResolve = resolve;
-		d.feed(thisNameSpace, {
+		d$1.feed(thisNameSpace, {
 			question: question,
 			yesText: yesText,
 			noText: noText
 		});
 	};
 
-	var preparePrompt = function preparePrompt(_ref6) {
-		var resolve = _ref6.resolve,
-		    question = _ref6.question,
-		    label = _ref6.label,
-		    input = _ref6.input,
-		    submitText = _ref6.submitText;
+	var preparePrompt = function preparePrompt(_ref8) {
+		var resolve = _ref8.resolve,
+		    question = _ref8.question,
+		    label = _ref8.label,
+		    input = _ref8.input,
+		    submitText = _ref8.submitText;
 
-		d.elements[promptContainer].hidden = false;
+		d$1.elements[promptContainer].hidden = false;
 		currentResolve = resolve;
-		d.feed(thisNameSpace, {
+		d$1.feed(thisNameSpace, {
 			question: question,
 			label: label,
 			input: input,
 			submitText: submitText
 		});
-		d.elements[promptInput].focus();
+		d$1.elements[promptInput].focus();
 	};
 
 	var yesNoDialog = function yesNoDialog(question, yesText, noText) {
@@ -904,14 +1001,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	// Import
 
-	useYesNoDialog(dom99core);
-	dom99core.start({
+	useYesNoDialog(d);
+	start({
 		askSomething: function askSomething(event) {
 			var questionText = "Do you think your scroll position will be remembered ?";
 			var yesText = "Yes";
 			var noText = "No";
 			yesNoDialog(questionText, yesText, noText).then(function (answer) {
-				dom99core.feed({
+				feed({
 					result: String(answer)
 				});
 			});
@@ -922,7 +1019,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			var text = "";
 			var submitText = "send";
 			textDialog(question, label, text, submitText).then(function (answer) {
-				dom99core.feed({
+				feed({
 					result2: String(answer),
 					warning: "Never give input back to the user in a real world app without validating, sanitizing input first."
 				});

@@ -1,13 +1,13 @@
 export {createElement2};
 
 /**
-Creates an element with elementDescription 
+Creates an element with elementDescription
 
 @param {object} elementDescription tagName key is required
 
 @return {Element}
 */
-const createElement2 = function (elementDescription) {
+const createElement2 = (elementDescription) => {
 	/*element.setAttribute(attr, value) is good to set
 	initial attribute like when html is first loaded
 	setAttribute won't change some live things like .value for input,

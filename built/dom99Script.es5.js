@@ -4,17 +4,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* dom99 v14.4.0 */
+/* dom99 v15.0.0 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
         https://www.boost.org/LICENSE_1_0.txt */
 
-var dom99 = function (exports) {
+var d = function (exports) {
 	'use strict';
 
 	/**
- Creates an element with elementDescription 
+ Creates an element with elementDescription
  
  @param {object} elementDescription tagName key is required
  
@@ -61,8 +61,8 @@ var dom99 = function (exports) {
 	/**
  	freezes HTMLCollection or Node.childNodes
  	by returning an array that does not change
- 	
- 		
+ 
+ 
  	@param {arrayLike} liveCollection
  	@return {array}
  */
@@ -115,7 +115,7 @@ var dom99 = function (exports) {
 	var listSubscribers = {};
 
 	/**
- Retrieve variable values that have been modified by d.feed or 
+ Retrieve variable values that have been modified by d.feed or
  2 way data binded element with data-variable attribute (Read only)
  
  @param {string} path
@@ -190,7 +190,7 @@ var dom99 = function (exports) {
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, 'MISS', 'click'), _valueElseMissDecorat4));
 
 	/**
- internal dom99 options, look at dom99ConfigurationExample.js	
+ internal dom99 options, look at dom99ConfigurationExample.js
  to learn how to configure it
  */
 	var options = {
@@ -280,12 +280,12 @@ var dom99 = function (exports) {
  
  in combination with contextFromArray it allows to access sibling elements and variables
  
- d.functions.clickedButton = function (event) {
+ d.functions.clickedButton = (event) => {
  	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
  		.classList.add(`active`);
  };
-  
- @param {Event} event 
+ 
+ @param {Event} event
  
  @return {string} path
  */
@@ -315,8 +315,8 @@ var dom99 = function (exports) {
  
  d.variables[path]
  d.elements[path]
-  
- @param {array} Array 
+ 
+ @param {array} Array
  
  @return {string} path
  */
@@ -335,7 +335,7 @@ var dom99 = function (exports) {
 	/**
  getParentContext
  
- @param {string} context 
+ @param {string} context
  
  @return {string} parentContext
  */
@@ -379,7 +379,7 @@ var dom99 = function (exports) {
  
  	And all of this doesn't matter for 1-100 elements, but it does matter,
  	for an infinitely growing list
- 	
+ 
  @param {string} path
  */
 	var forgetContext = function forgetContext(path) {
@@ -673,7 +673,7 @@ var dom99 = function (exports) {
 	};
 
 	/**
- Removes a template from the DOM and from dom99 memory  
+ Removes a template from the DOM and from dom99 memory
  @param {string} name
  
  */
@@ -833,21 +833,17 @@ var dom99 = function (exports) {
 		}
 	};
 
-	var dom99core = Object.freeze({
-		start: start,
-		activate: activate,
-		elements: elements,
-		functions: functions,
-		variables: variables,
-		feed: feed,
-		forgetContext: forgetContext,
-		deleteTemplate: deleteTemplate,
-		contextFromArray: contextFromArray,
-		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext
-	});
-
-	exports.d = dom99core;
+	exports.start = start;
+	exports.activate = activate;
+	exports.elements = elements;
+	exports.functions = functions;
+	exports.variables = variables;
+	exports.feed = feed;
+	exports.forgetContext = forgetContext;
+	exports.deleteTemplate = deleteTemplate;
+	exports.contextFromArray = contextFromArray;
+	exports.contextFromEvent = contextFromEvent;
+	exports.getParentContext = getParentContext;
 	exports.plugin = plugin;
 	exports.options = options;
 	exports.createElement2 = createElement2;

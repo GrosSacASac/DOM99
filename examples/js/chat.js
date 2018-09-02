@@ -1,5 +1,5 @@
 // Does not use the new features of dom99 ...
-import {d, plugin, options, createElement2} from "../../source/dom99.js";
+import * as d  from "../../source/dom99.js";
 import {fakeBossSpeak, fakeSisterSpeak} from "./chat_simulation.js";
 
 let messageKeys = [];

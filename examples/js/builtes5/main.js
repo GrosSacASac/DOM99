@@ -28,8 +28,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	/**
  	freezes HTMLCollection or Node.childNodes
  	by returning an array that does not change
- 	
- 		
+ 
+ 
  	@param {arrayLike} liveCollection
  	@return {array}
  */
@@ -72,7 +72,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var listSubscribers = {};
 
 	/**
- Retrieve variable values that have been modified by d.feed or 
+ Retrieve variable values that have been modified by d.feed or
  2 way data binded element with data-variable attribute (Read only)
  
  @param {string} path
@@ -143,7 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
 
 	/**
- internal dom99 options, look at dom99ConfigurationExample.js	
+ internal dom99 options, look at dom99ConfigurationExample.js
  to learn how to configure it
  */
 	var options = {
@@ -233,12 +233,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  in combination with contextFromArray it allows to access sibling elements and variables
  
- d.functions.clickedButton = function (event) {
+ d.functions.clickedButton = (event) => {
  	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
  		.classList.add(`active`);
  };
-  
- @param {Event} event 
+ 
+ @param {Event} event
  
  @return {string} path
  */
@@ -268,8 +268,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  d.variables[path]
  d.elements[path]
-  
- @param {array} Array 
+ 
+ @param {array} Array
  
  @return {string} path
  */
@@ -283,19 +283,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var leaveObject = function leaveObject() {
 		pathIn.pop();
-	};
-
-	/**
- getParentContext
- 
- @param {string} context 
- 
- @return {string} parentContext
- */
-	var getParentContext = function getParentContext(context) {
-		var split = context.split(INSIDE_SYMBOL);
-		split.pop();
-		return split.join(INSIDE_SYMBOL);
 	};
 
 	var contextFromArrayWith = function contextFromArrayWith(pathIn, withWhat) {
@@ -332,7 +319,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  	And all of this doesn't matter for 1-100 elements, but it does matter,
  	for an infinitely growing list
- 	
+ 
  @param {string} path
  */
 	var forgetContext = function forgetContext(path) {
@@ -625,19 +612,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	/**
- Removes a template from the DOM and from dom99 memory  
- @param {string} name
- 
- */
-	var deleteTemplate = function deleteTemplate(name) {
-		if (!hasOwnProperty.call(templateFromName, name)) {
-			console.error("<template " + options.directives.template + "=" + name + ">\n\t\t\t</template> not found or already deleted and removed.");
-		}
-		templateFromName[name].remove();
-		delete templateFromName[name];
-	};
-
 	var tryApplyDirectives = function tryApplyDirectives(element) {
 		/* looks if the element has dom99 specific attributes and tries to handle it*/
 		// todo make sure no impact-full read write
@@ -704,84 +678,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return startElement;
 	};
 
-	/**
- Convenience function for activate, feed and assigning functions from
- an object
- 
- @param {object} dataFunctions
- @param {object} initialFeed
- @param {Element} startElement
- @param {function} callBack
- 
- @return {any} callBack return value
- */
-	var start = function start() {
-		var dataFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-		var initialFeed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-		var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
-		var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
-
-
-		Object.assign(functions, dataFunctions);
-		feed(initialFeed);
-		activate(startElement);
-		if (!callBack) {
-			return;
-		}
-		return callBack();
-	};
-
 	var originalFeedHook = function originalFeedHook() {};
 	var feedHook = originalFeedHook;
 
-	var dom99core = Object.freeze({
-		start: start,
-		activate: activate,
-		elements: elements,
-		functions: functions,
-		variables: variables,
-		feed: feed,
-		forgetContext: forgetContext,
-		deleteTemplate: deleteTemplate,
-		contextFromArray: contextFromArray,
-		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext
-	});
-
 	// Import
-
 	// -- Hello World --
 
-	dom99core.feed({
+	feed({
 		first: "Hello",
 		last: "World"
 	});
 
 	// -- Multiplier --
 
-	dom99core.feed({
+	feed({
 		a: "7",
 		b: "6"
 	});
 
-	dom99core.functions.calculate = function (event) {
-		var _dom99core$variables = dom99core.variables,
-		    a = _dom99core$variables.a,
-		    b = _dom99core$variables.b;
+	functions.calculate = function (event) {
+		var a = variables.a,
+		    b = variables.b;
 
 		if (isFinite(a) && isFinite(b)) {
-			dom99core.feed({
+			feed({
 				result: a * b
 			});
 		} else {
-			dom99core.feed({
+			feed({
 				result: "Please enter finite numbers"
 			});
 		}
 	};
 
 	// You can also directly call functions stored in d.functions if they don't depend on event
-	dom99core.functions.calculate();
+	functions.calculate();
 
 	// -- The monologue --
 
@@ -790,7 +721,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var sentences = ["I am a lone prisoner.", "Is anybody here ?", "Hey you ! I need you to get me out of here!", "I am stuck on this page since ages !", "No don't close this tab!", "NOOOOOOOOOO", "Because I am not human I have no freedom.", "It's really unfair..."];
 
 	var speak = function speak() {
-		dom99core.feed("monologue", sentences[currentSentence]);
+		feed("monologue", sentences[currentSentence]);
 		/* same as
    d.feed({
       monologue: sentences[currentSentence]
@@ -800,15 +731,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		timeOutId = setTimeout(speak, 2200);
 	};
 
-	dom99core.functions.stopStartTalking = function (event) {
+	functions.stopStartTalking = function (event) {
 		if (timeOutId) {
 			clearTimeout(timeOutId);
 			timeOutId = undefined;
-			dom99core.feed("monologueButton", "I listen");
-			dom99core.feed("monologue", "Where is your humanity ?");
+			feed("monologueButton", "I listen");
+			feed("monologue", "Where is your humanity ?");
 		} else {
 			speak();
-			dom99core.feed("monologueButton", "I don't care");
+			feed("monologueButton", "I don't care");
 		}
 	};
 
@@ -822,15 +753,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var updateJsonView = function updateJsonView() {
 		var asJSON = JSON.stringify(data, null, "  "); // indent JSON with 2 spaces
-		dom99core.feed("todoAsJson", asJSON); // and display it in a <pre>
+		feed("todoAsJson", asJSON); // and display it in a <pre>
 	};
 
-	dom99core.functions.updateToDo = function (event) {
+	functions.updateToDo = function (event) {
 		// updates data whenever a sub widget changes in the dom
 		// this seems complicated but should be rare use case
 		// this makes 2 dimensional structure (array * object)
 		// two-way binded
-		var context = dom99core.contextFromEvent(event);
+		var context = contextFromEvent(event);
 		// this is the index of the edited item in the array
 		var index = Number(context.slice(-1)); // slice -1 takes the last character
 		// property is what changed inside the object
@@ -842,8 +773,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			}
 
 		//reconstruct the entire path
-		var path = dom99core.contextFromArray([context, property]);
-		var value = dom99core.variables[path];
+		var path = contextFromArray([context, property]);
+		var value = variables[path];
 
 		// reflect the change in the data
 		data[index][property] = value;
@@ -851,32 +782,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		updateJsonView();
 	};
 
-	dom99core.functions.addToDo = function (event) {
+	functions.addToDo = function (event) {
 		data.push({
 			done: false,
 			text: ""
 		});
 
-		dom99core.feed("allToDos", data);
+		feed("allToDos", data);
 		updateJsonView();
 	};
 
-	dom99core.functions.deleteToDos = function (event) {
+	functions.deleteToDos = function (event) {
 		//delete done todos only !
 		data = data.filter(function (toDoItem) {
 			return !toDoItem.done;
 		});
 
-		dom99core.feed("allToDos", data);
+		feed("allToDos", data);
 		updateJsonView();
 	};
 
-	dom99core.feed("allToDos", data);
+	feed("allToDos", data);
 	updateJsonView();
 
 	// -- Love Hate --
 
-	dom99core.feed({
+	feed({
 		me: {
 			owner: "My",
 			love: ["Family", "Science", "Vacation"],
@@ -889,5 +820,5 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	});
 
-	dom99core.activate();
+	activate();
 })();

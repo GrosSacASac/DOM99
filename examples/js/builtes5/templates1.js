@@ -28,8 +28,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	/**
  	freezes HTMLCollection or Node.childNodes
  	by returning an array that does not change
- 	
- 		
+ 
+ 
  	@param {arrayLike} liveCollection
  	@return {array}
  */
@@ -72,7 +72,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var listSubscribers = {};
 
 	/**
- Retrieve variable values that have been modified by d.feed or 
+ Retrieve variable values that have been modified by d.feed or
  2 way data binded element with data-variable attribute (Read only)
  
  @param {string} path
@@ -143,7 +143,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, "SELECT", "change"), _defineProperty(_valueElseMissDecorat4, "TEXTAREA", "input"), _defineProperty(_valueElseMissDecorat4, "BUTTON", "click"), _defineProperty(_valueElseMissDecorat4, "MISS", "click"), _valueElseMissDecorat4));
 
 	/**
- internal dom99 options, look at dom99ConfigurationExample.js	
+ internal dom99 options, look at dom99ConfigurationExample.js
  to learn how to configure it
  */
 	var options = {
@@ -229,47 +229,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	/**
- contextFromEvent gets the starting path for an event issued inside a component
- 
- in combination with contextFromArray it allows to access sibling elements and variables
- 
- d.functions.clickedButton = function (event) {
- 	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
- 		.classList.add(`active`);
- };
-  
- @param {Event} event 
- 
- @return {string} path
- */
-	var contextFromEvent = function contextFromEvent(event, parent) {
-		if (event || parent) {
-			var element = void 0;
-			if (event && event.target) {
-				element = event.target;
-			} else {
-				element = parent;
-			}
-
-			if (hasOwnProperty.call(element, CONTEXT)) {
-				return element[CONTEXT];
-			} else {
-				if (element.parentNode) {
-					return contextFromEvent(undefined, element.parentNode);
-				}
-			}
-		}
-		console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
-		return "";
-	};
-
-	/**
  contextFromArray joins paths to create a valid path to use with
  
  d.variables[path]
  d.elements[path]
-  
- @param {array} Array 
+ 
+ @param {array} Array
  
  @return {string} path
  */
@@ -283,19 +248,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 	var leaveObject = function leaveObject() {
 		pathIn.pop();
-	};
-
-	/**
- getParentContext
- 
- @param {string} context 
- 
- @return {string} parentContext
- */
-	var getParentContext = function getParentContext(context) {
-		var split = context.split(INSIDE_SYMBOL);
-		split.pop();
-		return split.join(INSIDE_SYMBOL);
 	};
 
 	var contextFromArrayWith = function contextFromArrayWith(pathIn, withWhat) {
@@ -332,7 +284,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  	And all of this doesn't matter for 1-100 elements, but it does matter,
  	for an infinitely growing list
- 	
+ 
  @param {string} path
  */
 	var forgetContext = function forgetContext(path) {
@@ -625,19 +577,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 	};
 
-	/**
- Removes a template from the DOM and from dom99 memory  
- @param {string} name
- 
- */
-	var deleteTemplate = function deleteTemplate(name) {
-		if (!hasOwnProperty.call(templateFromName, name)) {
-			console.error("<template " + options.directives.template + "=" + name + ">\n\t\t\t</template> not found or already deleted and removed.");
-		}
-		templateFromName[name].remove();
-		delete templateFromName[name];
-	};
-
 	var tryApplyDirectives = function tryApplyDirectives(element) {
 		/* looks if the element has dom99 specific attributes and tries to handle it*/
 		// todo make sure no impact-full read write
@@ -704,51 +643,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return startElement;
 	};
 
-	/**
- Convenience function for activate, feed and assigning functions from
- an object
- 
- @param {object} dataFunctions
- @param {object} initialFeed
- @param {Element} startElement
- @param {function} callBack
- 
- @return {any} callBack return value
- */
-	var start = function start() {
-		var dataFunctions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-		var initialFeed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-		var startElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
-		var callBack = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
-
-
-		Object.assign(functions, dataFunctions);
-		feed(initialFeed);
-		activate(startElement);
-		if (!callBack) {
-			return;
-		}
-		return callBack();
-	};
-
 	var originalFeedHook = function originalFeedHook() {};
 	var feedHook = originalFeedHook;
 
-	var dom99core = Object.freeze({
-		start: start,
-		activate: activate,
-		elements: elements,
-		functions: functions,
-		variables: variables,
-		feed: feed,
-		forgetContext: forgetContext,
-		deleteTemplate: deleteTemplate,
-		contextFromArray: contextFromArray,
-		contextFromEvent: contextFromEvent,
-		getParentContext: getParentContext
-	});
-
-	dom99core.functions.showNextComment = function (event) {};
+	functions.showNextComment = function (event) {};
 
 	var commentsData = {
 		comment1: {
@@ -762,7 +660,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	// we could also manually assign every property in a complicated for loop
-	dom99core.feed(commentsData);
+	feed(commentsData);
 
-	dom99core.activate();
+	activate();
 })();

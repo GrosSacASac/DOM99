@@ -1,5 +1,5 @@
 // Import
-import {d, plugin, options, createElement2} from "../../source/dom99.js";
+import * as d  from "../../source/dom99.js";
 
 
 

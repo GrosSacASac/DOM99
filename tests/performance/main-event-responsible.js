@@ -1,6 +1,4 @@
-// outdated see main.js
-import {d, plugin} from "../../source/dom99-perf-event-responsible.js";
-import {firstAncestorValue, idFromEvent, idFromNode} from "../../source/parentIdFromEvent.js";
+import * as d from "../../source/dom99-perf.js";
 
 var startTime;
 var lastMeasure;

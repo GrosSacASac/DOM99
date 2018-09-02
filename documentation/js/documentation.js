@@ -6,7 +6,7 @@ const displayHtmlJsAndResult = function(name) {
     d.elements[d.contextFromArray([name, "penContainer"])] .setAttribute("id", name); // for anchor links
     const JsSourceOriginal = d.elements[name+"Js"].textContent;
     const JsSourceDisplay = (
-        `import {d} from "dom99";
+        `import * as d from "dom99";
 ${JsSourceOriginal.trim()}
 
 d.activate();`);

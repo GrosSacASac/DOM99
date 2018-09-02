@@ -12,19 +12,20 @@ examples/ScrollTest.html
 
 ## How to use
 
-    // using es modules
-    import {d, plugin, options, createElement2} from "./node_modules/dom99/source/dom99.js";
-    import {yesNoDialog, useYesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
-	
-	useYesNoDialog(d);
-    d.activate();
-    
-    //...
-    
-    yesNoDialog(questionText, yesText, noText).then(function (answer) {
-        //do something with answer (Boolean)
-    });
-    
+```
+import * as d from "./node_modules/dom99/source/dom99.js";
+import {yesNoDialog, useYesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
+
+useYesNoDialog(d);
+d.activate();
+
+//...
+
+yesNoDialog(questionText, yesText, noText).then(function (answer) {
+    //do something with answer (Boolean)
+});
+```
+
 ## API
 
 ### JS
@@ -55,17 +56,17 @@ returns a `Promise` that eventually resolves with a `String`
 extend styling with
 
  * .yes-no-dialog
- * .yes-no-dialog-text 
+ * .yes-no-dialog-text
  * .yes-no-dialog-button
  * .yes-no-dialog-input-label
  * .yes-no-dialog-input-label > span
  * .yes-no-dialog-input
  * .yes-no-dialog-input-label + button
-    
+
 ## Description
 
-You need to include the html fragment and the css. 
-The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body (see yesNoDialog.css). 
+You need to include the html fragment and the css.
+The rest of the user interface is hidden as long as there is no answer provided by adding a class to the body (see yesNoDialog.css).
 The promise will never reject.
 It is possible to call yesNoDialog multiple times in a row even if the user is still answering previous questions.
 An encapsulated queue is used to handle that. `useYesNoDialog(d)` is required once before `d.start()` or similar.
@@ -76,7 +77,7 @@ The native prompt function cannot be styled by css and blocks the main thread.
 
 ## Limitations
 
-Requires Promise implementation (ES2015). Cannot use other data-function="yesNoDialogAnswer" elsewhere. 
+Requires Promise implementation (ES2015). Cannot use other data-function="yesNoDialogAnswer" elsewhere.
 Need to include the provided HTML fragment in yesNoDialog.html , see examples/yesNoDialogExample.html.
 Cannot use the class Name "yes-no-dialog" in other HTML elements.
 
@@ -118,13 +119,13 @@ Better encapsulation
 
 
  * yesNoDialog can now be used multiples times in a row even when previous ones are not answered and all promises will resolve correctly.
- 
- * Scrolls back at the same scroll position as before yesNoDialog was called 
+
+ * Scrolls back at the same scroll position as before yesNoDialog was called
 
 
 ## Todo
 
- * Add keyboard shortcut alternative to click Yes No with Enter ESC 
+ * Add keyboard shortcut alternative to click Yes No with Enter ESC
  * Add alert equivalent
  * figure out if https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#Notes is an issue or not
  * add placeholder capability
