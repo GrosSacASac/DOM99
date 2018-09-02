@@ -1,4 +1,4 @@
-import {d} from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
 import {
     chainRequestAnimationFrame,
     timePromise
