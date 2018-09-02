@@ -77,6 +77,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  };
  */
 
+	var firstAncestorValue = function firstAncestorValue(node, accessor) {
+		var potentialValue = accessor(node);
+		if (potentialValue) {
+			return potentialValue;
+		}
+		var parent = node.parentNode;
+		if (parent) {
+			return firstAncestorValue(parent, accessor);
+		}
+		// return undefined;
+	};
+
 	/*idGenerator()
  
  generates a predictable new id each time
@@ -99,7 +111,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var NAME = "DOM99";
 	var CONTEXT = NAME + "_C";
 	var LIST_ITEM_PROPERTY = NAME + "_L";
-	var ELEMENT_PROPERTY = NAME + "_E";
 	var ELEMENT_LIST_ITEM = NAME + "_I";
 	var CUSTOM_ELEMENT = NAME + "_X";
 	var LIST_CHILDREN = NAME + "_R";
@@ -144,7 +155,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	var alreadyHooked = false;
 	var feedPlugins = [];
 	var clonePlugins = [];
-	var cloneHook = function cloneHook() {};
 
 	var directivePairs = void 0;
 
@@ -270,6 +280,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	/**
+ @param {Element}
+ 
+ @return {string | undefined} context
+ */
+	var contextFromElement = function contextFromElement(element) {
+		return element[CONTEXT];
+	};
+
+	/**
  contextFromEvent gets the starting path for an event issued inside a component
  
  in combination with contextFromArray it allows to access sibling elements and variables
@@ -283,25 +302,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  
  @return {string} path
  */
-	var contextFromEvent = function contextFromEvent(event, parent) {
-		if (event || parent) {
-			var element = void 0;
-			if (event && event.target) {
-				element = event.target;
-			} else {
-				element = parent;
-			}
-
-			if (hasOwnProperty.call(element, CONTEXT)) {
-				return element[CONTEXT];
-			} else {
-				if (element.parentNode) {
-					return contextFromEvent(undefined, element.parentNode);
-				}
-			}
-		}
-		console.warn(event, "has no context. contextFromEvent for top level elements is not needed.");
-		return "";
+	var contextFromEvent = function contextFromEvent(event) {
+		return firstAncestorValue(event.target, contextFromElement) || "";
 	};
 
 	/**
@@ -384,7 +386,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 	};
 
 	var notifyOneVariableSubscriber = function notifyOneVariableSubscriber(variableSubscriber, value) {
-		variableSubscriber[variableSubscriber[ELEMENT_PROPERTY]] = value;
+		variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 	};
 
 	var notifyVariableSubscribers = function notifyVariableSubscribers(subscribers, value) {
@@ -587,7 +589,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			console.error(element, "Use " + options.directives.variable + "=\"variableName\" format!");
 		}
 
-		element[ELEMENT_PROPERTY] = options.propertyFromElement(element);
 		var path = contextFromArrayWith(pathIn, variableName);
 		pushOrCreateArrayAt(variableSubscribers, path, element);
 		var lastValue = variables[path]; // has latest
@@ -595,22 +596,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			notifyOneVariableSubscriber(element, lastValue);
 		}
 
-		if (options.tagNamesForUserInput.includes(element.tagName)) {
-			var broadcastValue = function broadcastValue(event) {
-				//wil call setter to broadcast the value
-				var value = event.target[event.target[ELEMENT_PROPERTY]];
-				variables[path] = value;
-				feedHook(path, value);
-				// would notify everything including itself
-				// notifyVariableSubscribers(variableSubscribers[path], value);
-				variableSubscribers[path].forEach(function (variableSubscriber) {
-					if (variableSubscriber !== element) {
-						notifyOneVariableSubscriber(variableSubscriber, value);
-					}
-				});
-			};
-			addEventListener(element, options.eventNameFromElement(element), broadcastValue);
+		if (!options.tagNamesForUserInput.includes(element.tagName)) {
+			return;
 		}
+		var broadcastValue = function broadcastValue(event) {
+			//wil call setter to broadcast the value
+			var value = element[options.propertyFromElement(element)];
+			variables[path] = value;
+			feedHook(path, value);
+			// would notify everything including itself
+			// notifyVariableSubscribers(variableSubscribers[path], value);
+			variableSubscribers[path].forEach(function (variableSubscriber) {
+				if (variableSubscriber !== element) {
+					notifyOneVariableSubscriber(variableSubscriber, value);
+				}
+			});
+		};
+		addEventListener(element, options.eventNameFromElement(element), broadcastValue);
 	};
 
 	var applyDirectiveElement = function applyDirectiveElement(element, attributeValue) {
@@ -772,8 +774,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		return callBack();
 	};
 
-	var originalFeedHook = function originalFeedHook() {};
-	var feedHook = originalFeedHook;
+	var cloneHook = function cloneHook() {
+		var context = contextFromArray(pathIn);
+		clonePlugins.forEach(function (clonePlugin) {
+			clonePlugin(context);
+		});
+	};
+
+	var feedHook = function feedHook(startPath, data) {
+		feedPlugins.forEach(function (feedPlugin) {
+			feedPlugin(startPath, data);
+		});
+	};
 
 	/**
  Plug in a plugin (hook) into the core functionality
@@ -787,9 +799,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 		}
 		if (featureToPlugIn.type === "function") {
 			functionPlugins.push(featureToPlugIn.plugin);
-			if (applyFunction !== applyFunctionOriginal) {
-				return;
-			}
 			applyFunction = function applyFunction(element, eventName, functionName) {
 				var defaultPrevented = false;
 				var preventDefault = function preventDefault() {
@@ -805,23 +814,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			};
 		} else if (featureToPlugIn.type === "variable") {
 			feedPlugins.push(featureToPlugIn.plugin);
-			if (feedHook !== originalFeedHook) {
-				return;
-			}
-			feedHook = function feedHook(startPath, data) {
-				feedPlugins.forEach(function (feedPlugin) {
-					feedPlugin(startPath, data);
-				});
-			};
 		} else if (featureToPlugIn.type === "cloned") {
 			clonePlugins.push(featureToPlugIn.plugin);
-
-			cloneHook = function cloneHook() {
-				var context = contextFromArray(pathIn);
-				clonePlugins.forEach(function (clonePlugin) {
-					clonePlugin(context);
-				});
-			};
 		} else {
 			console.warn("plugin type " + featureToPlugIn.type + " not yet implemented");
 		}

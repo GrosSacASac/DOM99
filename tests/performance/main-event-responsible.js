@@ -40,7 +40,7 @@ class Store {
             data.push({id: this.id++, label: adjectives[_random(adjectives.length)] + " " + colours[_random(colours.length)] + " " + nouns[_random(nouns.length)] });
         return data;
     }
-	
+
     updateData(mod = 10) {
         // updates all 10th data
         for (let i=0;i<this.data.length;i+=10) {
@@ -48,33 +48,36 @@ class Store {
             // this.data[i] = Object.assign({}, this.data[i], {label: this.data[i].label +' !!!'});
         }
     }
-	
+
     delete(id) {
         // deletes a data by id
+		if (this.selected === id) {
+			this.selected = null;
+		}
         const idx = this.data.findIndex(d => d.id==id);
         this.data = this.data.filter((e,i) => i!=idx);
         return this;
     }
-	
+
     run() {
         this.data = this.buildData();
         this.selected = null;
     }
-	
+
     add() {
         this.data = this.data.concat(this.buildData(1000));
         this.selected = null;
     }
-	
+
     update() {
         this.updateData();
         this.selected = null;
     }
-	
+
     select(id) {
         this.selected = id;
     }
-	
+
     // hideAll() {
         // this.backup = this.data;
         // this.data = [];
@@ -85,17 +88,17 @@ class Store {
         // this.backup = null;
         // this.selected = null;
     // }
-	
+
     runLots() {
         this.data = this.buildData(10000);
         this.selected = null;
     }
-	
+
     clear() {
         this.data = [];
         this.selected = null;
     }
-	
+
     swapRows() {
         if(this.data.length > 998) {
             var a = this.data[1];
@@ -109,8 +112,6 @@ class Store {
 
 var store = new Store();
 var start = 0;
-var rows = [];
-var data = [];
 var selectedRowElement = undefined;
 
 
@@ -187,20 +188,6 @@ var deleteRow = function (e) {
     stopMeasure();
 };
 
-
-// var handleRow = function (event) {
-    // const dataElement = event.target.getAttribute("data-element");
-    // if (!dataElement) {
-      // return;
-    // }
-    // if (dataElement.includes("label")) {
-        // selectRow(event);
-    // }
-    // console.log(event);
-    // console.log(event.target);
-// };
-
-
 var unselect = function () {
     if (selectedRowElement !== undefined) {
         selectedRowElement.className = "";
@@ -232,10 +219,41 @@ var selectRow = function (e) {
     stopMeasure();
 };
 
+const handleClickTable  = function (event) {
+
+		event.preventDefault();
+		event.stopPropagation();
+	const id = Number(idFromEvent(event));
+	const elementAttribute = firstAncestorValue(event.target, function (node) {
+		return node.getAttribute("data-element");
+	});
+	console.log(elementAttribute);
+	console.log(id);
+	if (elementAttribute.includes("delete")) {
+		startMeasure("delete");
+		store.delete(id);
+		console.log(store.data.length);
+		d.feed("rows", store.data);
+		stopMeasure();
+	} else if (elementAttribute.includes("select")) {
+		startMeasure("select");
+		unselect();
+		const index = store.data.findIndex(function ({id: idAtIndex}) {
+			return id === idAtIndex;
+		});
+		console.log(index);
+		let rowContext = d.contextFromArray(["rows", index, "row"]);
+		let rowElement = d.elements[rowContext];
+		store.select(id);
+		select(rowElement);
+		stopMeasure();
+	} else {
+		console.log("clicked outside");
+	}
+};
+
 var functions = {
-    // handleRow,
-	delete: deleteRow,
-	select: selectRow,
+	handleClickTable,
     delegate: function (e) {
         // console.log("delegate");
         if (e.target.matches('#add')) {
@@ -281,6 +299,41 @@ var functions = {
 
     }
 };
+const childContext = function (context) {
+	return context.split(">").pop();
+};
+// plugin({type: "cloned",
+	// plugin: function (context) {
+		// problem goes out of sync , because feed reuses the elements
+		// const id = childContext(context);// would be the current index of the array
+		// const realId = d.variables[d.contextFromArray([context, "id"])];
+		// d.elements[d.contextFromArray([context, 'row'])].setAttribute('data-id', realId);
+	// }
+// });
+plugin({type: "variable",
+	plugin: function (startPath, data) {
+		console.log(startPath);
+		// console.log(data);
+		if (startPath.startsWith("rows>")) {
+				d.elements[d.contextFromArray([startPath, 'row'])].setAttribute('data-id', data.id);
+		} else if (startPath.startsWith("rows")) {
+			// reselect
+			    if (selectedRowElement !== undefined) {
+					selectedRowElement.className = "";
+
+					const index = store.data.findIndex(function ({id: idAtIndex}) {
+						return store.selected === idAtIndex;
+					});
+					if (index === -1) {
+						return;
+					}
+					let rowContext = d.contextFromArray(["rows", index, "row"]);
+					selectedRowElement = d.elements[rowContext];
+					selectedRowElement.className = "danger";
+				}
+		}
+	}
+});
 
 var initialFeed = {};
 var startElement = document.body;
@@ -288,3 +341,4 @@ d.start(functions, initialFeed, startElement, function () {
     // console.log("ready");
     // run();
 });
+window.d = d;

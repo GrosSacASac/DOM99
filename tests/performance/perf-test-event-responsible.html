@@ -6,15 +6,15 @@
     <link href="css/currentStyle.css" rel="stylesheet"/>
 </head>
 <body>
-
+<!-- outdated see perf-test.html -->
 <template data-template="row-template">
     <tr data-element="row">
         <td class="col-md-1" data-variable="id">ID</td>
         <td class="col-md-4">
-            <a data-function="select" data-variable="label">LABEL</a>
+            <a data-element="select" data-variable="label">LABEL</a>
         </td>
         <td class="col-md-1">
-            <a data-function="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            <a data-element="delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
         </td>
         <td class="col-md-6"></td>
     </tr>
@@ -51,12 +51,12 @@
                 </div>
             </div>
         </div>
-        <table class="table table-hover table-striped test-data">
+        <table class="table table-hover table-striped test-data" data-function="handleClickTable">
             <tbody id="tbody" data-element="tbody" data-list="rows-row-template"></tbody>
         </table>
         <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 </div>
-<script type="module" src='main.js'></script>
+<script type="module" src='main-event-responsible.js'></script>
 </body>
 </html>

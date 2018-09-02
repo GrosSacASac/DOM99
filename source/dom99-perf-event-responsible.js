@@ -1,28 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>dom99 - API</title>
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-
-<body>
-
-<main >
-    <h1 class="page-title">Source: dom99.js</h1>
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import {createElement2} from "./createElement2.js";
+import {createElement2} from "./createElement2.js";
 import {isObjectOrArray} from "./isObjectOrArray.js";
 import {copyArrayShallow} from "./copyArrayShallow.js";
 import {freezeLiveCollection} from "./freezeLiveCollection.js";
-import {firstAncestorValue} from "./parentIdFromEvent.js";
 
 const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
 const hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -40,7 +19,7 @@ const variableSubscribers = {};
 const listSubscribers = {};
 
 /**
-Retrieve variable values that have been modified by d.feed or
+Retrieve variable values that have been modified by d.feed or 
 2 way data binded element with data-variable attribute (Read only)
 
 @param {string} path
@@ -75,10 +54,11 @@ const functionPlugins = [];
 let alreadyHooked = false;
 const feedPlugins = [];
 const clonePlugins = []
+let cloneHook = function () {};
 
 let directivePairs;
 
-const pushOrCreateArrayAt = (object, key, valueToPush) => {
+const pushOrCreateArrayAt = function (object, key, valueToPush) {
   // don't need to use hasOwnProp as there is no array in the prototype
   // but still use it to avoid a warning
   // const potentialArray = object[key]
@@ -92,12 +72,12 @@ const pushOrCreateArrayAt = (object, key, valueToPush) => {
 };
 
 const MISS = `MISS`;
-const valueElseMissDecorator = (object) => {
+const valueElseMissDecorator = function (object) {
 	/*Decorator function around an Object to provide a default value
 	Decorated object must have a MISS key with the default value associated
 	Arrays are also objects
 	*/
-	return (key) => {
+	return function (key) {
 		if (hasOwnProperty.call(object, key)) {
 			return object[key];
 		}
@@ -146,7 +126,7 @@ const eventFromTag = valueElseMissDecorator({
 });
 
 /**
-internal dom99 options, look at dom99ConfigurationExample.js
+internal dom99 options, look at dom99ConfigurationExample.js	
 to learn how to configure it
 */
 const options = {
@@ -162,9 +142,9 @@ const options = {
 		template: `data-template`
 	},
 
-	propertyFromElement: (element) => {
+	propertyFromElement: function (element) {
 		// defines what is changing when data-variable is changing
-		// for &lt;p> it is textContent
+		// for <p> it is textContent
 		let tagName;
 		if (element.tagName !== undefined) {
 			tagName = element.tagName;
@@ -177,7 +157,7 @@ const options = {
 		return propertyFromTag(tagName);
 	},
 
-	eventNameFromElement: (element) => {
+	eventNameFromElement: function (element) {
 		// defines the default event for an element
 		// i.e. when data-function is omitting the event
 		const tagName = element.tagName;
@@ -195,7 +175,7 @@ const options = {
 	]
 };
 
-const elementsDeepForEach = (startElement, callBack) => {
+const elementsDeepForEach = function (startElement, callBack) {
 	callBack(startElement);
 	// https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
 	// is not supported in Edge/Safari on DocumentFragments
@@ -213,7 +193,7 @@ const elementsDeepForEach = (startElement, callBack) => {
 
 };
 
-const customElementNameFromElement = (element) => {
+const customElementNameFromElement = function (element) {
 	const isAttributeValue = element.getAttribute(`is`);
 	if (isAttributeValue) {
 		return isAttributeValue;
@@ -221,16 +201,16 @@ const customElementNameFromElement = (element) => {
 	return element.tagName.toLowerCase();
 };
 
-const addEventListener = (element, eventName, callBack, useCapture = false) => {
+const addEventListener = function (element, eventName, callBack, useCapture = false) {
 	element.addEventListener(eventName, callBack, useCapture);
 };
 
-const cloneTemplate = (template) => {
+const cloneTemplate = function (template) {
 	if (!template) {
 		console.error(
-			`Template missing &lt;template ${options.directives.template}="d-name">
+			`Template missing <template ${options.directives.template}="d-name">
 				Template Content
-			&lt;/template>`
+			</template>`
 		);
 	}
 	if (!template.content) {
@@ -243,30 +223,43 @@ const cloneTemplate = (template) => {
 
 
 /**
-@param {Element}
-
-@return {string | undefined} context
-*/
-const contextFromElement = (element) => {
-	return element[CONTEXT];
-};
-
-/**
 contextFromEvent gets the starting path for an event issued inside a component
 
 in combination with contextFromArray it allows to access sibling elements and variables
 
-d.functions.clickedButton = (event) => {
+d.functions.clickedButton = function (event) {
 	d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
 		.classList.add(`active`);
 };
-
-@param {Event} event
+ 
+@param {Event} event 
 
 @return {string} path
 */
-const contextFromEvent = (event) => {
-	return firstAncestorValue(event.target, contextFromElement) || ``;
+const contextFromEvent = function (event, parent) {
+	if (event || parent) {
+		let element
+		if (event && event.target) {
+			element = event.target;
+		} else {
+			element = parent;
+		}
+
+		if (hasOwnProperty.call(element, CONTEXT)) {
+			return element[CONTEXT];
+		} else {
+			if (element.parentNode) {
+				return contextFromEvent(undefined, element.parentNode);
+			} else {
+				;
+			}
+		}
+	}
+	console.warn(
+		event,
+		`has no context. contextFromEvent for top level elements is not needed.`
+	);
+	return ``;
 };
 
 /**
@@ -274,16 +267,16 @@ contextFromArray joins paths to create a valid path to use with
 
 d.variables[path]
 d.elements[path]
-
-@param {array} Array
+ 
+@param {array} Array 
 
 @return {string} path
 */
-const contextFromArray = (pathIn) => {
+const contextFromArray = function (pathIn) {
 	return pathIn.join(INSIDE_SYMBOL);
 };
 
-const enterObject = (key) => {
+const enterObject = function (key) {
 	pathIn.push(key);
 };
 
@@ -295,24 +288,24 @@ const leaveObject = function () {
 /**
 getParentContext
 
-@param {string} context
+@param {string} context 
 
 @return {string} parentContext
 */
-const getParentContext = (context) => {
+const getParentContext = function (context) {
 	const split = context.split(INSIDE_SYMBOL);
 	split.pop();
 	return split.join(INSIDE_SYMBOL);
 };
 
-const contextFromArrayWith = (pathIn, withWhat) => {
+const contextFromArrayWith = function (pathIn, withWhat) {
 	if (pathIn.length === 0) {
 		return withWhat;
 	}
 	return `${contextFromArray(pathIn)}${INSIDE_SYMBOL}${withWhat}`;
 };
 
-const normalizeStartPath = (startPath) => {
+const normalizeStartPath = function (startPath) {
 	// this is because `a>b>c` is irregular
 	// `a>b>c>` or `>a>b>c` would not need such normalization
 	if (startPath) {
@@ -321,8 +314,8 @@ const normalizeStartPath = (startPath) => {
 	return startPath;
 };
 
-const deleteAllStartsWith = (object, prefix) => {
-	Object.keys(object).forEach((key) => {
+const deleteAllStartsWith = function (object, prefix) {
+	Object.keys(object).forEach(function (key) {
 		if (key.startsWith(prefix)) {
 			delete object[key];
 		}
@@ -339,39 +332,39 @@ Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
 
 	And all of this doesn't matter for 1-100 elements, but it does matter,
 	for an infinitely growing list
-
+	
 @param {string} path
 */
-const forgetContext = (path) => {
+const forgetContext = function (path) {
 	deleteAllStartsWith(variableSubscribers, path);
 	deleteAllStartsWith(listSubscribers, path);
 	deleteAllStartsWith(variables, path);
 	deleteAllStartsWith(elements, path);
 };
 
-const notifyOneVariableSubscriber = (variableSubscriber, value) => {
+const notifyOneVariableSubscriber = function (variableSubscriber, value) {
 	variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 };
 
-const notifyVariableSubscribers = (subscribers, value) => {
+const notifyVariableSubscribers = function (subscribers, value) {
 	if (value === undefined) {
 		// undefined can be used to use the default value
 		// without explicit if else
 		return;
 	}
-	subscribers.forEach((variableSubscriber) => {
+	subscribers.forEach(function (variableSubscriber) {
 		notifyOneVariableSubscriber(variableSubscriber, value);
 	});
 };
 
-const removeNode = (node) => {
+const removeNode = function (node) {
 	node.remove();
 };
 
-const notifyOneListSubscriber = (listContainer, startPath, data) => {
+const notifyOneListSubscriber = function (listContainer, startPath, data) {
 	const fragment = document.createDocumentFragment();
 	if (
-		hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &amp;&amp;
+		hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
 		hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
 	) {
 		// composing with custom element
@@ -387,7 +380,7 @@ const notifyOneListSubscriber = (listContainer, startPath, data) => {
 			oldLength = listContainer[LIST_CHILDREN].length;
 			if (oldLength > newLength) {
 				let i;
-				for (i = newLength; i &lt; oldLength; i += 1) {
+				for (i = newLength; i < oldLength; i += 1) {
 					pathInside = `${normalizedPath}${i}`;
 					listContainer[LIST_CHILDREN][i].forEach(removeNode);
 					forgetContext(pathInside);
@@ -399,9 +392,9 @@ const notifyOneListSubscriber = (listContainer, startPath, data) => {
 			oldLength = 0;
 		}
 
-		data.forEach((dataInside, i) => {
+		data.forEach(function (dataInside, i) {
 			pathInside = `${normalizedPath}${i}`;
-			feed(pathInside, dataInside);
+			// feed here would create clones with the right info already
 			if (i >= oldLength) {
 				// cannot remove document fragment after insert because they empty themselves
 				// have to freeze the children to still have a reference
@@ -414,12 +407,13 @@ const notifyOneListSubscriber = (listContainer, startPath, data) => {
 				);
 				fragment.appendChild(activatedClone);
 			}
+			feed(pathInside, dataInside);
 			// else reusing, feed updated with new data the old nodes
 		});
 		pathIn = previous;
 	} else {
 		listContainer.innerHTML = ``;
-		data.forEach((value) => {
+		data.forEach(function (value) {
 			const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
 			if (isObjectOrArray(value)) {
 				Object.assign(listItem, value);
@@ -432,8 +426,8 @@ const notifyOneListSubscriber = (listContainer, startPath, data) => {
 	listContainer.appendChild(fragment);
 };
 
-const notifyListSubscribers = (subscribers, startPath, data) => {
-	subscribers.forEach((listContainer) => {
+const notifyListSubscribers = function (subscribers, startPath, data) {
+	subscribers.forEach(function (listContainer) {
 		notifyOneListSubscriber(listContainer, startPath, data);
 	});
 };
@@ -451,7 +445,7 @@ Feed data, for element with corresponding data-variable and data-list
 
 @return {Element} startElement
 */
-const feed = (startPath, data) => {
+const feed = function (startPath, data) {
 	if (data === undefined) {
 		data = startPath;
 		startPath = ``;
@@ -461,9 +455,6 @@ const feed = (startPath, data) => {
 			`Incorrect types passed to d.feed,
 			d.feed(string, object) or d.feed(object)`
 		);
-	}
-	if (!alreadyHooked) {
-		feedHook(startPath, data);
 	}
 	if (!isObjectOrArray(data)) {
 		variables[startPath] = data;
@@ -478,15 +469,19 @@ const feed = (startPath, data) => {
 	} else {
 		const normalizedPath = normalizeStartPath(startPath);
 		alreadyHooked = true;
-		Object.entries(data).forEach(([key, value]) => {
+		Object.entries(data).forEach(function ([key, value]) {
 			const path = `${normalizedPath}${key}`;
 			feed(path, value);
 		});
 		alreadyHooked = false;
 	}
+	
+	if (!alreadyHooked) {
+		feedHook(startPath, data);
+	}
 };
 
-const applyFunctionOriginal = (element, eventName, functionName) => {
+const applyFunctionOriginal = function (element, eventName, functionName) {
 	if (!functions[functionName]) {
 		console.error(`Event listener ${functionName} not found.`);
 	}
@@ -497,9 +492,9 @@ const applyFunctionOriginal = (element, eventName, functionName) => {
 
 let applyFunction = applyFunctionOriginal;
 
-const applyFunctions = (element, attributeValue) => {
+const applyFunctions = function (element, attributeValue) {
 	attributeValue.split(options.listSeparator).forEach(
-		(attributeValueSplit) => {
+		function (attributeValueSplit) {
 			const tokens = attributeValueSplit.split(options.tokenSeparator);
 			let functionName;
 			let eventName;
@@ -514,7 +509,7 @@ const applyFunctions = (element, attributeValue) => {
 	);
 };
 
-const applylist = (element, attributeValue) => {
+const applylist = function (element, attributeValue) {
 	const [
 		variableName,
 		listItemTagName,
@@ -553,11 +548,11 @@ const applylist = (element, attributeValue) => {
 	}
 };
 
-const applyVariable = (element, variableName) => {
+const applyVariable = function (element, variableName) {
 	/* two-way bind
-	example : called for &lt;input data-variable="a">
+	example : called for <input data-variable="a">
 	in this example the variableName = `a`
-	we push the &lt;input data-variable="a" > element in the array
+	we push the <input data-variable="a" > element in the array
 	that holds all elements which share this same `a` variable
 	undefined assignment are ignored, instead use empty string*/
 
@@ -568,6 +563,7 @@ const applyVariable = (element, variableName) => {
 		);
 	}
 
+	
 	const path = contextFromArrayWith(pathIn, variableName);
 	pushOrCreateArrayAt(variableSubscribers, path, element);
 	const lastValue = variables[path]; // has latest
@@ -575,31 +571,29 @@ const applyVariable = (element, variableName) => {
 		notifyOneVariableSubscriber(element, lastValue);
 	}
 
-	if (!options.tagNamesForUserInput.includes(element.tagName)) {
-		return;
+	if (options.tagNamesForUserInput.includes(element.tagName)) {
+		const broadcastValue = function (event) {
+			//wil call setter to broadcast the value
+			const value = event.target[options.propertyFromElement(event.target)];
+			variables[path] = value;
+			feedHook(path, value);
+			// would notify everything including itself
+			// notifyVariableSubscribers(variableSubscribers[path], value);
+			variableSubscribers[path].forEach(function (variableSubscriber) {
+				if (variableSubscriber !== element) {
+					notifyOneVariableSubscriber(variableSubscriber, value);
+				}
+			});
+		};
+		addEventListener(
+			element,
+			options.eventNameFromElement(element),
+			broadcastValue
+		);
 	}
-	const broadcastValue = (event) => {
-		//wil call setter to broadcast the value
-		const value = element[options.propertyFromElement(element)];
-		variables[path] = value;
-		feedHook(path, value);
-		// would notify everything including itself
-		// notifyVariableSubscribers(variableSubscribers[path], value);
-		variableSubscribers[path].forEach((variableSubscriber) => {
-			if (variableSubscriber !== element) {
-				notifyOneVariableSubscriber(variableSubscriber, value);
-			}
-		});
-	};
-	addEventListener(
-		element,
-		options.eventNameFromElement(element),
-		broadcastValue
-	);
-
 };
 
-const applyDirectiveElement = (element, attributeValue) => {
+const applyDirectiveElement = function (element, attributeValue) {
 	/* stores element for direct access !*/
 	const elementName = attributeValue;
 
@@ -613,7 +607,7 @@ const applyDirectiveElement = (element, attributeValue) => {
 	elements[path] = element;
 };
 
-const applytemplate = (element, attributeValue) => {
+const applytemplate = function (element, attributeValue) {
 	/* stores a template element for later reuse !*/
 	if (!attributeValue) {
 		console.error(
@@ -625,7 +619,7 @@ const applytemplate = (element, attributeValue) => {
 	templateFromName[attributeValue] = element;
 };
 
-const activateCloneTemplate = (template, key) => {
+const activateCloneTemplate = function (template, key) {
 	/* clones a template and activates it
 	*/
 	enterObject(key);
@@ -636,7 +630,7 @@ const activateCloneTemplate = (template, key) => {
 	return activatedClone;
 };
 
-const applyInside = (element, key) => {
+const applyInside = function (element, key) {
 	/* looks for an html template to render
 	also calls applyDirectiveElement with key!*/
 	if (!key) {
@@ -667,22 +661,22 @@ const applyInside = (element, key) => {
 };
 
 /**
-Removes a template from the DOM and from dom99 memory
+Removes a template from the DOM and from dom99 memory  
 @param {string} name
 
 */
-const deleteTemplate = (name) => {
+const deleteTemplate = function (name) {
 	if (!hasOwnProperty.call(templateFromName, name)) {
 		console.error(
-			`&lt;template ${options.directives.template}=${name}>
-			&lt;/template> not found or already deleted and removed.`
+			`<template ${options.directives.template}=${name}>
+			</template> not found or already deleted and removed.`
 		);
 	}
 	templateFromName[name].remove();
 	delete templateFromName[name];
 };
 
-const tryApplyDirectives = (element) => {
+const tryApplyDirectives = function (element) {
 	/* looks if the element has dom99 specific attributes and tries to handle it*/
 	// todo make sure no impact-full read write
 	if (!element.hasAttribute) {
@@ -692,7 +686,7 @@ const tryApplyDirectives = (element) => {
 
 	// spellcheck atributes
 	const directives = Object.values(options.directives);
-	Array.prototype.slice.call(element.attributes).forEach((attribute) => {
+	Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
 		if (attribute.nodeName.startsWith(`data`)) {
 			if (directives.includes(attribute.nodeName)) {
 				;
@@ -702,7 +696,7 @@ const tryApplyDirectives = (element) => {
 		}
 	});
 
-	directivePairs.forEach(([directiveName, applyDirective]) => {
+	directivePairs.forEach(function ([directiveName, applyDirective]) {
 		if (!element.hasAttribute(directiveName)) {
 			return;
 		}
@@ -740,7 +734,7 @@ and walking inside its tree
 
 @return {Element} startElement
 */
-const activate = (startElement = document.body) => {
+const activate = function (startElement = document.body) {
 	//build array only once and use up to date options, they should not reset twice
 	if (!directivePairs) {
 		directivePairs = [
@@ -769,12 +763,12 @@ an object
 
 @return {any} callBack return value
 */
-const start = (
+const start = function (
 	dataFunctions = {},
 	initialFeed = {},
 	startElement = document.body,
 	callBack = undefined
-) => {
+) {
 
 	Object.assign(functions, dataFunctions);
 	feed(initialFeed);
@@ -785,18 +779,11 @@ const start = (
 	return callBack();
 };
 
-const cloneHook = function () {
-	const context = contextFromArray(pathIn);
-	clonePlugins.forEach((clonePlugin) => {
-		clonePlugin(context);
-	});
-};
 
-const feedHook = (startPath, data) => {
-	feedPlugins.forEach((feedPlugin) => {
-		feedPlugin(startPath, data);
-	});
+const originalFeedHook = function () {
+
 };
+let feedHook = originalFeedHook;
 
 /**
 Plug in a plugin (hook) into the core functionality
@@ -804,7 +791,7 @@ Plug in a plugin (hook) into the core functionality
 @param {object} featureToPlugIn
 
 */
-const plugin = (featureToPlugIn) => {
+const plugin = function (featureToPlugIn) {
 	if (!isObjectOrArray(featureToPlugIn)) {
 		console.error(`plugin({
 			type,
@@ -813,12 +800,15 @@ const plugin = (featureToPlugIn) => {
 	}
 	if (featureToPlugIn.type === `function`) {
 		functionPlugins.push(featureToPlugIn.plugin);
-		applyFunction = (element, eventName, functionName) => {
+		if (applyFunction !== applyFunctionOriginal) {
+			return;
+		}
+		applyFunction = function (element, eventName, functionName) {
 			let defaultPrevented = false;
 			const preventDefault = function () {
 				defaultPrevented = true;
 			};
-			functionPlugins.forEach((pluginFunction) => {
+			functionPlugins.forEach(function (pluginFunction) {
 				pluginFunction(element, eventName, functionName, functions, preventDefault);
 			});
 			if (defaultPrevented) {
@@ -828,15 +818,29 @@ const plugin = (featureToPlugIn) => {
 		};
 	} else if (featureToPlugIn.type === `variable`) {
 		feedPlugins.push(featureToPlugIn.plugin);
+		if (feedHook !== originalFeedHook) {
+			return;
+		}
+		feedHook = function (startPath, data) {
+			feedPlugins.forEach(function (feedPlugin) {
+				feedPlugin(startPath, data);
+			});
+		};
 	} else if (featureToPlugIn.type === `cloned`) {
 		clonePlugins.push(featureToPlugIn.plugin);
+		
+		cloneHook = function () {
+			const context = contextFromArray(pathIn);
+			clonePlugins.forEach(function (clonePlugin) {
+				clonePlugin(context);
+			});
+		};
 	} else {
 		console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
 	}
 };
 
-
-export {
+const dom99core = Object.freeze({
 	start,
 	activate,
 	elements,
@@ -848,26 +852,7 @@ export {
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-	plugin,
-	options,
-	createElement2
-};
+});
+
+export {dom99core as d, plugin, options, createElement2};
 export {idGenerator} from "./idGenerator.js";
-</code></pre>
-        </article>
-    </section>
-
-
-
-
-</main>
-
-<nav>
-    <h2><a href="./documentation.html">Documentation</a></h2><h3>Global</h3><ul><li><a href="global.html#activate">activate</a></li><li><a href="global.html#contextFromArray">contextFromArray</a></li><li><a href="global.html#contextFromElement">contextFromElement</a></li><li><a href="global.html#contextFromEvent">contextFromEvent</a></li><li><a href="global.html#deleteTemplate">deleteTemplate</a></li><li><a href="global.html#elements">elements</a></li><li><a href="global.html#feed">feed</a></li><li><a href="global.html#forgetContext">forgetContext</a></li><li><a href="global.html#functions">functions</a></li><li><a href="global.html#getParentContext">getParentContext</a></li><li><a href="global.html#options">options</a></li><li><a href="global.html#plugin">plugin</a></li><li><a href="global.html#start">start</a></li><li><a href="global.html#variables">variables</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<!-- <footer></footer> -->
-</body>
-</html>
