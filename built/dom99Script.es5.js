@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* dom99 v15.0.2 */
+/* dom99 v15.2.1 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -153,13 +153,13 @@ var d = function (exports) {
 		node.remove();
 	};
 
-	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, 'INPUT', 'value'), _defineProperty(_valueElseMissDecorat, 'TEXTAREA', 'value'), _defineProperty(_valueElseMissDecorat, 'PROGRESS', 'value'), _defineProperty(_valueElseMissDecorat, 'SELECT', 'value'), _defineProperty(_valueElseMissDecorat, 'IMG', 'src'), _defineProperty(_valueElseMissDecorat, 'SOURCE', 'src'), _defineProperty(_valueElseMissDecorat, 'AUDIO', 'src'), _defineProperty(_valueElseMissDecorat, 'VIDEO', 'src'), _defineProperty(_valueElseMissDecorat, 'TRACK', 'src'), _defineProperty(_valueElseMissDecorat, 'SCRIPT', 'src'), _defineProperty(_valueElseMissDecorat, 'OPTION', 'value'), _defineProperty(_valueElseMissDecorat, 'LINK', 'href'), _defineProperty(_valueElseMissDecorat, 'DETAILS', 'open'), _defineProperty(_valueElseMissDecorat, 'MISS', 'textContent'), _valueElseMissDecorat));
+	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, 'INPUT', 'value'), _defineProperty(_valueElseMissDecorat, 'TEXTAREA', 'value'), _defineProperty(_valueElseMissDecorat, 'PROGRESS', 'value'), _defineProperty(_valueElseMissDecorat, 'SELECT', 'value'), _defineProperty(_valueElseMissDecorat, 'IMG', 'src'), _defineProperty(_valueElseMissDecorat, 'SOURCE', 'src'), _defineProperty(_valueElseMissDecorat, 'AUDIO', 'src'), _defineProperty(_valueElseMissDecorat, 'VIDEO', 'src'), _defineProperty(_valueElseMissDecorat, 'TRACK', 'src'), _defineProperty(_valueElseMissDecorat, 'SCRIPT', 'src'), _defineProperty(_valueElseMissDecorat, 'OPTION', 'value'), _defineProperty(_valueElseMissDecorat, 'LINK', 'href'), _defineProperty(_valueElseMissDecorat, 'DETAILS', 'open'), _defineProperty(_valueElseMissDecorat, MISS, 'textContent'), _valueElseMissDecorat));
 
-	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, 'checkbox', 'checked'), _defineProperty(_valueElseMissDecorat2, 'radio', 'checked'), _defineProperty(_valueElseMissDecorat2, 'MISS', 'value'), _valueElseMissDecorat2));
+	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, 'checkbox', 'checked'), _defineProperty(_valueElseMissDecorat2, 'radio', 'checked'), _defineProperty(_valueElseMissDecorat2, MISS, 'value'), _valueElseMissDecorat2));
 
-	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, 'checkbox', 'change'), _defineProperty(_valueElseMissDecorat3, 'radio', 'change'), _defineProperty(_valueElseMissDecorat3, 'range', 'change'), _defineProperty(_valueElseMissDecorat3, 'file', 'change'), _defineProperty(_valueElseMissDecorat3, 'MISS', 'input'), _valueElseMissDecorat3));
+	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, 'checkbox', 'change'), _defineProperty(_valueElseMissDecorat3, 'radio', 'change'), _defineProperty(_valueElseMissDecorat3, 'range', 'change'), _defineProperty(_valueElseMissDecorat3, 'file', 'change'), _defineProperty(_valueElseMissDecorat3, MISS, 'input'), _valueElseMissDecorat3));
 
-	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, 'MISS', 'click'), _valueElseMissDecorat4));
+	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, MISS, 'click'), _valueElseMissDecorat4));
 
 	var defaultDirectives = {
 		function: 'data-function',

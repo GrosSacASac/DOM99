@@ -1,4 +1,4 @@
-/* dom99 v15.0.2 */
+/* dom99 v15.2.1 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -156,14 +156,14 @@ var d = (function (exports) {
 		[`OPTION`]: `value`,
 		[`LINK`]: `href`,
 		[`DETAILS`]: `open`,
-		MISS: `textContent`
+		[MISS]: `textContent`
 	});
 
 	const propertyFromInputType = valueElseMissDecorator({
 		//Input Type : appropriate property name to retrieve and set the value
 		[`checkbox`]: `checked`,
 		[`radio`]: `checked`,
-		MISS: `value`
+		[MISS]: `value`
 	});
 
 	const inputEventFromType = valueElseMissDecorator({
@@ -171,14 +171,14 @@ var d = (function (exports) {
 		[`radio`]: `change`,
 		[`range`]: `change`,
 		[`file`]: `change`,
-		MISS: `input`
+		[MISS]: `input`
 	});
 
 	const eventFromTag = valueElseMissDecorator({
 		[`SELECT`]: `change`,
 		[`TEXTAREA`]: `input`,
 		[`BUTTON`]: `click`,
-		MISS: `click`
+		[MISS]: `click`
 	});
 
 	const defaultDirectives ={
