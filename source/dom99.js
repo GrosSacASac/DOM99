@@ -15,6 +15,7 @@ const {
 	elements,
 	functions,
 	variables,
+	get,
 	feed,
 	forgetContext,
 	deleteTemplate,
@@ -29,14 +30,17 @@ export {
 	elements,
 	functions,
 	variables,
+	get,
 	feed,
 	forgetContext,
 	deleteTemplate,
+	plugin,
+	options,
+	
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-	plugin,
-	options,
+	
 	createElement2,
 	idGenerator
 };

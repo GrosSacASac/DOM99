@@ -142,7 +142,7 @@ const addEventListener = (element, eventName, callBack, useCapture = false) => {
 const cloneTemplate = (template) => {
 	if (!template) {
 		console.error(
-			`Template missing <template ${options.directives.template}="d-name">
+			`Template missing <template data-template="d-name">
 				Template Content
 			</template>`
 		);
@@ -474,6 +474,19 @@ const create = () => {
 			});
 			alreadyHooked = false;
 		}
+	};
+	
+	const get = (input, tojoin) => {
+		let stringPath;
+		if (Array.isArray(input)) {
+			stringPath = contextFromArray(input);
+		} else {
+			stringPath = input;
+		}
+		if (tojoin) {
+			stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
+		}
+		return variables[stringPath];
 	};
 
 	const applyFunctionOriginal = (element, eventName, functionName) => {
@@ -831,6 +844,7 @@ const create = () => {
 		elements,
 		functions,
 		variables,
+		get,
 		feed,
 		forgetContext,
 		deleteTemplate,

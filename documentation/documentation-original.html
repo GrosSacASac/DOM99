@@ -681,9 +681,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 15.2.0</h4>
+<p>expose d.get(string) function. It is a convenience function for d.variables[string]. It is safer to use because it cannot accidently set private variables without explicit d.feed()</p>
 <h4>Version 15.1.0</h4>
-<p>Factory for creating independent dom99 realms is now provided. The main dom99.js interface remains unchanged and still exports a singleton. Internally dom99.js now imports dom99create.js, creates one instance and exports it. Have a look at source/dom99.js to know how to use this feature.
-</p>
+<p>Factory for creating independent dom99 realms is now provided. The main dom99.js interface remains unchanged and still exports a singleton. Internally dom99.js now imports dom99create.js, creates one instance and exports it. Have a look at source/dom99.js to know how to use this feature.</p>
 <h4>Version 15.0.0</h4>
 <p> The new way of importing is
     <code>import * as d from "./node_modules/dom99/built/dom99ES.js";</code>
