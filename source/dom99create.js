@@ -11,7 +11,6 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const NAME = `DOM99`;
 const CONTEXT = `${NAME}_C`;
-const LIST_ITEM_PROPERTY = `${NAME}_L`;
 const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
@@ -409,12 +408,16 @@ const create = () => {
 			pathIn = previous;
 		} else {
 			listContainer.innerHTML = ``;
+			const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+			const listItemProperty = options.propertyFromElement(
+				listItemTagName.toUpperCase()
+			);
 			data.forEach((value) => {
-				const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+				const listItem = document.createElement(listItemTagName);
 				if (isObjectOrArray(value)) {
 					Object.assign(listItem, value);
 				} else {
-					listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
+					listItem[listItemProperty] = value;
 				}
 				fragment.appendChild(listItem);
 			});
@@ -538,9 +541,6 @@ const create = () => {
 			fullName = `${listItemTagName}-${optional}`;
 			element[CUSTOM_ELEMENT] = fullName;
 		} else {
-			element[LIST_ITEM_PROPERTY] = options.propertyFromElement(
-				listItemTagName.toUpperCase()
-			);
 			element[ELEMENT_LIST_ITEM] = listItemTagName;
 		}
 

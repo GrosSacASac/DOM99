@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* dom99 v15.2.1 */
+/* dom99 v15.2.2 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -129,7 +129,6 @@ var d = function (exports) {
 
 	var NAME = 'DOM99';
 	var CONTEXT = NAME + '_C';
-	var LIST_ITEM_PROPERTY = NAME + '_L';
 	var ELEMENT_LIST_ITEM = NAME + '_I';
 	var CUSTOM_ELEMENT = NAME + '_X';
 	var LIST_CHILDREN = NAME + '_R';
@@ -459,12 +458,14 @@ var d = function (exports) {
 				pathIn = previous;
 			} else {
 				listContainer.innerHTML = '';
+				var listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+				var listItemProperty = options.propertyFromElement(listItemTagName.toUpperCase());
 				data.forEach(function (value) {
-					var listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+					var listItem = document.createElement(listItemTagName);
 					if (isObjectOrArray(value)) {
 						Object.assign(listItem, value);
 					} else {
-						listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
+						listItem[listItemProperty] = value;
 					}
 					fragment.appendChild(listItem);
 				});
@@ -582,7 +583,6 @@ var d = function (exports) {
 				fullName = listItemTagName + '-' + optional;
 				element[CUSTOM_ELEMENT] = fullName;
 			} else {
-				element[LIST_ITEM_PROPERTY] = options.propertyFromElement(listItemTagName.toUpperCase());
 				element[ELEMENT_LIST_ITEM] = listItemTagName;
 			}
 

@@ -1,4 +1,4 @@
-/* dom99 v15.2.1 */
+/* dom99 v15.2.2 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -116,7 +116,6 @@ define('d', ['exports'], function (exports) { 'use strict';
 
 	const NAME = `DOM99`;
 	const CONTEXT = `${NAME}_C`;
-	const LIST_ITEM_PROPERTY = `${NAME}_L`;
 	const ELEMENT_LIST_ITEM = `${NAME}_I`;
 	const CUSTOM_ELEMENT = `${NAME}_X`;
 	const LIST_CHILDREN = `${NAME}_R`;
@@ -514,12 +513,16 @@ define('d', ['exports'], function (exports) { 'use strict';
 				pathIn = previous;
 			} else {
 				listContainer.innerHTML = ``;
+				const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+				const listItemProperty = options.propertyFromElement(
+					listItemTagName.toUpperCase()
+				);
 				data.forEach((value) => {
-					const listItem = document.createElement(listContainer[ELEMENT_LIST_ITEM]);
+					const listItem = document.createElement(listItemTagName);
 					if (isObjectOrArray(value)) {
 						Object.assign(listItem, value);
 					} else {
-						listItem[listContainer[LIST_ITEM_PROPERTY]] = value;
+						listItem[listItemProperty] = value;
 					}
 					fragment.appendChild(listItem);
 				});
@@ -643,9 +646,6 @@ define('d', ['exports'], function (exports) { 'use strict';
 				fullName = `${listItemTagName}-${optional}`;
 				element[CUSTOM_ELEMENT] = fullName;
 			} else {
-				element[LIST_ITEM_PROPERTY] = options.propertyFromElement(
-					listItemTagName.toUpperCase()
-				);
 				element[ELEMENT_LIST_ITEM] = listItemTagName;
 			}
 
