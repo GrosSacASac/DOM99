@@ -5,7 +5,9 @@ import {
 	contextFromEvent,
 	getParentContext,
 	createElement2,
-	idGenerator
+	idGenerator,
+	FIRST_VARIABLE_FROM_HTML,
+	FIRST_VARIABLE_FROM_USER_AGENT
 } from "./dom99create.js";
 
 
@@ -42,6 +44,9 @@ export {
 	getParentContext,
 	
 	createElement2,
-	idGenerator
+	idGenerator,
+	
+	FIRST_VARIABLE_FROM_HTML,
+	FIRST_VARIABLE_FROM_USER_AGENT
 };
 

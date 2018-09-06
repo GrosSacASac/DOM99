@@ -233,6 +233,21 @@ const deleteAllStartsWith = (object, prefix) => {
 	});
 };
 
+// good candiates for firstVariableValueStrategy :
+const FIRST_VARIABLE_FROM_HTML = (element) => {
+	if (defaultValue in element) {
+		return element.defaultValue;
+	}
+	if ('open' in element) { // <details>
+		return element.open;
+	}
+	return element.textContent;
+};
+
+const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
+	return element.value || FIRST_VARIABLE_FROM_HTML(element);
+};
+
 const create = () => {
 	const variableSubscribers = {};
 	const listSubscribers = {};
@@ -285,6 +300,7 @@ const create = () => {
 		doneSymbol: `*`,
 		tokenSeparator: `-`,
 		listSeparator: ` `,
+		firstVariableValueStrategy: undefined,
 		directives: defaultDirectives,
 		propertyFromElement,
 		eventNameFromElement,
@@ -573,11 +589,18 @@ const create = () => {
 
 		const path = contextFromArrayWith(pathIn, variableName);
 		pushOrCreateArrayAt(variableSubscribers, path, element);
-		const lastValue = variables[path]; // has latest
-		if (lastValue !== undefined) {
+		
+		if (variables[path] !== undefined) {
+			notifyOneVariableSubscriber(element, variables[path]);
+		} else if (options.firstVariableValueStrategy !== undefined) {
+			const firstValue = options.firstVariableValueStrategy(element);
+			variables[path] = firstValue;
+			if (firstValue) {	
+				console.warn(`589: Assertion warning firstValue should not be undefined`);
+			}
 			notifyOneVariableSubscriber(element, lastValue);
 		}
-
+		
 		if (!options.tagNamesForUserInput.includes(element.tagName)) {
 			return;
 		}
@@ -858,6 +881,8 @@ export {
 	contextFromArray,
 	contextFromEvent,
 	getParentContext,
-	createElement2
+	createElement2,
+	FIRST_VARIABLE_FROM_HTML,
+	FIRST_VARIABLE_FROM_USER_AGENT
 };
 export {idGenerator} from "./idGenerator.js";
