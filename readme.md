@@ -42,7 +42,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 
 ### Optimized for page-load
 
-By default dom99 is optimized for first page load, that means the size is small. (Under 2.5KB minified and gziped)
+By default dom99 is optimized for first page load, that means the size is small.
 
 
 ### HTML for mark-up, JS for logic
@@ -50,9 +50,9 @@ By default dom99 is optimized for first page load, that means the size is small.
 Get up an running fast. dom99 does not attempt to invent for the n<sup>th</sup> time how to write <code>if</code> statements and <code>for</code> loops inside HTML. Put logic in JS, and mark-up that you already know in HTML.
 
 
-### Designers and Developers can work on the same files
+### Separation of concerns
 
-Elements in the mark-up linked to the DOM use `data-*` instead of the overused `class` and `id`. The benefits to this approach is that the developers can safely add data-attributes to stylized components without breaking the styles, and the designers can safely add `classes` and `ids` without breaking anything.
+Designers and Developers can work on the same files. Elements in the mark-up linked to the DOM use `data-*` instead of the overused `class` and `id`. The benefits to this approach is that the developers can safely add data-attributes to stylized components without breaking the styles, and the designers can safely add `classes` and `ids` without breaking anything.
 
 
 ### Easy to learn
@@ -67,17 +67,17 @@ dom99 is a web framework and is an extension to web standards HTML, CSS and JS, 
 
 ### Zero-second compile time
 
-dom99 can be used in a zero-second compile time development set-up with ES-modules. For production it is still recommended to bundle and minify files.
+dom99 can be used in a zero-second compile time development set-up with ES-modules.
 
 
 ### Avoiding leaky abstractions
 
-No virtual dom, no virtual events are used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517). The projects will have less subtle bugs that are hard to understand without understanding the framework.
+No virtual dom is used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517).
 
 
 ### Unopinionated
 
-dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system...
+dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
 
 
 ## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)

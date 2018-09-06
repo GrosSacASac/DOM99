@@ -1,4 +1,4 @@
-/* dom99 v15.2.2 */
+/* dom99 v15.3.7 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -338,6 +338,21 @@ define('d', ['exports'], function (exports) { 'use strict';
 		});
 	};
 
+	// good candiates for firstVariableValueStrategy :
+	const FIRST_VARIABLE_FROM_HTML = (element) => {
+		if (defaultValue in element) {
+			return element.defaultValue;
+		}
+		if ('open' in element) { // <details>
+			return element.open;
+		}
+		return element.textContent;
+	};
+
+	const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
+		return element.value || FIRST_VARIABLE_FROM_HTML(element);
+	};
+
 	const create = () => {
 		const variableSubscribers = {};
 		const listSubscribers = {};
@@ -390,6 +405,7 @@ define('d', ['exports'], function (exports) { 'use strict';
 			doneSymbol: `*`,
 			tokenSeparator: `-`,
 			listSeparator: ` `,
+			firstVariableValueStrategy: undefined,
 			directives: defaultDirectives,
 			propertyFromElement,
 			eventNameFromElement,
@@ -678,11 +694,11 @@ define('d', ['exports'], function (exports) { 'use strict';
 
 			const path = contextFromArrayWith(pathIn, variableName);
 			pushOrCreateArrayAt(variableSubscribers, path, element);
-			const lastValue = variables[path]; // has latest
-			if (lastValue !== undefined) {
-				notifyOneVariableSubscriber(element, lastValue);
+			
+			if (variables[path] !== undefined) {
+				notifyOneVariableSubscriber(element, variables[path]);
 			}
-
+			
 			if (!options.tagNamesForUserInput.includes(element.tagName)) {
 				return;
 			}
@@ -989,6 +1005,8 @@ define('d', ['exports'], function (exports) { 'use strict';
 	exports.getParentContext = getParentContext;
 	exports.createElement2 = createElement2;
 	exports.idGenerator = idGenerator;
+	exports.FIRST_VARIABLE_FROM_HTML = FIRST_VARIABLE_FROM_HTML;
+	exports.FIRST_VARIABLE_FROM_USER_AGENT = FIRST_VARIABLE_FROM_USER_AGENT;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
