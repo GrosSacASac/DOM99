@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "15.3.9",
+  "version": "15.3.10",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -54,6 +54,7 @@
       [
         "env",
         {
+		  "loose": true,
           "targets": {
             "browsers": [
               "> 0.1%",

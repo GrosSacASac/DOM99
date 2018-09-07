@@ -1,10 +1,6 @@
 'use strict';
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/* dom99 v15.3.9 */
+/* dom99 v15.3.10 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -32,9 +28,8 @@ var d = function (exports) {
   always follow these words to avoid rare bugs*/
 		var element = document.createElement(elementDescription.tagName);
 		Object.entries(elementDescription).forEach(function (_ref) {
-			var _ref2 = _slicedToArray(_ref, 2),
-			    key = _ref2[0],
-			    value = _ref2[1];
+			var key = _ref[0],
+			    value = _ref[1];
 
 			if (key !== 'tagName') {
 				element.setAttribute(key, value);
@@ -152,13 +147,13 @@ var d = function (exports) {
 		node.remove();
 	};
 
-	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _defineProperty(_valueElseMissDecorat, 'INPUT', 'value'), _defineProperty(_valueElseMissDecorat, 'TEXTAREA', 'value'), _defineProperty(_valueElseMissDecorat, 'PROGRESS', 'value'), _defineProperty(_valueElseMissDecorat, 'SELECT', 'value'), _defineProperty(_valueElseMissDecorat, 'IMG', 'src'), _defineProperty(_valueElseMissDecorat, 'SOURCE', 'src'), _defineProperty(_valueElseMissDecorat, 'AUDIO', 'src'), _defineProperty(_valueElseMissDecorat, 'VIDEO', 'src'), _defineProperty(_valueElseMissDecorat, 'TRACK', 'src'), _defineProperty(_valueElseMissDecorat, 'SCRIPT', 'src'), _defineProperty(_valueElseMissDecorat, 'OPTION', 'value'), _defineProperty(_valueElseMissDecorat, 'LINK', 'href'), _defineProperty(_valueElseMissDecorat, 'DETAILS', 'open'), _defineProperty(_valueElseMissDecorat, MISS, 'textContent'), _valueElseMissDecorat));
+	var propertyFromTag = valueElseMissDecorator((_valueElseMissDecorat = {}, _valueElseMissDecorat['INPUT'] = 'value', _valueElseMissDecorat['TEXTAREA'] = 'value', _valueElseMissDecorat['PROGRESS'] = 'value', _valueElseMissDecorat['SELECT'] = 'value', _valueElseMissDecorat['IMG'] = 'src', _valueElseMissDecorat['SOURCE'] = 'src', _valueElseMissDecorat['AUDIO'] = 'src', _valueElseMissDecorat['VIDEO'] = 'src', _valueElseMissDecorat['TRACK'] = 'src', _valueElseMissDecorat['SCRIPT'] = 'src', _valueElseMissDecorat['OPTION'] = 'value', _valueElseMissDecorat['LINK'] = 'href', _valueElseMissDecorat['DETAILS'] = 'open', _valueElseMissDecorat[MISS] = 'textContent', _valueElseMissDecorat));
 
-	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _defineProperty(_valueElseMissDecorat2, 'checkbox', 'checked'), _defineProperty(_valueElseMissDecorat2, 'radio', 'checked'), _defineProperty(_valueElseMissDecorat2, MISS, 'value'), _valueElseMissDecorat2));
+	var propertyFromInputType = valueElseMissDecorator((_valueElseMissDecorat2 = {}, _valueElseMissDecorat2['checkbox'] = 'checked', _valueElseMissDecorat2['radio'] = 'checked', _valueElseMissDecorat2[MISS] = 'value', _valueElseMissDecorat2));
 
-	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _defineProperty(_valueElseMissDecorat3, 'checkbox', 'change'), _defineProperty(_valueElseMissDecorat3, 'radio', 'change'), _defineProperty(_valueElseMissDecorat3, 'range', 'change'), _defineProperty(_valueElseMissDecorat3, 'file', 'change'), _defineProperty(_valueElseMissDecorat3, MISS, 'input'), _valueElseMissDecorat3));
+	var inputEventFromType = valueElseMissDecorator((_valueElseMissDecorat3 = {}, _valueElseMissDecorat3['checkbox'] = 'change', _valueElseMissDecorat3['radio'] = 'change', _valueElseMissDecorat3['range'] = 'change', _valueElseMissDecorat3['file'] = 'change', _valueElseMissDecorat3[MISS] = 'input', _valueElseMissDecorat3));
 
-	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _defineProperty(_valueElseMissDecorat4, 'SELECT', 'change'), _defineProperty(_valueElseMissDecorat4, 'TEXTAREA', 'input'), _defineProperty(_valueElseMissDecorat4, 'BUTTON', 'click'), _defineProperty(_valueElseMissDecorat4, MISS, 'click'), _valueElseMissDecorat4));
+	var eventFromTag = valueElseMissDecorator((_valueElseMissDecorat4 = {}, _valueElseMissDecorat4['SELECT'] = 'change', _valueElseMissDecorat4['TEXTAREA'] = 'input', _valueElseMissDecorat4['BUTTON'] = 'click', _valueElseMissDecorat4[MISS] = 'click', _valueElseMissDecorat4));
 
 	var defaultDirectives = {
 		function: 'data-function',
@@ -528,10 +523,9 @@ var d = function (exports) {
 			} else {
 				var normalizedPath = normalizeStartPath(startPath);
 				alreadyHooked = true;
-				Object.entries(data).forEach(function (_ref3) {
-					var _ref4 = _slicedToArray(_ref3, 2),
-					    key = _ref4[0],
-					    value = _ref4[1];
+				Object.entries(data).forEach(function (_ref2) {
+					var key = _ref2[0],
+					    value = _ref2[1];
 
 					var path = '' + normalizedPath + key;
 					feed(path, value);
@@ -573,10 +567,8 @@ var d = function (exports) {
 					functionName = tokens[0];
 					eventName = options.eventNameFromElement(element);
 				} else {
-					var _tokens = _slicedToArray(tokens, 2);
-
-					eventName = _tokens[0];
-					functionName = _tokens[1];
+					eventName = tokens[0];
+					functionName = tokens[1];
 				}
 				applyFunction(element, eventName, functionName);
 			});
@@ -584,10 +576,9 @@ var d = function (exports) {
 
 		var applylist = function applylist(element, attributeValue) {
 			var _attributeValue$split = attributeValue.split(options.tokenSeparator),
-			    _attributeValue$split2 = _slicedToArray(_attributeValue$split, 3),
-			    variableName = _attributeValue$split2[0],
-			    listItemTagName = _attributeValue$split2[1],
-			    optional = _attributeValue$split2[2];
+			    variableName = _attributeValue$split[0],
+			    listItemTagName = _attributeValue$split[1],
+			    optional = _attributeValue$split[2];
 
 			var fullName = '-';
 
@@ -736,10 +727,9 @@ var d = function (exports) {
 				}
 			});
 
-			directivePairs.forEach(function (_ref5) {
-				var _ref6 = _slicedToArray(_ref5, 2),
-				    directiveName = _ref6[0],
-				    applyDirective = _ref6[1];
+			directivePairs.forEach(function (_ref3) {
+				var directiveName = _ref3[0],
+				    applyDirective = _ref3[1];
 
 				if (!element.hasAttribute(directiveName)) {
 					return;
