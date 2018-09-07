@@ -1,4 +1,4 @@
-/* dom99 v15.3.7 */
+/* dom99 v15.3.9 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -341,7 +341,7 @@ var d = (function (exports) {
 
 	// good candiates for firstVariableValueStrategy :
 	const FIRST_VARIABLE_FROM_HTML = (element) => {
-		if (defaultValue in element) {
+		if ('defaultValue' in element) {
 			return element.defaultValue;
 		}
 		if ('open' in element) { // <details>

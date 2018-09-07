@@ -4,7 +4,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* dom99 v15.3.7 */
+/* dom99 v15.3.9 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -315,7 +315,7 @@ var d = function (exports) {
 
 	// good candiates for firstVariableValueStrategy :
 	var FIRST_VARIABLE_FROM_HTML = function FIRST_VARIABLE_FROM_HTML(element) {
-		if (defaultValue in element) {
+		if ('defaultValue' in element) {
 			return element.defaultValue;
 		}
 		if ('open' in element) {
