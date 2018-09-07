@@ -235,7 +235,7 @@ const deleteAllStartsWith = (object, prefix) => {
 
 // good candiates for firstVariableValueStrategy :
 const FIRST_VARIABLE_FROM_HTML = (element) => {
-	if (defaultValue in element) {
+	if ('defaultValue' in element) {
 		return element.defaultValue;
 	}
 	if ('open' in element) { // <details>
@@ -598,7 +598,7 @@ const create = () => {
 			if (firstValue) {	
 				console.warn(`589: Assertion warning firstValue should not be undefined`);
 			}
-			notifyOneVariableSubscriber(element, lastValue);
+			notifyOneVariableSubscriber(element, firstValue);
 		}
 		
 		if (!options.tagNamesForUserInput.includes(element.tagName)) {
