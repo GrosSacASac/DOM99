@@ -1,7 +1,7 @@
 import * as d  from "../../../source/dom99.js";
 import {shake, shakeSupport} from "../shake.js";
 
-plugin(shake);
+d.plugin(shake);
 
 let shaken = 0;
 d.functions.deviceShaked = function (event) {
