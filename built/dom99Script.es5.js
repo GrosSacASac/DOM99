@@ -1,6 +1,6 @@
 'use strict';
 
-/* dom99 v15.4.1 */
+/* dom99 v15.4.2 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -332,7 +332,7 @@ var d = function (exports) {
 			stringPath = input;
 		}
 		if (tojoin) {
-			stringPath = '' + stringPath + INSIDE_SYMBOL + withWhat;
+			stringPath = '' + stringPath + INSIDE_SYMBOL + tojoin;
 		}
 		return stringPath;
 	};

@@ -256,7 +256,7 @@ const prepareGet = (input, tojoin) => {
 		stringPath = input;
 	}
 	if (tojoin) {
-		stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
+		stringPath = `${stringPath}${INSIDE_SYMBOL}${tojoin}`;
 	}
 	return stringPath;
 };
