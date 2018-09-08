@@ -1,6 +1,6 @@
 'use strict';
 
-/* dom99 v15.3.10 */
+/* dom99 v15.3.11 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -718,14 +718,14 @@ var d = function (exports) {
 			}
 
 			// spellcheck atributes
-			var directives = Object.values(options.directives);
-			Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
-				if (attribute.nodeName.startsWith('data')) {
-					if (directives.includes(attribute.nodeName)) ;else {
-						console.warn('dom99 does not recognize ' + attribute.nodeName);
-					}
-				}
-			});
+			// const directives = Object.values(options.directives);
+			// Array.prototype.slice.call(element.attributes).forEach((attribute) => {
+			// 	if (attribute.nodeName.startsWith(`data`)) {
+			// 		if (!directives.includes(attribute.nodeName)) {
+			// 			console.warn(`dom99 does not recognize ${attribute.nodeName}`);
+			// 		}
+			// 	}
+			// });
 
 			directivePairs.forEach(function (_ref3) {
 				var directiveName = _ref3[0],

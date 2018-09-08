@@ -1,4 +1,4 @@
-/* dom99 v15.3.10 */
+/* dom99 v15.3.11 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -397,7 +397,7 @@ const create = () => {
 	const clonePlugins = [];
 
 	let directivePairs;
-	
+
 
 	/**
 	internal dom99 options, look at dom99ConfigurationExample.js
@@ -419,7 +419,7 @@ const create = () => {
 		]
 	};
 
-	
+
 
 	/**
 	contextFromArray joins paths to create a valid path to use with
@@ -442,7 +442,7 @@ const create = () => {
 	const leaveObject = function () {
 		pathIn.pop();
 	};
-	
+
 
 	/**
 	removes a path and all its child from the dom99 singleton memory
@@ -601,7 +601,7 @@ const create = () => {
 			alreadyHooked = false;
 		}
 	};
-	
+
 	const get = (input, tojoin) => {
 		let stringPath;
 		if (Array.isArray(input)) {
@@ -696,11 +696,11 @@ const create = () => {
 
 		const path = contextFromArrayWith(pathIn, variableName);
 		pushOrCreateArrayAt(variableSubscribers, path, element);
-		
+
 		if (variables[path] !== undefined) {
 			notifyOneVariableSubscriber(element, variables[path]);
 		}
-		
+
 		if (!options.tagNamesForUserInput.includes(element.tagName)) {
 			return;
 		}
@@ -817,14 +817,14 @@ const create = () => {
 		}
 
 		// spellcheck atributes
-		const directives = Object.values(options.directives);
-		Array.prototype.slice.call(element.attributes).forEach((attribute) => {
-			if (attribute.nodeName.startsWith(`data`)) {
-				if (directives.includes(attribute.nodeName)) ; else {
-					console.warn(`dom99 does not recognize ${attribute.nodeName}`);
-				}
-			}
-		});
+		// const directives = Object.values(options.directives);
+		// Array.prototype.slice.call(element.attributes).forEach((attribute) => {
+		// 	if (attribute.nodeName.startsWith(`data`)) {
+		// 		if (!directives.includes(attribute.nodeName)) {
+		// 			console.warn(`dom99 does not recognize ${attribute.nodeName}`);
+		// 		}
+		// 	}
+		// });
 
 		directivePairs.forEach(([directiveName, applyDirective]) => {
 			if (!element.hasAttribute(directiveName)) {
