@@ -1,4 +1,4 @@
-/* dom99 v15.3.11 */
+/* dom99 v15.4.1 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -351,6 +351,19 @@ const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
 	return element.value || FIRST_VARIABLE_FROM_HTML(element);
 };
 
+const prepareGet = (input, tojoin) => {
+	let stringPath;
+	if (Array.isArray(input)) {
+		stringPath = contextFromArray(input);
+	} else {
+		stringPath = input;
+	}
+	if (tojoin) {
+		stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
+	}
+	return stringPath;
+};
+
 const create = () => {
 	const variableSubscribers = {};
 	const listSubscribers = {};
@@ -599,16 +612,11 @@ const create = () => {
 	};
 
 	const get = (input, tojoin) => {
-		let stringPath;
-		if (Array.isArray(input)) {
-			stringPath = contextFromArray(input);
-		} else {
-			stringPath = input;
-		}
-		if (tojoin) {
-			stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
-		}
-		return variables[stringPath];
+		return variables[prepareGet(input, tojoin)];
+	};
+
+	const getElement = (input, tojoin) => {
+		return elements[prepareGet(input, tojoin)];
 	};
 
 	const applyFunctionOriginal = (element, eventName, functionName) => {
@@ -962,6 +970,7 @@ const create = () => {
 		functions,
 		variables,
 		get,
+		element: getElement,
 		feed,
 		forgetContext,
 		deleteTemplate,
@@ -980,6 +989,7 @@ const {
 	functions,
 	variables,
 	get,
+	element,
 	feed,
 	forgetContext,
 	deleteTemplate,
@@ -987,4 +997,4 @@ const {
 	options,
 } = create();
 
-export { start, activate, elements, functions, variables, get, feed, forgetContext, deleteTemplate, plugin, options, contextFromArray, contextFromEvent, getParentContext, createElement2, idGenerator, FIRST_VARIABLE_FROM_HTML, FIRST_VARIABLE_FROM_USER_AGENT };
+export { start, activate, elements, functions, variables, get, element, feed, forgetContext, deleteTemplate, plugin, options, contextFromArray, contextFromEvent, getParentContext, createElement2, idGenerator, FIRST_VARIABLE_FROM_HTML, FIRST_VARIABLE_FROM_USER_AGENT };

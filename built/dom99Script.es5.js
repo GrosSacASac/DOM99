@@ -1,6 +1,6 @@
 'use strict';
 
-/* dom99 v15.3.11 */
+/* dom99 v15.4.1 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -324,6 +324,19 @@ var d = function (exports) {
 		return element.value || FIRST_VARIABLE_FROM_HTML(element);
 	};
 
+	var prepareGet = function prepareGet(input, tojoin) {
+		var stringPath = void 0;
+		if (Array.isArray(input)) {
+			stringPath = contextFromArray(input);
+		} else {
+			stringPath = input;
+		}
+		if (tojoin) {
+			stringPath = '' + stringPath + INSIDE_SYMBOL + withWhat;
+		}
+		return stringPath;
+	};
+
 	var create = function create() {
 		var variableSubscribers = {};
 		var listSubscribers = {};
@@ -535,16 +548,11 @@ var d = function (exports) {
 		};
 
 		var get = function get(input, tojoin) {
-			var stringPath = void 0;
-			if (Array.isArray(input)) {
-				stringPath = contextFromArray(input);
-			} else {
-				stringPath = input;
-			}
-			if (tojoin) {
-				stringPath = '' + stringPath + INSIDE_SYMBOL + withWhat;
-			}
-			return variables[stringPath];
+			return variables[prepareGet(input, tojoin)];
+		};
+
+		var getElement = function getElement(input, tojoin) {
+			return elements[prepareGet(input, tojoin)];
 		};
 
 		var applyFunctionOriginal = function applyFunctionOriginal(element, eventName, functionName) {
@@ -849,6 +857,7 @@ var d = function (exports) {
 			functions: functions,
 			variables: variables,
 			get: get,
+			element: getElement,
 			feed: feed,
 			forgetContext: forgetContext,
 			deleteTemplate: deleteTemplate,
@@ -867,6 +876,7 @@ var d = function (exports) {
 	    functions = _create.functions,
 	    variables = _create.variables,
 	    get = _create.get,
+	    element = _create.element,
 	    feed = _create.feed,
 	    forgetContext = _create.forgetContext,
 	    deleteTemplate = _create.deleteTemplate,
@@ -879,6 +889,7 @@ var d = function (exports) {
 	exports.functions = functions;
 	exports.variables = variables;
 	exports.get = get;
+	exports.element = element;
 	exports.feed = feed;
 	exports.forgetContext = forgetContext;
 	exports.deleteTemplate = deleteTemplate;

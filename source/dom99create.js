@@ -248,6 +248,19 @@ const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
 	return element.value || FIRST_VARIABLE_FROM_HTML(element);
 };
 
+const prepareGet = (input, tojoin) => {
+	let stringPath;
+	if (Array.isArray(input)) {
+		stringPath = contextFromArray(input);
+	} else {
+		stringPath = input;
+	}
+	if (tojoin) {
+		stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
+	}
+	return stringPath;
+};
+
 const create = () => {
 	const variableSubscribers = {};
 	const listSubscribers = {};
@@ -496,16 +509,11 @@ const create = () => {
 	};
 
 	const get = (input, tojoin) => {
-		let stringPath;
-		if (Array.isArray(input)) {
-			stringPath = contextFromArray(input);
-		} else {
-			stringPath = input;
-		}
-		if (tojoin) {
-			stringPath = `${stringPath}${INSIDE_SYMBOL}${withWhat}`;
-		}
-		return variables[stringPath];
+		return variables[prepareGet(input, tojoin)];
+	};
+
+	const getElement = (input, tojoin) => {
+		return elements[prepareGet(input, tojoin)];
 	};
 
 	const applyFunctionOriginal = (element, eventName, functionName) => {
@@ -866,6 +874,7 @@ const create = () => {
 		functions,
 		variables,
 		get,
+		element: getElement,
 		feed,
 		forgetContext,
 		deleteTemplate,
