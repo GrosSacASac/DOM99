@@ -74,7 +74,7 @@ const eventFromTag = valueElseMissDecorator({
 	[MISS]: `click`
 });
 
-const defaultDirectives ={
+const defaultDirectives = {
 	function: `data-function`,
 	variable: `data-variable`,
 	element: `data-element`,
