@@ -14,7 +14,7 @@ examples/ScrollTest.html
 
 ```
 import * as d from "./node_modules/dom99/source/dom99.js";
-import {yesNoDialog, useYesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
+import {yesNoDialog, textDialog, useYesNoDialog} from "./node_modules/dom99/components/yesNoDialog/yesNoDialog.js";
 
 useYesNoDialog(d);
 d.activate();
