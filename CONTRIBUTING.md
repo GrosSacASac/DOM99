@@ -55,8 +55,8 @@ Open an issue to make us open a donation channel
 
 
  * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
- * compare values before updating ? with data-compare-before ?
  * explain better where dom99 comes from and what differentiates it
+ * compare values before updating ? with data-compare-before ?
  * Create a better documentation experience
 	* New html page with articles
 		* Security

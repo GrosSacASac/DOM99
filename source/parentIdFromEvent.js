@@ -10,7 +10,6 @@ const firstAncestorValue = function (node, accessor) {
 	if (parent) {
 		return firstAncestorValue(parent, accessor);
 	}
-	// return undefined;
 };
 
 const getDataId = function (node) {
