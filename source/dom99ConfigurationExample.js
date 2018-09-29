@@ -1,7 +1,4 @@
-/*dom99ConfigurationExample.js
-warning, needs revisit,
-
-
+/*
  1. Make a copy of this file
  2. Rename the copy dom99Configuration.js for convenience
  3. put it in the same place as your main js file (starting point)
@@ -16,24 +13,24 @@ warning, needs revisit,
 // Note omitting data-* is at your own risks (can collide with existing or future attribute names)
 
 //custom attribute names should start with "data-" see
-// https://docs.webplatform.org/wiki/html/attributes/data-* 
+// https://docs.webplatform.org/wiki/html/attributes/data-*
 
 import {options} from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
 
 // Example for more compact syntax:
 Object.assign(options.directives, {
-    function: "fx", 
-    variable: "vr", 
+    function: "fx",
+    variable: "vr",
     element: "el",
     list: "list",
     inside: "in",
     template: "templ"
 });
 
-// Other changes possible 
+// Other changes possible
 Object.assign(options, {
     // cannot be empty,  default "*"
-    doneSymbol: "#", 
+    doneSymbol: "#",
     // cannot be empty,  default "-"
     tokenSeparator: "+",
     // cannot be empty,  must be different than above,  default " "
@@ -41,12 +38,12 @@ Object.assign(options, {
 });
  /*
   also
- 
+
  * tagNamesForUserInput: with a list like ["input", "textarea"]
- 
+
  * propertyFromElement with a function
     parameters (element)
-    
+
  * eventNameFromElement: with a function
     parameters (element)
 */
