@@ -38,10 +38,9 @@ const localIncrement = function (event) {
         ]) + 1;
     const localColor = `rgb(${(localNumber * 25) % 255},0,0)`;
 
-    d.feed({
+    d.feed(context, {
         local: String(localNumber)
-    },
-    context);
+    });
 
     spanElement.style.border = `1px ${localColor} solid`;
 };
