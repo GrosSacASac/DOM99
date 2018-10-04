@@ -647,7 +647,7 @@ const create = () => {
 		elements[path] = element;
 	};
 
-	const applytemplate = (element, attributeValue) => {
+	const applyTemplate = (element, attributeValue) => {
 		/* stores a template element for later reuse !*/
 		if (!attributeValue) {
 			console.error(
@@ -783,7 +783,7 @@ const create = () => {
 				[options.directives.function, applyFunctions],
 				[options.directives.list, applylist],
 				[options.directives.inside, applyInside],
-				[options.directives.template, applytemplate]
+				[options.directives.template, applyTemplate]
 			];
 		}
 		elementsDeepForEach(startElement, tryApplyDirectives);
