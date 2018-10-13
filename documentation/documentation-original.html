@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
-    <link rel="icon" href="../images/visual2.jpg">
+    <link rel="icon" href="./images/visual2.jpg">
     <link rel="prefetch" href="./">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
 <article id="about">
 <h2>About</h2>
-<img alt="dom99" src="../images/visual2.jpg">
+<img alt="dom99" src="./images/visual2.jpg">
 
 <section>
 <h3>What is dom99 ?</h3>
@@ -359,7 +359,7 @@ d.activate();
     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
-    &lt;link rel=&quot;icon&quot; href=&quot;../images/visual2.jpg&quot;&gt;
+    &lt;link rel=&quot;icon&quot; href=&quot;./images/visual2.jpg&quot;&gt;
 &lt;/head&gt;
 &lt;body&gt;
 
@@ -1076,15 +1076,15 @@ d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 d.feed("images", [
     {
         textContent: "you",
-        value: "../images/you.jpg"
+        value: "./images/you.jpg"
     },
     {
         textContent: "boss",
-        value: "../images/boss.jpg"
+        value: "./images/boss.jpg"
     },
     {
         textContent: "sister",
-        value: "../images/sister.jpg"
+        value: "./images/sister.jpg"
     }
 ]);
 
@@ -1123,11 +1123,11 @@ d.feed("image", d.variables.images[0].value);
 d.feed({users :
     [
         {
-            picture: "../images/boss.jpg",
+            picture: "./images/boss.jpg",
             bio: "Loves biking and skating"
         },
         {
-            picture: "../images/sister.jpg",
+            picture: "./images/sister.jpg",
             bio: "Drinks tons of café."
         }
 ]});
