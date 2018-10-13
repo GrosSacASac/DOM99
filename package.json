@@ -30,6 +30,7 @@
       "build": "npm run roll && npm run transpile && npm run minify",
 
       "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
+
       "bundleExamples": "node tools/buildExamples.js",
       "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
       "exampleDependencies": "node tools/exampleDependencies.js",
@@ -39,12 +40,13 @@
       "generatehtml": "node tools/buildHTML",
       "prepareSite": "node tools/prepareSite.js",
       "jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
+      "docs": "npm run builddocexamples && npm run generatehtml && npm run prepareSite && npm run jsdoc",
 
       "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
 
 
 
-      "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run builddocexamples && npm run generatehtml && npm run buildyesnocomponentexample && npm run jsdoc && npm run prepareSite",
+      "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
 
       "most": "npm run build && npm run generatehtml",
 

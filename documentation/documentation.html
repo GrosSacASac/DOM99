@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
-    <link rel="icon" href="../images/visual2.jpg">
+    <link rel="icon" href="./images/visual2.jpg">
     <link rel="prefetch" href="./">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
 <article id="about">
 <h2>About</h2>
-<img alt="dom99" src="../images/visual2.jpg">
+<img alt="dom99" src="./images/visual2.jpg">
 
 <section>
 <h3>What is dom99 ?</h3>
@@ -358,7 +358,7 @@ d.activate();
     &lt;meta name="viewport" content="width=device-width">
     &lt;link rel="stylesheet" href="css/basics.css">
     &lt;link rel="stylesheet" href="css/dcomment.css">
-    &lt;link rel="icon" href="../images/visual2.jpg">
+    &lt;link rel="icon" href="./images/visual2.jpg">
 &lt;/head>
 &lt;body>
 
@@ -991,12 +991,12 @@ the license in distributed executables or transpiled code</p>
 
 </article>
 
-<script nomodule src="../polyfills/built/polyfill.min.js"></script>
-<script nomodule src="../polyfills/built/remove.js"></script>
-<script nomodule src="../built/dom99Script.es5.min.js"></script>
+<script nomodule src="./deps/polyfill.min.js"></script>
+<script nomodule src="./deps/remove.js"></script>
+<script nomodule src="./deps/dom99Script.es5.min.js"></script>
 <script type="module">
 // Import
-import * as d from "../built/dom99ES.min.js";
+import * as d from "./deps/dom99ES.min.js";
 window.d = d;
 window.usesModules = true;
 </script>
@@ -1075,15 +1075,15 @@ d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 d.feed("images", [
     {
         textContent: "you",
-        value: "../images/you.jpg"
+        value: "./images/you.jpg"
     },
     {
         textContent: "boss",
-        value: "../images/boss.jpg"
+        value: "./images/boss.jpg"
     },
     {
         textContent: "sister",
-        value: "../images/sister.jpg"
+        value: "./images/sister.jpg"
     }
 ]);
 
@@ -1122,11 +1122,11 @@ d.feed("image", d.variables.images[0].value);
 d.feed({users :
     [
         {
-            picture: "../images/boss.jpg",
+            picture: "./images/boss.jpg",
             bio: "Loves biking and skating"
         },
         {
-            picture: "../images/sister.jpg",
+            picture: "./images/sister.jpg",
             bio: "Drinks tons of café."
         }
 ]});
