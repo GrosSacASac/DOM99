@@ -9,6 +9,7 @@ const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
 const inputsOutputs = {
     [`${modules}template-mb/template.js`]: `${docdeps}template.js`,
+    [`./polyfills/template-mb-bootstrap.js`]: `${docdeps}template-mb-bootstrap.js`,
     [`${modules}@babel/polyfill/dist/polyfill.min.js`]: `${docdeps}polyfill.min.js`,
     [`./polyfills/built/remove.js`]: `${docdeps}remove.js`,
     [`./built/dom99Script.es5.min.js`]: `${docdeps}dom99Script.es5.min.js`,
