@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "15.4.11",
+  "version": "15.4.12",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -32,21 +32,24 @@
     "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
-    "preparedemoDependencies": "node tools/buildDemoDependencies.js",
-    "buildexamples": "npm run bundleExamples && npm run transpileExamples && npm run preparedemoDependencies",
+    "exampleDependencies": "node tools/exampleDependencies.js",
+    "buildexamples": "npm run bundleExamples && npm run transpileExamples && npm run exampleDependencies",
 
     "builddocexamples": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "generatehtml": "node tools/buildHTML",
+    "prepareSite": "node tools/prepareSite.js",
+	"jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
 
     "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
 
-	"jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
+
 
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run builddocexamples && npm run generatehtml && npm run buildyesnocomponentexample && npm run jsdoc",
 
     "most": "npm run build && npm run generatehtml",
 
-    "prepublishOnlyDisabled": "npm run most"
+    "prepublishOnlyDisabled": "npm run most",
+    "serve-doc": "cd documentation && http-server"
   },
   "babel": {
     "plugins": [],

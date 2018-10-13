@@ -9,7 +9,7 @@ const {
 const thisName = "buildDemoDependencies";
 
 const inputsOutputs = {
-    [`./node_modules/template-mb/template.js`]: `./polyfills/built/template.js`,
+    [`./node_modules/template-mb/template.js`]: `./documentation/deps/template.js`,
     //[`todo`]: `./polyfills/built/polyfill.min.js`,
 };
 
