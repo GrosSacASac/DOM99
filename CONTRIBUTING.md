@@ -5,6 +5,22 @@
 
 Respect the [Code of Conduct](CODE_OF_CONDUCT.md)
 
+## Coding Style Guides
+
+
+Read existing code to analyze the coding style.
+
+
+## Licensing
+
+Any contribution that is incorporated into the project has by default the license of the project. Until then, all contributions including issues are "CC0-1.0".
+
+
+## Attribution, Identities and links
+
+Any major contributor may ask (it is opt in) to have the name/username and 1 link and 1 private contact and 1 enterprise/donation link of the major contributor included in both readme and official documentation.
+
+A major contributor is someone who made at least 1 significant contribution.
 
 ## About this guide
 
@@ -82,7 +98,7 @@ Open an issue to make us open a donation channel
 
  * Define typical process of creating and composing with custom elements
  * IE seems to fill forms after script executes and load (onload ?)
- * http://localhost:8080/examples/limited.html cannot set -4 in globalv
+ * http://localhost:8080/examples/limited.html cannot set -4 in global (needs info)
  * see how checking for equality before assigning textContent affects performance
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
@@ -118,11 +134,9 @@ Open an issue to make us open a donation channel
  that has data-*
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
- * provide non singleton export
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * re-generate landing-page.min.css from source landing-page.css
- * use surge or gh-pages
  * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter
@@ -151,21 +165,3 @@ Open an issue to make us open a donation channel
     scoped inside an element with data-inside ?
 
     explore addEventListener(`x`, y, {passive: true});
-
-
-## Coding Style Guides
-
-
-Read existing code to analyze the coding style.
-
-
-## Licensing
-
-Any contribution that is incorporated into the project has by default the license of the project. Until then, all contributions including issues are "CC0-1.0".
-
-
-## Attribution, Identities and links
-
-Any major contributor may ask (it is opt in) to have the name/username and 1 link and 1 private contact and 1 enterprise/donation link of the major contributor included in both readme and official documentation.
-
-A major contributor is someone who made at least 1 significant contribution.
