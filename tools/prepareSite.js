@@ -1,4 +1,3 @@
-
 "use strict";
 const {
     copyFile,
@@ -6,11 +5,16 @@ const {
     concatenateFiles
 } = require("utilsac");
 
-const thisName = "buildDemoDependencies";
-
+const docdeps = `./documentation/deps/`;
+const modules = `./node_modules/`;
 const inputsOutputs = {
-    [`./node_modules/template-mb/template.js`]: `./documentation/deps/template.js`,
-    //[`todo`]: `./polyfills/built/polyfill.min.js`,
+    [`${modules}template-mb/template.js`]: `${docdeps}template.js`,
+    [`${modules}@babel/polyfill/dist/polyfill.min.js`]: `${docdeps}polyfill.min.js`,
+    [`./polyfills/built/remove.js`]: `${docdeps}remove.js`,
+    [`./built/dom99Script.es5.min.js`]: `${docdeps}dom99Script.es5.min.js`,
+    [`./built/dom99ES.min.js`]: `${docdeps}dom99ES.min.js`,
+    // [`./polyfills/built/remove.js`]: `${docdeps}remove.js`,
+
 };
 
 Object.entries(inputsOutputs).map(function ([from, to]) {
