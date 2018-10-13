@@ -1,4 +1,4 @@
-/* dom99 v15.4.2 */
+/* dom99 v16.0.0 */
 	/*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
     See accompanying file LICENSE.txt or copy at
@@ -55,21 +55,8 @@ const copyArrayShallow = (array) => {
 	@return {array}
 */
 const freezeLiveCollection = (liveCollection) => {
-	const length = liveCollection.length;
-	const frozenArray = [];
-	let i;
-	for (i = 0; i < length; i += 1) {
-		frozenArray.push(liveCollection[i]);
-	}
-	return frozenArray;
-};
-
-/*todo compare with different implementation:
-
-const freezeLiveCollection = function (liveCollection) {
 	return Array.prototype.slice.call(liveCollection);
 };
-*/
 
 const firstAncestorValue = function (node, accessor) {
 	const potentialValue = accessor(node);
@@ -80,7 +67,6 @@ const firstAncestorValue = function (node, accessor) {
 	if (parent) {
 		return firstAncestorValue(parent, accessor);
 	}
-	// return undefined;
 };
 
 const pushOrCreateArrayAt = (object, key, valueToPush) => {
@@ -96,17 +82,13 @@ const pushOrCreateArrayAt = (object, key, valueToPush) => {
 	}
 };
 
-/*idGenerator()
+let next = Number.MAX_SAFE_INTEGER;
 
+/*
 generates a predictable new id each time
 perfect for DOM id requirements
 */
-
-const prefix = `id-`;
-
-let next = Number.MAX_SAFE_INTEGER;
-
-const idGenerator = () => {
+const idGenerator = (prefix = ``) => {
 	const id = `${prefix}${next}`;
 	next -= 1;
 	return id;
@@ -181,7 +163,7 @@ const eventFromTag = valueElseMissDecorator({
 	[MISS]: `click`
 });
 
-const defaultDirectives ={
+const defaultDirectives = {
 	function: `data-function`,
 	variable: `data-variable`,
 	element: `data-element`,
@@ -747,7 +729,7 @@ const create = () => {
 		elements[path] = element;
 	};
 
-	const applytemplate = (element, attributeValue) => {
+	const applyTemplate = (element, attributeValue) => {
 		/* stores a template element for later reuse !*/
 		if (!attributeValue) {
 			console.error(
@@ -883,7 +865,7 @@ const create = () => {
 				[options.directives.function, applyFunctions],
 				[options.directives.list, applylist],
 				[options.directives.inside, applyInside],
-				[options.directives.template, applytemplate]
+				[options.directives.template, applyTemplate]
 			];
 		}
 		elementsDeepForEach(startElement, tryApplyDirectives);

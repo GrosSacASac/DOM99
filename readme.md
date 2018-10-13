@@ -18,7 +18,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 
 ## Basic Use
 
-### [Data-binding](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#Hello%20World%202)
+### Data-binding
 
 ```
 <!-- The input and the paragraph as well as the js variable always have the same value -->
@@ -34,7 +34,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 ```
 
 
-##  [Changelog](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#timeline)
+##  [Changelog](https://dom99.now.sh/documentation#timeline)
 
 ## Design philosophy
 
@@ -57,7 +57,7 @@ Designers and Developers can work on the same files. Elements in the mark-up lin
 
 ### Easy to learn
 
-Get up an running fast.  [Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
+Get up an running fast.  [Documentation](https://dom99.now.sh/documentation) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 
 ### Work with the Web platform
@@ -80,12 +80,10 @@ No virtual dom is used for maximum **possible** performance. [Explanation from c
 dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
 
 
-## [Complete Documentation](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
-
-[Open](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html)
+## [Complete Documentation](https://dom99.now.sh/documentation)
 
 
-Locally in /documentation/documentation.html
+Locally found in [./documentation/documentation.html](./documentation/documentation.html)
 
 
 ## Examples
@@ -93,7 +91,7 @@ Locally in /documentation/documentation.html
 [Graphs](https://github.com/GrosSacASac/graphs)
 
 
-### [HTML Composition](https://cdn.rawgit.com/GrosSacASac/DOM99/master/documentation/documentation.html#Composition)
+### [HTML Composition](https://dom99.now.sh/documentation#Composition)
 
 ```
 <!--
@@ -138,7 +136,7 @@ native html elements can also be used to display a list
 </code></pre>
 </details>
 
-Other examples in [/examples](/examples)
+[Other examples](./examples)
 
 
 ## Discussion

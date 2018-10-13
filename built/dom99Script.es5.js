@@ -1,6 +1,6 @@
 'use strict';
 
-/* dom99 v15.4.2 */
+/* dom99 v16.0.0 */
 /*        Copyright Cyril Walle 2018.
 Distributed under the Boost Software License, Version 1.0.
    See accompanying file LICENSE.txt or copy at
@@ -62,21 +62,8 @@ var d = function (exports) {
  	@return {array}
  */
 	var freezeLiveCollection = function freezeLiveCollection(liveCollection) {
-		var length = liveCollection.length;
-		var frozenArray = [];
-		var i = void 0;
-		for (i = 0; i < length; i += 1) {
-			frozenArray.push(liveCollection[i]);
-		}
-		return frozenArray;
+		return Array.prototype.slice.call(liveCollection);
 	};
-
-	/*todo compare with different implementation:
- 
- const freezeLiveCollection = function (liveCollection) {
- 	return Array.prototype.slice.call(liveCollection);
- };
- */
 
 	var firstAncestorValue = function firstAncestorValue(node, accessor) {
 		var potentialValue = accessor(node);
@@ -87,7 +74,6 @@ var d = function (exports) {
 		if (parent) {
 			return firstAncestorValue(parent, accessor);
 		}
-		// return undefined;
 	};
 
 	var pushOrCreateArrayAt = function pushOrCreateArrayAt(object, key, valueToPush) {
@@ -103,17 +89,15 @@ var d = function (exports) {
 		}
 	};
 
-	/*idGenerator()
- 
+	var next = Number.MAX_SAFE_INTEGER;
+
+	/*
  generates a predictable new id each time
  perfect for DOM id requirements
  */
-
-	var prefix = 'id-';
-
-	var next = Number.MAX_SAFE_INTEGER;
-
 	var idGenerator = function idGenerator() {
+		var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
 		var id = '' + prefix + next;
 		next -= 1;
 		return id;
@@ -663,7 +647,7 @@ var d = function (exports) {
 			elements[path] = element;
 		};
 
-		var applytemplate = function applytemplate(element, attributeValue) {
+		var applyTemplate = function applyTemplate(element, attributeValue) {
 			/* stores a template element for later reuse !*/
 			if (!attributeValue) {
 				console.error(element, 'Use ' + options.directives.template + '="d-name" format!');
@@ -774,7 +758,7 @@ var d = function (exports) {
 				directivePairs = [
 				/*order is relevant applyVariable being before applyFunction,
     we can use the just changed live variable in the bind function*/
-				[options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyInside], [options.directives.template, applytemplate]];
+				[options.directives.element, applyDirectiveElement], [options.directives.variable, applyVariable], [options.directives.function, applyFunctions], [options.directives.list, applylist], [options.directives.inside, applyInside], [options.directives.template, applyTemplate]];
 			}
 			elementsDeepForEach(startElement, tryApplyDirectives);
 			return startElement;
