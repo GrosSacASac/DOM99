@@ -51,7 +51,9 @@
       "most": "npm run build && npm run generatehtml",
 
       "prepublishOnlyDisabled": "npm run most",
-      "serve-doc": "cd documentation && http-server"
+      "serve-doc": "cd documentation && http-server",
+      "deploynow": "cd documentation && now --public",
+      "aliasnow": "now alias https://documentation-wysnombbhn.now.sh dom99"
   },
   "babel": {
     "plugins": [],
