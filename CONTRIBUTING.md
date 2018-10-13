@@ -137,7 +137,6 @@ Open an issue to make us open a donation channel
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * re-generate landing-page.min.css from source landing-page.css
- * docs make code not look like plain text (more syntax colors)
  * top level variable integration like displayjs experiment
  * base dom99 lighter
  * revisit the context API
