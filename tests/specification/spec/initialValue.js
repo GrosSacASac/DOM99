@@ -1,5 +1,7 @@
 import {
     create,
+    getParentContext,
+    contextFromArray,
     FIRST_VARIABLE_FROM_HTML,
     FIRST_VARIABLE_FROM_USER_AGENT
 } from "../../../source/dom99create.js";
@@ -31,4 +33,16 @@ describe("initial value", function() {
     expect("abc").toEqual(d.get("string1"));
   });
 
+  it("d.contextFromArray", function() {
+    d.contextFromArray = contextFromArray;
+    let context = d.contextFromArray(["Hello","World"])
+    expect("Hello>World").toEqual(context);
+  });
+
+  it("d.getParentContext", () => {
+    d.getParentContext = getParentContext
+    let contextPath = "ParentContext>ChildContext"
+    let parentContext = d.getParentContext(contextPath)
+    expect("ParentContext").toEqual(parentContext);
+  })
 });
