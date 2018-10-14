@@ -1,12 +1,28 @@
-examples/js/built
 todolistmultiuserx/
 learnjavascriptx/
 node_modules/
 documentation/personal_notes.txt
 documentation/personal_htmltests.html
-examples/todolistmultiuser/node_modules
 exampleses5/todolistmultiuser
 exampleses5/learnjavascript
+
+#################
+## Generated Resources
+#################
+
+built/
+
+examples/js/built
+examples/js/builtes5
+
+documentation/documentation.html
+documentation/index.html
+documentation/global.html
+documentation/dom99.js.html
+documentation/js/documentation.es5.min.js
+
+components/yesNoDialog/examples/js/built
+
 #################
 ## Eclipse
 #################
