@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DOM99 DEMO templates 3</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/dcomment.css">
+    <link rel="icon" href="../documentation/images/visual2.jpg">
+</head>
+<body>
+
+<article>
+    <h2>Article Title</h2>
+    <p>Article</p><p>Blalblabla I give my opinion blabla</p>
+</article>
+
+<!-- a comment is some text and a date -->
+<template data-template="d-comment">
+    <article class="d-comment"><!-- add a container for styling purposes -->
+        <p data-variable="text">Loading text ... (fake response takes 2sec)</p>
+        <time data-variable="date">Loading date ...</time>
+    </article>
+</template>
+
+<!-- data-list="VARIABLE_NAME - CUSTOM-ELEMENT_NAME" -->
+<section data-list="comments-d-comment"></section>
+<button data-function="click-showNextComment" >Show more comments</button>
+
+
+
+
+<script nomodule src="../polyfills/built/polyfill.min.js"></script>
+<script nomodule src="../polyfills/built/remove.js"></script>
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
+<script nomodule src="js/builtes5/templates3.js"></script>
+
+<script type="module" src="js/templates3.js"></script>
+</body>
+</html>

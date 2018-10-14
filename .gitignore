@@ -11,7 +11,9 @@ exampleses5/learnjavascript
 #################
 
 built/
-examples/
+
+examples/js/built
+examples/js/builtes5
 
 documentation/documentation.html
 documentation/index.html

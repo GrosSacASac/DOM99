@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DOM99 DEMO</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" href="../documentation/images/visual2.jpg">
+</head>
+<body>
+    <h1>dom99</h1>
+    <p><a href="https://github.com/GrosSacASac/DOM99">Github</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/index.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/main.js" target="_blank">JS</a>.</p>
+    <main>
+        <article>
+            <h2>Hello World</h2>
+
+            <label class="block">First <input data-variable="first"></label>
+            <label class="block">Last <input data-variable="last"></label>
+
+            <p>variable first
+              <span data-variable="first"></span>,
+              variable last
+              <span data-variable="last"></span>
+             </p>
+
+        </article>
+
+        <article >
+
+            <h2>Multiplier</h2><br>
+            <input data-variable="a" data-function="calculate" type="number">
+            <span> X </span>
+            <input data-variable="b" data-function="calculate" type="number">
+            <span> = </span>
+            <span data-variable="result"></span>
+
+        </article>
+
+        <article>
+
+            <h2>The monologue</h2>
+            <p data-variable="monologue"></p>
+            <button data-variable="monologueButton" data-function="click-stopStartTalking">Hi</button>
+
+        </article>
+
+        <article >
+
+            <template data-template="d-todo">
+                <!-- Everything here has its own scope  -->
+                <li class="todo-item">
+                  <input data-function="updateToDo" data-variable="done" type="checkbox">
+                  <input data-function="updateToDo" data-variable="text" type="text" placeholder="What to do ?">
+                </li>
+            </template>
+
+            <h2>To-do List</h2>
+            <ul data-list="allToDos-d-todo"><!-- d-todo's  --></ul>
+            <button data-function="click-deleteToDos">Delete finished tasks</button>
+            <button data-function="click-addToDo">Add To-do</button>
+            <pre>JSON: <output data-variable="todoAsJson"></output></pre>
+
+        </article>
+
+        <article>
+
+            <h2>Love Hate</h2>
+            <p>Uses data-template=, data-list=, data-variable=, data-inside= and is=""</p>
+            <template data-template="d-lovehatelist">
+                  <h3><span data-variable="owner"></span> Love and Hate Lists</h3>
+                  <section>
+                        <h4>Love</h4>
+                        <ul data-list="love-li"></ul>
+                   </section>
+                  <section>
+                        <h4>Hate</h4>
+                        <ul data-list="hate-li"></ul>
+                   </section>
+            </template>
+            <div data-inside="me" is="d-lovehatelist"></div>
+            <div data-inside="you" is="d-lovehatelist"></div>
+        </article>
+        <article>
+
+            <h2>More examples coming</h2>
+        </article>
+
+    </main>
+
+<script nomodule src="../polyfills/built/polyfill.min.js"></script>
+<script nomodule src="../polyfills/built/remove.js"></script>
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
+<script nomodule src="js/builtes5/main.js"></script>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

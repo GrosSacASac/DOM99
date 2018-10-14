@@ -1,0 +1,8 @@
+
+.todo-item {
+    list-style-type: none;
+}
+
+.todo-item > [type=checkbox]:checked + [type=text] {
+    text-decoration: line-through;
+}

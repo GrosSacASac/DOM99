@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DOM99 chat example</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/basics.css">
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+    <p><a href="https://github.com/GrosSacASac/DOM99#what-is-dom99-">What is this ?</a></p><p>See the source for <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.html" target="_blank">HTML</a> and <a href="https://github.com/GrosSacASac/DOM99/blob/master/examples/chat.js" target="_blank">JS</a>.</p>
+
+    <h1>Chat example</h1>
+    <template data-template="d-message">
+        <!-- Everything here has its own key path  -->
+        <li>
+            <span data-variable="authorName"></span>
+            <img data-variable="authorFoto" alt="" src="">
+            <p data-variable="messageText"></p>
+        </li>
+    </template>
+
+    <ol data-element="messagesContainer"></ol>
+
+    <textarea data-element="textarea" data-variable="currentMessage" autofocus></textarea>
+    <button data-function="trySendMessage">Send !</button>
+
+<script nomodule src="../polyfills/built/polyfill.min.js"></script>
+<script nomodule src="../polyfills/built/template.js"></script>
+<script nomodule src="../polyfills/template-mb-bootstrap.js"></script>
+<script nomodule src="js/builtes5/chat.js"></script>
+
+<script type="module" src="js/chat.js"></script>
+</body>
+</html>
