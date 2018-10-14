@@ -1,6 +1,7 @@
 import {
     create,
-    FIRST_VARIABLE_FROM_HTML
+    FIRST_VARIABLE_FROM_HTML,
+    FIRST_VARIABLE_FROM_USER_AGENT
 } from "../../../source/dom99create.js";
 
 describe("initial value", function() {
@@ -18,10 +19,14 @@ describe("initial value", function() {
 
     });
 
-
-
   it("d.FIRST_VARIABLE_FROM_HTML", function() {
     d.options.firstVariableValueStrategy = FIRST_VARIABLE_FROM_HTML;
+    d.activate(this.content);
+    expect("abc").toEqual(d.get("string1"));
+  });
+
+  it("d.FIRST_VARIABLE_FROM_USER_AGENT", function() {
+    d.options.firstVariableValueStrategy = FIRST_VARIABLE_FROM_USER_AGENT;
     d.activate(this.content);
     expect("abc").toEqual(d.get("string1"));
   });
