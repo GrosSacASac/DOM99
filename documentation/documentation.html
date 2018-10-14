@@ -136,7 +136,12 @@ Version 1.0: LICENSE.txt</a></p>
 
 <p>The general syntax is </p>
 
-<p><code class="prettyprint">&lt;tag data-keyword="token1-token2" > bla bla &lt;/tag></code></p>access dom99.</p>
+<p><code class="prettyprint">&lt;tag data-keyword="token1-token2" > bla bla &lt;/tag></code></p>
+
+<p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
+
+<pre><code class="prettyprint">&lt;script src="node_modules/dom99/js/dom99.js">&lt;/script>
+&lt;script src="js/yourJavascriptFile.js">&lt;/script></code></pre>
 
 <h3>In your JavaScript:</h3>
 
@@ -375,6 +380,13 @@ d.activate();
 &lt;button data-function="click-showNextComment" >Show more comments&lt;/button>
 
 
+
+&lt;script nomodule src="../polyfill.min.js">&lt;/script>
+&lt;script nomodule src="polyfills/remove.js">&lt;/script>
+&lt;script nomodule src="../built/dom99.es5.min.js">&lt;/script>
+&lt;script nomodule src="../exampleses5/templates3.js">&lt;/script>
+
+&lt;script type="module" src="templates3.js">&lt;/script>
 &lt;/body>
 &lt;/html></code></pre>
 <h4>JS</h4>
@@ -449,6 +461,7 @@ d.activate();
 ...
 &lt;div data-element="target">&lt;/div>
 &lt;/body>
+
 </code></pre><pre><code class="prettyprint">
 // manual, see templates3.html to see how to use shortcuts
 // 0 make a description
@@ -736,7 +749,8 @@ but without runtime overhead.
 <h4>Version 13.0.8</h4>
 <p>terser is used for minifying</p>
 
-<h4>Version 13.0.0</h4exports <code class="prettyprint">{d, plugin, options, createElement2}</code></p>
+<h4>Version 13.0.0</h4>
+<p>The library is now an ES module first. From that, <em>script require and amd</em> are built. The default export is split into 4 named exports <code class="prettyprint">{d, plugin, options, createElement2}</code></p>
 
 <p>Changes required in the code:</p>
 <p><code class="prettyprint"><em>d.plugin --> plugin</em></code></p>
@@ -745,6 +759,8 @@ but without runtime overhead.
 
 <p>For ES module users: <em>built/dom99Module.js --> source/dom99.js</em></p>
 <p>Replace <code class="prettyprint">import d from "...built/dom99Module.js";</code> with <br><code class="prettyprint">import {d, plugin, options, createElement2} from ".../source/dom99.js";</code></p>
+
+<p>For script users: <em>js/dom99.js --> built/dom99Script.js</em></p>
 <p><em>built/dom99.es5.min.js --> built/dom99Script.es5.min.js</em></p>
 <p>Add <code class="prettyprint">const {d, plugin, options, createElement2} = dom99;</code></p>
 
@@ -978,24 +994,40 @@ the license in distributed executables or transpiled code</p>
 </article>
 
 </article>
+
+<script nomodule src="./deps/polyfill.min.js"></script>
+<script nomodule src="./deps/remove.js"></script>
+<script nomodule src="./deps/dom99Script.es5.min.js"></script>
+<script type="module">
 // Import
 import * as d from "./deps/dom99ES.min.js";
 window.d = d;
-window.usesModules = trueWithout need to use extra XHRs Also not indented first for pre tags -->
+window.usesModules = true;
+</script>
+<!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHRs Also not indented first for pre tags -->
 
 <!-- Hello World -->
 <template data-element="Hello WorldHtml">
 <span data-variable="myVariable"></span>
 </template>
-Object.assign(window, dom99)
-d.feed({myVariable : "Hello World"})
+
+<script nomodule>
+Object.assign(window, dom99);
+</script>
+
+<script nomodule data-element="Hello WorldJs">
+d.feed({myVariable : "Hello World"});
+</script>
 
 <!-- Hello World 2-->
 <template data-element="Hello World 2Html">
 <label>Input: <input data-variable="text"></label>
 <p data-variable="text"></p>
 </template>
-d.feed({text : "Hello dom99"})
+
+<script nomodule data-element="Hello World 2Js">
+d.feed({text : "Hello dom99"});
+</script>
 
 <!-- Multiplier-->
 <template data-element="MultiplierHtml">
@@ -1010,6 +1042,8 @@ d.feed({text : "Hello dom99"})
 <output data-variable="result"></output>
 </template>
 
+<script nomodule data-element="MultiplierJs">
+
 d.functions.calculate = function (event) {
     d.feed({
         result: String(Number(d.variables.a) * Number(d.variables.b))
@@ -1021,14 +1055,18 @@ d.feed({
     b: "6"
 });
 //invoke event handler to compute the first result
-d.functions.calculate()
+d.functions.calculate();
+</script>
 
 
 <!-- Lists -->
 <template data-element="ListsHtml">
 <ul data-list="fruits-li"></ul>
 </template>
-d.feed("fruits", ["apple", "kiwi", "banana", "orange"])
+
+<script nomodule data-element="ListsJs">
+d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
+</script>
 
 <!-- Lists2 -->
 <template data-element="Lists2Html">
@@ -1036,6 +1074,8 @@ d.feed("fruits", ["apple", "kiwi", "banana", "orange"])
 <select data-variable="image" data-list="images-option" name="image"></select>
 <p>You selected <span data-variable="image"></span></p>
 </template>
+
+<script nomodule data-element="Lists2Js">
 d.feed("images", [
     {
         textContent: "you",
@@ -1051,7 +1091,8 @@ d.feed("images", [
     }
 ]);
 
-d.feed("image", d.variables.images[0].value)
+d.feed("image", d.variables.images[0].value);
+</script>
 
 <!-- Composition -->
 <!-- Template inside template causes problems in IE -->
@@ -1080,7 +1121,8 @@ d.feed("image", d.variables.images[0].value)
 
     <div data-list="users-user-element"></div>
 
-</template
+</template>
+<script nomodule data-element="CompositionJs">
 d.feed({users :
     [
         {
@@ -1091,10 +1133,13 @@ d.feed({users :
             picture: "./images/sister.jpg",
             bio: "Drinks tons of café."
         }
-]})
-<!-- needs to run after all templates --
+]});
+</script>
+<!-- needs to run after all templates -->
+<script nomodule src="./deps/template.js"></script>
+<script nomodule src="./deps/template-mb-bootstrap.js"></script>
+<script nomodule src="js/documentation.es5.min.js"></script>
 <script type="module" src="js/documentation.js"></script>
-
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 </main>
 </body>
