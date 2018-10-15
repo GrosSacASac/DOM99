@@ -152,6 +152,11 @@ native html elements can also be used to display a list
 
 [Contributing and things to do](CONTRIBUTING.md)
 
+## Dev
+
+`npm run buildAll` to run all scripts in package.json in one go
+
+open tests/specification/SpecRunner.html to run unit tests
 
 ## License
 
