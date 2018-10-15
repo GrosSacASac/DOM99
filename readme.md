@@ -4,11 +4,11 @@
 [![npm](https://img.shields.io/npm/v/dom99.svg)](https://www.npmjs.com/package/dom99)
 [![Chat on Miaou](https://miaou.dystroy.org/static/shields/room-en.svg?v=1)](https://miaou.dystroy.org/2813?dom99)
 
-  <hr>
+<hr>
 
 ## What is dom99 ?
 
-dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document. [Demo](https://jsbin.com/luqisimagu/edit?html,js,output)
+dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document.
 
 
 ## Installation
@@ -152,6 +152,11 @@ native html elements can also be used to display a list
 
 [Contributing and things to do](CONTRIBUTING.md)
 
+## Dev
+
+`npm run buildAll` to run all scripts in package.json in one go
+
+open tests/specification/SpecRunner.html to run unit tests
 
 ## License
 

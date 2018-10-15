@@ -3,11 +3,16 @@
 <head>
     <meta charset="utf-8">
     <title>dom99</title>
+    <meta name="description" content="dom99 is a JavaScript framework to ease the interaction between the HTML and your program">
+    <meta name="keywords" content="javascript, javascript framework, dom nodes, javascript event listeners, application programming interface, javascript dom interaction, html custom elements">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/polyfill.css">
     <link rel="stylesheet" href="css/documentation.css">
     <link rel="icon" href="./images/visual2.jpg">
     <link rel="prefetch" href="./">
+    <link rel="stylesheet" href="./deps/solarized-dark.css" />
+    <script src="./deps/highlight.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 <h1>dom99</h1>
@@ -22,7 +27,8 @@
     <a href="#plugins">Plugins</a>
     <a href="#details">Details</a>
     <a href="#timeline">Time-Line</a>
-    <a href="/global">API</a>
+    
+    <!-- disabled see issue jsdoc <a href="/global" hidden>API</a> -->
 </nav>
 
 <article id="about">
@@ -43,7 +49,7 @@ You can also build the HTML with custom elements.</p>
 
 <p>To spend less time in the development. dom99 encourages you to link the UI and the logic declaratively. dom99 naturally promotes to put only markup in HTML, only styling in CSS, and only logic in JS, instead of mixing things up. That prevents a lot of bugs from even existing. dom99 makes no assumption about the logic code base architecture. dom99 is fast, the source file is small (about 2KB minified+ gziped), has no external dependencies and is written respecting modern ES and HTML standards. dom99 is simple by design. You can learn how to use dom99 in less than 15 minutes. There are no build steps required.</p>
 
-<p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, dom99 is for you. It is very beginner friendly yet powerful. <a href="manychoicesforfrontend.md">Comparisons with other frameworks</a></p>
+<p>Also if you want to teach people JavaScript, without having to spend too much time explaining the gimmicks of the native DOM interface, dom99 is for you. It is very beginner friendly yet powerful.</p>
 </section>
 
 <section>
@@ -108,14 +114,13 @@ Version 1.0: LICENSE.txt</a></p>
 
 <h4>Contributing</h4>
 
-<p>Contributions welcome. <a href="../CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<p>Contributions welcome. <a href="https://github.com/GrosSacASac/DOM99/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
 </section>
 
 </article>
 
 <article id="howto">
 <h2>How to use dom99 ?</h2>
-<!-- add here download, add index.html, add main.js and all the implicit steps -->
 <h3>In your HTML:</h3>
 
 <p>dom99 will browse the DOM and react if an element has one of the following attributes</p>
@@ -210,14 +215,6 @@ d.feed(`first`, {
 
 <p>You are ready to use dom99 ! </p>
 
-<h2>Examples</h2>
-
-<p><a href="../examples/index.html">Complete demo</a>. Look at the source code, there are comments.</p>
-<ul hidden>
-<li><a href="../examples/chat.html">Chat demo</a> </li>
-<li><a href="tutorial1_chat.md">Chat demo explanations</a></li>
-<li><a href="../examples/todolistmultiuser/README.md">Todo List Multi User Realtime with Node.js</a> </li>
-</ul>
 
 <h2>Complete overview</h2>
 
@@ -239,7 +236,7 @@ d.activate();</code></pre>
 When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more
 comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
-<p> Look at examples/templates1.html and examples/templates2.html and examples/templates3.html for now</p>
+<p>Look at examples/templates1.html and others</p>
 <pre><code>&lt;html&gt;
 
     &lt;article&gt;
@@ -286,7 +283,7 @@ d.feed(commentsData);
 
 d.activate();</code></pre>
 
-<p><a href="../examples/templates1.html">Try templates1.html static template injection</a> </p>
+
 
 <h3>Part 2</h3>
 <pre><code>
@@ -347,7 +344,7 @@ d.feed(commentsData);
 d.activate();
 
 </code></pre>
-<p>The HTML is the same. <a href="../examples/templates2.html">Try templates2.html static+dynamic template injection</a> </p>
+<p>The HTML is the same</p>
 
 <h3>Part 3</h3>
 <p>He we remove a lot of manual cruft, and use an array with data-list to display the comments</p>
@@ -451,7 +448,6 @@ let commentsData = [
 d.feed(`comments`, commentsData);
 d.activate();
 </code></pre>
-<p><a href="../examples/templates3.html">Try templates3.html</a></p>
 
 <h3>Dynamic template injection in general</h3>
 
@@ -589,15 +585,15 @@ d.functions.update = function (event) {
 <article id="components">
 <h2>Components</h2>
 <h3>Dialogs</h3>
-<p><a href="../components/yesNoDialog/readme.md">Readme (Markdown)</a></p>
+<p><a href="https://github.com/GrosSacASac/DOM99/tree/master/components/yesNoDialog">Readme (Markdown)</a></p>
 <h3>ReadTextFile</h3>
-<p><a href="../components/readTextFile/readme.md">Readme (Markdown)</a></p>
+<p><a href="https://github.com/GrosSacASac/DOM99/tree/master/components/readTextFile">Readme</a></p>
 </article>
 
 <article id="plugins">
 <h2>Plugins</h2>
 <h3>Shake</h3>
-<p><a href="../plugins/shake/readme.md">Readme (Markdown)</a></p>
+<p><a href="https://github.com/GrosSacASac/DOM99/tree/master/plugins/shake">Readme</a></p>
 </article>
 
 <article id="details">
@@ -684,7 +680,8 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h3>Patch Notes</h3>
 <h4>Version 16.0.0</h4>
 <p>New URL for website <a href="https://dom99.now.sh/">https://dom99.now.sh/</a>. Update your bookmarks.</p>
-<p></p>
+<p>Generated files are not in the git anymore. Generate them with the commands defined in package.json or download pre built files with npm or use URL https://unpkg.com/dom99@16.0.1/built/dom99ES.js or https://unpkg.com/dom99@16.0.1/built/dom99Script.js</p>
+
 <h4>Version 15.4.0</h4>
 <p>expose d.element(string) function. It is a convenience function for d.elements[string]. It is safer to use because it cannot accidently set private variables.</p>
 <h4>Version 15.3.0</h4>
@@ -801,7 +798,7 @@ but without runtime overhead.
 <h4>Version 9.0.0</h4>
 <p>IE 9 support is now mantained by external polyfills</p>
 <p>The result is that base dom99 is now even lighter</p>
-<p>To still support IE 9+ <code>npm install <a href="https://www.npmjs.com/package/template-mb">template-mb</a></code> and include it like in the file <code><a href="../examples/index.html">examples/index.html</a></code></p>
+<p>To still support IE 9+ <code>npm install <a href="https://www.npmjs.com/package/template-mb">template-mb</a></code> and include it like in the file <code>examples/index.html</code></p>
 <p>More updates like these are coming</p>
 <p>Bower and bower.json has been dropped</p>
 <h4>Version 8.2.0</h4>

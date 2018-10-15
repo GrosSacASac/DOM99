@@ -9,6 +9,11 @@ const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
 const inputsOutputs = {
     [`${modules}template-mb/template.js`]: `${docdeps}template.js`,
+    // the core lib is not enough
+    // it does not include any language by default
+    // https://github.com/highlightjs/highlight.js/issues/1665
+    [`${modules}highlight.js/lib/highlight.js`]: `${docdeps}highlight.js`,
+    [`${modules}highlight.js/styles/solarized-dark.css`]: `${docdeps}solarized-dark.css`,
     [`./polyfills/template-mb-bootstrap.js`]: `${docdeps}template-mb-bootstrap.js`,
     [`${modules}@babel/polyfill/dist/polyfill.min.js`]: `${docdeps}polyfill.min.js`,
     [`./polyfills/built/remove.js`]: `${docdeps}remove.js`,
