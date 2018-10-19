@@ -17,6 +17,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "highlight.js": "^9.13.1",
     "html-minifier": "^3.5.20",
     "jsdoc": "^3.5.5",
     "rollup": "^0.65.0",
@@ -25,36 +26,27 @@
     "utilsac": "^9.0.1"
   },
   "scripts": {
-      "roll": "rollup --config tools/rollup.config.js",
-      "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
-      "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
-      "build": "npm run roll && npm run transpile && npm run minify",
-
-      "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
-
-      "bundleExamples": "node tools/buildExamples.js",
-      "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
-      "exampleDependencies": "node tools/exampleDependencies.js",
-      "buildexamples": "npm run bundleExamples && npm run transpileExamples && npm run exampleDependencies",
-
-      "builddocexamples": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
-      "generatehtml": "node tools/buildHTML",
-      "prepareSite": "node tools/prepareSite.js",
-      "jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
-      "docs": "npm run builddocexamples && npm run generatehtml && npm run prepareSite && npm run jsdoc",
-
-      "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
-
-
-
-      "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
-
-      "most": "npm run build && npm run generatehtml",
-
-      "prepublishOnlyDisabled": "npm run most",
-      "serve-doc": "cd documentation && http-server",
-      "deploynow": "cd documentation && now --public",
-      "aliasnow": "now alias https://documentation-idlakfyzsr.now.sh dom99"
+    "roll": "rollup --config tools/rollup.config.js",
+    "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
+    "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
+    "build": "npm run roll && npm run transpile && npm run minify",
+    "transpilePolyfills": "babel polyfills/remove.js > polyfills/built/remove.js && babel polyfills/dom-hidden.js > polyfills/built/dom-hidden.js",
+    "bundleExamples": "node tools/buildExamples.js",
+    "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
+    "exampleDependencies": "node tools/exampleDependencies.js",
+    "buildexamples": "npm run bundleExamples && npm run transpileExamples && npm run exampleDependencies",
+    "builddocexamples": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
+    "generatehtml": "node tools/buildHTML",
+    "prepareSite": "node tools/prepareSite.js",
+    "jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
+    "docs": "npm run builddocexamples && npm run generatehtml && npm run prepareSite && npm run jsdoc",
+    "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
+    "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
+    "most": "npm run build && npm run generatehtml",
+    "prepublishOnlyDisabled": "npm run most",
+    "serve-doc": "cd documentation && http-server",
+    "deploynow": "cd documentation && now --public",
+    "aliasnow": "now alias https://documentation-idlakfyzsr.now.sh dom99"
   },
   "babel": {
     "plugins": [],
