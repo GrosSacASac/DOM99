@@ -61,9 +61,6 @@ Promise.all(
             } else {
                 minifiedHtml = minify(HTMLString, options);
             }
-            var handler = new htmlparser.DefaultHandler(function (error, dom) {
-
-            });
             var source = { "description": pyjson.description, "keywords": pyjson.keywords }
             return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
         });
@@ -76,12 +73,3 @@ Promise.all(
     console.log(errorText);
     throw new Error(errorText);
 });
-
-
-function modifyDescriptionTags (handler) {
-   var descriptionMetaTag =  handler.dom[1].children
-                                           .filter(x => x.name == 'head')[0]
-                                           .children
-                                           .filter(x => x.name == 'meta')
-   console.log(descriptionMetaTag)
-}
