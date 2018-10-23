@@ -10,6 +10,10 @@ const minify = require("html-minifier").minify;
 
 const skipMinification = false;
 
+var handlebar = require("handlebars")
+
+var pyjson = require("../package.json")
+
 const OPTIONS = {
     removeAttributeQuotes: false,
     caseSensitive: true,
@@ -57,7 +61,11 @@ Promise.all(
             } else {
                 minifiedHtml = minify(HTMLString, options);
             }
-            return writeTextInFile(to, minifiedHtml);
+            var handler = new htmlparser.DefaultHandler(function (error, dom) {
+
+            });
+            var source = { "description": pyjson.description, "keywords": pyjson.keywords }
+            return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
         });
     })
 ).then(function () {
@@ -68,3 +76,12 @@ Promise.all(
     console.log(errorText);
     throw new Error(errorText);
 });
+
+
+function modifyDescriptionTags (handler) {
+   var descriptionMetaTag =  handler.dom[1].children
+                                           .filter(x => x.name == 'head')[0]
+                                           .children
+                                           .filter(x => x.name == 'meta')
+   console.log(descriptionMetaTag)
+}

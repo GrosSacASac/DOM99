@@ -11,7 +11,9 @@
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "handlebars": "^4.0.12"
+  },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",
     "babel-cli": "^6.26.0",
