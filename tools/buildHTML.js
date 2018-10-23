@@ -10,6 +10,10 @@ const minify = require("html-minifier").minify;
 
 const skipMinification = false;
 
+var handlebar = require("handlebars")
+
+var pyjson = require("../package.json")
+
 const OPTIONS = {
     removeAttributeQuotes: false,
     caseSensitive: true,
@@ -57,7 +61,8 @@ Promise.all(
             } else {
                 minifiedHtml = minify(HTMLString, options);
             }
-            return writeTextInFile(to, minifiedHtml);
+            var source = { "description": pyjson.description, "keywords": pyjson.keywords }
+            return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
         });
     })
 ).then(function () {
