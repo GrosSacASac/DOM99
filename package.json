@@ -11,9 +11,7 @@
     "type": "git",
     "url": "git://github.com/GrosSacASac/DOM99.git"
   },
-  "dependencies": {
-    "handlebars": "^4.0.12"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",
     "babel-cli": "^6.26.0",
@@ -25,7 +23,8 @@
     "rollup": "^0.65.0",
     "template-mb": "^2.0.6",
     "terser": "^3.8.2",
-    "utilsac": "^9.0.1"
+    "utilsac": "^9.0.1",
+    "handlebars": "^4.0.12"
   },
   "scripts": {
     "roll": "rollup --config tools/rollup.config.js",
