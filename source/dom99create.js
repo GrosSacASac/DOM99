@@ -233,7 +233,7 @@ const deleteAllStartsWith = (object, prefix) => {
 	});
 };
 
-// good candiates for firstVariableValueStrategy :
+// good candidates for firstVariableValueStrategy :
 const FIRST_VARIABLE_FROM_HTML = (element) => {
 	if ('defaultValue' in element) {
 		return element.defaultValue;
@@ -248,15 +248,15 @@ const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
 	return element.value || FIRST_VARIABLE_FROM_HTML(element);
 };
 
-const prepareGet = (input, tojoin) => {
+const prepareGet = (input, toJoin) => {
 	let stringPath;
 	if (Array.isArray(input)) {
 		stringPath = contextFromArray(input);
 	} else {
 		stringPath = input;
 	}
-	if (tojoin) {
-		stringPath = `${stringPath}${INSIDE_SYMBOL}${tojoin}`;
+	if (toJoin) {
+		stringPath = `${stringPath}${INSIDE_SYMBOL}${toJoin}`;
 	}
 	return stringPath;
 };
@@ -267,7 +267,7 @@ const create = () => {
 
 	/**
 	Retrieve variable values that have been modified by d.feed or
-	2 way data binded element with data-variable attribute (Read only)
+	2 way data bound element with data-variable attribute (Read only)
 
 	@param {string} path
 
@@ -300,7 +300,7 @@ const create = () => {
 	const functionPlugins = [];
 	let alreadyHooked = false;
 	const feedPlugins = [];
-	const clonePlugins = []
+	const clonePlugins = [];
 
 	let directivePairs;
 
@@ -508,12 +508,12 @@ const create = () => {
 		}
 	};
 
-	const get = (input, tojoin) => {
-		return variables[prepareGet(input, tojoin)];
+	const get = (input, toJoin) => {
+		return variables[prepareGet(input, toJoin)];
 	};
 
-	const getElement = (input, tojoin) => {
-		return elements[prepareGet(input, tojoin)];
+	const getElement = (input, toJoin) => {
+		return elements[prepareGet(input, toJoin)];
 	};
 
 	const applyFunctionOriginal = (element, eventName, functionName) => {
@@ -521,7 +521,7 @@ const create = () => {
 			console.error(`Event listener ${functionName} not found.`);
 		}
 		addEventListener(element, eventName, functions[functionName]);
-		// todo only add context when not top level ? (inside sommething)
+		// todo only add context when not top level ? (inside something)
 		element[CONTEXT] = contextFromArray(pathIn);
 	};
 
@@ -544,7 +544,7 @@ const create = () => {
 		);
 	};
 
-	const applylist = (element, attributeValue) => {
+	const applyList = (element, attributeValue) => {
 		const [
 			variableName,
 			listItemTagName,
@@ -676,7 +676,7 @@ const create = () => {
 		if (!key) {
 			console.error(
 				element,
-				`Use ${options.directives.inside}="insidewhat" format!`
+				`Use ${options.directives.inside}="insideWhat" format!`
 			);
 		}
 
@@ -724,7 +724,7 @@ const create = () => {
 			return;
 		}
 
-		// spellcheck atributes
+		// spell check attributes
 		// const directives = Object.values(options.directives);
 		// Array.prototype.slice.call(element.attributes).forEach((attribute) => {
 		// 	if (attribute.nodeName.startsWith(`data`)) {
@@ -781,7 +781,7 @@ const create = () => {
 				[options.directives.element, applyDirectiveElement],
 				[options.directives.variable, applyVariable],
 				[options.directives.function, applyFunctions],
-				[options.directives.list, applylist],
+				[options.directives.list, applyList],
 				[options.directives.inside, applyInside],
 				[options.directives.template, applyTemplate]
 			];
