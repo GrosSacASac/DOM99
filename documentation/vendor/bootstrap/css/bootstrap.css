@@ -219,7 +219,7 @@ sup {
 }
 
 a {
-  color: #007bff;
+  color: #0063cc;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
@@ -2308,14 +2308,14 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #0063cc;
+  border-color: #0063cc;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 .btn-primary:focus, .btn-primary.focus {
