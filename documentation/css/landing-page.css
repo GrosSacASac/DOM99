@@ -62,3 +62,34 @@ header.masthead {
 footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem; }
+
+/* Color changes to pass WAC AAA color contrast acceptance */
+a {
+  color: #0051A8;
+}
+a:hover {
+  color: #003E80;
+}
+
+.btn-primary {
+  background-color: #0051A8;
+  border-color: #0051A8
+}
+
+.btn-primary:hover {
+  background-color: #003E80;
+  border-color: #003E80
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  opacity: 0.9;
+  cursor: not-allowed;
+}
+
+.btn-primary:not([disabled]):not(.disabled).active,
+.btn-primary:not([disabled]):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+  background-color: #0051A8;
+}
+/* Color changes to pass WAC AAA color contrast acceptance */
