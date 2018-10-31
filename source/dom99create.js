@@ -384,6 +384,7 @@ const create = () => {
 	};
 
 	const notifyRawListSubscriber = (listContainer, startPath, data) => {
+        const fragment = document.createDocumentFragment();
         listContainer.innerHTML = ``;
         const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
         const listItemProperty = options.propertyFromElement(
@@ -608,7 +609,7 @@ const create = () => {
 		} else if (options.firstVariableValueStrategy !== undefined) {
 			const firstValue = options.firstVariableValueStrategy(element);
 			variables[path] = firstValue;
-			if (firstValue) {
+			if (!firstValue) {
 				console.warn(`589: Assertion warning firstValue should not be undefined`);
 			}
 			notifyOneVariableSubscriber(element, firstValue);
