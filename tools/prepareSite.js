@@ -12,6 +12,7 @@ const inputsOutputs = {
     // the core lib is not enough
     // it does not include any language by default
     // https://github.com/highlightjs/highlight.js/issues/1665
+    [`${modules}bootstrap/dist/css/bootstrap.min.css`]: `${docdeps}bootstrap.min.css`,
     [`${modules}highlight.js/lib/highlight.js`]: `${docdeps}highlight.js`,
     [`${modules}highlight.js/styles/solarized-dark.css`]: `${docdeps}solarized-dark.css`,
     [`./polyfills/template-mb-bootstrap.js`]: `${docdeps}template-mb-bootstrap.js`,

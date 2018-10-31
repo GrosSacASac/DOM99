@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "16.0.7",
+  "version": "16.0.8",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -17,14 +17,15 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "bootstrap": "^4.1.3",
+    "handlebars": "^4.0.12",
     "highlight.js": "^9.13.1",
     "html-minifier": "^3.5.20",
     "jsdoc": "^3.5.5",
     "rollup": "^0.65.0",
     "template-mb": "^2.0.6",
     "terser": "^3.8.2",
-    "utilsac": "^9.0.1",
-    "handlebars": "^4.0.12"
+    "utilsac": "^9.0.1"
   },
   "scripts": {
     "roll": "rollup --config tools/rollup.config.js",
@@ -43,7 +44,7 @@
     "docs": "npm run builddocexamples && npm run generatehtml && npm run prepareSite && npm run jsdoc",
     "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
-    "most": "npm run build && npm run generatehtml",
+    "most": "npm run build && npm run docs",
     "prepublishOnlyDisabled": "npm run most",
     "serve-doc": "cd documentation && http-server",
     "deploynow": "cd documentation && now --public",
@@ -70,6 +71,7 @@
   },
   "keywords": [
     "html",
+    "javascript",
     "dom",
     "declarative",
     "custom",
