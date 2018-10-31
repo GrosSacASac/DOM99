@@ -325,8 +325,6 @@ const create = () => {
 		]
 	};
 
-
-
 	/**
 	contextFromArray joins paths to create a valid path to use with
 
@@ -385,73 +383,80 @@ const create = () => {
 		});
 	};
 
+	const notifyRawListSubscriber = (listContainer, startPath, data) => {
+        listContainer.innerHTML = ``;
+        const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+        const listItemProperty = options.propertyFromElement(
+            listItemTagName.toUpperCase()
+        );
+        data.forEach((value) => {
+            const listItem = document.createElement(listItemTagName);
+            if (isObjectOrArray(value)) {
+                Object.assign(listItem, value);
+            } else {
+                listItem[listItemProperty] = value;
+            }
+            fragment.appendChild(listItem);
+        });        
+		listContainer.appendChild(fragment);
+    };
+    
+	const notifyCustomListSubscriber = (listContainer, startPath, data) => {
+        const fragment = document.createDocumentFragment();
+        const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
+        const previous = copyArrayShallow(pathIn);
+        pathIn = startPath.split(INSIDE_SYMBOL);
+        const normalizedPath = normalizeStartPath(startPath);
+        const newLength = data.length;
+        let oldLength;
+        let pathInside;
+        if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+            // remove nodes and variable subscribers that are not used
+            oldLength = listContainer[LIST_CHILDREN].length;
+            if (oldLength > newLength) {
+                for (let i = newLength; i < oldLength; i += 1) {
+                    pathInside = `${normalizedPath}${i}`;
+                    listContainer[LIST_CHILDREN][i].forEach(removeNode);
+                    forgetContext(pathInside);
+                }
+                listContainer[LIST_CHILDREN].length = newLength;
+            }
+        } else {
+            listContainer[LIST_CHILDREN] = [];
+            oldLength = 0;
+        }
 
+        data.forEach((dataInside, i) => {
+            pathInside = `${normalizedPath}${i}`;
+            feed(pathInside, dataInside);
+            if (i < oldLength) {
+                // reusing, feed updated with new data the old nodes
+                return;
+            }
+            // cannot remove document fragment after insert because they empty themselves
+            // have to freeze the children to still have a reference
+            const activatedClone = activateCloneTemplate(
+                template,
+                String(i)
+            );
+            listContainer[LIST_CHILDREN].push(
+                freezeLiveCollection(activatedClone.childNodes)
+            );
+            fragment.appendChild(activatedClone);            
+        });
+        pathIn = previous;
+		listContainer.appendChild(fragment);
+    };
+    
 	const notifyOneListSubscriber = (listContainer, startPath, data) => {
-		const fragment = document.createDocumentFragment();
 		if (
 			hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
 			hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
 		) {
-			// composing with custom element
-			const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-			const previous = copyArrayShallow(pathIn);
-			pathIn = startPath.split(INSIDE_SYMBOL);
-			const normalizedPath = normalizeStartPath(startPath);
-			const newLength = data.length;
-			let oldLength;
-			let pathInside;
-			if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
-				// remove nodes and variable subscribers that are not used
-				oldLength = listContainer[LIST_CHILDREN].length;
-				if (oldLength > newLength) {
-					let i;
-					for (i = newLength; i < oldLength; i += 1) {
-						pathInside = `${normalizedPath}${i}`;
-						listContainer[LIST_CHILDREN][i].forEach(removeNode);
-						forgetContext(pathInside);
-					}
-					listContainer[LIST_CHILDREN].length = newLength;
-				}
-			} else {
-				listContainer[LIST_CHILDREN] = [];
-				oldLength = 0;
-			}
-
-			data.forEach((dataInside, i) => {
-				pathInside = `${normalizedPath}${i}`;
-				feed(pathInside, dataInside);
-				if (i >= oldLength) {
-					// cannot remove document fragment after insert because they empty themselves
-					// have to freeze the children to still have a reference
-					const activatedClone = activateCloneTemplate(
-						template,
-						String(i)
-					);
-					listContainer[LIST_CHILDREN].push(
-						freezeLiveCollection(activatedClone.childNodes)
-					);
-					fragment.appendChild(activatedClone);
-				}
-				// else reusing, feed updated with new data the old nodes
-			});
-			pathIn = previous;
-		} else {
-			listContainer.innerHTML = ``;
-			const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
-			const listItemProperty = options.propertyFromElement(
-				listItemTagName.toUpperCase()
-			);
-			data.forEach((value) => {
-				const listItem = document.createElement(listItemTagName);
-				if (isObjectOrArray(value)) {
-					Object.assign(listItem, value);
-				} else {
-					listItem[listItemProperty] = value;
-				}
-				fragment.appendChild(listItem);
-			});
-		}
-		listContainer.appendChild(fragment);
+            notifyCustomListSubscriber(listContainer, startPath, data);
+            return;
+		} 
+        notifyRawListSubscriber(listContainer, startPath, data);
 	};
 
 	const notifyListSubscribers = (subscribers, startPath, data) => {
