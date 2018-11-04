@@ -1,7 +1,5 @@
 import {createElement2} from "./createElement2.js";
 import {isObjectOrArray} from "./isObjectOrArray.js";
-import {copyArrayShallow} from "./copyArrayShallow.js";
-import {freezeLiveCollection} from "./freezeLiveCollection.js";
 import {firstAncestorValue} from "./parentIdFromEvent.js";
 import {pushOrCreateArrayAt} from "./pushOrCreateArrayAt.js";
 
@@ -398,14 +396,14 @@ const create = () => {
                 listItem[listItemProperty] = value;
             }
             fragment.appendChild(listItem);
-        });        
+        });
 		listContainer.appendChild(fragment);
     };
-    
+
 	const notifyCustomListSubscriber = (listContainer, startPath, data) => {
         const fragment = document.createDocumentFragment();
         const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-        const previous = copyArrayShallow(pathIn);
+        const previous = Array.from(pathIn);
         pathIn = startPath.split(INSIDE_SYMBOL);
         const normalizedPath = normalizeStartPath(startPath);
         const newLength = data.length;
@@ -441,14 +439,14 @@ const create = () => {
                 String(i)
             );
             listContainer[LIST_CHILDREN].push(
-                freezeLiveCollection(activatedClone.childNodes)
+                Array.from(activatedClone.childNodes)
             );
-            fragment.appendChild(activatedClone);            
+            fragment.appendChild(activatedClone);
         });
         pathIn = previous;
 		listContainer.appendChild(fragment);
     };
-    
+
 	const notifyOneListSubscriber = (listContainer, startPath, data) => {
 		if (
 			hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
@@ -456,7 +454,7 @@ const create = () => {
 		) {
             notifyCustomListSubscriber(listContainer, startPath, data);
             return;
-		} 
+		}
         notifyRawListSubscriber(listContainer, startPath, data);
 	};
 

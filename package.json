@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "16.0.8",
+  "version": "16.0.9",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -45,7 +45,7 @@
     "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
     "most": "npm run build && npm run docs",
-    "prepublishOnlyDisabled": "npm run most",
+    "prepublishOnly": "npm run most build",
     "serve-doc": "cd documentation && http-server",
     "deploynow": "cd documentation && now --public",
     "aliasnow": "now alias https://documentation-idlakfyzsr.now.sh dom99"
