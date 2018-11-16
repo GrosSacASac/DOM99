@@ -142,7 +142,7 @@ const normalizeStartPath = (startPath) => {
   return startPath;
 };
 
-const deleteAllStartsWith = (object, prefix) => {
+const deleteAllStartsWith = (object, prefix = ``) => {
   Object.keys(object).forEach((key) => {
     if (key.startsWith(prefix)) {
       delete object[key];
@@ -597,22 +597,6 @@ const create = (options) => {
     [options.directives.template, applyTemplate]
   ];
 
-  /**
-   Removes a template from the DOM and from dom99 memory
-   @param {string} name
-
-   */
-  const deleteTemplate = (name) => {
-    if (!hasOwnProperty.call(templateFromName, name)) {
-      console.error(
-        `<template ${options.directives.template}=${name}>
-                </template> not found or already deleted and removed.`
-      );
-    }
-    templateFromName[name].remove();
-    delete templateFromName[name];
-  };
-
   const tryApplyDirectives = (element) => {
     /* looks if the element has dom99 specific attributes and tries to handle it*/
     // todo make sure no impact-full read write
@@ -760,8 +744,6 @@ const create = (options) => {
     get,
     element: getElement,
     feed,
-    forgetContext,
-    deleteTemplate,
     plugin
   };
 };
