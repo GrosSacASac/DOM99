@@ -17,30 +17,24 @@ const options = defaultOptions;
 
 const {
 	start,
-	activate,
 	elements,
 	functions,
 	variables,
 	get,
 	element,
 	feed,
-	forgetContext,
-	deleteTemplate,
 	plugin,
 } = create(options);
 
 
 export {
 	start,
-	activate,
 	elements,
 	functions,
 	variables,
 	get,
 	element,
 	feed,
-	forgetContext,
-	deleteTemplate,
 	plugin,
 	options,
 
