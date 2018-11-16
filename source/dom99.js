@@ -9,7 +9,11 @@ import {
 	FIRST_VARIABLE_FROM_HTML,
 	FIRST_VARIABLE_FROM_USER_AGENT
 } from "./dom99create.js";
+import {defaultOptions} from "./defaultOptions.js";
 
+const options = defaultOptions;
+// to overwrite some options: 
+// const options = Object.assign({}, defaultOptions, providedOptions);
 
 const {
 	start,
@@ -23,8 +27,7 @@ const {
 	forgetContext,
 	deleteTemplate,
 	plugin,
-	options,
-} = create();
+} = create(options);
 
 
 export {
