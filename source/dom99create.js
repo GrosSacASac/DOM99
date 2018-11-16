@@ -25,11 +25,9 @@ const LIST_CHILDREN = `${NAME}_R`;
 const INSIDE_SYMBOL = `>`;
 
 
-
 const removeNode = (node) => {
   node.remove();
 };
-
 
 const elementsDeepForEach = (startElement, callBack) => {
   callBack(startElement);
@@ -214,7 +212,7 @@ const notifyOneListSubscriber = (listContainer, startPath, data, templateFromNam
   notifyRawListSubscriber(listContainer, data, options);
 };
 
-const notifyListSubscribers = (subscribers, startPath, data, notifyCustomListSubscriber) => {
+const notifyListSubscribers = (subscribers, startPath, data, templateFromName, notifyCustomListSubscriber) => {
   subscribers.forEach((listContainer) => {
     notifyOneListSubscriber(listContainer, startPath, data, templateFromName, notifyCustomListSubscriber);
   });
@@ -466,7 +464,7 @@ const create = (options) => {
     pushOrCreateArrayAt(listSubscribers, path, element);
 
     if (hasOwnProperty.call(variables, path)) {
-      notifyOneListSubscriber(element, path, variables[path], templateFromName);
+      notifyOneListSubscriber(element, path, variables[path], templateFromName, notifyCustomListSubscriber);
     }
   };
 
