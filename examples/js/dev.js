@@ -67,4 +67,4 @@ d.feed({
     ]
 });
 
-d.activate();
+d.start();
