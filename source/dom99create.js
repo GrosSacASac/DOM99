@@ -737,7 +737,6 @@ const create = (options) => {
 
   return {
     start,
-    activate,
     elements,
     functions,
     variables,
