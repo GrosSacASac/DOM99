@@ -24,97 +24,12 @@ const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
 const INSIDE_SYMBOL = `>`;
 
-const MISS = `MISS`;
-const valueElseMissDecorator = (object) => {
-  /*Decorator function around an Object to provide a default value
-  Decorated object must have a MISS key with the default value associated
-  Arrays are also objects
-  */
-  return (key) => {
-    if (hasOwnProperty.call(object, key)) {
-      return object[key];
-    }
-    return object[MISS];
-  };
-};
+
 
 const removeNode = (node) => {
   node.remove();
 };
 
-const propertyFromTag = valueElseMissDecorator({
-  //Input Type : appropriate property name to retrieve and set the value
-  [`INPUT`]: `value`,
-  [`TEXTAREA`]: `value`,
-  [`PROGRESS`]: `value`,
-  [`SELECT`]: `value`,
-  [`IMG`]: `src`,
-  [`SOURCE`]: `src`,
-  [`AUDIO`]: `src`,
-  [`VIDEO`]: `src`,
-  [`TRACK`]: `src`,
-  [`SCRIPT`]: `src`,
-  [`OPTION`]: `value`,
-  [`LINK`]: `href`,
-  [`DETAILS`]: `open`,
-  [MISS]: `textContent`
-});
-
-const propertyFromInputType = valueElseMissDecorator({
-  //Input Type : appropriate property name to retrieve and set the value
-  [`checkbox`]: `checked`,
-  [`radio`]: `checked`,
-  [MISS]: `value`
-});
-
-const inputEventFromType = valueElseMissDecorator({
-  [`checkbox`]: `change`,
-  [`radio`]: `change`,
-  [`range`]: `change`,
-  [`file`]: `change`,
-  [MISS]: `input`
-});
-
-const eventFromTag = valueElseMissDecorator({
-  [`SELECT`]: `change`,
-  [`TEXTAREA`]: `input`,
-  [`BUTTON`]: `click`,
-  [MISS]: `click`
-});
-
-const defaultDirectives = {
-  function: `data-function`,
-  variable: `data-variable`,
-  element: `data-element`,
-  list: `data-list`,
-  inside: `data-inside`,
-  template: `data-template`
-};
-
-const propertyFromElement = (element) => {
-  // defines what is changing when data-variable is changing
-  // for <p> it is textContent
-  let tagName;
-  if (element.tagName !== undefined) {
-    tagName = element.tagName;
-  } else {
-    tagName = element;
-  }
-  if (tagName === `INPUT`) {
-    return propertyFromInputType(element.type);
-  }
-  return propertyFromTag(tagName);
-};
-
-const eventNameFromElement = (element) => {
-  // defines the default event for an element
-  // i.e. when data-function is omitting the event
-  const tagName = element.tagName;
-  if (tagName === `INPUT`) {
-    return inputEventFromType(element.type);
-  }
-  return eventFromTag(tagName);
-};
 
 const elementsDeepForEach = (startElement, callBack) => {
   callBack(startElement);
@@ -132,7 +47,6 @@ const elementsDeepForEach = (startElement, callBack) => {
       node = node.nextSibling;
     }
   }
-
 };
 
 const customElementNameFromElement = (element) => {
@@ -308,7 +222,7 @@ const notifyRawListSubscriber = (listContainer, data, options) => {
   listContainer.appendChild(fragment);
 };
 
-const create = () => {
+const create = (options) => {
   const variableSubscribers = {};
   const listSubscribers = {};
 
@@ -348,29 +262,6 @@ const create = () => {
   let alreadyHooked = false;
   const feedPlugins = [];
   const clonePlugins = [];
-
-  let directivePairs;
-
-
-  /**
-   internal dom99 options, look at dom99ConfigurationExample.js
-   to learn how to configure it
-   */
-  const options = {
-    doneSymbol: `*`,
-    tokenSeparator: `-`,
-    listSeparator: ` `,
-    firstVariableValueStrategy: undefined,
-    directives: defaultDirectives,
-    propertyFromElement,
-    eventNameFromElement,
-    tagNamesForUserInput: [
-      `INPUT`,
-      `TEXTAREA`,
-      `SELECT`,
-      `DETAILS`
-    ]
-  };
 
 
   /**
@@ -697,6 +588,17 @@ const create = () => {
     }
   };
 
+  const directivePairs = [
+    /*order is relevant applyVariable being before applyFunction,
+    we can use the just changed live variable in the bind function*/
+    [options.directives.element, applyDirectiveElement],
+    [options.directives.variable, applyVariable],
+    [options.directives.function, applyFunctions],
+    [options.directives.list, applyList],
+    [options.directives.inside, applyInside],
+    [options.directives.template, applyTemplate]
+  ];
+
   /**
    Removes a template from the DOM and from dom99 memory
    @param {string} name
@@ -770,19 +672,6 @@ const create = () => {
    @return {Element} startElement
    */
   const activate = (startElement = document.body) => {
-    //build array only once and use up to date options, they should not reset twice
-    if (!directivePairs) {
-      directivePairs = [
-        /*order is relevant applyVariable being before applyFunction,
-        we can use the just changed live variable in the bind function*/
-        [options.directives.element, applyDirectiveElement],
-        [options.directives.variable, applyVariable],
-        [options.directives.function, applyFunctions],
-        [options.directives.list, applyList],
-        [options.directives.inside, applyInside],
-        [options.directives.template, applyTemplate]
-      ];
-    }
     elementsDeepForEach(startElement, tryApplyDirectives);
     return startElement;
   };
@@ -875,7 +764,6 @@ const create = () => {
     feed,
     forgetContext,
     deleteTemplate,
-    plugin,
-    options
+    plugin
   };
 };
