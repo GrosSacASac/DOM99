@@ -105,12 +105,12 @@ const scopeFromEvent = (event) => {
  d.variables[path]
  d.elements[path]
 
- @param {array} pathIn
+ @param {array} scopeIn
 
  @return {string} path
  */
-const scopeFromArray = (pathIn) => {
-  return pathIn.join(INSIDE_SYMBOL);
+const scopeFromArray = (scopeIn) => {
+  return scopeIn.join(INSIDE_SYMBOL);
 };
 
 /**
@@ -126,20 +126,20 @@ const parentScope = (scope) => {
   return split.join(INSIDE_SYMBOL);
 };
 
-const scopeFromArrayWith = (pathIn, withWhat) => {
-  if (pathIn.length === 0) {
+const scopeFromArrayWith = (scopeIn, withWhat) => {
+  if (scopeIn.length === 0) {
     return withWhat;
   }
-  return `${scopeFromArray(pathIn)}${INSIDE_SYMBOL}${withWhat}`;
+  return `${scopeFromArray(scopeIn)}${INSIDE_SYMBOL}${withWhat}`;
 };
 
-const normalizeStartPath = (startPath) => {
+const normalizeStartPath = (startScope) => {
   // this is because `a>b>c` is irregular
   // `a>b>c>` or `>a>b>c` would not need such normalization
-  if (startPath) {
-    return `${startPath}${INSIDE_SYMBOL}`;
+  if (startScope) {
+    return `${startScope}${INSIDE_SYMBOL}`;
   }
-  return startPath;
+  return startScope;
 };
 
 const deleteAllStartsWith = (object, prefix = ``) => {
@@ -178,12 +178,12 @@ const prepareGet = (input, toJoin) => {
   return stringPath;
 };
 
-const enterObject = (pathIn, key) => {
-  pathIn.push(key);
+const enterObject = (scopeIn, key) => {
+  scopeIn.push(key);
 };
 
-const leaveObject = function (pathIn) {
-  pathIn.pop();
+const leaveObject = function (scopeIn) {
+  scopeIn.pop();
 };
 
 const notifyOneVariableSubscriber = (options, variableSubscriber, value) => {
@@ -201,20 +201,20 @@ const notifyVariableSubscribers = (options, subscribers, value) => {
   });
 };
 
-const notifyOneListSubscriber = (listContainer, startPath, data, templateFromName, notifyCustomListSubscriber) => {
+const notifyOneListSubscriber = (listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
   if (
     hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
     hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
   ) {
-    notifyCustomListSubscriber(listContainer, startPath, data);
+    notifyCustomListSubscriber(listContainer, startScope, data);
     return;
   }
   notifyRawListSubscriber(listContainer, data, options);
 };
 
-const notifyListSubscribers = (subscribers, startPath, data, templateFromName, notifyCustomListSubscriber) => {
+const notifyListSubscribers = (subscribers, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
   subscribers.forEach((listContainer) => {
-    notifyOneListSubscriber(listContainer, startPath, data, templateFromName, notifyCustomListSubscriber);
+    notifyOneListSubscriber(listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options);
   });
 };
 
@@ -271,7 +271,7 @@ const create = (options) => {
    */
   const functions = {};
 
-  let pathIn = [];
+  let scopeIn = [];
 
   const functionPlugins = [];
   let alreadyHooked = false;
@@ -299,25 +299,25 @@ const create = (options) => {
     deleteAllStartsWith(elements, path);
   };
 
-  const notifyCustomListSubscriber = (listContainer, startPath, data) => {
+  const notifyCustomListSubscriber = (listContainer, startScope, data) => {
     const fragment = document.createDocumentFragment();
     const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-    const previous = Array.from(pathIn);
-    pathIn = startPath.split(INSIDE_SYMBOL);
-    // enterObject(pathIn, key);
-    // leaveObject(pathIn);
-    const normalizedPath = normalizeStartPath(startPath);
+    const previous = Array.from(scopeIn);
+    scopeIn = startScope.split(INSIDE_SYMBOL);
+    // enterObject(scopeIn, key);
+    // leaveObject(scopeIn);
+    const normalizedScope = normalizeStartPath(startScope);
     const newLength = data.length;
     let oldLength;
-    let pathInside;
+    let scopeInside;
     if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
       // remove nodes and variable subscribers that are not used
       oldLength = listContainer[LIST_CHILDREN].length;
       if (oldLength > newLength) {
         for (let i = newLength; i < oldLength; i += 1) {
-          pathInside = `${normalizedPath}${i}`;
+          scopeInside = `${normalizedScope}${i}`;
           listContainer[LIST_CHILDREN][i].forEach(removeNode);
-          forgetScope(pathInside);
+          forgetScope(scopeInside);
         }
         listContainer[LIST_CHILDREN].length = newLength;
       }
@@ -327,7 +327,7 @@ const create = (options) => {
     }
 
     data.forEach((dataInside, i) => {
-      scopeInside = `${normalizedPath}${i}`;
+      scopeInside = `${normalizedScope}${i}`;
       feed(scopeInside, dataInside);
       if (i < oldLength) {
         // reusing, feed updated with new data the old nodes
@@ -352,7 +352,7 @@ const create = (options) => {
   /**
    Feed data, for element with corresponding data-variable and data-list
 
-   @param {string} startPath
+   @param {string} startScope
    @param {any} data
 
    @or
@@ -361,35 +361,35 @@ const create = (options) => {
 
    @return {Element} startElement
    */
-  const feed = (startPath, data) => {
+  const feed = (startScope, data) => {
     if (data === undefined) {
-      data = startPath;
-      startPath = ``;
+      data = startScope;
+      startScope = ``;
     }
-    if (isObjectOrArray(startPath)) {
+    if (isObjectOrArray(startScope)) {
       console.error(
         `Incorrect types passed to d.feed,
                 d.feed(string, object) or d.feed(object)`
       );
     }
     if (!alreadyHooked) {
-      feedHook(startPath, data);
+      feedHook(startScope, data);
       alreadyHooked = true;
     }
     if (!isObjectOrArray(data)) {
-      variables[startPath] = data;
-      if (hasOwnProperty.call(variableSubscribers, startPath)) {
-        notifyVariableSubscribers(options, variableSubscribers[startPath], data);
+      variables[startScope] = data;
+      if (hasOwnProperty.call(variableSubscribers, startScope)) {
+        notifyVariableSubscribers(options, variableSubscribers[startScope], data);
       }
     } else if (Array.isArray(data)) {
-      variables[startPath] = data;
-      if (hasOwnProperty.call(listSubscribers, startPath)) {
-        notifyListSubscribers(listSubscribers[startPath], startPath, data, templateFromName, notifyCustomListSubscriber);
+      variables[startScope] = data;
+      if (hasOwnProperty.call(listSubscribers, startScope)) {
+        notifyListSubscribers(listSubscribers[startScope], startScope, data, templateFromName, notifyCustomListSubscriber, options);
       }
     } else {
-      const normalizedPath = normalizeStartPath(startPath);
+      const normalizedScope = normalizeStartPath(startScope);
       Object.entries(data).forEach(([key, value]) => {
-        const scope = `${normalizedPath}${key}`;
+        const scope = `${normalizedScope}${key}`;
         feed(scope, value);
       });
     }
@@ -467,7 +467,7 @@ const create = (options) => {
     pushOrCreateArrayAt(listSubscribers, scope, element);
 
     if (hasOwnProperty.call(variables, scope)) {
-      notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber);
+      notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
     }
   };
 
@@ -695,9 +695,9 @@ const create = (options) => {
     });
   };
 
-  const feedHook = (startPath, data) => {
+  const feedHook = (startScope, data) => {
     feedPlugins.forEach((feedPlugin) => {
-      feedPlugin(startPath, data);
+      feedPlugin(startScope, data);
     });
   };
 
