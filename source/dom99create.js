@@ -1,8 +1,8 @@
 export {
   create,
-  contextFromArray,
-  contextFromEvent,
-  getParentContext,
+  scopeFromArray,
+  scopeFromEvent,
+  parentScope,
   createElement2,
   FIRST_VARIABLE_FROM_HTML,
   FIRST_VARIABLE_FROM_USER_AGENT
@@ -75,32 +75,32 @@ const cloneTemplate = (template) => {
 /**
  @param {Element} element
 
- @return {string | undefined} context
+ @return {string | undefined} scope
  */
-const contextFromElement = (element) => {
+const scopeFromElement = (element) => {
   return element[CONTEXT];
 };
 
 /**
- contextFromEvent gets the starting path for an event issued inside a component
+ scopeFromEvent gets the starting path for an event issued inside a component
 
- in combination with contextFromArray it allows to access sibling elements and variables
+ in combination with scopeFromArray it allows to access sibling elements and variables
 
  d.functions.clickedButton = (event) => {
-    d.elements[d.contextFromArray([contextFromEvent(event), `other`])]
+    d.elements[d.scopeFromArray([scopeFromEvent(event), `other`])]
         .classList.add(`active`);
 };
 
  @param {Event} event
 
- @return {string} path
+ @return {string} scope
  */
-const contextFromEvent = (event) => {
-  return firstAncestorValue(event.target, contextFromElement) || ``;
+const scopeFromEvent = (event) => {
+  return firstAncestorValue(event.target, scopeFromElement) || ``;
 };
 
 /**
- contextFromArray joins paths to create a valid path to use with
+ scopeFromArray joins paths to create a valid path to use with
 
  d.variables[path]
  d.elements[path]
@@ -109,28 +109,28 @@ const contextFromEvent = (event) => {
 
  @return {string} path
  */
-const contextFromArray = (pathIn) => {
+const scopeFromArray = (pathIn) => {
   return pathIn.join(INSIDE_SYMBOL);
 };
 
 /**
- getParentContext
+ parentScope
 
- @param {string} context
+ @param {string} scope
 
- @return {string} parentContext
+ @return {string} parentScope
  */
-const getParentContext = (context) => {
-  const split = context.split(INSIDE_SYMBOL);
+const parentScope = (scope) => {
+  const split = scope.split(INSIDE_SYMBOL);
   split.pop();
   return split.join(INSIDE_SYMBOL);
 };
 
-const contextFromArrayWith = (pathIn, withWhat) => {
+const scopeFromArrayWith = (pathIn, withWhat) => {
   if (pathIn.length === 0) {
     return withWhat;
   }
-  return `${contextFromArray(pathIn)}${INSIDE_SYMBOL}${withWhat}`;
+  return `${scopeFromArray(pathIn)}${INSIDE_SYMBOL}${withWhat}`;
 };
 
 const normalizeStartPath = (startPath) => {
@@ -168,7 +168,7 @@ const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
 const prepareGet = (input, toJoin) => {
   let stringPath;
   if (Array.isArray(input)) {
-    stringPath = contextFromArray(input);
+    stringPath = scopeFromArray(input);
   } else {
     stringPath = input;
   }
@@ -292,7 +292,7 @@ const create = (options) => {
 
    @param {string} path
    */
-  const forgetContext = (path) => {
+  const forgetScope = (path) => {
     deleteAllStartsWith(variableSubscribers, path);
     deleteAllStartsWith(listSubscribers, path);
     deleteAllStartsWith(variables, path);
@@ -317,7 +317,7 @@ const create = (options) => {
         for (let i = newLength; i < oldLength; i += 1) {
           pathInside = `${normalizedPath}${i}`;
           listContainer[LIST_CHILDREN][i].forEach(removeNode);
-          forgetContext(pathInside);
+          forgetScope(pathInside);
         }
         listContainer[LIST_CHILDREN].length = newLength;
       }
@@ -327,8 +327,8 @@ const create = (options) => {
     }
 
     data.forEach((dataInside, i) => {
-      pathInside = `${normalizedPath}${i}`;
-      feed(pathInside, dataInside);
+      scopeInside = `${normalizedPath}${i}`;
+      feed(scopeInside, dataInside);
       if (i < oldLength) {
         // reusing, feed updated with new data the old nodes
         return;
@@ -344,7 +344,7 @@ const create = (options) => {
       );
       fragment.appendChild(activatedClone);
     });
-    pathIn = previous;
+    scopeIn = previous;
     listContainer.appendChild(fragment);
   };
 
@@ -389,8 +389,8 @@ const create = (options) => {
     } else {
       const normalizedPath = normalizeStartPath(startPath);
       Object.entries(data).forEach(([key, value]) => {
-        const path = `${normalizedPath}${key}`;
-        feed(path, value);
+        const scope = `${normalizedPath}${key}`;
+        feed(scope, value);
       });
     }
     alreadyHooked = false;
@@ -409,8 +409,11 @@ const create = (options) => {
       console.error(`Event listener ${functionName} not found.`);
     }
     element.addEventListener(eventName, functions[functionName], false);
-    // todo only add context when not top level ? (inside something)
-    element[CONTEXT] = contextFromArray(pathIn);
+
+    if (scopeIn.length) {
+        element[CONTEXT] = scopeFromArray(scopeIn);
+    }
+    
   };
 
   let applyFunction = applyFunctionOriginal;
@@ -456,15 +459,15 @@ const create = (options) => {
       element[ELEMENT_LIST_ITEM] = listItemTagName;
     }
 
-    // could send path as array directly
-    // but have to change notifyOneListSubscriber to take in path as Array or String
+    // could send scope as array directly
+    // but have to change notifyOneListSubscriber to take in scope as Array or String
     // before
-    const path = contextFromArrayWith(pathIn, variableName);
+    const scope = scopeFromArrayWith(scopeIn, variableName);
 
-    pushOrCreateArrayAt(listSubscribers, path, element);
+    pushOrCreateArrayAt(listSubscribers, scope, element);
 
-    if (hasOwnProperty.call(variables, path)) {
-      notifyOneListSubscriber(element, path, variables[path], templateFromName, notifyCustomListSubscriber);
+    if (hasOwnProperty.call(variables, scope)) {
+      notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber);
     }
   };
 
@@ -483,15 +486,15 @@ const create = (options) => {
       );
     }
 
-    const path = contextFromArrayWith(pathIn, variableName);
-    pushOrCreateArrayAt(variableSubscribers, path, element);
+    const scope = scopeFromArrayWith(scopeIn, variableName);
+    pushOrCreateArrayAt(variableSubscribers, scope, element);
 
-    let currentValue = variables[path]
+    let currentValue = variables[scope]
     if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
       currentValue = options.firstVariableValueStrategy(element);
     }
     if (currentValue !== undefined) {
-      variables[path] = currentValue;
+      variables[scope] = currentValue;
       notifyOneVariableSubscriber(options, element, currentValue);
     }
 
@@ -501,11 +504,11 @@ const create = (options) => {
     const broadcastValue = (/*event*/) => {
       //wil call setter to broadcast the value
       const value = element[options.propertyFromElement(element)];
-      variables[path] = value;
-      feedHook(path, value);
+      variables[scope] = value;
+      feedHook(scope, value);
       // would notify everything including itself
-      // notifyVariableSubscribers(options, variableSubscribers[path], value);
-      variableSubscribers[path].forEach((variableSubscriber) => {
+      // notifyVariableSubscribers(options, variableSubscribers[scope], value);
+      variableSubscribers[scope].forEach((variableSubscriber) => {
         if (variableSubscriber !== element) {
           notifyOneVariableSubscriber(options, variableSubscriber, value);
         }
@@ -529,8 +532,8 @@ const create = (options) => {
         `Use ${options.directives.element}="elementName" format!`
       );
     }
-    const path = contextFromArrayWith(pathIn, elementName);
-    elements[path] = element;
+    const scope = scopeFromArrayWith(scopeIn, elementName);
+    elements[scope] = element;
   };
 
   const applyTemplate = (element, attributeValue) => {
@@ -548,11 +551,11 @@ const create = (options) => {
   const activateCloneTemplate = (template, key) => {
     /* clones a template and activates it
     */
-    enterObject(pathIn, key);
+    enterObject(scopeIn, key);
     const activatedClone = cloneTemplate(template);
     activate(activatedClone);
     cloneHook();
-    leaveObject(pathIn);
+    leaveObject(scopeIn);
     return activatedClone;
   };
 
@@ -580,9 +583,9 @@ const create = (options) => {
         options.doneSymbol + key
       );
       // parse children under name space (encapsulation of variable names)
-      enterObject(pathIn, key);
+      enterObject(scopeIn, key);
       activate(element);
-      leaveObject(pathIn);
+      leaveObject(scopeIn);
     }
   };
 
@@ -686,9 +689,9 @@ const create = (options) => {
   };
 
   const cloneHook = function () {
-    const context = contextFromArray(pathIn);
+    const scope = scopeFromArray(scopeIn);
     clonePlugins.forEach((clonePlugin) => {
-      clonePlugin(context);
+      clonePlugin(scope);
     });
   };
 
