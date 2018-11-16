@@ -3,7 +3,7 @@ import {isObjectOrArray} from "./isObjectOrArray.js";
 import {firstAncestorValue} from "./parentIdFromEvent.js";
 import {pushOrCreateArrayAt} from "./pushOrCreateArrayAt.js";
 
-const ELEMENT_NODE = 1; // document.body.ELEMENT_NODE === 1
+
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 
@@ -114,7 +114,8 @@ const elementsDeepForEach = (startElement, callBack) => {
     // this does not produce an error, but simply returns undefined
     let node = startElement.firstChild;
     while (node) {
-        if (node.nodeType === ELEMENT_NODE) {
+        // document.body.ELEMENT_NODE === 1
+        if (node.nodeType === 1) {
             elementsDeepForEach(node, callBack);
             node = node.nextElementSibling;
         } else {
@@ -130,10 +131,6 @@ const customElementNameFromElement = (element) => {
         return isAttributeValue;
     }
     return element.tagName.toLowerCase();
-};
-
-const addEventListener = (element, eventName, callBack, useCapture = false) => {
-    element.addEventListener(eventName, callBack, useCapture);
 };
 
 const cloneTemplate = (template) => {
@@ -524,7 +521,7 @@ const create = () => {
         if (!functions[functionName]) {
             console.error(`Event listener ${functionName} not found.`);
         }
-        addEventListener(element, eventName, functions[functionName]);
+        element.addEventListener(eventName, functions[functionName], false);
         // todo only add context when not top level ? (inside something)
         element[CONTEXT] = contextFromArray(pathIn);
     };
@@ -629,10 +626,10 @@ const create = () => {
                 }
             });
         };
-        addEventListener(
-            element,
+        element.addEventListener(
             options.eventNameFromElement(element),
-            broadcastValue
+            broadcastValue,
+            false
         );
 
     };
