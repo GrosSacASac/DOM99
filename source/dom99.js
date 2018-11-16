@@ -1,9 +1,9 @@
 // singleton from dom99create
 import {
 	create,
-	contextFromArray,
-	contextFromEvent,
-	getParentContext,
+	scopeFromArray,
+	scopeFromEvent,
+    parentScope,
 	createElement2,
 	idGenerator,
 	FIRST_VARIABLE_FROM_HTML,
@@ -38,9 +38,9 @@ export {
 	plugin,
 	options,
 
-	contextFromArray,
-	contextFromEvent,
-	getParentContext,
+	scopeFromArray,
+	scopeFromEvent,
+        parentScope,
 
 	createElement2,
 	idGenerator,
