@@ -1,4 +1,4 @@
-/*
+/* OUT of date !
  1. Make a copy of this file
  2. Rename the copy dom99Configuration.js for convenience
  3. put it in the same place as your main js file (starting point)
