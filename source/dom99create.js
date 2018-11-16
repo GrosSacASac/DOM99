@@ -203,6 +203,23 @@ const notifyVariableSubscribers = (options, subscribers, value) => {
   });
 };
 
+const notifyOneListSubscriber = (listContainer, startPath, data, templateFromName, notifyCustomListSubscriber) => {
+  if (
+    hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
+    hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
+  ) {
+    notifyCustomListSubscriber(listContainer, startPath, data);
+    return;
+  }
+  notifyRawListSubscriber(listContainer, data, options);
+};
+
+const notifyListSubscribers = (subscribers, startPath, data, notifyCustomListSubscriber) => {
+  subscribers.forEach((listContainer) => {
+    notifyOneListSubscriber(listContainer, startPath, data, templateFromName, notifyCustomListSubscriber);
+  });
+};
+
 const notifyRawListSubscriber = (listContainer, data, options) => {
   const fragment = document.createDocumentFragment();
   listContainer.innerHTML = ``;
@@ -289,6 +306,8 @@ const create = (options) => {
     const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
     const previous = Array.from(pathIn);
     pathIn = startPath.split(INSIDE_SYMBOL);
+    // enterObject(pathIn, key);
+    // leaveObject(pathIn);
     const normalizedPath = normalizeStartPath(startPath);
     const newLength = data.length;
     let oldLength;
@@ -331,23 +350,6 @@ const create = (options) => {
     listContainer.appendChild(fragment);
   };
 
-  const notifyOneListSubscriber = (listContainer, startPath, data) => {
-    if (
-      hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
-      hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
-    ) {
-      notifyCustomListSubscriber(listContainer, startPath, data);
-      return;
-    }
-    notifyRawListSubscriber(listContainer, data, options);
-  };
-
-  const notifyListSubscribers = (subscribers, startPath, data) => {
-    subscribers.forEach((listContainer) => {
-      notifyOneListSubscriber(listContainer, startPath, data);
-    });
-  };
-
 
   /**
    Feed data, for element with corresponding data-variable and data-list
@@ -374,6 +376,7 @@ const create = (options) => {
     }
     if (!alreadyHooked) {
       feedHook(startPath, data);
+      alreadyHooked = true;
     }
     if (!isObjectOrArray(data)) {
       variables[startPath] = data;
@@ -383,17 +386,16 @@ const create = (options) => {
     } else if (Array.isArray(data)) {
       variables[startPath] = data;
       if (hasOwnProperty.call(listSubscribers, startPath)) {
-        notifyListSubscribers(listSubscribers[startPath], startPath, data);
+        notifyListSubscribers(listSubscribers[startPath], startPath, data, templateFromName, notifyCustomListSubscriber);
       }
     } else {
       const normalizedPath = normalizeStartPath(startPath);
-      alreadyHooked = true;
       Object.entries(data).forEach(([key, value]) => {
         const path = `${normalizedPath}${key}`;
         feed(path, value);
       });
-      alreadyHooked = false;
     }
+    alreadyHooked = false;
   };
 
   const get = (input, toJoin) => {
@@ -464,7 +466,7 @@ const create = (options) => {
     pushOrCreateArrayAt(listSubscribers, path, element);
 
     if (hasOwnProperty.call(variables, path)) {
-      notifyOneListSubscriber(element, path, variables[path]);
+      notifyOneListSubscriber(element, path, variables[path], templateFromName);
     }
   };
 
@@ -486,15 +488,13 @@ const create = (options) => {
     const path = contextFromArrayWith(pathIn, variableName);
     pushOrCreateArrayAt(variableSubscribers, path, element);
 
-    if (variables[path] !== undefined) {
-      notifyOneVariableSubscriber(options, element, variables[path]);
-    } else if (options.firstVariableValueStrategy !== undefined) {
-      const firstValue = options.firstVariableValueStrategy(element);
-      variables[path] = firstValue;
-      if (!firstValue) {
-        console.warn(`589: Assertion warning firstValue should not be undefined`);
-      }
-      notifyOneVariableSubscriber(options, element, firstValue);
+    let currentValue = variables[path]
+    if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
+      currentValue = options.firstVariableValueStrategy(element);
+    }
+    if (currentValue !== undefined) {
+      variables[path] = currentValue;
+      notifyOneVariableSubscriber(options, element, currentValue);
     }
 
     if (!options.tagNamesForUserInput.includes(element.tagName)) {
