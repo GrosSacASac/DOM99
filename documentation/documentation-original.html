@@ -62,7 +62,7 @@ You can also build the HTML with custom elements.</p>
 
 <section>
 <h3>How does dom99 work ?</h3>
-<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.activate();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
+<p>dom99.js is a program that exposes an application programming interface for subsequent scripts. Using <code>d.start();</code> executes directives found in the HTML. The declarative model is translated into its imperative equivalent. After that the document object model is linked to directly accessible JavaScript variables. Changing those JavaScript variables will propagate the changes to the DOM and vice versa.</p>
 </section>
 
 <section>
@@ -152,7 +152,7 @@ Version 1.0: LICENSE.txt</a></p>
 <pre><code>
 import * as d from "./node_modules/dom99/source/dom99.js";
 // to start using dom99 pre selected elements use this statement
-d.activate();</code></pre>
+d.start();</code></pre>
 
 <h3>Use data-function and d.functions for event listeners</h3>
 <p>Store your functions in the d.functions object</p>
@@ -177,8 +177,8 @@ d.activate();</code></pre>
 <h3>Use data-element and d.elements for direct element manipulation</h3>
 <p>To use a pre-selected element</p>
 
-<pre><code>d.elements.bigTitle //An element reference, we can do what we want with it
-d.elements.bigTitle.remove(); //for instance remove the bigTitle node</code></pre>
+<pre><code>d.elements.bigTitle // An element reference
+d.elements.bigTitle.remove(); // for instance remove the bigTitle node</code></pre>
 
 <p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
 
@@ -216,9 +216,9 @@ d.feed(`first`, {
 <h2>Complete overview</h2>
 
 <pre><code>
-d.activate();</code></pre>
+d.start();</code></pre>
 
-<p>Use activate after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
+<p>Use start after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
 <p>This will look the for dom99 directives in the document tree.</p>
 
 <p>Initialize variables with HTML. <code>d.feed</code> can then be used to over-write the default html values. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.elements</code>.</p>
@@ -233,218 +233,8 @@ d.activate();</code></pre>
 When the page loads you want to display the article and already display the 2 last comments without another client-server round-trip, later when the user scrolls down or clicks a button to show more
 comments we load more comments into the page with dynamic template insertion. We here define a comment as some text and a date. What we want initially is something like this</p>
 
-<p>Look at examples/templates1.html and others</p>
-<pre><code>&lt;html&gt;
-
-    &lt;article&gt;
-        &lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;
-    &lt;/article&gt;
-
-    &lt;!-- a comment is some text and a date --&gt;
-    &lt;template data-template="d-comment"&gt;
-        &lt;p data-variable="text"&gt;&lt;/p&gt;
-        &lt;time data-variable="date"&gt;&lt;/time&gt;
-    &lt;/template&gt;
-
-    &lt;d-comment data-inside="comment1"&gt;&lt;/d-comment&gt;
-    &lt;d-comment data-inside="comment2"&gt;&lt;/d-comment&gt;
-
-    &lt;button data-function="click-showNextComment"&gt;Show more comments&lt;/button&gt;
-
-&lt;/html&gt;
-
-Note: `&lt;d-comment&gt;` is a valid custom element, `&lt;comment&gt;` is not.</code></pre>
-
-<p>Our initial JS code looks like this</p>
-
-<pre><code>
-import * as d from "../source/dom99.js";
-
-d.functions.showNextComment = function(event) {
-    ;//todo
-};
-
-let commentsData = {
-    comment1: {
-        text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
-    },
-    comment2: {
-        text: `I really appreciate your work`,
-        date: `just now`
-    }
-};
-
-// we could also manually assign every property in a complicated for loop
-d.feed(commentsData);
-
-d.activate();</code></pre>
 
 
-
-<h3>Part 2</h3>
-<pre><code>
-import * as d from "../source/dom99.js";
-
-const commentPrefix = `comment`;
-
-let currentCommentNumber = 2;
-
-const update = function (commentKey, commentObject) {
-    d.feed(commentKey, commentObject);
-};
-
-const getDataFromFakeServer = function (urlOrWhat) {
-    // fetch like simulation
-    return new Promise(function (resolve, reject) {
-        const fakeData = {
-            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
-            date: `just now`
-        };
-
-        window.setTimeout(function () {
-            resolve(fakeData);
-        }, 2000);
-    });
-};
-
-d.functions.showNextComment = function (event) {
-    currentCommentNumber += 1;
-    let key = `${commentPrefix}${currentCommentNumber}`;
-
-    const customElementDescription = {
-        tagName: `d-comment`,
-        [`data-inside`]: key
-    }
-    const customElement = d.createElement2(customElementDescription);
-
-    d.activate(customElement);
-    d.elements.commentSection.appendChild(customElement);
-    getDataFromFakeServer(`comment?id=42`).then( //get data
-        function (data) {
-            update(key, data);
-    });
-};
-
-let commentsData = { //initial
-    comment1: {
-        text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
-    },
-    comment2: {
-        text: `I really appreciate your work`,
-        date: `yesterday`
-    }
-};
-
-d.feed(commentsData);
-d.activate();
-
-</code></pre>
-<p>The HTML is the same</p>
-
-<h3>Part 3</h3>
-<p>He we remove a lot of manual cruft, and use an array with data-list to display the comments</p>
-<h4>HTML</h4>
-<pre><code>&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;title&gt;dom99 DEMO templates 3&lt;/title&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/basics.css&quot;&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dcomment.css&quot;&gt;
-    &lt;link rel=&quot;icon&quot; href=&quot;./images/99.jpg&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
-
-&lt;article&gt;
-    &lt;h2&gt;Article Title&lt;/h2&gt;
-    &lt;p&gt;Article&lt;/p&gt;&lt;p&gt;Blalblabla I give my opinion blabla&lt;/p&gt;
-&lt;/article&gt;
-
-&lt;!-- a comment is some text and a date --&gt;
-&lt;template data-template=&quot;d-comment&quot;&gt;
-    &lt;article class=&quot;d-comment&quot;&gt;&lt;!-- add a container for styling purposes --&gt;
-        &lt;p data-variable=&quot;text&quot;&gt;Loading text ... (fake response takes 2sec)&lt;/p&gt;
-        &lt;time data-variable=&quot;date&quot;&gt;Loading date ...&lt;/time&gt;
-    &lt;/article&gt;
-&lt;/template&gt;
-
-&lt;!-- data-list=&quot;VARIABLE_NAME - CUSTOM-ELEMENT_NAME&quot; --&gt;
-&lt;section data-list=&quot;comments-d-comment&quot;&gt;&lt;/section&gt;
-&lt;button data-function=&quot;click-showNextComment&quot; &gt;Show more comments&lt;/button&gt;
-
-
-
-&lt;script nomodule src=&quot;../polyfill.min.js&quot;&gt;&lt;/script&gt;
-&lt;script nomodule src=&quot;polyfills/remove.js&quot;&gt;&lt;/script&gt;
-&lt;script nomodule src=&quot;../built/dom99.es5.min.js&quot;&gt;&lt;/script&gt;
-&lt;script nomodule src=&quot;../exampleses5/templates3.js&quot;&gt;&lt;/script&gt;
-
-&lt;script type=&quot;module&quot; src=&quot;templates3.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<h4>JS</h4>
-<pre><code>import * as d from "../../source/dom99.js";
-
-const update = function (commentObject, position) {
-    // updates the dataStore for comments commentsData
-    commentsData[position] = commentObject;
-    // could sort the comments with .sort(customFunction) too
-    // pushes the update to the UI
-    d.feed(`comments`, commentsData);
-};
-
-const fetchData = function (urlOrWhat) {
-    // fetch like simulation
-    return new Promise(function (resolve, reject) {
-        const fakeData = {
-            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
-            date: `just now`
-        };
-
-        window.setTimeout(function () {
-            resolve(fakeData);
-        }, 2000);
-    });
-};
-
-d.functions.showNextComment = function (event) {
-
-    // in the meantime already display an empty comment for instant feedback
-
-    // remember the position to be updated later
-    const position = commentsData.length;
-    commentsData.push(undefined);
-    // undefined has no effect on all data-variable
-    // so that will effectively uses the default textContent in the HTML
-    d.feed(`comments`, commentsData);
-    // force UI update
-    fetchData(`comment?id=42`).then( function (data) {
-        update(data, position);
-    });
-
-};
-
-// comments are now stored inside an array
-// you can try to convert an Object to an Array using
-// Object.values(my_object);
-
-let commentsData = [
-    {
-        text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
-    },
-    {
-        text: `I really appreciate your work`,
-        date: `yesterday`
-    }
-];
-
-d.feed(`comments`, commentsData);
-d.activate();
-</code></pre>
 
 <h3>Dynamic template injection in general</h3>
 
@@ -467,7 +257,7 @@ let customElementDescription = {
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
-d.activate(customElement);
+d.start(customElement);
 
 // 3 insert the Element that has a clone as a child in the DOM
 d.elements[`target`].appendChild(customElement);</code></pre>
@@ -598,7 +388,7 @@ d.functions.update = function (event) {
 <article id="extra-tips">
 <h3>Extra Tips</h3>
 <p>View components in components/ folder</p>
-<p>You can handle new HTML with <code>d.activate(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.start(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
@@ -675,6 +465,10 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+<h4>Version 17.0.0</h4>
+<p>Removed delete template ...</p>
+<p>Renamed ...</p>
+<p>Changed ...</p>
 <h4>Version 16.0.0</h4>
 <p>New URL for website <a href="https://dom99.now.sh/">https://dom99.now.sh/</a>. Update your bookmarks.</p>
 <p>Generated files are not in the git anymore. Generate them with the commands defined in package.json or download pre built files with npm or use URL https://unpkg.com/dom99@16.0.1/built/dom99ES.js or https://unpkg.com/dom99@16.0.1/built/dom99Script.js</p>
@@ -695,26 +489,22 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <pre>
 <code>import {
     start,
-    activate,
     elements,
     functions,
     variables,
     feed,
     forgetContext,
-    deleteTemplate,
     contextFromArray,
     contextFromEvent,
     getParentContext, plugin, options, createElement2
 } from "./node_modules/dom99/built/dom99ES.js";
 const d = {
     start,
-    activate,
     elements,
     functions,
     variables,
     feed,
     forgetContext,
-    deleteTemplate,
     contextFromArray,
     contextFromEvent,
     getParentContext, plugin, options, createElement2
@@ -931,7 +721,7 @@ the license in distributed executables or transpiled code</p>
 }
 </code></pre>
 <p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>d.functions must now be populated before d.activate() is called</p>
+<p>d.functions must now be populated before d.start() is called</p>
 <p>
     eventFromTagAndType
         changed into eventNameFromElement
