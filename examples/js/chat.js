@@ -16,7 +16,7 @@ const renderNewMessageElement = function(data, key) {
     });
 
     // 2 link it
-    d.activate(customElement);
+    d.start(customElement);
 
     // 3 insert the Element that has a clone as a child in the dOM
     d.elements["messagesContainer"].appendChild(customElement);
@@ -61,7 +61,7 @@ d.functions.trySendMessage = function(event) {
 // initialize
 
 d.feed(`currentMessage`, ``); //reset the inputs
-d.activate(); //now we listen to all events
+d.start(); //now we listen to all events
 
 window.setInterval(function () {
     displayNewMessage(fakeSisterSpeak());

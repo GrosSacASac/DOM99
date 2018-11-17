@@ -9,14 +9,14 @@ var files = ["beach.jpg","letter_for_johan.txt","letter_for_sintia.txt","recipe.
 var files2 = ["za.jpg","zu.txt","zo.txt","zooo.md","evil.md"];
 
 d.functions.filter = function (event) {
-    const context = d.contextFromEvent(event);
-    const filterText = d.variables[d.contextFromArray([context, "filterText"])];
+    const context = d.scopeFromEvent(event);
+    const filterText = d.variables[d.scopeFromArray([context, "filterText"])];
     const filterElement = event.target;
     /* or
-    const filterElement = d.elements[d.contextFromArray([context, "filter"])];
+    const filterElement = d.elements[d.scopeFromArray([context, "filter"])];
     */
 
-    const messagePath = d.contextFromArray([context, "message"])
+    const messagePath = d.scopeFromArray([context, "message"])
 
     if (filterText) {
         d.feed(messagePath, `filtering ${filterText}`);
@@ -26,9 +26,9 @@ d.functions.filter = function (event) {
         filterElement.classList.remove("grey");
     }
 
-    const parentContext = d.getParentContext(context);
+    const parentContext = d.parentScope(context);
 
-    const originalFiles = d.variables[d.contextFromArray([parentContext, "originalFiles"])];
+    const originalFiles = d.variables[d.scopeFromArray([parentContext, "originalFiles"])];
     const filteredFiles = originalFiles.filter(function (file) {
         return file.match(filterText);
     });
@@ -51,7 +51,7 @@ d.feed("explorer2", {
 
 
 
-d.activate(); // for performance put this at the end
+d.start(); // for performance put this at the end
 // here at the beginning for testing purposes
 
 

@@ -32,10 +32,10 @@ let lastYPosition = 0;
 const useYesNoDialog = function (dom99) {
     d = dom99;
     
-	yesButton = d.contextFromArray([thisNameSpace, `yesButton`]);
-	yesNoContainer = d.contextFromArray([thisNameSpace, `confirm`]);
-	promptContainer = d.contextFromArray([thisNameSpace, `prompt`]);
-	promptInput = d.contextFromArray([thisNameSpace, `input`]);
+	yesButton = d.scopeFromArray([thisNameSpace, `yesButton`]);
+	yesNoContainer = d.scopeFromArray([thisNameSpace, `confirm`]);
+	promptContainer = d.scopeFromArray([thisNameSpace, `prompt`]);
+	promptInput = d.scopeFromArray([thisNameSpace, `input`]);
 	d.functions.yesNoDialogAnswer = function (event) {
 		d.elements[yesNoContainer].hidden = true;
 		prepareNext();

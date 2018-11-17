@@ -17,7 +17,7 @@ describe("dom99 basics", function() {
       d.functions.functionX = (...args) => {
         this.myfunction(...args);
       };
-      d.activate(this.content);
+      d.start(this.content);
   });
 
 

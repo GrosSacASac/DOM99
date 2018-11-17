@@ -12,7 +12,7 @@ describe("data-list", function() {
 
   it("data-list should work with raw elements", function() {
     this.content.innerHTML = `<ol data-element="targetElement" data-list="myList-li"></ol>`;
-    d.activate(this.content);
+    d.start(this.content);
     d.feed(`myList`, exampleData);
     
     const {childElementCount, childNodes} = d.elements.targetElement;
