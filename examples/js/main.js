@@ -84,7 +84,7 @@ d.functions.updateToDo = function (event) {
     // this seems complicated but should be rare use case
     // this makes 2 dimensional structure (array * object)
     // two-way binded
-    const context = d.contextFromEvent(event);
+    const context = d.scopeFromEvent(event);
     // this is the index of the edited item in the array
     const index = Number(context.slice(-1)); // slice -1 takes the last character
     // property is what changed inside the object
@@ -96,7 +96,7 @@ d.functions.updateToDo = function (event) {
     }
 
     //reconstruct the entire path
-    const path = d.contextFromArray([context, property])
+    const path = d.scopeFromArray([context, property])
     const value = d.variables[path];
 
     // reflect the change in the data
@@ -160,4 +160,4 @@ d.feed({
   }
 });
 
-d.activate();
+d.start();

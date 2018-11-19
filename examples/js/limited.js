@@ -7,9 +7,9 @@ const setAllGlobalCopyInside = function (value) {
         globalCopy: String(value),
     };
 
-    d.feed(d.contextFromArray(["outerList", 0]), changeDescriptor);
-    d.feed(d.contextFromArray(["outerList", 1]), changeDescriptor);
-    d.feed(d.contextFromArray(["outerList", 2]), changeDescriptor);
+    d.feed(d.scopeFromArray(["outerList", 0]), changeDescriptor);
+    d.feed(d.scopeFromArray(["outerList", 1]), changeDescriptor);
+    d.feed(d.scopeFromArray(["outerList", 2]), changeDescriptor);
 };
 
 const globalIncrement = function (event) {
@@ -19,10 +19,10 @@ const globalIncrement = function (event) {
 };
 
 const globalSet = function (event) {
-    const context = d.contextFromEvent(event);
+    const context = d.scopeFromEvent(event);
     const newGlobalNumber = Number(
         d.variables[
-            d.contextFromArray([context, "globalCopy"])
+            d.scopeFromArray([context, "globalCopy"])
         ]);
     globalNumber = newGlobalNumber;
 
@@ -30,11 +30,11 @@ const globalSet = function (event) {
 };
 
 const localIncrement = function (event) {
-    const context = d.contextFromEvent(event);
-    const spanElement = d.elements[d.contextFromArray([context, "span"])];
+    const context = d.scopeFromEvent(event);
+    const spanElement = d.elements[d.scopeFromArray([context, "span"])];
     const localNumber = Number(
         d.variables[
-            d.contextFromArray([context, "local"])
+            d.scopeFromArray([context, "local"])
         ]) + 1;
     const localColor = `rgb(${(localNumber * 25) % 255},0,0)`;
 
@@ -47,10 +47,10 @@ const localIncrement = function (event) {
 
 const listremake = function (event) {
     /* display list size of global, with value local */
-    const context = d.contextFromEvent(event);
+    const context = d.scopeFromEvent(event);
     const localNumber = Number(
     d.variables[
-        d.contextFromArray([context, "local"])
+        d.scopeFromArray([context, "local"])
     ]);
     const global = globalNumber;
     const newList = [];

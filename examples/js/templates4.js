@@ -75,11 +75,11 @@ d.functions.showNextComment = function (event) {
 };
 
 d.functions.delete = function (event) {
-    const context = d.contextFromEvent(event);
+    const context = d.scopeFromEvent(event);
     const index = Number(lastPart(context));
     commentsData.splice(index, 1);
     d.feed(`comments`, commentsData);
 };
 
 d.feed(`comments`, commentsData);
-d.activate();
+d.start();

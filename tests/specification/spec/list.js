@@ -1,18 +1,20 @@
 import {create} from "../../../source/dom99create.js";
+import {defaultOptions} from "../../../source/defaultOptions.js";
+
 
 const exampleData = ["a", "b"];
 const {length} = exampleData;
 
 describe("data-list", function() {
   beforeEach(function () {
-      const d = create();
+      const d = create(defaultOptions);
       window.d = d;
       this.content = document.createElement("div");
   });
 
   it("data-list should work with raw elements", function() {
     this.content.innerHTML = `<ol data-element="targetElement" data-list="myList-li"></ol>`;
-    d.activate(this.content);
+    d.start(this.content);
     d.feed(`myList`, exampleData);
     
     const {childElementCount, childNodes} = d.elements.targetElement;

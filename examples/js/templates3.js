@@ -55,4 +55,4 @@ let commentsData = [
 ];
 
 d.feed(`comments`, commentsData);
-d.activate();
+d.start();

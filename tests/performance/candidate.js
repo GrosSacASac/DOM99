@@ -49,7 +49,7 @@ var swapRows = function () {
     updateRows();
     if (old_selection >= 0) {
         let index = store.data.findIndex(d => d.id === old_selection);
-        const rowPath = d.contextFromArray(["rows", String(index), "row"]);
+        const rowPath = d.scopeFromArray(["rows", String(index), "row"]);
         const rowToSelected = d.elements[rowPath];
         store.select(old_selection);
         select(rowToSelected);
@@ -60,8 +60,8 @@ var swapRows = function () {
 var deleteRow = function (e) {
     e.preventDefault();
     e.stopPropagation();
-    let context = d.contextFromEvent(e);
-    let idContext = d.contextFromArray([context, "id"]);
+    let context = d.scopeFromEvent(e);
+    let idContext = d.scopeFromArray([context, "id"]);
     let id = d.variables[idContext];
     unselect(); // TODO remove
     store.delete(id);
@@ -99,10 +99,10 @@ var selectRow = function (e) {
     e.preventDefault();
     e.stopPropagation();
     unselect();
-    let context = d.contextFromEvent(e);
-    let rowContext = d.contextFromArray([context, "row"]);
+    let context = d.scopeFromEvent(e);
+    let rowContext = d.scopeFromArray([context, "row"]);
     let rowElement = d.elements[rowContext];
-    let rowIndexContext = d.contextFromArray([context, "id"]);
+    let rowIndexContext = d.scopeFromArray([context, "id"]);
     let rowIndex = d.variables[rowIndexContext];
     let index = Number(rowIndex);
     store.select(index);
