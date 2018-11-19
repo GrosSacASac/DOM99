@@ -1,11 +1,13 @@
 import {create} from "../../../source/dom99create.js";
+import {defaultOptions} from "../../../source/defaultOptions.js";
+
 
 const exampleData = ["a", "b"];
 const {length} = exampleData;
 
 describe("data-list", function() {
   beforeEach(function () {
-      const d = create();
+      const d = create(defaultOptions);
       window.d = d;
       this.content = document.createElement("div");
   });

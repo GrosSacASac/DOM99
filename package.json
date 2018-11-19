@@ -52,7 +52,8 @@
     "deploynow": "cd documentation && now --public",
     "aliasnow": "now alias https://documentation-idlakfyzsr.now.sh dom99",
     "lint": "eslint source/dom99create.js",
-    "lintfix": "eslint --fix source/dom99create.js"
+    "lintfix": "eslint --fix source/dom99create.js",
+    "test": "tests/specification/SpecRunner.html"
   },
   "eslintConfig": {
     "parserOptions": {

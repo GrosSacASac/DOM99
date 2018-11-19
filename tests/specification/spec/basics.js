@@ -1,11 +1,11 @@
 import {create} from "../../../source/dom99create.js";
-
+import {defaultOptions} from "../../../source/defaultOptions.js";
 
 const exampleText = "abwxyz \\ \" \' <html> <script>http // %20 blabla";
 
 describe("dom99 basics", function() {
   beforeEach(function () {
-      const d = create();
+      const d = create(defaultOptions);
       window.d = d;
       this.myfunction = function () {};
       this.content = document.createElement("div");

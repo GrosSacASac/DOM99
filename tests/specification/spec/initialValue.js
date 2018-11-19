@@ -5,11 +5,10 @@ import {
     FIRST_VARIABLE_FROM_HTML,
     FIRST_VARIABLE_FROM_USER_AGENT
 } from "../../../source/dom99create.js";
+import {defaultOptions} from "../../../source/defaultOptions.js";
 
 describe("initial value", function() {
     beforeEach(function () {
-        const d = create();
-        window.d = d;
 
         this.expectedValue = `abc`;
         this.myfunction = function () {};
@@ -22,24 +21,35 @@ describe("initial value", function() {
     });
 
   it("d.FIRST_VARIABLE_FROM_HTML", function() {
-    d.options.firstVariableValueStrategy = FIRST_VARIABLE_FROM_HTML;
+        const d = create(Object.assign(
+            {},
+            defaultOptions,
+            {firstVariableValueStrategy:FIRST_VARIABLE_FROM_HTML})
+        );
+        window.d = d;
+    
     d.start(this.content);
     expect("abc").toEqual(d.get("string1"));
   });
 
   it("d.FIRST_VARIABLE_FROM_USER_AGENT", function() {
-    d.options.firstVariableValueStrategy = FIRST_VARIABLE_FROM_USER_AGENT;
+        const d = create(Object.assign(
+            {},
+            defaultOptions,
+            {firstVariableValueStrategy:FIRST_VARIABLE_FROM_USER_AGENT})
+        );
+        window.d = d;
     d.start(this.content);
     expect("abc").toEqual(d.get("string1"));
   });
 
-  it("d.scopeFromArray", function() {
+  xit("d.scopeFromArray (implementation detail)", function() {
     d.scopeFromArray = scopeFromArray;
     let context = d.scopeFromArray(["Hello","World"])
     expect("Hello>World").toEqual(context);
   });
 
-  it("d.parentScope", () => {
+  xit("d.parentScope  (implementation detail)", () => {
     d.parentScope = parentScope
     let contextPath = "ParentContext>ChildContext"
     let parentContext = d.parentScope(contextPath)

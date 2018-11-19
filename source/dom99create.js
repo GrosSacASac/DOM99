@@ -673,9 +673,9 @@ const create = (options) => {
    @return {any} callBack return value
    */
   const start = (
-    dataFunctions = {},
+     startElement = document.body,
     initialFeed = {},
-    startElement = document.body,
+    dataFunctions = {},
     callBack = undefined
   ) => {
 
