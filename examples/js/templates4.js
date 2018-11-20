@@ -1,6 +1,6 @@
 import * as d  from "../../source/dom99.js";
 window.d = d;
-const networkDelay = 10000;
+const networkDelay = 1000;
 // comments are now stored inside an array
 let commentsData = [
     {
@@ -62,7 +62,7 @@ d.functions.showNextComment = function (event) {
     // because DOM nodes are reused, this can make result look inconsistent
     commentsData.push({
         internalId: id,
-        text: `textLoading text ... (fake response takes 2sec)`,
+        text: `textLoading text ... (fake response takes ${Math.floor(networkDelay/1000)}sec)`,
         date: `Loading date ...`
     });
     // force UI update

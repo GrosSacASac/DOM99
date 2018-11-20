@@ -6,6 +6,7 @@ const files = [
     "templates1",
     "templates2",
     "templates3",
+    "templates4",
     "main",
     "dev",
     "limited",
