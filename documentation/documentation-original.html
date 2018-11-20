@@ -128,7 +128,7 @@ Version 1.0: LICENSE.txt</a></p>
     <li>data-element : pre-selecting an element for later usage</li>
     <li>data-function : adds an event listener to that element</li>
     <li>data-template : (advanced) Declare a html template to build components</li>
-    <li>data-inside: (advanced)  adds the chosen template inside an encapsulated context</li>
+    <li>data-scope: (advanced)  adds the chosen template inside an encapsulated context</li>
 </ul>
 
 <p>Examples:</p>
@@ -136,7 +136,7 @@ Version 1.0: LICENSE.txt</a></p>
 <pre><code>&lt;input data-variable="b" type="text"&gt;
 &lt;nav data-element="myNav"&gt;Navigation Links&lt;/nav&gt;
 &lt;button data-function="click-deleteFoto"&gt;Delete Foto&lt;/button&gt;
-&lt;d-magicbutton data-inside="1"&gt;&lt;/d-magicbutton&gt;</code></pre>
+&lt;d-magicbutton data-scope="1"&gt;&lt;/d-magicbutton&gt;</code></pre>
 
 <p>The general syntax is </p>
 
@@ -191,9 +191,9 @@ d.elements.bigTitle.remove(); // for instance remove the bigTitle node</code></p
 &lt;/template&gt;</code></pre>
 
 
-<h3>Use data-inside to put html templates copies</h3>
-<pre><code>&lt;d-comment data-inside="first"&gt;&lt;/d-comment&gt;
-&lt;d-comment data-inside="second"&gt;&lt;/d-comment&gt;</code></pre>
+<h3>Use data-scope to put html templates copies</h3>
+<pre><code>&lt;d-comment data-scope="first"&gt;&lt;/d-comment&gt;
+&lt;d-comment data-scope="second"&gt;&lt;/d-comment&gt;</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
@@ -251,7 +251,7 @@ comments we load more comments into the page with dynamic template insertion. We
 // 0 make a description
 let customElementDescription = {
     [`tagName`]: `d-tagname`,
-    [`data-inside`]: `key`
+    [`data-scope`]: `key`
 }
 // 1 create HTML Element
 let customElement = d.createElement2(customElementDescription);
@@ -264,7 +264,7 @@ d.elements[`target`].appendChild(customElement);</code></pre>
 <p>I encourage you to encapsulate what changes in functions.</p>
 <h4>About templates</h4>
 
-<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-inside is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
+<p>If you have a <code>&lt;template&gt;</code> in your page, it is inert and not rendered. However the template itself with a <code>data-template</code> can be used to create copies of the content of the template. These copies can be inserted in your document. The value of the attribute data-scope is called the key in this documentation. You can use d.variables d.elements and d.functions inside templates. To differentiate the multiple template clones you use the key. For instance:</p>
 
 <pre><code>d.variables[`key&gt;text`] = `A string`;
 
@@ -287,7 +287,7 @@ d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></p
     &lt;ul data-list="myList-li" &gt;
         &lt;li&gt;Default List Item&lt;/li&gt;
     &lt;/ul&gt;
-    &lt;div data-inside="encapsulated" &gt;
+    &lt;div data-scope="encapsulated" &gt;
         &lt;p data-variable="text" &gt;Other Default Text&lt;/p&gt;
     &lt;/div&gt;
 
@@ -295,10 +295,10 @@ d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></p
 &lt;/template&gt;
 
 &lt;!-- used like --&gt;
-&lt;d-tagName data-inside=&quot;myKey0&quot;&gt;&lt;/d-tagName&gt;
+&lt;d-tagName data-scope=&quot;myKey0&quot;&gt;&lt;/d-tagName&gt;
 
 &lt;!-- or --&gt;
-&lt;div is=&quot;d-tagName&quot; data-inside=&quot;myKey1&quot;&gt;&lt;/div&gt;
+&lt;div is=&quot;d-tagName&quot; data-scope=&quot;myKey1&quot;&gt;&lt;/div&gt;
 
 &lt;!-- or --&gt;
 &lt;div data-list=&quot;listKey-d-tagName&quot;&gt;&lt;/div&gt;
@@ -359,12 +359,12 @@ d.functions.update = function (event) {
         </section>
     </article>
 </template>
-<d-htmljsresult data-inside="Hello World"></d-htmljsresult>
-<d-htmljsresult data-inside="Hello World 2"></d-htmljsresult>
-<d-htmljsresult data-inside="Multiplier"></d-htmljsresult>
-<d-htmljsresult data-inside="Lists"></d-htmljsresult>
-<d-htmljsresult data-inside="Lists2"></d-htmljsresult>
-<d-htmljsresult data-inside="Composition"></d-htmljsresult>
+<d-htmljsresult data-scope="Hello World"></d-htmljsresult>
+<d-htmljsresult data-scope="Hello World 2"></d-htmljsresult>
+<d-htmljsresult data-scope="Multiplier"></d-htmljsresult>
+<d-htmljsresult data-scope="Lists"></d-htmljsresult>
+<d-htmljsresult data-scope="Lists2"></d-htmljsresult>
+<d-htmljsresult data-scope="Composition"></d-htmljsresult>
 <!-- Note this code was written before data-list existed so it is not written pefectly-->
 </article>
 
@@ -467,7 +467,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h3>Patch Notes</h3>
 <h4>Version 17.0.0</h4>
 <p>Removed deleteTemplate , activate</p>
-<p>Renamed all path and context into scope</p>
+<p>Renamed all path and context into scope, remade data-inside into data-scope</p>
 <p>Changed argument order of start, options cannot be accessed anymore after initialization, instead pass wanted options to create</p>
 <p>Moved default options into a separate file source/defaultOptions.js</p>
 <h4>Version 16.0.0</h4>
@@ -642,7 +642,7 @@ but without runtime overhead.
 <h4>Version 7.2.1</h4>
 <p>Fixed non html-escaped issues in the doc</p>
 <h4>Version 7.2.0</h4>
-<p>data-inside extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-inside attribute.
+<p>data-scope extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-scope attribute.
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
 <p>YesNoDialog remake, and compatible again with the last major dom99 version</p>
 <p>dom99ConfigurationExample  remake with clearer steps</p>
@@ -680,7 +680,7 @@ d.functions.changeSister = function (event) {
     sister.Div.classList.add("red");
 };(
 </code></pre>
-<p>This works anywhere including, deep inside other data-list="" and data-inside=""
+<p>This works anywhere including, deep inside other data-list="" and data-scope=""
 The div does not have to be a sister element html speaking, but only from dom99 point of view
 
 This would work too</p>
@@ -702,7 +702,7 @@ the license in distributed executables or transpiled code</p>
 <p>Renamed <code>data-vr</code> into <code>data-variable</code></p>
 <p>Split <code>data-el</code> into <code>data-element</code> and <code>data-template</code></p>
 <p>Renamed <code>data-fx</code> into <code>data-function</code></p>
-<p>Renamed <code>data-in</code> into <code>data-inside</code></p>
+<p>Renamed <code>data-in</code> into <code>data-scope</code></p>
 <h4>Version 4.0.0</h4>
 <p>Unpublished</p>
 <h4>Version 3.0.3</h4>
@@ -740,11 +740,11 @@ the license in distributed executables or transpiled code</p>
 <h4>Version 1.23.24</h4>
 <p>dom99 components, see components/ folder for more information.</p>
 <p>Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
-<p>Added event.dHost for the event object for data-function. This is the host element with data-inside or document.body if there is none. It should be used instead of the old .xel hack.</p>
+<p>Added event.dHost for the event object for data-function. This is the host element with data-scope or document.body if there is none. It should be used instead of the old .xel hack.</p>
 <p>Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
 <p>It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
 <p>data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
-<p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-inside in a template.</p>
+<p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-scope in a template.</p>
 <h4>Version 1.17.0</h4>
 <p>Directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
 <p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
@@ -759,7 +759,7 @@ the license in distributed executables or transpiled code</p>
 <p>input type="range" now uses the change event</p>
 <h4>Version 1.10.0</h4>
 <p>Less Confusion:</p>
-<ul><li><code>data-scope</code> becomes <code>data-inside</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li></ul>
+<ul><li><code>data-scope</code> becomes <code>data-scope</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li></ul>
 </article>
 
 <article>

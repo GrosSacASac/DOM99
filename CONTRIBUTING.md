@@ -161,6 +161,6 @@ Open an issue to make us open a donation channel
     transform recursive into sequential flow
 
     add data-scoped for data-function to allow them to be
-    scoped inside an element with data-inside ?
+    scoped inside an element with data-scope ?
 
     explore addEventListener(`x`, y, {passive: true});

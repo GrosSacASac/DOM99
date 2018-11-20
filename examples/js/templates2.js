@@ -28,7 +28,7 @@ d.functions.showNextComment = function (event) {
 
     const customElementDescription = {
         tagName: "d-comment",
-        "data-inside": key
+        "data-scope": key
     }
     const customElement = createElement2(customElementDescription);
 

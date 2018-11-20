@@ -10,21 +10,21 @@ d.feed({
         "build design, iterate"
     ],
     datain1: {
-        a:"inside data-inside1",
+        a:"inside data-scope1",
         b: "me too"
     },
-    listtitle: "list without data-inside",
+    listtitle: "list without data-scope",
     listinisde: [
-        "Hi without data-inside",
-        "Jordan without data-inside",
-        "build design, iterate without data-inside"
+        "Hi without data-scope",
+        "Jordan without data-scope",
+        "build design, iterate without data-scope"
     ],
     dlistinside: {
-        listtitle: "list with data-inside",
+        listtitle: "list with data-scope",
         listinisde: [
-            "Hi with data-inside",
-            "Jordan with data-inside",
-            "build design, iterate with data-inside"
+            "Hi with data-scope",
+            "Jordan with data-scope",
+            "build design, iterate with data-scope"
         ]
     },
     componentinside: [

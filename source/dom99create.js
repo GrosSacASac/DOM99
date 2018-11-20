@@ -639,7 +639,7 @@ const create = (options) => {
     ) {
       return;
     }
-    /*using a custom element without data-inside*/
+    /*using a custom element without data-scope*/
     let customName = customElementNameFromElement(element);
     if (hasOwnProperty.call(templateFromName, customName)) {
       element.appendChild(

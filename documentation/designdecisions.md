@@ -26,7 +26,7 @@ OLD Example
         <a data-element="link"></a>
     </template>
     
-    <d-example data-inside="1"></d-example>
+    <d-example data-scope="1"></d-example>
     
     //(1)using an object that's in (previously
     D.vr["1"]["text"] = ...

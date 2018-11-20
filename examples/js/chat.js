@@ -11,7 +11,7 @@ const renderNewMessageElement = function(data, key) {
     // 1 create HTML ELement
     let customElement = d.createElement2({
         "tagName": "d-message",
-        "data-inside": key,
+        "data-scope": key,
         "data-element": element + key
     });
 

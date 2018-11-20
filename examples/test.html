@@ -47,15 +47,15 @@
       access to his parents and that is how it can update the list of files.
       The event handler inside the &lt;d-filter&gt; can also update its childs compenent and sister
       component.</p>
-      <d-filter data-inside="dfilter"></d-filter>
+      <d-filter data-scope="dfilter"></d-filter>
       <ul data-list="files-li"></ul>
     </div>
 </template>
 
 
 
-<d-explorer data-element="exporer1container" data-inside="explorer1"></d-explorer>
-<d-explorer data-element="exporer2container" data-inside="explorer2"></d-explorer>
+<d-explorer data-element="exporer1container" data-scope="explorer1"></d-explorer>
+<d-explorer data-element="exporer2container" data-scope="explorer2"></d-explorer>
 
 <script nomodule src="../node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
 <script nomodule src="../polyfills/built/remove.js"></script>

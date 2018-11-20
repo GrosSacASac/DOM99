@@ -75,7 +75,7 @@
         <article>
 
             <h2>Love Hate</h2>
-            <p>Uses data-template=, data-list=, data-variable=, data-inside= and is=""</p>
+            <p>Uses data-template=, data-list=, data-variable=, data-scope= and is=""</p>
             <template data-template="d-lovehatelist">
                   <h3><span data-variable="owner"></span> Love and Hate Lists</h3>
                   <section>
@@ -87,8 +87,8 @@
                         <ul data-list="hate-li"></ul>
                    </section>
             </template>
-            <div data-inside="me" is="d-lovehatelist"></div>
-            <div data-inside="you" is="d-lovehatelist"></div>
+            <div data-scope="me" is="d-lovehatelist"></div>
+            <div data-scope="you" is="d-lovehatelist"></div>
         </article>
         <article>
 
