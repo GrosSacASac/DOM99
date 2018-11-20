@@ -29,5 +29,5 @@ const fakeSpeakGenerator = function(array, authorName, authorFoto) {
     }
 };
 
-const fakeSisterSpeak = fakeSpeakGenerator(fakeMessagesFromSister, `Sister`, `../images/sister.jpg`);
-const fakeBossSpeak = fakeSpeakGenerator(fakeMessagesFromBoss, `Boss`, `../images/boss.jpg`);
+const fakeSisterSpeak = fakeSpeakGenerator(fakeMessagesFromSister, `Sister`, `../documentation/images/sister.jpg`);
+const fakeBossSpeak = fakeSpeakGenerator(fakeMessagesFromBoss, `Boss`, `../documentation/images/boss.jpg`);

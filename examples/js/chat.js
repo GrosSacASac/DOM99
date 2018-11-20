@@ -49,7 +49,7 @@ d.functions.trySendMessage = function(event) {
     // the data uses the same keys declared in the html
     let data = {
         authorName: "You",
-        authorFoto: "../images/you.jpg",
+        authorFoto: "../documentation/images/you.jpg",
         messageText: d.variables.currentMessage
     };
     // could send data to server here
