@@ -678,6 +678,9 @@ const create = (options) => {
     dataFunctions = {},
     callBack = undefined
   ) => {
+    if (startElement.nodeType !== 1) {
+        console.error(`start takes undefined or a node as first argument`);
+    }
 
     Object.assign(functions, dataFunctions);
     feed(``, initialFeed);

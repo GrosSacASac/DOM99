@@ -120,4 +120,4 @@ const initialData = {
     ]
 };
 
-d.start(functions, initialData);
+d.start(document.body, initialData, functions);
