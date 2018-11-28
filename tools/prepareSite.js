@@ -5,6 +5,7 @@ const {
     concatenateFiles
 } = require("utilsac");
 
+console.log(`Current directory: ${process.cwd()}`);
 const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
 const inputsOutputs = {
