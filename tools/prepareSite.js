@@ -9,6 +9,7 @@ const fs = require("fs");
 
 const b = browserify();
 
+console.log(`Current directory: ${process.cwd()}`);
 const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
 
