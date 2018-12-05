@@ -4,9 +4,20 @@ const {
     writeTextInFile,
     concatenateFiles
 } = require("utilsac");
+const browserify = require("browserify");
+const fs = require("fs");
+
+const b = browserify();
 
 const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
+
+
+const writableStream = fs.createWriteStream(`${docdeps}highlight-full.js`);
+b.add(`./documentation/js/highlighter.js`);
+// b.add(`${modules}highlight.js/lib/languages/css.js`);
+b.bundle().pipe(writableStream);
+
 const inputsOutputs = {
     [`${modules}template-mb/template.js`]: `${docdeps}template.js`,
     // the core lib is not enough
@@ -21,7 +32,6 @@ const inputsOutputs = {
     [`./built/dom99Script.es5.min.js`]: `${docdeps}dom99Script.es5.min.js`,
     [`./built/dom99ES.min.js`]: `${docdeps}dom99ES.min.js`,
     // [`./polyfills/built/remove.js`]: `${docdeps}remove.js`,
-
 };
 
 Object.entries(inputsOutputs).map(function ([from, to]) {

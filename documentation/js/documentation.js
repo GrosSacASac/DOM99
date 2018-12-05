@@ -1,5 +1,4 @@
 // global d
-/*hljs.initHighlightingOnLoad(); */
 const demoTitles = ["Hello World", "Hello World 2", "Multiplier", "Lists", "Lists2", "Composition"];
 
 const displayHtmlJsAndResult = function(name) {
