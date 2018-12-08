@@ -3,23 +3,31 @@ import {
 } from "../../../source/isObjectOrArray.js"
 
 describe("is Object or Array", function () {
-    it("Check if it is an Array - True", function() {
-        let array = ["1,2,3"]
+    it("should return true for arrays", function() {
+        const array = ["1,2,3"];
         expect(isObjectOrArray(array)).toBeTruthy();
     });
 
-    it("Check if it is an Array - False", function() {
-        let array = "1,2,3"
-        expect(isObjectOrArray(array)).toBeFalsy();
-    });
-
-    it("Check if it is an Object - True", function() {
-        let object = {"key" : "value"}
+    it("should return true for an object", function() {
+        const object = {"key" : "value"};
         expect(isObjectOrArray(object)).toBeTruthy();
     });
+    
+    it("should return false for string", function() {
+        const string = "1,2,3";
+        expect(isObjectOrArray(string)).toBeFalsy();
+    });
 
-    it("Check if it is an Array - False", function() {
-        let object = "1,2,3"
-        expect(isObjectOrArray(object)).toBeFalsy();
+    it("should return false for undefined", function() {
+        expect(isObjectOrArray(undefined)).toBeFalsy();
+    });
+    
+    it("should return false for null", function() {
+        expect(isObjectOrArray(null)).toBeFalsy();
+    });
+    
+    it("should return false for number", function() {
+        expect(isObjectOrArray(0)).toBeFalsy();
+        expect(isObjectOrArray(10)).toBeFalsy();
     });
 })

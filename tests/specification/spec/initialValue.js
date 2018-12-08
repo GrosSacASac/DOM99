@@ -7,40 +7,46 @@ import {
 } from "../../../source/dom99create.js";
 import {defaultOptions} from "../../../source/defaultOptions.js";
 
-describe("initial value", function() {
+describe("firstVariableValueStrategy", function() {
     beforeEach(function () {
-
         this.expectedValue = `abc`;
         this.myfunction = function () {};
         this.content = document.createElement("div");
         this.content.innerHTML = `
           <input data-variable="string1" value="${this.expectedValue}">
         `;
-
-
     });
 
-  it("d.FIRST_VARIABLE_FROM_HTML", function() {
+  it("it should be undefined when firstVariableValueStrategy is not set", function() {
+        const d = create(Object.assign(
+            {},
+            defaultOptions
+            )
+        );
+           
+        d.start(this.content);
+        expect(d.get("string1")).toEqual(undefined);
+  });
+  
+  it("it should use the variable from html source with strategy FIRST_VARIABLE_FROM_HTML", function() {
         const d = create(Object.assign(
             {},
             defaultOptions,
             {firstVariableValueStrategy:FIRST_VARIABLE_FROM_HTML})
         );
-        window.d = d;
-    
-    d.start(this.content);
-    expect("abc").toEqual(d.get("string1"));
+           
+        d.start(this.content);
+        expect(d.get("string1")).toEqual(this.expectedValue);
   });
 
-  it("d.FIRST_VARIABLE_FROM_USER_AGENT", function() {
+  it("it should use the active variable from the user agent with strategy FIRST_VARIABLE_FROM_USER_AGENT", function() {
         const d = create(Object.assign(
             {},
             defaultOptions,
             {firstVariableValueStrategy:FIRST_VARIABLE_FROM_USER_AGENT})
         );
-        window.d = d;
-    d.start(this.content);
-    expect("abc").toEqual(d.get("string1"));
+        d.start(this.content);
+        expect(d.get("string1")).toEqual(this.expectedValue);
   });
 
   xit("d.scopeFromArray (implementation detail)", function() {
