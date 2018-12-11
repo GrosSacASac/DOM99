@@ -2,7 +2,7 @@ import {create} from "../../../source/dom99create.js";
 import {defaultOptions} from "../../../source/defaultOptions.js";
 
 
-const exampleData = ["a", "b"];
+const exampleData = ["a", "b", "c"];
 const {length} = exampleData;
 
 describe("data-list simple", function() {
@@ -23,14 +23,22 @@ describe("data-list simple", function() {
 
     it("should contain the specified element in the directive", function() {
         const {childNodes} = this.d.elements.targetElement;
-
-        expect(childNodes[0].tagName).toEqual(this.childType.toUpperCase());
+        
+        expect(
+            Array.from(childNodes).every(node => {
+                return node.tagName === this.childType.toUpperCase();
+            })
+         ).toEqual(true);
     });
     
-    xit("should contain the wanted content", function() {
-        const {childNodes} = this.d.elements.targetElement;
+    it("should contain the wanted content", function() {
+        const {textContent} = this.d.elements.targetElement;
 
-        expect(childNodes[0].tagName).toEqual(this.childType.toUpperCase());
+        expect(
+            exampleData.every(data => {
+                return textContent.includes(data);
+            })
+        ).toEqual(true);
     });
 
 });
