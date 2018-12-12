@@ -165,17 +165,14 @@ const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
   return element.value || FIRST_VARIABLE_FROM_HTML(element);
 };
 
-const prepareGet = (input, toJoin) => {
-  let stringPath;
+const prepareGet = (input, ...toJoin) => {
+  let array;
   if (Array.isArray(input)) {
-    stringPath = scopeFromArray(input);
+    array = input.concat(toJoin);
   } else {
-    stringPath = input;
+    array = [input, ...toJoin];
   }
-  if (toJoin) {
-    stringPath = `${stringPath}${INSIDE_SYMBOL}${toJoin}`;
-  }
-  return stringPath;
+  return scopeFromArray(array);
 };
 
 const enterObject = (scopeIn, key) => {
@@ -396,12 +393,12 @@ const create = (options) => {
     alreadyHooked = false;
   };
 
-  const get = (input, toJoin) => {
-    return variables[prepareGet(input, toJoin)];
+  const get = (input, ...toJoin) => {
+    return variables[prepareGet(input, ...toJoin)];
   };
 
-  const getElement = (input, toJoin) => {
-    return elements[prepareGet(input, toJoin)];
+  const getElement = (input, ...toJoin) => {
+    return elements[prepareGet(input, ...toJoin)];
   };
 
   const applyFunctionOriginal = (element, eventName, functionName) => {
