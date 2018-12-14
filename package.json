@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "17.1.0",
+  "version": "17.2.0",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -13,10 +13,10 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
     "@babel/polyfill": "^7.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/preset-env": "^7.2.0",
     "bootstrap": "^4.1.3",
     "browserify": "^16.2.3",
     "eslint": "^5.10.0",
@@ -120,7 +120,7 @@
     "plugins": [],
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "loose": true,
           "targets": {
