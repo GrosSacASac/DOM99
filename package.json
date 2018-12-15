@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "17.2.0",
+  "version": "17.2.1",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -35,7 +35,7 @@
     "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
     "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
     "build": "npm run roll && npm run transpile && npm run minify",
-    "transpilePolyfills": "babel polyfills --out-dir polyfills/built",
+    "transpilePolyfills": "babel polyfills --out-dir polyfills/built --ignore polyfills/built/",
     "bundleExamples": "node tools/buildExamples.js",
     "transpileExamples": "babel examples/js/built --out-dir examples/js/builtes5",
     "exampleDependencies": "node tools/exampleDependencies.js",
