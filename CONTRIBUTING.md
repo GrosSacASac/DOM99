@@ -54,7 +54,7 @@ Feel free to query any kind of upgrades. Contributors are allowed to ask for pay
 
 `npm run` to list all commands.
 
-`http-server` or `python -m http.server 8080` to serve static files. (use a second command prompt to be able to rebuild while serving)
+`npx serve` to serve static files. (use a second command prompt to be able to rebuild while serving)
 
 
  * Discuss with in the chat, and/or open issue first to discuss
@@ -73,8 +73,10 @@ Open an issue to make us open a donation channel
  * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
  * explain better where dom99 comes from and what differentiates it
  * compare values before updating ? with data-compare-before ?
+ * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
+ * see how checking for equality before assigning textContent affects performance
  * Create a better documentation experience
-	* New html page with articles
+	* New html page with articles, possible categories
 		* Security
 		* Performance
 		* DOM the good parts
@@ -89,7 +91,6 @@ Open an issue to make us open a donation channel
 			* Hello World
 
 		* Advanced concepts
-		* make a link to API
 		* Components
 		* Plugins
 		* Details (license, chat, contribute etc)
@@ -98,8 +99,6 @@ Open an issue to make us open a donation channel
 
  * Define typical process of creating and composing with custom elements
  * IE seems to fill forms after script executes and load (onload ?)
- * http://localhost:8080/examples/limited.html cannot set -4 in global (needs info)
- * see how checking for equality before assigning textContent affects performance
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
     * form validation, form submits
@@ -132,20 +131,13 @@ Open an issue to make us open a donation channel
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
- * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
- * re-generate landing-page.min.css from source landing-page.css
  * top level variable integration like displayjs experiment
  * base dom99 lighter
- * revisit the context API
- * harmonize the vocabulary for context path etc
- * jsdoc show better optional parameters
- * solve race conditions in templates4.html
- * has no context. contextFromEvent for top level elements is not needed. could warn when empty string or undefined is returned
-    document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
-    use WeakMap instead where supported
+ * document ELEMENT_PROPERTY, LIST_ITEM_PROPERTY, CONTEXT element extension,
+
 
     decide when to use event
         .target
@@ -163,4 +155,15 @@ Open an issue to make us open a donation channel
     add data-scoped for data-function to allow them to be
     scoped inside an element with data-scope ?
 
-    explore addEventListener(`x`, y, {passive: true});
+Changing Runtime target: 2020
+Windows 7 and IE 11- will be deprecated,
+
+Possibilites in code and functionality
+(check compatibility, performance before )
+
+ * explore addEventListener(`x`, y, {passive: true});
+ * WeakMap, Symbol to simplify code
+ * assume forEach on HTMLNodes
+ * assume correct <template> implementation
+ * assume custom elements support
+ * document.createTreeWalker
