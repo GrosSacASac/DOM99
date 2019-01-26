@@ -13,7 +13,6 @@ const move = {
         keyCode = Number(keyCode);
 
         element.addEventListener(`keydown`, function (event) {
-            console.log(event, keyCode, event.keyCode);
             if (event.keyCode !== keyCode) {
                 return;
             }
