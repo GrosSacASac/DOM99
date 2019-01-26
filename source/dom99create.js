@@ -179,7 +179,7 @@ const enterObject = (scopeIn, key) => {
   scopeIn.push(key);
 };
 
-const leaveObject = function (scopeIn) {
+const leaveObject = (scopeIn) => {
   scopeIn.pop();
 };
 
@@ -410,7 +410,7 @@ const create = (options) => {
     if (scopeIn.length) {
         element[CONTEXT] = scopeFromArray(scopeIn);
     }
-    
+
   };
 
   let applyFunction = applyFunctionOriginal;
@@ -718,7 +718,7 @@ const create = (options) => {
       functionPlugins.push(featureToPlugIn.plugin);
       applyFunction = (element, eventName, functionName) => {
         let defaultPrevented = false;
-        const preventDefault = function () {
+        const preventDefault = () => {
           defaultPrevented = true;
         };
         functionPlugins.forEach((pluginFunction) => {

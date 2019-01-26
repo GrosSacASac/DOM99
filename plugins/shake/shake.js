@@ -1,5 +1,5 @@
 /*
-shake is a dom99 plugin
+shake is a plugin
 */
 import {devicemotionListener, shakeSupport} from "./shakeEvents.js"
 export {shake, shakeSupport};
@@ -27,9 +27,8 @@ const shake = {
             return;
         }
         window.addEventListener(`devicemotion`, devicemotionListener(function () {
-            // const customEvent = {};
             handlers.forEach(function (handlerName) {
-                functionsStore[handlerName](/*customEvent*/);
+                functionsStore[handlerName]();
             });
         }), false);
         functionsStore = functions;
