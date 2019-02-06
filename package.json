@@ -57,6 +57,7 @@
     "test": "tests/specification/SpecRunner.html"
   },
   "eslintConfig": {
+    "extends": "eslint:recommended",
     "parserOptions": {
       "ecmaVersion": 2018,
       "sourceType": "module",
@@ -66,6 +67,7 @@
       "browser": true
     },
     "rules": {
+      "no-console": "off",
       "constructor-super": 2,
       "for-direction": 2,
       "getter-return": 2,
