@@ -42,34 +42,26 @@ describe("data-scope", function() {
     });
 
     it("d.feed and data-variable should be able to set a new value in the dom (scoped)", function() {
-        d.feed(scopeFromArray([`myscope`, `x`]), exampleText);
-        console.log(d);
-        expect(exampleText).toEqual(this.content.querySelector("#p0").value);
+        this.d.feed(scopeFromArray([`myscope`, `x`]), exampleText);
+        expect(exampleText).toEqual(this.content.querySelector("#p0").textContent);
     });
 
 
-    it("data-function should be able fire a function if the event occurs (scoped)", function() {
+    it("data-function should be able fire a function if the event occurs (scoped)", function(done) {
         this.content.innerHTML = `
             <div data-scope="myscope" data-element="scopeParent">
                 <button data-function="x" data-element="b0">inner x</button>
             </div>
         `;
         this.d.functions.x = function(event) {
-            console.log(event)
+            expect(true).toEqual(true);
+            done();
         };
         this.d.start(this.content);
-        this.d.feed(`myList`, {
-            myscope: {
-                x: textInner
-            },
-            x: textOuter
-        });
         
         const event = document.createEvent('Event');
         event.initEvent('click', true, true);
-        d.elements.div2.dispatchEvent(event);
-
-        expect(true).toEqual(true);
+        this.d.element(`myscope`, `b0`).dispatchEvent(event);
     });
 
 });
