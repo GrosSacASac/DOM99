@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "17.3.3",
+  "version": "17.3.4",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -58,9 +58,12 @@
   },
   "eslintConfig": {
     "parserOptions": {
-      "ecmaVersion": 9,
+      "ecmaVersion": 2018,
       "sourceType": "module",
       "ecmaFeatures": {}
+    },
+    "env": {
+      "browser": true
     },
     "rules": {
       "constructor-super": 2,
@@ -111,9 +114,6 @@
       "require-yield": 2,
       "use-isnan": 2,
       "valid-typeof": 2
-    },
-    "env": {
-      "browser": true
     }
   },
   "babel": {
