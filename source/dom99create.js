@@ -31,10 +31,10 @@ const removeNode = (node) => {
 
 const elementsDeepForEach = (startElement, callBack) => {
   callBack(startElement);
-  // https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
-  // is not supported in Edge/Safari on DocumentFragments
-  // let element = startElement.firstElementChild;
-  // this does not produce an error, but simply returns undefined
+  /* https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
+  is not supported in Edge/Safari on DocumentFragments
+  let element = startElement.firstElementChild;
+  this does not produce an error, but simply returns undefined */
   let node = startElement.firstChild;
   while (node) {
     // document.body.ELEMENT_NODE === 1
@@ -134,8 +134,8 @@ const scopeFromArrayWith = (scopeIn, withWhat) => {
 };
 
 const normalizeStartPath = (startScope) => {
-  // this is because `a>b>c` is irregular
-  // `a>b>c>` or `>a>b>c` would not need such normalization
+  /* this is because `a>b>c` is irregular
+  `a>b>c>` or `>a>b>c` would not need such normalization */
   if (startScope) {
     return `${startScope}${INSIDE_SYMBOL}`;
   }
@@ -189,8 +189,8 @@ const notifyOneVariableSubscriber = (options, variableSubscriber, value) => {
 
 const notifyVariableSubscribers = (options, subscribers, value) => {
   if (value === undefined) {
-    // undefined can be used to use the default value
-    // without explicit if else
+    /* undefined can be used to use the default value
+    without explicit if else */
     return;
   }
   subscribers.forEach((variableSubscriber) => {
@@ -330,8 +330,8 @@ const create = (options) => {
         // reusing, feed updated with new data the old nodes
         return;
       }
-      // cannot remove document fragment after insert because they empty themselves
-      // have to freeze the children to still have a reference
+      /* cannot remove document fragment after insert because they empty themselves
+      have to freeze the children to still have a reference */
       const activatedClone = activateCloneTemplate(
         template,
         String(i)
@@ -456,9 +456,8 @@ const create = (options) => {
       element[ELEMENT_LIST_ITEM] = listItemTagName;
     }
 
-    // could send scope as array directly
-    // but have to change notifyOneListSubscriber to take in scope as Array or String
-    // before
+    /* could send scope as array directly but have to change
+    notifyOneListSubscriber to take in scope as Array or String before */
     const scope = scopeFromArrayWith(scopeIn, variableName);
 
     pushOrCreateArrayAt(listSubscribers, scope, element);
@@ -503,8 +502,8 @@ const create = (options) => {
       const value = element[options.propertyFromElement(element)];
       variables[scope] = value;
       feedHook(scope, value);
-      // would notify everything including itself
-      // notifyVariableSubscribers(options, variableSubscribers[scope], value);
+      /* would notify everything including itself
+      notifyVariableSubscribers(options, variableSubscribers[scope], value); */
       variableSubscribers[scope].forEach((variableSubscriber) => {
         if (variableSubscriber !== element) {
           notifyOneVariableSubscriber(options, variableSubscriber, value);
