@@ -12,34 +12,34 @@
 
 // Note omitting data-* is at your own risks (can collide with existing or future attribute names)
 
-//custom attribute names should start with "data-" see
+//custom attribute names should start with data- see
 // https://docs.webplatform.org/wiki/html/attributes/data-*
 
 import {options} from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
 
 // Example for more compact syntax:
 Object.assign(options.directives, {
-    function: "fx",
-    variable: "vr",
-    element: "el",
-    list: "list",
-    inside: "in",
-    template: "templ"
+    function: `fx`,
+    variable: `vr`,
+    element: `el`,
+    list: `list`,
+    inside: `in`,
+    template: `templ`
 });
 
 // Other changes possible
 Object.assign(options, {
-    // cannot be empty,  default "*"
-    doneSymbol: "#",
-    // cannot be empty,  default "-"
-    tokenSeparator: "+",
-    // cannot be empty,  must be different than above,  default " "
-    listSeparator: ","
+    // cannot be empty,  default `*`
+    doneSymbol: `#`,
+    // cannot be empty,  default `-`
+    tokenSeparator: `+`,
+    // cannot be empty,  must be different than above,  default ` `
+    listSeparator: `,`
 });
  /*
   also
 
- * tagNamesForUserInput: with a list like ["input", "textarea"]
+ * tagNamesForUserInput: with a list like [`input`, `textarea`]
 
  * propertyFromElement with a function
     parameters (element)

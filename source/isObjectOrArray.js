@@ -7,6 +7,6 @@ export {isObjectOrArray};
 @return {boolean}
 */
 const isObjectOrArray = (x) => {
-	/*array or object*/
+	/* array or object */
 	return typeof x === `object` && x !== null;
 };
