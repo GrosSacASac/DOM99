@@ -5,7 +5,6 @@ import {
 	scopeFromEvent,
     parentScope,
 	createElement2,
-	idGenerator,
 	FIRST_VARIABLE_FROM_HTML,
 	FIRST_VARIABLE_FROM_USER_AGENT
 } from "./dom99create.js";
@@ -40,10 +39,9 @@ export {
 
 	scopeFromArray,
 	scopeFromEvent,
-        parentScope,
+    parentScope,
 
 	createElement2,
-	idGenerator,
 
 	FIRST_VARIABLE_FROM_HTML,
 	FIRST_VARIABLE_FROM_USER_AGENT

@@ -7,7 +7,6 @@ export {
   FIRST_VARIABLE_FROM_HTML,
   FIRST_VARIABLE_FROM_USER_AGENT
 };
-export {idGenerator} from "./idGenerator.js";
 
 import {createElement2} from "./createElement2.js";
 import {isObjectOrArray} from "./isObjectOrArray.js";
