@@ -28,6 +28,7 @@
     "prepublishOnly": "npm run build",
     "serve": "cd documentation && serve",
     "deploynow": "cd documentation && now --public",
+    "now": "cd documentation && now --public --target production",
     "aliasnow": "now alias https://documentation-idlakfyzsr.now.sh dom99",
     "lint": "eslint source",
     "lintfix": "eslint --fix source",
@@ -46,7 +47,7 @@
     "highlight.js": "^9.13.1",
     "html-minifier": "^3.5.21",
     "jsdoc": "^3.5.5",
-    "rollup": "^1.1.2",
+    "rollup": "^1.7.4",
     "serve": "^10.1.2",
     "template-mb": "^2.0.6",
     "terser": "^3.14.1",
@@ -61,6 +62,9 @@
     "LICENSE.txt",
     "readme.md"
   ],
+  "now": {
+    "alias": "dom99"
+  },
   "eslintConfig": {
     "extends": "eslint:recommended",
     "parserOptions": {
