@@ -256,3 +256,4 @@ images/redesign-old.jpg
 tests/performance/raw_results.txt
 documentation/images/redesign-old.jpg
 documentation/deps/*
+.vscode/settings.json

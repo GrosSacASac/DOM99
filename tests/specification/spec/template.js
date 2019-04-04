@@ -1,8 +1,8 @@
-import {create} from "../../../source/dom99create.js";
-import {defaultOptions} from "../../../source/defaultOptions.js";
+import { create } from "../../../source/dom99create.js";
+import { defaultOptions } from "../../../source/defaultOptions.js";
 
 
-describe(`data-template`, function() {
+describe(`data-template`, function () {
     beforeEach(function () {
         this.d = create(defaultOptions);
         this.content = document.createElement(`div`);
@@ -20,14 +20,14 @@ describe(`data-template`, function() {
         this.d.start(this.content);
     });
 
-    it(`an element with the same tag as the template name should contain a copy of the inner html`, function() {
+    it(`an element with the same tag as the template name should contain a copy of the inner html`, function () {
         const template = this.d.elements[this.templateName];
         const subject = this.d.elements[this.targetElementName];
 
         expect(template.innerHTML).toEqual(subject.innerHTML);
     });
 
-    it(`an element with is="" with the template name should contain a copy of the inner html`, function() {
+    it(`an element with is="" with the template name should contain a copy of the inner html`, function () {
         const template = this.d.elements[this.templateName];
         const subject = this.d.elements[this.targetIsElementName];
 
