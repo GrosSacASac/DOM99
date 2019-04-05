@@ -1,5 +1,5 @@
 export {defaultOptions};
-import {FIRST_VARIABLE_FROM_USER_AGENT} from "./dom99create";
+import {FIRST_VARIABLE_FROM_USER_AGENT} from "./dom99create.js";
 
 
 const MISS = `MISS`;
