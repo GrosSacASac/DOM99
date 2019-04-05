@@ -3,9 +3,11 @@ export {
   scopeFromArray,
   scopeFromEvent,
   parentScope,
+  leafName,
+  leafIndex,
   createElement2,
   FIRST_VARIABLE_FROM_HTML,
-  FIRST_VARIABLE_FROM_USER_AGENT
+  FIRST_VARIABLE_FROM_USER_AGENT,
 };
 
 import {createElement2} from "./createElement2.js";
@@ -123,6 +125,26 @@ const parentScope = (scope) => {
   const split = scope.split(INSIDE_SYMBOL);
   split.pop();
   return split.join(INSIDE_SYMBOL);
+};
+
+/**
+
+ @param {string} scope
+
+ @return {string} leafName
+ */
+const leafName = (scope) => {
+  const split = string.split(INSIDE_SYMBOL)
+  return split[split.length - 1];
+};
+/**
+
+ @param {string} scope
+
+ @return {number} leafIndex
+ */
+const leafIndex = (scope) => {
+  return Number(leafName(scope));
 };
 
 const scopeFromArrayWith = (scopeIn, withWhat) => {
