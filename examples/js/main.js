@@ -16,13 +16,13 @@ d.feed({
 d.functions.calculate = function (event) {
     const { a, b } = d.variables;
     if (isFinite(a) && isFinite(b)) {
-      d.feed({
-        result: a * b,
-      });
+        d.feed({
+            result: a * b,
+        });
     } else {
-          d.feed({
+        d.feed({
             result: `Please enter finite numbers`,
-          });
+        });
     }
 };
 

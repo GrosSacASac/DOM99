@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>todo</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="../../documentation/images/visual2.jpg">
+</head>
+<body>
+    <template data-template="d-todo">
+        <!-- Everything here has its own scope  -->
+        <li class="todo-item">
+            <span data-variable="text"></span>
+            <button data-function="delete">[X]</button>
+        </li>
+    </template>
+
+    <label>Text:
+        <input
+            data-variable="todoText"
+            data-function="move-13+add"
+            placeholder="What to do ?"
+        >
+    </label>
+
+    <button data-function="add">Add todo</button>
+    
+    <ul data-list="allToDos-d-todo"><!-- d-todo's  --></ul>
+
+    <p>So we have <span data-variable="count"></span>.</p>
+
+<script type="module" src="./todo.js"></script>
+</body>
+</html>
