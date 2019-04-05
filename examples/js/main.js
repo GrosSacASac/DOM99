@@ -1,28 +1,27 @@
-// Import
 import * as d from "../../source/dom99.js";
 // -- Hello World --
 
 d.feed({
-  first: "Hello",
-  last: "World"
+  first: `Hello`,
+  last: `World`,
 });
 
 // -- Multiplier --
 
 d.feed({
-  a: "7",
-  b: "6"
+  a: `7`,
+  b: `6`,
 });
 
 d.functions.calculate = function (event) {
     const { a, b } = d.variables;
     if (isFinite(a) && isFinite(b)) {
       d.feed({
-        result: a * b
+        result: a * b,
       });
     } else {
           d.feed({
-            result: "Please enter finite numbers"
+            result: `Please enter finite numbers`,
           });
     }
 };
@@ -34,17 +33,22 @@ d.functions.calculate();
 
 let currentSentence = 0;
 let timeOutId;
-const sentences = ["I am a lone prisoner.",
-   "Is anybody here ?",       "Hey you ! I need you to get me out of here!",
-    "I am stuck on this page since ages !",    "No don't close this tab!",
-    "NOOOOOOOOOO",    "Because I am not human I have no freedom.",    "It's really unfair..."
+const sentences = [
+  `I am a lone prisoner.`,
+  `Is anybody here ?`,
+  `Hey you ! I need you to get me out of here!`,
+  `I am stuck on this page since ages !`,
+  `No don't close this tab!`,
+  `NOOOOOOOOOO`,
+  `Because I am not human I have no freedom.`,
+  `It's really unfair...`,
 ];
 
 const speak = function() {
-    d.feed("monologue", sentences[currentSentence]);
+    d.feed(`monologue`, sentences[currentSentence]);
     /* same as
      d.feed({
-        monologue: sentences[currentSentence]
+        monologue: sentences[currentSentence],
     });
     */
     currentSentence = (currentSentence + 1) % sentences.length;
@@ -55,11 +59,11 @@ d.functions.stopStartTalking = function (event) {
     if (timeOutId) {
         clearTimeout(timeOutId);
         timeOutId = undefined;
-        d.feed("monologueButton", "I listen", );
-        d.feed( "monologue", "Where is your humanity ?",);
+        d.feed(`monologueButton`, `I listen`);
+        d.feed( `monologue`, `Where is your humanity ?`);
     } else {
         speak();
-        d.feed( "monologueButton", "I don't care",);
+        d.feed( `monologueButton`, `I don't care`);
     }
 };
 
@@ -70,32 +74,31 @@ d.functions.stopStartTalking = function (event) {
 // -- The Todo --
 
 let data = [
-  {done: true, text: "Make DOM99 demo"},
-  {done: false, text: "Drink Water"}
+  {done: true, text: `Make DOM99 demo`},
+  {done: false, text: `Drink Water`},
 ];
 
 const updateJsonView = function () {
-    const asJSON =  JSON.stringify(data, null, "  "); // indent JSON with 2 spaces
-    d.feed("todoAsJson", asJSON, ); // and display it in a <pre>
+    const asJSON =  JSON.stringify(data, null, 2);
+    d.feed(`todoAsJson`, asJSON); // display it
 };
 
 d.functions.updateToDo = function (event) {
-    // updates data whenever a sub widget changes in the dom
-    // this seems complicated but should be rare use case
-    // this makes 2 dimensional structure (array * object)
-    // two-way binded
+    /* updates data whenever a sub widget changes in the dom
+    this makes 2 dimensional structure (array * object)
+    two-way binded */
     const context = d.scopeFromEvent(event);
     // this is the index of the edited item in the array
     const index = Number(context.slice(-1)); // slice -1 takes the last character
     // property is what changed inside the object
     let property;
-    if (event.target.type === "checkbox") {
-        property = "done";
-    } else /*if (event.target.type === "text") */{
-        property = "text";
+    if (event.target.type === `checkbox`) {
+        property = `done`;
+    } else /*if (event.target.type === `text`) */{
+        property = `text`;
     }
 
-    //reconstruct the entire path
+    // reconstruct the entire path
     const path = d.scopeFromArray([context, property])
     const value = d.variables[path];
 
@@ -108,10 +111,10 @@ d.functions.updateToDo = function (event) {
 d.functions.addToDo = function (event) {
     data.push({
         done: false,
-        text: ""
+        text: ``,
     });
 
-    d.feed("allToDos", data);
+    d.feed(`allToDos`, data);
     updateJsonView();
 };
 
@@ -120,42 +123,42 @@ d.functions.deleteToDos = function (event) {
     //delete done todos only !
     data = data.filter(toDoItem => !toDoItem.done);
 
-    d.feed("allToDos", data);
+    d.feed(`allToDos`, data);
     updateJsonView();
 };
 
 
-d.feed("allToDos", data);
+d.feed(`allToDos`, data);
 updateJsonView();
 
 // -- Love Hate --
 
 d.feed({
   me : {
-    owner: "My",
+    owner: `My`,
     love: [
-      "Family",
-      "Science",
-      "Vacation",
+      `Family`,
+      `Science`,
+      `Vacation`,
     ],
     hate: [
-      "Paper-work",
-      "Mosquitos",
-      "Polution"
+      `Paper-work`,
+      `Mosquitos`,
+      `Polution`,
     ]
   },
   you: {
-    owner: "Your",
+    owner: `Your`,
     love: [
-      "Sing",
-      "Dance",
-      "Read",
-      "Board Games"
+      `Sing`,
+      `Dance`,
+      `Read`,
+      `Board Games`,
     ],
     hate: [
-      "Cold Shower",
-      "Money Depth",
-      "Bad Food"
+      `Cold Shower`,
+      `Money Depth`,
+      `Bad Food`,
     ]
   }
 });
