@@ -17,12 +17,12 @@ describe("firstVariableValueStrategy", function () {
         `;
     });
 
-    it("it should be undefined when firstVariableValueStrategy is not set", function () {
+    it("it should be undefined when firstVariableValueStrategy is set to undefined", function () {
         const d = create(Object.assign(
             {},
-            defaultOptions
-        )
-        );
+            defaultOptions,
+            { firstVariableValueStrategy: undefined },
+        ));
 
         d.start(this.content);
         expect(d.get("string1")).toEqual(undefined);
@@ -32,8 +32,8 @@ describe("firstVariableValueStrategy", function () {
         const d = create(Object.assign(
             {},
             defaultOptions,
-            { firstVariableValueStrategy: FIRST_VARIABLE_FROM_HTML })
-        );
+            { firstVariableValueStrategy: FIRST_VARIABLE_FROM_HTML },
+        ));
 
         d.start(this.content);
         expect(d.get("string1")).toEqual(this.expectedValue);
@@ -43,8 +43,8 @@ describe("firstVariableValueStrategy", function () {
         const d = create(Object.assign(
             {},
             defaultOptions,
-            { firstVariableValueStrategy: FIRST_VARIABLE_FROM_USER_AGENT })
-        );
+            { firstVariableValueStrategy: FIRST_VARIABLE_FROM_USER_AGENT },
+        ));
         d.start(this.content);
         expect(d.get("string1")).toEqual(this.expectedValue);
     });
