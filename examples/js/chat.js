@@ -3,7 +3,7 @@ import * as d  from "../../source/dom99.js";
 import {fakeBossSpeak, fakeSisterSpeak} from "./chat_simulation.js";
 
 let messageKeys = [];
-let element = "element";
+let element = `element`;
 const MAX = 100;
 
 

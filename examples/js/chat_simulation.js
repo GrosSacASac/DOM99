@@ -3,16 +3,16 @@
 export {fakeSisterSpeak, fakeBossSpeak};
 
 const fakeMessagesFromSister = [
-    "Hey brother, what is up ?",
-    "Long time not seen",
-    "you should visit my new home",
-    "remember the skateboard races we had when we were kids ?",
-    "Hey answer please :)"
+    `Hey brother, what is up ?`,
+    `Long time not seen`,
+    `you should visit my new home`,
+    `remember the skateboard races we had when we were kids ?`,
+    `Hey answer please :)`
 ];
 const fakeMessagesFromBoss = [
-    "Nice work kids",
-    "I am going on a trip next week to meet new buisness partners",
-    "Can you finish the project ?"
+    `Nice work kids`,
+    `I am going on a trip next week to meet new buisness partners`,
+    `Can you finish the project ?`
 ];
 
 
