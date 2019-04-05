@@ -4,12 +4,11 @@ import {FIRST_VARIABLE_FROM_USER_AGENT} from "./dom99create.js";
 
 const MISS = `MISS`;
 const valueElseMissDecorator = (object) => {
-  /*Decorator function around an Object to provide a default value
+  /* Decorator function around an Object to provide a default value
   Decorated object must have a MISS key with the default value associated
-  Arrays are also objects
-  */
+  Arrays are also objects */
   return (key) => {
-    if (hasOwnProperty.call(object, key)) {
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
       return object[key];
     }
     return object[MISS];
@@ -18,7 +17,7 @@ const valueElseMissDecorator = (object) => {
 
 
 const propertyFromTag = valueElseMissDecorator({
-  //Input Type : appropriate property name to retrieve and set the value
+  // TAG NAME: appropriate property name to retrieve and set the value
   [`INPUT`]: `value`,
   [`TEXTAREA`]: `value`,
   [`PROGRESS`]: `value`,
@@ -36,7 +35,7 @@ const propertyFromTag = valueElseMissDecorator({
 });
 
 const propertyFromInputType = valueElseMissDecorator({
-  //Input Type : appropriate property name to retrieve and set the value
+  // Input Type : appropriate property name to retrieve and set the value
   [`checkbox`]: `checked`,
   [`radio`]: `checked`,
   [MISS]: `value`
@@ -91,6 +90,13 @@ const eventNameFromElement = (element) => {
   return eventFromTag(tagName);
 };
 
+const tagNamesForUserInput = [
+  `INPUT`,
+  `TEXTAREA`,
+  `SELECT`,
+  `DETAILS`,
+];
+
 const defaultOptions = {
   doneSymbol: `*`,
   tokenSeparator: `-`,
@@ -99,10 +105,5 @@ const defaultOptions = {
   directives: defaultDirectives,
   propertyFromElement,
   eventNameFromElement,
-  tagNamesForUserInput: [
-    `INPUT`,
-    `TEXTAREA`,
-    `SELECT`,
-    `DETAILS`
-  ]
+  tagNamesForUserInput,
 };
