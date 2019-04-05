@@ -10,6 +10,11 @@ is a shortcut for listening to keydown + specific keys
 
 ## How to use ?
 
+They keyCode has to be used:
+
+ * 13 ENTER
+ * 37 ARROW_LEFT
+
 ### HTML
 
 ```
