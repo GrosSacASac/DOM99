@@ -1,4 +1,6 @@
 export {defaultOptions};
+import {FIRST_VARIABLE_FROM_USER_AGENT} from "./dom99create";
+
 
 const MISS = `MISS`;
 const valueElseMissDecorator = (object) => {
@@ -93,7 +95,7 @@ const defaultOptions = {
   doneSymbol: `*`,
   tokenSeparator: `-`,
   listSeparator: ` `,
-  firstVariableValueStrategy: undefined,
+  firstVariableValueStrategy: FIRST_VARIABLE_FROM_USER_AGENT,
   directives: defaultDirectives,
   propertyFromElement,
   eventNameFromElement,

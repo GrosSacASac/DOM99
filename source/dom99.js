@@ -35,14 +35,10 @@ export {
 	element,
 	feed,
 	plugin,
-	options,
 
 	scopeFromArray,
 	scopeFromEvent,
     parentScope,
 
 	createElement2,
-
-	FIRST_VARIABLE_FROM_HTML,
-	FIRST_VARIABLE_FROM_USER_AGENT
 };

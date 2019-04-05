@@ -465,18 +465,24 @@ Simply changing a class name of an element can cause the browser to do heavy com
 
 <article id="patchnotes">
 <h3>Patch Notes</h3>
+
+<h4>Version 19.0.0</h4>
+<p>FIRST_VARIABLE_FROM_USER_AGENT is the default option for firstVariableValueStrategy:</p>
+<p>FIRST_VARIABLE_FROM_HTML, FIRST_VARIABLE_FROM_USER_AGENT, options are no longer exported by the default import entry</p>
+
 <h4>Version 18.0.0</h4>
 <p>idGenerator is not exported by default. To continue using it:</p>
 <pre><code>import {idGenerator} from "./node_modules/dom99/source/idGenerator.js"</code></pre>
+
 <h4>Version 17.0.0</h4>
 <p>Removed deleteTemplate , activate</p>
 <p>Renamed all path and context into scope, remade data-inside into data-scope</p>
 <p>Changed argument order of start, options cannot be accessed anymore after initialization, instead pass wanted options to create</p>
 <p>Moved default options into a separate file source/defaultOptions.js</p>
+
 <h4>Version 16.0.0</h4>
 <p>New URL for website <a href="https://dom99.now.sh/">https://dom99.now.sh/</a>. Update your bookmarks.</p>
 <p>Generated files are not in the git anymore. Generate them with the commands defined in package.json or download pre built files with npm or use URL https://unpkg.com/dom99@16.0.1/built/dom99ES.js or https://unpkg.com/dom99@16.0.1/built/dom99Script.js</p>
-
 <h4>Version 15.4.0</h4>
 <p>expose d.element(string) function. It is a convenience function for d.elements[string]. It is safer to use because it cannot accidently set private variables.</p>
 <h4>Version 15.3.0</h4>
@@ -485,6 +491,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>expose d.get(string) function. It is a convenience function for d.variables[string]. It is safer to use because it cannot accidently set private variables without explicit d.feed()</p>
 <h4>Version 15.1.0</h4>
 <p>Factory for creating independent dom99 realms is now provided. The main dom99.js interface remains unchanged and still exports a singleton. Internally dom99.js now imports dom99create.js, creates one instance and exports it. Have a look at source/dom99.js to know how to use this feature.</p>
+
 <h4>Version 15.0.0</h4>
 <p>The new way of importing is <br>
 <code>import * as d from "./node_modules/dom99/built/dom99ES.js";</code>
@@ -525,6 +532,7 @@ const d = {
 <p>Added export <code>idGenerator</code></p>
 <h4>Version 14.1.0</h4>
 <p>Added plugin type <em>cloned</em>. It allows to target a template copy just before it is inserted into the document</p>
+
 <h4>Version 14.0.0</h4>
 <p>Added plugin system for variables:</p>
     <ul>
@@ -553,16 +561,18 @@ const d = {
 
 <p>For browserify users</p>
 <p>Replace <code>const d = require("dom99");</code> with <br><code>const {d, plugin, options, createElement2} = require("dom99");</code></p>
-
 <p>Added dom99Amd.js</p>
+
 <h4>Version 12.0.0</h4>
 <p>Components readTextFile and yesNoDialog now use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
 <h4>Version 11.1.4</h4>
 <p>File built: <em>built/dom99Module.min.js</em></p>
 <h4>Version 11.1.0</h4>
 <p>ReadTextFile component is available</p>
+
 <h4>Version 11.0.0</h4>
 <p>Removed a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
+
 <h4>Version 10.0.0</h4>
 <p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
 <pre><code>
@@ -584,6 +594,7 @@ const d = {
 <h4>Version 9.1.0</h4>
 <p>Plugins are introduced !</p>
 <p>Plugin: shake</p>
+
 <h4>Version 9.0.0</h4>
 <p>IE 9 support is now mantained by external polyfills</p>
 <p>The result is that base dom99 is now even lighter</p>
@@ -599,6 +610,7 @@ const d = {
     <li>built/dom99Module.es5.js</li>
     <li>built/dom99Require.es5.js</li>
 </ul>
+
 <h4>Version 8.0.0</h4>
 <p>Simplified internal code</p>
 <h5>Renamed</h5>
@@ -662,6 +674,7 @@ Good for encapsulation of independent components. See how it is used in componen
         }
         return callBack();
     };</code></pre>
+
 <h4>Version 7.0.0</h4>
 <p>renamed dom99 variable into just d</p>
 <p>d.getParentContext removed. To navigate through context there are now  3 functions that work together:</p>
@@ -704,13 +717,16 @@ the license in distributed executables or transpiled code</p>
 <p>Split <code>data-el</code> into <code>data-element</code> and <code>data-template</code></p>
 <p>Renamed <code>data-fx</code> into <code>data-function</code></p>
 <p>Renamed <code>data-in</code> into <code>data-scope</code></p>
+
 <h4>Version 4.0.0</h4>
 <p>Unpublished</p>
 <h4>Version 3.0.3</h4>
 <p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more information</p>
+
 <h4>Version 3.0.1</h4>
 <p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
+
 <h4>Version 2.0.0</h4>
 <p>Switched to SEMVER versioning</p>
 <p>d.variables setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
