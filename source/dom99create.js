@@ -1,19 +1,19 @@
 export {
-  create,
-  scopeFromArray,
-  scopeFromEvent,
-  parentScope,
-  leafName,
-  leafIndex,
-  createElement2,
-  FIRST_VARIABLE_FROM_HTML,
-  FIRST_VARIABLE_FROM_USER_AGENT,
+    create,
+    scopeFromArray,
+    scopeFromEvent,
+    parentScope,
+    leafName,
+    leafIndex,
+    createElement2,
+    FIRST_VARIABLE_FROM_HTML,
+    FIRST_VARIABLE_FROM_USER_AGENT,
 };
 
-import {createElement2} from "./createElement2.js";
-import {isObjectOrArray} from "./isObjectOrArray.js";
-import {firstAncestorValue} from "./parentIdFromEvent.js";
-import {pushOrCreateArrayAt} from "./pushOrCreateArrayAt.js";
+import { createElement2 } from "./createElement2.js";
+import { isObjectOrArray } from "./isObjectOrArray.js";
+import { firstAncestorValue } from "./parentIdFromEvent.js";
+import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -27,49 +27,49 @@ const INSIDE_SYMBOL = `>`;
 
 
 const removeNode = (node) => {
-  node.remove();
+    node.remove();
 };
 
 const elementsDeepForEach = (startElement, callBack) => {
-  callBack(startElement);
-  /* https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
-  is not supported in Edge/Safari on DocumentFragments
-  let element = startElement.firstElementChild;
-  this does not produce an error, but simply returns undefined */
-  let node = startElement.firstChild;
-  while (node) {
-    // document.body.ELEMENT_NODE === 1
-    if (node.nodeType === 1) {
-      elementsDeepForEach(node, callBack);
-      node = node.nextElementSibling;
-    } else {
-      node = node.nextSibling;
+    callBack(startElement);
+    /* https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
+    is not supported in Edge/Safari on DocumentFragments
+    let element = startElement.firstElementChild;
+    this does not produce an error, but simply returns undefined */
+    let node = startElement.firstChild;
+    while (node) {
+        // document.body.ELEMENT_NODE === 1
+        if (node.nodeType === 1) {
+            elementsDeepForEach(node, callBack);
+            node = node.nextElementSibling;
+        } else {
+            node = node.nextSibling;
+        }
     }
-  }
 };
 
 const customElementNameFromElement = (element) => {
-  const isAttributeValue = element.getAttribute(`is`);
-  if (isAttributeValue) {
-    return isAttributeValue;
-  }
-  return element.tagName.toLowerCase();
+    const isAttributeValue = element.getAttribute(`is`);
+    if (isAttributeValue) {
+        return isAttributeValue;
+    }
+    return element.tagName.toLowerCase();
 };
 
 const cloneTemplate = (template) => {
-  if (!template) {
-    console.error(
-      `Template missing <template data-template="d-name">
+    if (!template) {
+        console.error(
+            `Template missing <template data-template="d-name">
                 Template Content
             </template>`
-    );
-  }
-  if (!template.content) {
-    console.error(
-      `template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`
-    );
-  }
-  return document.importNode(template.content, true);
+        );
+    }
+    if (!template.content) {
+        console.error(
+            `template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`
+        );
+    }
+    return document.importNode(template.content, true);
 };
 
 
@@ -79,7 +79,7 @@ const cloneTemplate = (template) => {
  @return {string | undefined} scope
  */
 const scopeFromElement = (element) => {
-  return element[CONTEXT];
+    return element[CONTEXT];
 };
 
 /**
@@ -97,7 +97,7 @@ const scopeFromElement = (element) => {
  @return {string} scope
  */
 const scopeFromEvent = (event) => {
-  return firstAncestorValue(event.target, scopeFromElement) || ``;
+    return firstAncestorValue(event.target, scopeFromElement) || ``;
 };
 
 /**
@@ -111,7 +111,7 @@ const scopeFromEvent = (event) => {
  @return {string} path
  */
 const scopeFromArray = (scopeIn) => {
-  return scopeIn.join(INSIDE_SYMBOL);
+    return scopeIn.join(INSIDE_SYMBOL);
 };
 
 /**
@@ -122,9 +122,9 @@ const scopeFromArray = (scopeIn) => {
  @return {string} parentScope
  */
 const parentScope = (scope) => {
-  const split = scope.split(INSIDE_SYMBOL);
-  split.pop();
-  return split.join(INSIDE_SYMBOL);
+    const split = scope.split(INSIDE_SYMBOL);
+    split.pop();
+    return split.join(INSIDE_SYMBOL);
 };
 
 /**
@@ -134,8 +134,8 @@ const parentScope = (scope) => {
  @return {string} leafName
  */
 const leafName = (scope) => {
-  const split = string.split(INSIDE_SYMBOL)
-  return split[split.length - 1];
+    const split = string.split(INSIDE_SYMBOL)
+    return split[split.length - 1];
 };
 /**
 
@@ -144,628 +144,628 @@ const leafName = (scope) => {
  @return {number} leafIndex
  */
 const leafIndex = (scope) => {
-  return Number(leafName(scope));
+    return Number(leafName(scope));
 };
 
 const scopeFromArrayWith = (scopeIn, withWhat) => {
-  if (scopeIn.length === 0) {
-    return withWhat;
-  }
-  return `${scopeFromArray(scopeIn)}${INSIDE_SYMBOL}${withWhat}`;
+    if (scopeIn.length === 0) {
+        return withWhat;
+    }
+    return `${scopeFromArray(scopeIn)}${INSIDE_SYMBOL}${withWhat}`;
 };
 
 const normalizeStartPath = (startScope) => {
-  /* this is because `a>b>c` is irregular
-  `a>b>c>` or `>a>b>c` would not need such normalization */
-  if (startScope) {
-    return `${startScope}${INSIDE_SYMBOL}`;
-  }
-  return startScope;
+    /* this is because `a>b>c` is irregular
+    `a>b>c>` or `>a>b>c` would not need such normalization */
+    if (startScope) {
+        return `${startScope}${INSIDE_SYMBOL}`;
+    }
+    return startScope;
 };
 
 const deleteAllStartsWith = (object, prefix = ``) => {
-  Object.keys(object).forEach((key) => {
-    if (key.startsWith(prefix)) {
-      delete object[key];
-    }
-  });
+    Object.keys(object).forEach((key) => {
+        if (key.startsWith(prefix)) {
+            delete object[key];
+        }
+    });
 };
 
 // good candidates for firstVariableValueStrategy :
 const FIRST_VARIABLE_FROM_HTML = (element) => {
-  if ('defaultValue' in element) {
-    return element.defaultValue;
-  }
-  if ('open' in element) { // <details>
-    return element.open;
-  }
-  return element.textContent;
+    if ('defaultValue' in element) {
+        return element.defaultValue;
+    }
+    if ('open' in element) { // <details>
+        return element.open;
+    }
+    return element.textContent;
 };
 
 const FIRST_VARIABLE_FROM_USER_AGENT = (element) => {
-  return element.value || FIRST_VARIABLE_FROM_HTML(element);
+    return element.value || FIRST_VARIABLE_FROM_HTML(element);
 };
 
 const prepareGet = (input, ...toJoin) => {
-  let array;
-  if (Array.isArray(input)) {
-    array = input.concat(toJoin);
-  } else {
-    array = [input, ...toJoin];
-  }
-  return scopeFromArray(array);
+    let array;
+    if (Array.isArray(input)) {
+        array = input.concat(toJoin);
+    } else {
+        array = [input, ...toJoin];
+    }
+    return scopeFromArray(array);
 };
 
 const enterObject = (scopeIn, key) => {
-  scopeIn.push(key);
+    scopeIn.push(key);
 };
 
 const leaveObject = (scopeIn) => {
-  scopeIn.pop();
+    scopeIn.pop();
 };
 
 const notifyOneVariableSubscriber = (options, variableSubscriber, value) => {
-  variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
+    variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 };
 
 const notifyVariableSubscribers = (options, subscribers, value) => {
-  if (value === undefined) {
-    /* undefined can be used to use the default value
-    without explicit if else */
-    return;
-  }
-  subscribers.forEach((variableSubscriber) => {
-    notifyOneVariableSubscriber(options, variableSubscriber, value);
-  });
+    if (value === undefined) {
+        /* undefined can be used to use the default value
+        without explicit if else */
+        return;
+    }
+    subscribers.forEach((variableSubscriber) => {
+        notifyOneVariableSubscriber(options, variableSubscriber, value);
+    });
 };
 
 const notifyOneListSubscriber = (listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
-  if (
-    hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
-    hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
-  ) {
-    notifyCustomListSubscriber(listContainer, startScope, data);
-    return;
-  }
-  notifyRawListSubscriber(listContainer, data, options);
+    if (
+        hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
+        hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
+    ) {
+        notifyCustomListSubscriber(listContainer, startScope, data);
+        return;
+    }
+    notifyRawListSubscriber(listContainer, data, options);
 };
 
 const notifyListSubscribers = (subscribers, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
-  subscribers.forEach((listContainer) => {
-    notifyOneListSubscriber(listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options);
-  });
+    subscribers.forEach((listContainer) => {
+        notifyOneListSubscriber(listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options);
+    });
 };
 
 const notifyRawListSubscriber = (listContainer, data, options) => {
-  const fragment = document.createDocumentFragment();
-  listContainer.innerHTML = ``;
-  const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
-  const listItemProperty = options.propertyFromElement(
-    listItemTagName.toUpperCase()
-  );
-  data.forEach((value) => {
-    const listItem = document.createElement(listItemTagName);
-    if (isObjectOrArray(value)) {
-      Object.assign(listItem, value);
-    } else {
-      listItem[listItemProperty] = value;
-    }
-    fragment.appendChild(listItem);
-  });
-  listContainer.appendChild(fragment);
+    const fragment = document.createDocumentFragment();
+    listContainer.innerHTML = ``;
+    const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+    const listItemProperty = options.propertyFromElement(
+        listItemTagName.toUpperCase()
+    );
+    data.forEach((value) => {
+        const listItem = document.createElement(listItemTagName);
+        if (isObjectOrArray(value)) {
+            Object.assign(listItem, value);
+        } else {
+            listItem[listItemProperty] = value;
+        }
+        fragment.appendChild(listItem);
+    });
+    listContainer.appendChild(fragment);
 };
 
 const create = (options) => {
-  const variableSubscribers = {};
-  const listSubscribers = {};
+    const variableSubscribers = {};
+    const listSubscribers = {};
 
-  /**
-   Retrieve variable values that have been modified by d.feed or
-   2 way data bound element with data-variable attribute (Read only)
+    /**
+     Retrieve variable values that have been modified by d.feed or
+     2 way data bound element with data-variable attribute (Read only)
+  
+     @param {string} path
+  
+     @return {any}
+     */
+    const variables = {};
 
-   @param {string} path
+    /**
+     Retrieve elements that have data-element attribute (Read only)
+  
+     @param {string} path
+  
+     @return {Element}
+     */
+    const elements = {};
+    const templateFromName = {};
 
-   @return {any}
-   */
-  const variables = {};
+    /**
+     Set event listener that are going to be attached to elements
+     with data-function
+  
+     @param {string} name
+  
+     @return {function}
+     */
+    const functions = {};
 
-  /**
-   Retrieve elements that have data-element attribute (Read only)
+    let scopeIn = [];
 
-   @param {string} path
-
-   @return {Element}
-   */
-  const elements = {};
-  const templateFromName = {};
-
-  /**
-   Set event listener that are going to be attached to elements
-   with data-function
-
-   @param {string} name
-
-   @return {function}
-   */
-  const functions = {};
-
-  let scopeIn = [];
-
-  const functionPlugins = [];
-  let alreadyHooked = false;
-  const feedPlugins = [];
-  const clonePlugins = [];
-
-
-  /**
-   removes a path and all its child from the dom99 singleton memory
-
-   Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
-   all the element references if you used the underlying nodes in dom99
-   A removed element will continue receive invisible automatic updates
-   it also takes space in the memory.
-
-   And all of this doesn't matter for 1-100 elements, but it does matter,
-   for an infinitely growing list
-
-   @param {string} path
-   */
-  const forgetScope = (path) => {
-    deleteAllStartsWith(variableSubscribers, path);
-    deleteAllStartsWith(listSubscribers, path);
-    deleteAllStartsWith(variables, path);
-    deleteAllStartsWith(elements, path);
-  };
-
-  const notifyCustomListSubscriber = (listContainer, startScope, data) => {
-    const fragment = document.createDocumentFragment();
-    const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
-    const previous = Array.from(scopeIn);
-    scopeIn = startScope.split(INSIDE_SYMBOL);
-    // enterObject(scopeIn, key);
-    // leaveObject(scopeIn);
-    const normalizedScope = normalizeStartPath(startScope);
-    const newLength = data.length;
-    let oldLength;
-    let scopeInside;
-    if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
-      // remove nodes and variable subscribers that are not used
-      oldLength = listContainer[LIST_CHILDREN].length;
-      if (oldLength > newLength) {
-        for (let i = newLength; i < oldLength; i += 1) {
-          scopeInside = `${normalizedScope}${i}`;
-          listContainer[LIST_CHILDREN][i].forEach(removeNode);
-          forgetScope(scopeInside);
-        }
-        listContainer[LIST_CHILDREN].length = newLength;
-      }
-    } else {
-      listContainer[LIST_CHILDREN] = [];
-      oldLength = 0;
-    }
-
-    data.forEach((dataInside, i) => {
-      scopeInside = `${normalizedScope}${i}`;
-      feed(scopeInside, dataInside);
-      if (i < oldLength) {
-        // reusing, feed updated with new data the old nodes
-        return;
-      }
-      /* cannot remove document fragment after insert because they empty themselves
-      have to freeze the children to still have a reference */
-      const activatedClone = activateCloneTemplate(
-        template,
-        String(i)
-      );
-      listContainer[LIST_CHILDREN].push(
-        Array.from(activatedClone.childNodes)
-      );
-      fragment.appendChild(activatedClone);
-    });
-    scopeIn = previous;
-    listContainer.appendChild(fragment);
-  };
+    const functionPlugins = [];
+    let alreadyHooked = false;
+    const feedPlugins = [];
+    const clonePlugins = [];
 
 
-  /**
-   Feed data, for element with corresponding data-variable and data-list
-
-   @param {string} startScope
-   @param {any} data
-
-   @or
-
-   @param {any} data
-
-   @return {Element} startElement
-   */
-  const feed = (startScope, data) => {
-    if (data === undefined) {
-      data = startScope;
-      startScope = ``;
-    }
-    if (isObjectOrArray(startScope)) {
-      console.error(
-        `Incorrect types passed to d.feed,
-                d.feed(string, object) or d.feed(object)`
-      );
-    }
-    if (!alreadyHooked) {
-      feedHook(startScope, data);
-      alreadyHooked = true;
-    }
-    if (!isObjectOrArray(data)) {
-      variables[startScope] = data;
-      if (hasOwnProperty.call(variableSubscribers, startScope)) {
-        notifyVariableSubscribers(options, variableSubscribers[startScope], data);
-      }
-    } else if (Array.isArray(data)) {
-      variables[startScope] = data;
-      if (hasOwnProperty.call(listSubscribers, startScope)) {
-        notifyListSubscribers(listSubscribers[startScope], startScope, data, templateFromName, notifyCustomListSubscriber, options);
-      }
-    } else {
-      const normalizedScope = normalizeStartPath(startScope);
-      Object.entries(data).forEach(([key, value]) => {
-        const scope = `${normalizedScope}${key}`;
-        feed(scope, value);
-      });
-    }
-    alreadyHooked = false;
-  };
-
-  const get = (input, ...toJoin) => {
-    return variables[prepareGet(input, ...toJoin)];
-  };
-
-  const getElement = (input, ...toJoin) => {
-    return elements[prepareGet(input, ...toJoin)];
-  };
-
-  const applyFunctionOriginal = (element, eventName, functionName) => {
-    if (!functions[functionName]) {
-      console.error(`Event listener ${functionName} not found.`);
-    }
-    element.addEventListener(eventName, functions[functionName], false);
-
-    if (scopeIn.length) {
-        element[CONTEXT] = scopeFromArray(scopeIn);
-    }
-
-  };
-
-  let applyFunction = applyFunctionOriginal;
-
-  const applyFunctions = (element, attributeValue) => {
-    attributeValue.split(options.listSeparator).forEach(
-      (attributeValueSplit) => {
-        const tokens = attributeValueSplit.split(options.tokenSeparator);
-        let functionName;
-        let eventName;
-        if (tokens.length === 1) {
-          functionName = tokens[0];
-          eventName = options.eventNameFromElement(element);
-        } else {
-          [eventName, functionName] = tokens;
-        }
-        applyFunction(element, eventName, functionName);
-      }
-    );
-  };
-
-  const applyList = (element, attributeValue) => {
-    const [
-      variableName,
-      listItemTagName,
-      optional
-    ] = attributeValue.split(options.tokenSeparator);
-
-    let fullName = `-`;
-
-    if (!variableName) {
-      console.error(
-        element,
-        `Use ${options.directives.list}="variableName-tagName" format!`
-      );
-    }
-
-    if (optional) {
-      // for custom elements
-      fullName = `${listItemTagName}-${optional}`;
-      element[CUSTOM_ELEMENT] = fullName;
-    } else {
-      element[ELEMENT_LIST_ITEM] = listItemTagName;
-    }
-
-    /* could send scope as array directly but have to change
-    notifyOneListSubscriber to take in scope as Array or String before */
-    const scope = scopeFromArrayWith(scopeIn, variableName);
-
-    pushOrCreateArrayAt(listSubscribers, scope, element);
-
-    if (hasOwnProperty.call(variables, scope)) {
-      notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
-    }
-  };
-
-  const applyVariable = (element, variableName) => {
-    /* two-way bind
-    example : called for <input data-variable="a">
-    in this example the variableName = `a`
-    we push the <input data-variable="a" > element in the array
-    that holds all elements which share this same `a` variable
-    undefined assignment are ignored, instead use empty string*/
-
-    if (!variableName) {
-      console.error(
-        element,
-        `Use ${options.directives.variable}="variableName" format!`
-      );
-    }
-
-    const scope = scopeFromArrayWith(scopeIn, variableName);
-    pushOrCreateArrayAt(variableSubscribers, scope, element);
-
-    let currentValue = variables[scope]
-    if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
-      currentValue = options.firstVariableValueStrategy(element);
-    }
-    if (currentValue !== undefined) {
-      variables[scope] = currentValue;
-      notifyOneVariableSubscriber(options, element, currentValue);
-    }
-
-    if (!options.tagNamesForUserInput.includes(element.tagName)) {
-      return;
-    }
-    const broadcastValue = (/*event*/) => {
-      //wil call setter to broadcast the value
-      const value = element[options.propertyFromElement(element)];
-      variables[scope] = value;
-      feedHook(scope, value);
-      /* would notify everything including itself
-      notifyVariableSubscribers(options, variableSubscribers[scope], value); */
-      variableSubscribers[scope].forEach((variableSubscriber) => {
-        if (variableSubscriber !== element) {
-          notifyOneVariableSubscriber(options, variableSubscriber, value);
-        }
-      });
+    /**
+     removes a path and all its child from the dom99 singleton memory
+  
+     Removing a DOM element with .remove() or .innerHTML = `` will NOT delete
+     all the element references if you used the underlying nodes in dom99
+     A removed element will continue receive invisible automatic updates
+     it also takes space in the memory.
+  
+     And all of this doesn't matter for 1-100 elements, but it does matter,
+     for an infinitely growing list
+  
+     @param {string} path
+     */
+    const forgetScope = (path) => {
+        deleteAllStartsWith(variableSubscribers, path);
+        deleteAllStartsWith(listSubscribers, path);
+        deleteAllStartsWith(variables, path);
+        deleteAllStartsWith(elements, path);
     };
-    element.addEventListener(
-      options.eventNameFromElement(element),
-      broadcastValue,
-      false
-    );
 
-  };
+    const notifyCustomListSubscriber = (listContainer, startScope, data) => {
+        const fragment = document.createDocumentFragment();
+        const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
+        const previous = Array.from(scopeIn);
+        scopeIn = startScope.split(INSIDE_SYMBOL);
+        // enterObject(scopeIn, key);
+        // leaveObject(scopeIn);
+        const normalizedScope = normalizeStartPath(startScope);
+        const newLength = data.length;
+        let oldLength;
+        let scopeInside;
+        if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+            // remove nodes and variable subscribers that are not used
+            oldLength = listContainer[LIST_CHILDREN].length;
+            if (oldLength > newLength) {
+                for (let i = newLength; i < oldLength; i += 1) {
+                    scopeInside = `${normalizedScope}${i}`;
+                    listContainer[LIST_CHILDREN][i].forEach(removeNode);
+                    forgetScope(scopeInside);
+                }
+                listContainer[LIST_CHILDREN].length = newLength;
+            }
+        } else {
+            listContainer[LIST_CHILDREN] = [];
+            oldLength = 0;
+        }
 
-  const applyDirectiveElement = (element, attributeValue) => {
-    /* stores element for direct access !*/
-    const elementName = attributeValue;
+        data.forEach((dataInside, i) => {
+            scopeInside = `${normalizedScope}${i}`;
+            feed(scopeInside, dataInside);
+            if (i < oldLength) {
+                // reusing, feed updated with new data the old nodes
+                return;
+            }
+            /* cannot remove document fragment after insert because they empty themselves
+            have to freeze the children to still have a reference */
+            const activatedClone = activateCloneTemplate(
+                template,
+                String(i)
+            );
+            listContainer[LIST_CHILDREN].push(
+                Array.from(activatedClone.childNodes)
+            );
+            fragment.appendChild(activatedClone);
+        });
+        scopeIn = previous;
+        listContainer.appendChild(fragment);
+    };
 
-    if (!elementName) {
-      console.error(
-        element,
-        `Use ${options.directives.element}="elementName" format!`
-      );
-    }
-    const scope = scopeFromArrayWith(scopeIn, elementName);
-    elements[scope] = element;
-  };
 
-  const applyTemplate = (element, attributeValue) => {
-    /* stores a template element for later reuse !*/
-    if (!attributeValue) {
-      console.error(
-        element,
-        `Use ${options.directives.template}="d-name" format!`
-      );
-    }
+    /**
+     Feed data, for element with corresponding data-variable and data-list
+  
+     @param {string} startScope
+     @param {any} data
+  
+     @or
+  
+     @param {any} data
+  
+     @return {Element} startElement
+     */
+    const feed = (startScope, data) => {
+        if (data === undefined) {
+            data = startScope;
+            startScope = ``;
+        }
+        if (isObjectOrArray(startScope)) {
+            console.error(
+                `Incorrect types passed to d.feed,
+                d.feed(string, object) or d.feed(object)`
+            );
+        }
+        if (!alreadyHooked) {
+            feedHook(startScope, data);
+            alreadyHooked = true;
+        }
+        if (!isObjectOrArray(data)) {
+            variables[startScope] = data;
+            if (hasOwnProperty.call(variableSubscribers, startScope)) {
+                notifyVariableSubscribers(options, variableSubscribers[startScope], data);
+            }
+        } else if (Array.isArray(data)) {
+            variables[startScope] = data;
+            if (hasOwnProperty.call(listSubscribers, startScope)) {
+                notifyListSubscribers(listSubscribers[startScope], startScope, data, templateFromName, notifyCustomListSubscriber, options);
+            }
+        } else {
+            const normalizedScope = normalizeStartPath(startScope);
+            Object.entries(data).forEach(([key, value]) => {
+                const scope = `${normalizedScope}${key}`;
+                feed(scope, value);
+            });
+        }
+        alreadyHooked = false;
+    };
 
-    templateFromName[attributeValue] = element;
-  };
+    const get = (input, ...toJoin) => {
+        return variables[prepareGet(input, ...toJoin)];
+    };
 
-  const activateCloneTemplate = (template, key) => {
-    /* clones a template and activates it
-    */
-    enterObject(scopeIn, key);
-    const activatedClone = cloneTemplate(template);
-    activate(activatedClone);
-    cloneHook();
-    leaveObject(scopeIn);
-    return activatedClone;
-  };
+    const getElement = (input, ...toJoin) => {
+        return elements[prepareGet(input, ...toJoin)];
+    };
 
-  const applyInside = (element, key) => {
-    /* looks for an html template to render
-    also calls applyDirectiveElement with key!*/
-    if (!key) {
-      console.error(
-        element,
-        `Use ${options.directives.inside}="insideWhat" format!`
-      );
-    }
+    const applyFunctionOriginal = (element, eventName, functionName) => {
+        if (!functions[functionName]) {
+            console.error(`Event listener ${functionName} not found.`);
+        }
+        element.addEventListener(eventName, functions[functionName], false);
 
-    const template = templateFromName[
-      customElementNameFromElement(element)
-      ];
+        if (scopeIn.length) {
+            element[CONTEXT] = scopeFromArray(scopeIn);
+        }
 
-    if (template) {
-      const activatedClone = activateCloneTemplate(template, key);
-      element.appendChild(activatedClone);
-    } else {
-      // avoid infinite loop
-      element.setAttribute(
-        options.directives.inside,
-        options.doneSymbol + key
-      );
-      // parse children under name space (encapsulation of variable names)
-      enterObject(scopeIn, key);
-      activate(element);
-      leaveObject(scopeIn);
-    }
-  };
+    };
 
-  const directivePairs = [
-    /*order is relevant applyVariable being before applyFunction,
-    we can use the just changed live variable in the bind function*/
-    [options.directives.element, applyDirectiveElement],
-    [options.directives.variable, applyVariable],
-    [options.directives.function, applyFunctions],
-    [options.directives.list, applyList],
-    [options.directives.inside, applyInside],
-    [options.directives.template, applyTemplate]
-  ];
+    let applyFunction = applyFunctionOriginal;
 
-  const tryApplyDirectives = (element) => {
-    /* looks if the element has dom99 specific attributes and tries to handle it*/
-    // todo make sure no impact-full read write
-    if (!element.hasAttribute) {
-      // can this if be removed eventually ? --> no
-      return;
-    }
+    const applyFunctions = (element, attributeValue) => {
+        attributeValue.split(options.listSeparator).forEach(
+            (attributeValueSplit) => {
+                const tokens = attributeValueSplit.split(options.tokenSeparator);
+                let functionName;
+                let eventName;
+                if (tokens.length === 1) {
+                    functionName = tokens[0];
+                    eventName = options.eventNameFromElement(element);
+                } else {
+                    [eventName, functionName] = tokens;
+                }
+                applyFunction(element, eventName, functionName);
+            }
+        );
+    };
 
-    // spell check attributes
-    // const directives = Object.values(options.directives);
-    // Array.prototype.slice.call(element.attributes).forEach((attribute) => {
-    //     if (attribute.nodeName.startsWith(`data`)) {
-    //         if (!directives.includes(attribute.nodeName)) {
-    //             console.warn(`dom99 does not recognize ${attribute.nodeName}`);
-    //         }
-    //     }
-    // });
+    const applyList = (element, attributeValue) => {
+        const [
+            variableName,
+            listItemTagName,
+            optional
+        ] = attributeValue.split(options.tokenSeparator);
 
-    directivePairs.forEach(([directiveName, applyDirective]) => {
-      if (!element.hasAttribute(directiveName)) {
-        return;
-      }
-      const attributeValue = element.getAttribute(directiveName);
-      if (attributeValue[0] === options.doneSymbol) {
-        return;
-      }
-      applyDirective(element, attributeValue);
-      // ensure the directive is only applied once
-      element.setAttribute(
-        directiveName,
-        `${options.doneSymbol}${attributeValue}`
-      );
-    });
-    if (
-      element.hasAttribute(options.directives.inside) ||
-      element.hasAttribute(options.directives.list)
-    ) {
-      return;
-    }
-    /*using a custom element without data-scope*/
-    let customName = customElementNameFromElement(element);
-    if (hasOwnProperty.call(templateFromName, customName)) {
-      element.appendChild(
-        cloneTemplate(templateFromName[customName])
-      );
-    }
-  };
+        let fullName = `-`;
 
-  /**
-   Activates the DOM by reading data- attributes, starting from startElement
-   and walking inside its tree
+        if (!variableName) {
+            console.error(
+                element,
+                `Use ${options.directives.list}="variableName-tagName" format!`
+            );
+        }
 
-   @param {Element} startElement
+        if (optional) {
+            // for custom elements
+            fullName = `${listItemTagName}-${optional}`;
+            element[CUSTOM_ELEMENT] = fullName;
+        } else {
+            element[ELEMENT_LIST_ITEM] = listItemTagName;
+        }
 
-   @return {Element} startElement
-   */
-  const activate = (startElement = document.body) => {
-    elementsDeepForEach(startElement, tryApplyDirectives);
-    return startElement;
-  };
+        /* could send scope as array directly but have to change
+        notifyOneListSubscriber to take in scope as Array or String before */
+        const scope = scopeFromArrayWith(scopeIn, variableName);
 
-  /**
-   Convenience function for activate, feed and assigning functions from
-   an object
+        pushOrCreateArrayAt(listSubscribers, scope, element);
 
-   @param {object} dataFunctions
-   @param {object} initialFeed
-   @param {Element} startElement
-   @param {function} callBack
+        if (hasOwnProperty.call(variables, scope)) {
+            notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
+        }
+    };
 
-   @return {any} callBack return value
-   */
-  const start = (
-     startElement = document.body,
-    initialFeed = {},
-    dataFunctions = {},
-    callBack = undefined
-  ) => {
-    if (startElement.nodeType !== 1) {
-        console.error(`start takes undefined or a node as first argument`);
-    }
+    const applyVariable = (element, variableName) => {
+        /* two-way bind
+        example : called for <input data-variable="a">
+        in this example the variableName = `a`
+        we push the <input data-variable="a" > element in the array
+        that holds all elements which share this same `a` variable
+        undefined assignment are ignored, instead use empty string*/
 
-    Object.assign(functions, dataFunctions);
-    feed(``, initialFeed);
-    activate(startElement);
-    if (!callBack) {
-      return;
-    }
-    return callBack();
-  };
+        if (!variableName) {
+            console.error(
+                element,
+                `Use ${options.directives.variable}="variableName" format!`
+            );
+        }
 
-  const cloneHook = function () {
-    const scope = scopeFromArray(scopeIn);
-    clonePlugins.forEach((clonePlugin) => {
-      clonePlugin(scope);
-    });
-  };
+        const scope = scopeFromArrayWith(scopeIn, variableName);
+        pushOrCreateArrayAt(variableSubscribers, scope, element);
 
-  const feedHook = (startScope, data) => {
-    feedPlugins.forEach((feedPlugin) => {
-      feedPlugin(startScope, data);
-    });
-  };
+        let currentValue = variables[scope]
+        if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
+            currentValue = options.firstVariableValueStrategy(element);
+        }
+        if (currentValue !== undefined) {
+            variables[scope] = currentValue;
+            notifyOneVariableSubscriber(options, element, currentValue);
+        }
 
-  /**
-   Plug in a plugin (hook) into the core functionality
+        if (!options.tagNamesForUserInput.includes(element.tagName)) {
+            return;
+        }
+        const broadcastValue = (/*event*/) => {
+            //wil call setter to broadcast the value
+            const value = element[options.propertyFromElement(element)];
+            variables[scope] = value;
+            feedHook(scope, value);
+            /* would notify everything including itself
+            notifyVariableSubscribers(options, variableSubscribers[scope], value); */
+            variableSubscribers[scope].forEach((variableSubscriber) => {
+                if (variableSubscriber !== element) {
+                    notifyOneVariableSubscriber(options, variableSubscriber, value);
+                }
+            });
+        };
+        element.addEventListener(
+            options.eventNameFromElement(element),
+            broadcastValue,
+            false
+        );
 
-   @param {object} featureToPlugIn
+    };
 
-   */
-  const plugin = (featureToPlugIn) => {
-    if (!isObjectOrArray(featureToPlugIn)) {
-      console.error(`plugin({
+    const applyDirectiveElement = (element, attributeValue) => {
+        /* stores element for direct access !*/
+        const elementName = attributeValue;
+
+        if (!elementName) {
+            console.error(
+                element,
+                `Use ${options.directives.element}="elementName" format!`
+            );
+        }
+        const scope = scopeFromArrayWith(scopeIn, elementName);
+        elements[scope] = element;
+    };
+
+    const applyTemplate = (element, attributeValue) => {
+        /* stores a template element for later reuse !*/
+        if (!attributeValue) {
+            console.error(
+                element,
+                `Use ${options.directives.template}="d-name" format!`
+            );
+        }
+
+        templateFromName[attributeValue] = element;
+    };
+
+    const activateCloneTemplate = (template, key) => {
+        /* clones a template and activates it
+        */
+        enterObject(scopeIn, key);
+        const activatedClone = cloneTemplate(template);
+        activate(activatedClone);
+        cloneHook();
+        leaveObject(scopeIn);
+        return activatedClone;
+    };
+
+    const applyInside = (element, key) => {
+        /* looks for an html template to render
+        also calls applyDirectiveElement with key!*/
+        if (!key) {
+            console.error(
+                element,
+                `Use ${options.directives.inside}="insideWhat" format!`
+            );
+        }
+
+        const template = templateFromName[
+            customElementNameFromElement(element)
+        ];
+
+        if (template) {
+            const activatedClone = activateCloneTemplate(template, key);
+            element.appendChild(activatedClone);
+        } else {
+            // avoid infinite loop
+            element.setAttribute(
+                options.directives.inside,
+                options.doneSymbol + key
+            );
+            // parse children under name space (encapsulation of variable names)
+            enterObject(scopeIn, key);
+            activate(element);
+            leaveObject(scopeIn);
+        }
+    };
+
+    const directivePairs = [
+        /*order is relevant applyVariable being before applyFunction,
+        we can use the just changed live variable in the bind function*/
+        [options.directives.element, applyDirectiveElement],
+        [options.directives.variable, applyVariable],
+        [options.directives.function, applyFunctions],
+        [options.directives.list, applyList],
+        [options.directives.inside, applyInside],
+        [options.directives.template, applyTemplate]
+    ];
+
+    const tryApplyDirectives = (element) => {
+        /* looks if the element has dom99 specific attributes and tries to handle it*/
+        // todo make sure no impact-full read write
+        if (!element.hasAttribute) {
+            // can this if be removed eventually ? --> no
+            return;
+        }
+
+        // spell check attributes
+        // const directives = Object.values(options.directives);
+        // Array.prototype.slice.call(element.attributes).forEach((attribute) => {
+        //     if (attribute.nodeName.startsWith(`data`)) {
+        //         if (!directives.includes(attribute.nodeName)) {
+        //             console.warn(`dom99 does not recognize ${attribute.nodeName}`);
+        //         }
+        //     }
+        // });
+
+        directivePairs.forEach(([directiveName, applyDirective]) => {
+            if (!element.hasAttribute(directiveName)) {
+                return;
+            }
+            const attributeValue = element.getAttribute(directiveName);
+            if (attributeValue[0] === options.doneSymbol) {
+                return;
+            }
+            applyDirective(element, attributeValue);
+            // ensure the directive is only applied once
+            element.setAttribute(
+                directiveName,
+                `${options.doneSymbol}${attributeValue}`
+            );
+        });
+        if (
+            element.hasAttribute(options.directives.inside) ||
+            element.hasAttribute(options.directives.list)
+        ) {
+            return;
+        }
+        /*using a custom element without data-scope*/
+        let customName = customElementNameFromElement(element);
+        if (hasOwnProperty.call(templateFromName, customName)) {
+            element.appendChild(
+                cloneTemplate(templateFromName[customName])
+            );
+        }
+    };
+
+    /**
+     Activates the DOM by reading data- attributes, starting from startElement
+     and walking inside its tree
+  
+     @param {Element} startElement
+  
+     @return {Element} startElement
+     */
+    const activate = (startElement = document.body) => {
+        elementsDeepForEach(startElement, tryApplyDirectives);
+        return startElement;
+    };
+
+    /**
+     Convenience function for activate, feed and assigning functions from
+     an object
+  
+     @param {object} dataFunctions
+     @param {object} initialFeed
+     @param {Element} startElement
+     @param {function} callBack
+  
+     @return {any} callBack return value
+     */
+    const start = (
+        startElement = document.body,
+        initialFeed = {},
+        dataFunctions = {},
+        callBack = undefined
+    ) => {
+        if (startElement.nodeType !== 1) {
+            console.error(`start takes undefined or a node as first argument`);
+        }
+
+        Object.assign(functions, dataFunctions);
+        feed(``, initialFeed);
+        activate(startElement);
+        if (!callBack) {
+            return;
+        }
+        return callBack();
+    };
+
+    const cloneHook = function () {
+        const scope = scopeFromArray(scopeIn);
+        clonePlugins.forEach((clonePlugin) => {
+            clonePlugin(scope);
+        });
+    };
+
+    const feedHook = (startScope, data) => {
+        feedPlugins.forEach((feedPlugin) => {
+            feedPlugin(startScope, data);
+        });
+    };
+
+    /**
+     Plug in a plugin (hook) into the core functionality
+  
+     @param {object} featureToPlugIn
+  
+     */
+    const plugin = (featureToPlugIn) => {
+        if (!isObjectOrArray(featureToPlugIn)) {
+            console.error(`plugin({
                 type,
                 plugin
             });`);
-    }
-    if (featureToPlugIn.type === `function`) {
-      functionPlugins.push(featureToPlugIn.plugin);
-      applyFunction = (element, eventName, functionName) => {
-        let defaultPrevented = false;
-        const preventDefault = () => {
-          defaultPrevented = true;
-        };
-        functionPlugins.forEach((pluginFunction) => {
-          pluginFunction(element, eventName, functionName, functions, preventDefault);
-        });
-        if (defaultPrevented) {
-          return;
         }
-        applyFunctionOriginal(element, eventName, functionName);
-      };
-    } else if (featureToPlugIn.type === `variable`) {
-      feedPlugins.push(featureToPlugIn.plugin);
-    } else if (featureToPlugIn.type === `cloned`) {
-      clonePlugins.push(featureToPlugIn.plugin);
-    } else {
-      console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
-    }
-  };
+        if (featureToPlugIn.type === `function`) {
+            functionPlugins.push(featureToPlugIn.plugin);
+            applyFunction = (element, eventName, functionName) => {
+                let defaultPrevented = false;
+                const preventDefault = () => {
+                    defaultPrevented = true;
+                };
+                functionPlugins.forEach((pluginFunction) => {
+                    pluginFunction(element, eventName, functionName, functions, preventDefault);
+                });
+                if (defaultPrevented) {
+                    return;
+                }
+                applyFunctionOriginal(element, eventName, functionName);
+            };
+        } else if (featureToPlugIn.type === `variable`) {
+            feedPlugins.push(featureToPlugIn.plugin);
+        } else if (featureToPlugIn.type === `cloned`) {
+            clonePlugins.push(featureToPlugIn.plugin);
+        } else {
+            console.warn(`plugin type ${featureToPlugIn.type} not yet implemented`);
+        }
+    };
 
-  return {
-    start,
-    elements,
-    functions,
-    variables,
-    get,
-    element: getElement,
-    feed,
-    plugin
-  };
+    return {
+        start,
+        elements,
+        functions,
+        variables,
+        get,
+        element: getElement,
+        feed,
+        plugin
+    };
 };

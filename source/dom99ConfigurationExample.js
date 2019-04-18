@@ -15,7 +15,7 @@
 //custom attribute names should start with data- see
 // https://docs.webplatform.org/wiki/html/attributes/data-*
 
-import {options} from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
+import { options } from "./node_modules/dom99/source/dom99.js"; // depends on where the file is
 
 // Example for more compact syntax:
 Object.assign(options.directives, {
@@ -37,13 +37,13 @@ Object.assign(options, {
     listSeparator: `,`
 });
  /*
-  also
+also
 
- * tagNamesForUserInput: with a list like [`input`, `textarea`]
+* tagNamesForUserInput: with a list like [`input`, `textarea`]
 
- * propertyFromElement with a function
-    parameters (element)
+* propertyFromElement with a function
+  parameters (element)
 
- * eventNameFromElement: with a function
-    parameters (element)
+* eventNameFromElement: with a function
+  parameters (element)
 */

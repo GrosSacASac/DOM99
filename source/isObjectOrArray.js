@@ -1,4 +1,4 @@
-export {isObjectOrArray};
+export { isObjectOrArray };
 
 /**
 @private
@@ -7,6 +7,6 @@ export {isObjectOrArray};
 @return {boolean}
 */
 const isObjectOrArray = (x) => {
-	/* array or object */
-	return typeof x === `object` && x !== null;
+    /* array or object */
+    return typeof x === `object` && x !== null;
 };

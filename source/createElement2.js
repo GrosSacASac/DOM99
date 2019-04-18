@@ -1,4 +1,4 @@
-export {createElement2};
+export { createElement2 };
 
 /**
 Creates an element with elementDescription
@@ -14,11 +14,11 @@ const createElement2 = (elementDescription) => {
 	for instance, setAttribute is the correct choice for creation
 	element.attr = value is good to change the live values
 	always follow these words to avoid rare bugs*/
-	const element = document.createElement(elementDescription.tagName);
-	Object.entries(elementDescription).forEach(function ([key, value]) {
-		if (key !== `tagName`) {
-			element.setAttribute(key, value);
-		}
-	});
-	return element;
+    const element = document.createElement(elementDescription.tagName);
+    Object.entries(elementDescription).forEach(function ([key, value]) {
+        if (key !== `tagName`) {
+            element.setAttribute(key, value);
+        }
+    });
+    return element;
 };
