@@ -3,7 +3,7 @@ const {
     copyFile,
     writeTextInFile,
     concatenateFiles
-} = require("utilsac");
+} = require("filesac");
 
 const thisName = "buildDemoDependencies";
 

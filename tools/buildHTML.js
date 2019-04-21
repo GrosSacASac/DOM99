@@ -4,7 +4,7 @@ const {
     textFileContent,
     writeTextInFile,
     copyFile
-} = require("utilsac");
+} = require("filesac");
 
 const minify = require("html-minifier").minify;
 
@@ -53,7 +53,7 @@ const HTMLFiles = {
 };
 
 Promise.all(
-    Object.entries(HTMLFiles).map(function ([from, {to, options}]) {
+    Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
         return textFileContent(from).then(function (HTMLString) {
             let minifiedHtml;
             if (skipMinification) {

@@ -3,7 +3,7 @@ const {
     copyFile,
     writeTextInFile,
     concatenateFiles
-} = require("utilsac");
+} = require("filesac");
 const browserify = require("browserify");
 const fs = require("fs");
 
