@@ -19,7 +19,7 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 
 const NAME = `DOM99`;
-const CONTEXT = `${NAME}_C`;
+const SCOPE = `${NAME}_C`;
 const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
@@ -79,7 +79,7 @@ const cloneTemplate = (template) => {
  @return {string | undefined} scope
  */
 const scopeFromElement = (element) => {
-    return element[CONTEXT];
+    return element[SCOPE];
 };
 
 /**
@@ -429,7 +429,7 @@ const create = (options) => {
         element.addEventListener(eventName, functions[functionName], false);
 
         if (scopeIn.length) {
-            element[CONTEXT] = scopeFromArray(scopeIn);
+            element[SCOPE] = scopeFromArray(scopeIn);
         }
 
     };
