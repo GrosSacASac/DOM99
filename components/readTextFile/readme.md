@@ -7,18 +7,20 @@ readTextFile
 ## Description
 
 readTextFile allows to get a string from an user chosen file. readTextFile() returns a Promise.
-A top level <div data-element="readTextFileContainer"></div> is required. It will contain the `<input type="file">`
+
 
 See readTextFileExample.html for a minimal example
 
 ## Usage
+
+A top level <div data-element="readTextFileContainer"></div> is required. It will contain the `<input type="file">`
 
 ```
 import * as d from "../../source/dom99.js";
 import {readTextFile, useReadTextFile} from "./readTextFile.js";
 
 useReadTextFile(d);
-d.activate();
+d.start();
 
 readTextFile().then(function (value) {
 

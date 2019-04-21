@@ -1,31 +1,35 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>readTextFile Example</title>
 </head>
+
 <body>
     <a href="readme.md">Instructions</a>
     <button data-function="click-tryReadTextFile">Try readTextFile</button>
-    <!-- required --><div data-element="readTextFileContainer"></div>
+    <!-- required -->
+    <div data-element="readTextFileContainer"></div>
     <pre data-variable="result"></pre>
 
 
 
-<script type="module">
-import * as d from "../../source/dom99.js";
-import {readTextFile, useReadTextFile} from "./readTextFile.js";
+    <script type="module">
+        import * as d from "../../source/dom99.js";
+        import { readTextFile, useReadTextFile } from "./readTextFile.js";
 
 
-d.functions.tryReadTextFile = function (event) {
-    readTextFile().then(function (value) {
-        d.feed(`result`, value);
-    }).catch(function (reason) {
-        d.feed(`result`, `Error: ${reason}`);
-    });
-};
-useReadTextFile(d);
-d.activate();
-</script>
+        d.functions.tryReadTextFile = function (event) {
+            readTextFile().then(function (value) {
+                d.feed(`result`, value);
+            }).catch(function (reason) {
+                d.feed(`result`, `Error: ${reason}`);
+            });
+        };
+        useReadTextFile(d);
+        d.start();
+    </script>
 </body>
+
 </html>
