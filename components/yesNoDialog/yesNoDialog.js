@@ -9,7 +9,7 @@
 could remove and give back focus to the main document with document.activeElement
 as in https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.js
 */
-export {yesNoDialog, textDialog, useYesNoDialog};
+export { yesNoDialog, textDialog, useYesNoDialog };
 
 let d;
 const thisNameSpace = `yesNoDialog`;
@@ -31,30 +31,30 @@ let lastYPosition = 0;
 
 const useYesNoDialog = function (dom99) {
     d = dom99;
-    
-	yesButton = d.scopeFromArray([thisNameSpace, `yesButton`]);
-	yesNoContainer = d.scopeFromArray([thisNameSpace, `confirm`]);
-	promptContainer = d.scopeFromArray([thisNameSpace, `prompt`]);
-	promptInput = d.scopeFromArray([thisNameSpace, `input`]);
-	d.functions.yesNoDialogAnswer = function (event) {
-		d.elements[yesNoContainer].hidden = true;
-		prepareNext();
-		currentResolve(event.target === d.elements[yesButton]);
-	};
 
-	d.functions.yesNoDialogSubmit = function (event) {
-		const input = d.variables[promptInput];
-		// prepareNext can overwrite d.variables[promptInput]
-		d.elements[promptContainer].hidden = true;
-		prepareNext();
-		currentResolve(input);
-	};
+    yesButton = d.scopeFromArray([thisNameSpace, `yesButton`]);
+    yesNoContainer = d.scopeFromArray([thisNameSpace, `confirm`]);
+    promptContainer = d.scopeFromArray([thisNameSpace, `prompt`]);
+    promptInput = d.scopeFromArray([thisNameSpace, `input`]);
+    d.functions.yesNoDialogAnswer = function (event) {
+        d.elements[yesNoContainer].hidden = true;
+        prepareNext();
+        currentResolve(event.target === d.elements[yesButton]);
+    };
 
-	d.functions.yesNoDialogSubmitViaEnter = function (event) {
-		if (event.keyCode === 13) { //Enter
-			d.functions.yesNoDialogSubmit();
-		}
-	};
+    d.functions.yesNoDialogSubmit = function (event) {
+        const input = d.variables[promptInput];
+        // prepareNext can overwrite d.variables[promptInput]
+        d.elements[promptContainer].hidden = true;
+        prepareNext();
+        currentResolve(input);
+    };
+
+    d.functions.yesNoDialogSubmitViaEnter = function (event) {
+        if (event.keyCode === 13) { //Enter
+            d.functions.yesNoDialogSubmit();
+        }
+    };
 
 };
 
@@ -95,7 +95,7 @@ const prepareNext = function () {
     }
 };
 
-const prepareYesNo = function ({resolve, question, yesText, noText}) {
+const prepareYesNo = function ({ resolve, question, yesText, noText }) {
     d.elements[yesNoContainer].hidden = false;
     currentResolve = resolve;
     d.feed(thisNameSpace, {
@@ -105,7 +105,7 @@ const prepareYesNo = function ({resolve, question, yesText, noText}) {
     });
 };
 
-const preparePrompt = function ({resolve, question, label, input, submitText}) {
+const preparePrompt = function ({ resolve, question, label, input, submitText }) {
     d.elements[promptContainer].hidden = false;
     currentResolve = resolve;
     d.feed(thisNameSpace, {
@@ -121,7 +121,7 @@ const yesNoDialog = function (question, yesText, noText) {
     return new Promise(function (resolve) {
         if (!waiting) {
             start();
-            prepareYesNo({resolve, question, yesText, noText});
+            prepareYesNo({ resolve, question, yesText, noText });
         } else /*if (waiting)*/ {
             yesNoDialogQueue.push({
                 intent: yesNoSymbol,
@@ -138,7 +138,7 @@ const textDialog = function (question, label, input, submitText) {
     return new Promise(function (resolve) {
         if (!waiting) {
             start();
-            preparePrompt({resolve, question, label, input, submitText});
+            preparePrompt({ resolve, question, label, input, submitText });
         } else /*if (waiting)*/ {
             yesNoDialogQueue.push({
                 intent: promptSymbol,
