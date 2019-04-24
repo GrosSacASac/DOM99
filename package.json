@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "19.0.5",
+  "version": "19.0.6",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -34,9 +34,7 @@
     "lintfix": "eslint --fix source",
     "test": "tests/specification/SpecRunner.html"
   },
-  "dependencies": {
-    "filesac": "^10.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
@@ -45,6 +43,7 @@
     "bootstrap": "^4.1.3",
     "browserify": "^16.2.3",
     "eslint": "^5.16.0",
+    "filesac": "^10.0.1",
     "handlebars": "^4.1.2",
     "highlight.js": "^9.13.1",
     "html-minifier": "^3.5.21",
