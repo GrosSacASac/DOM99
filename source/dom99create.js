@@ -134,7 +134,7 @@ const parentScope = (scope) => {
  @return {string} leafName
  */
 const leafName = (scope) => {
-    const split = string.split(INSIDE_SYMBOL)
+    const split = scope.split(INSIDE_SYMBOL)
     return split[split.length - 1];
 };
 /**
