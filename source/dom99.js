@@ -10,9 +10,8 @@ import {
 } from "./dom99create.js";
 import { defaultOptions } from "./defaultOptions.js";
 
-const options = defaultOptions;
-// to overwrite some options: 
-// const options = Object.assign({}, defaultOptions, providedOptions);
+/* to overwrite some options: 
+const options = Object.assign({}, defaultOptions, providedOptions); */
 
 const {
     start,
@@ -23,7 +22,7 @@ const {
     element,
     feed,
     plugin,
-} = create(options);
+} = create(defaultOptions);
 
 
 export {

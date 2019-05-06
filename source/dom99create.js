@@ -506,7 +506,7 @@ const create = (options) => {
         const scope = scopeFromArrayWith(scopeIn, variableName);
         pushOrCreateArrayAt(variableSubscribers, scope, element);
 
-        let currentValue = variables[scope]
+        let currentValue = variables[scope];
         if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
             currentValue = options.firstVariableValueStrategy(element);
         }
