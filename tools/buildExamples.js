@@ -1,6 +1,4 @@
-"use strict";
-
-const rollup = require('rollup');
+import rollup from "rollup";
 
 const files = [
     "templates1",
@@ -17,7 +15,7 @@ const files = [
 
 const everythingFinishPromise = Promise.all(files.map(function (fileName) {
     const inputOptions = {
-        input:""
+        input: ""
     };
     const outputOptions = {
         format: "iife",
@@ -29,10 +27,10 @@ const everythingFinishPromise = Promise.all(files.map(function (fileName) {
 }));
 
 async function build(inputOptions, outputOptions) {
-  // create a bundle
-  const bundle = await rollup.rollup(inputOptions);
-  const written = await bundle.write(outputOptions);
-  return written;
+    // create a bundle
+    const bundle = await rollup.rollup(inputOptions);
+    const written = await bundle.write(outputOptions);
+    return written;
 }
 
 // everythingFinishPromise.then(function () {

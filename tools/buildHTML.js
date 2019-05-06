@@ -1,18 +1,16 @@
-"use strict";
-
-const {
+import {
     textFileContent,
     writeTextInFile,
     copyFile
-} = require("filesac");
+} from "filesac";
 
-const minify = require("html-minifier").minify;
+import handlebar from "handlebars";
+import htmlMinifier from "html-minifier";
+const { minify } = htmlMinifier;
 
 const skipMinification = false;
 
-var handlebar = require("handlebars")
 
-var pyjson = require("../package.json")
 
 const OPTIONS = {
     removeAttributeQuotes: false,
@@ -52,24 +50,30 @@ const HTMLFiles = {
     }
 };
 
-Promise.all(
-    Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
-        return textFileContent(from).then(function (HTMLString) {
-            let minifiedHtml;
-            if (skipMinification) {
-                minifiedHtml = HTMLString;
-            } else {
-                minifiedHtml = minify(HTMLString, options);
-            }
-            var source = { "description": pyjson.description, "keywords": pyjson.keywords }
-            return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
-        });
-    })
-).then(function () {
-    //console.log(thisName + " finished with success !");
+(async function () {
 
-}).catch(function (reason) {
-    const errorText = thisName + " failed: " + String(reason);
-    console.log(errorText);
-    throw new Error(errorText);
-});
+    const packageText = await textFileContent('./package.json');
+    const { description, keywords } = JSON.parse(packageText);
+    Promise.all(
+        Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
+            return textFileContent(from).then(function (HTMLString) {
+                let minifiedHtml;
+                if (skipMinification) {
+                    minifiedHtml = HTMLString;
+                } else {
+                    minifiedHtml = minify(HTMLString, options);
+                }
+                var source = { description, keywords }
+                return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
+            });
+        })
+    ).then(function () {
+        //console.log(thisName + " finished with success !");
+
+    }).catch(function (reason) {
+        const errorText = thisName + " failed: " + String(reason);
+        console.log(errorText);
+        throw new Error(errorText);
+    });
+
+})();

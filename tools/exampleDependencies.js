@@ -1,11 +1,5 @@
-"use strict";
-const {
-    copyFile,
-    writeTextInFile,
-    concatenateFiles
-} = require("filesac");
+import { copyFile, writeTextInFile, concatenateFiles } from "filesac";
 
-const thisName = "buildDemoDependencies";
 
 const inputsOutputs = {
     [`./node_modules/template-mb/template.js`]: `./polyfills/built/template.js`,

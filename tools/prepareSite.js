@@ -1,11 +1,7 @@
-"use strict";
-const {
-    copyFile,
-    writeTextInFile,
-    concatenateFiles
-} = require("filesac");
-const browserify = require("browserify");
-const fs = require("fs");
+import { copyFile, writeTextInFile, concatenateFiles } from "filesac";
+import browserify from "browserify";
+import { createWriteStream } from "fs";
+
 
 const b = browserify();
 
@@ -14,7 +10,7 @@ const docdeps = `./documentation/deps/`;
 const modules = `./node_modules/`;
 
 
-const writableStream = fs.createWriteStream(`${docdeps}highlight-full.js`);
+const writableStream = createWriteStream(`${docdeps}highlight-full.js`);
 b.add(`./documentation/js/highlighter.js`);
 // b.add(`${modules}highlight.js/lib/languages/css.js`);
 b.bundle().pipe(writableStream);
