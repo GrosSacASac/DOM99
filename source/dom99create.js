@@ -1,3 +1,4 @@
+// @ts-check
 export {
     create,
     scopeFromArray,
@@ -376,8 +377,6 @@ const create = (options) => {
      @or
   
      @param {any} data
-  
-     @return {Element} startElement
      */
     const feed = (startScope, data) => {
         if (data === undefined) {
