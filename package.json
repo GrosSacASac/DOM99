@@ -26,7 +26,7 @@
     "buildyesnocomponentexample": "rollup components/yesNoDialog/examples/js/ScrollTest.js --o components/yesNoDialog/examples/js/built/ScrollTest-bundled.js --f iife && babel components/yesNoDialog/examples/js/built/ScrollTest-bundled.js > components/yesNoDialog/examples/js/built/ScrollTest.js",
     "buildAll": "npm run build && npm run transpilePolyfills && npm run buildexamples && npm run docs && npm run buildyesnocomponentexample",
     "most": "npm run lint && npm run build && npm run docs",
-    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "serve": "cd documentation && serve",
     "deploynow": "cd documentation && now --public",
     "now": "cd documentation && now --public --target production",
