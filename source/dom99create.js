@@ -561,6 +561,13 @@ const create = (options) => {
             );
         }
 
+        if (element.tagName !== `TEMPLATE`) {
+            /* allow use on non template elements
+            useful for server side rendering */
+            const { innerHTML } = element;
+            element = document.createElement(`template`);
+            element.innerHTML = innerHTML;
+        }
         templateFromName[attributeValue] = element;
     };
 
