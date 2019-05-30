@@ -538,7 +538,7 @@ const create = (options) => {
 
     };
 
-    const applyDirectiveElement = (element, attributeValue) => {
+    const applyElement = (element, attributeValue) => {
         /* stores element for direct access !*/
         const elementName = attributeValue;
 
@@ -584,7 +584,7 @@ const create = (options) => {
 
     const applyScope = (element, key) => {
         /* looks for an html template to render
-        also calls applyDirectiveElement with key!*/
+        also calls applyElement with key!*/
         if (!key) {
             console.error(
                 element,
@@ -605,7 +605,7 @@ const create = (options) => {
                 options.directives.inside,
                 options.doneSymbol + key
             );
-            // parse children under name space (encapsulation of variable names)
+            // parse children under scope
             enterObject(scopeIn, key);
             activate(element);
             leaveObject(scopeIn);
@@ -615,7 +615,7 @@ const create = (options) => {
     const directivePairs = [
         /*order is relevant applyVariable being before applyFunction,
         we can use the just changed live variable in the bind function*/
-        [options.directives.element, applyDirectiveElement],
+        [options.directives.element, applyElement],
         [options.directives.variable, applyVariable],
         [options.directives.function, applyFunctions],
         [options.directives.list, applyList],
