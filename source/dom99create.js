@@ -582,7 +582,7 @@ const create = (options) => {
         return activatedClone;
     };
 
-    const applyInside = (element, key) => {
+    const applyScope = (element, key) => {
         /* looks for an html template to render
         also calls applyDirectiveElement with key!*/
         if (!key) {
@@ -619,7 +619,7 @@ const create = (options) => {
         [options.directives.variable, applyVariable],
         [options.directives.function, applyFunctions],
         [options.directives.list, applyList],
-        [options.directives.inside, applyInside],
+        [options.directives.inside, applyScope],
         [options.directives.template, applyTemplate]
     ];
 
