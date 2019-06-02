@@ -618,9 +618,9 @@ const create = (options) => {
         [options.directives.element, applyElement],
         [options.directives.variable, applyVariable],
         [options.directives.function, applyFunctions],
+        [options.directives.template, applyTemplate],
         [options.directives.list, applyList],
         [options.directives.inside, applyScope],
-        [options.directives.template, applyTemplate]
     ];
 
     const tryApplyDirectives = (element) => {

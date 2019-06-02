@@ -1,70 +1,72 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
 
 d.feed({
-    x: "XXX",
-    z: "ZZZ",
-    c: "Test",
+    x: `XXX`,
+    z: `ZZZ`,
+    c: `Test`,
     normal: [
-        "Hi",
-        "Jordan",
-        "build design, iterate"
+        `Hi`,
+        `Jordan`,
+        `build design, iterate`
     ],
     datain1: {
-        a:"inside data-scope1",
-        b: "me too"
+        a: `inside data-scope1`,
+        b: `me too`
     },
-    listtitle: "list without data-scope",
+    listtitle: `list without data-scope`,
     listinisde: [
-        "Hi without data-scope",
-        "Jordan without data-scope",
-        "build design, iterate without data-scope"
+        `Hi without data-scope`,
+        `Jordan without data-scope`,
+        `build design, iterate without data-scope`
     ],
     dlistinside: {
-        listtitle: "list with data-scope",
+        listtitle: `list with data-scope`,
         listinisde: [
-            "Hi with data-scope",
-            "Jordan with data-scope",
-            "build design, iterate with data-scope"
+            `Hi with data-scope`,
+            `Jordan with data-scope`,
+            `build design, iterate with data-scope`
         ]
     },
     componentinside: [
         {
-            a:"componentinside 0 a",
-            b: "componentinside 0 b"
+            a: `componentinside 0 a`,
+            b: `componentinside 0 b`
         },
         {
-            a:"componentinside 1 a",
-            b: "componentinside 1 b"
+            a: `componentinside 1 a`,
+            b: `componentinside 1 b`
         },
     ],
     outerlist: [
         {
-            sideOuter: "side outer",
+            sideOuter: `side outer`,
             innerlist: [
                 {
-                    a: "crazy nesting 0 a",
-                    b: "crazy nesting 0 b"
+                    a: `crazy nesting 0 a`,
+                    b: `crazy nesting 0 b`
                 },
                 {
-                    a: "crazy nesting 1 a",
-                    b: "crazy nesting 1 b"
+                    a: `crazy nesting 1 a`,
+                    b: `crazy nesting 1 b`
                 },
             ]
         },
         {
-            sideOuter: "side outer 2",
+            sideOuter: `side outer 2`,
             innerlist: [
                 {
-                    a: "1crazy nesting 0 a",
-                    b: "1crazy nesting 0 b"
+                    a: `1crazy nesting 0 a`,
+                    b: `1crazy nesting 0 b`
                 },
                 {
-                    a: "1crazy nesting 1 a",
-                    b: "1crazy nesting 1 b"
+                    a: `1crazy nesting 1 a`,
+                    b: `1crazy nesting 1 b`
                 },
             ]
         },
     ]
 });
+
+d.feed(`items`, [{}]);
 
 d.start();
