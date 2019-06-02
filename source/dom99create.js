@@ -459,8 +459,6 @@ const create = (options) => {
             optional
         ] = attributeValue.split(options.tokenSeparator);
 
-        let fullName = `-`;
-
         if (!variableName) {
             console.error(
                 element,
@@ -470,7 +468,7 @@ const create = (options) => {
 
         if (optional) {
             // for custom elements
-            fullName = `${listItemTagName}-${optional}`;
+            const fullName = `${listItemTagName}-${optional}`;
             element[CUSTOM_ELEMENT] = fullName;
         } else {
             element[ELEMENT_LIST_ITEM] = listItemTagName;
@@ -662,7 +660,7 @@ const create = (options) => {
         ) {
             return;
         }
-        /*using a custom element without data-scope*/
+        /* using a custom element without data-scope */
         let customName = customElementNameFromElement(element);
         if (hasOwnProperty.call(templateFromName, customName)) {
             element.appendChild(
