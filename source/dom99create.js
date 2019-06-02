@@ -601,7 +601,7 @@ const create = (options) => {
             // avoid infinite loop
             element.setAttribute(
                 options.directives.inside,
-                options.doneSymbol + key
+                `${options.doneSymbol}${key}`
             );
             // parse children under scope
             enterObject(scopeIn, key);
