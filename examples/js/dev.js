@@ -67,6 +67,7 @@ d.feed({
     ]
 });
 
-d.feed(`items`, [{}]);
+window.d = d
+// d.feed(`items`, [{}, {}]);
 
 d.start();

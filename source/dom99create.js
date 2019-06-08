@@ -483,6 +483,28 @@ const create = (options) => {
         if (hasOwnProperty.call(variables, scope)) {
             notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
         }
+
+        if (element.childNodes.length > 0) {
+            enterObject(scopeIn, variableName);
+            const childElements = Array.from(element.childNodes).filter(childNode => {
+                // document.body.ELEMENT_NODE === 1
+                return childNode.nodeType === 1;
+            });
+
+            const scope = scopeFromArray(scopeIn);
+            let currentValue = variables[scope];
+            if (currentValue === undefined) {
+                variables[scope] = Array.from({ length: childElements.length }, () => ({}));
+            }
+
+            console.log(currentValue);
+            childElements.forEach((childElement, i) => {
+                enterObject(scopeIn, String(i));
+                activate(childElement);
+                leaveObject(scopeIn);
+            });
+            leaveObject(scopeIn);
+        }
     };
 
     const applyVariable = (element, variableName) => {
