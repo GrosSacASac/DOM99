@@ -705,22 +705,18 @@ const create = (options) => {
     };
 
     /**
-     Convenience function for activate, feed and assigning functions from
-     an object
-  
-     @param {object} dataFunctions
-     @param {object} initialFeed
-     @param {Element} startElement
-     @param {function} callBack
+     @param {object} options
+        - @param {object} dataFunctions
+        - @param {object} initialFeed
+        - @param {Element} startElement
   
      @return {any} callBack return value
      */
-    const start = (
+    const start = ({
         startElement = document.body,
         initialFeed = {},
         dataFunctions = {},
-        callBack = undefined
-    ) => {
+    }) => {
         if (startElement.nodeType !== 1) {
             console.error(`start takes undefined or a node as first argument`);
         }
