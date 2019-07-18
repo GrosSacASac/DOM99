@@ -608,7 +608,7 @@ const create = (options) => {
         if (!key) {
             console.error(
                 element,
-                `Use ${options.directives.inside}="insideWhat" format!`
+                `Use ${options.directives.scope}="insideWhat" format!`
             );
         }
 
@@ -622,7 +622,7 @@ const create = (options) => {
         } else {
             // avoid infinite loop
             element.setAttribute(
-                options.directives.inside,
+                options.directives.scope,
                 `${options.doneSymbol}${key}`
             );
             // parse children under scope
@@ -640,7 +640,7 @@ const create = (options) => {
         [options.directives.function, applyFunctions],
         [options.directives.template, applyTemplate],
         [options.directives.list, applyList],
-        [options.directives.inside, applyScope],
+        [options.directives.scope, applyScope],
     ];
 
     const tryApplyDirectives = (element) => {
@@ -677,7 +677,7 @@ const create = (options) => {
             );
         });
         if (
-            element.hasAttribute(options.directives.inside) ||
+            element.hasAttribute(options.directives.scope) ||
             element.hasAttribute(options.directives.list)
         ) {
             return;

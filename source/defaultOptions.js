@@ -61,7 +61,7 @@ const defaultDirectives = {
     variable: `data-variable`,
     element: `data-element`,
     list: `data-list`,
-    inside: `data-scope`,
+    scope: `data-scope`,
     template: `data-template`
 };
 
