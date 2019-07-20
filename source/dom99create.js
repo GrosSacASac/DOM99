@@ -706,9 +706,9 @@ const create = (options) => {
 
     /**
      @param {object} options
-        - @param {object} dataFunctions
-        - @param {object} initialFeed
-        - @param {Element} startElement
+        - {object} dataFunctions
+        - {object} initialFeed
+        - {Element} startElement
   
      @return {any} callBack return value
      */
@@ -724,10 +724,6 @@ const create = (options) => {
         Object.assign(functions, dataFunctions);
         feed(``, initialFeed);
         activate(startElement);
-        if (!callBack) {
-            return;
-        }
-        return callBack();
     };
 
     const cloneHook = function () {
