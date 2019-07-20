@@ -65,9 +65,6 @@
     "LICENSE.txt",
     "readme.md"
   ],
-  "now": {
-    "alias": "dom99"
-  },
   "eslintConfig": {
     "extends": "eslint:recommended",
     "parserOptions": {
