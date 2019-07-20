@@ -16,8 +16,8 @@ import { isObjectOrArray } from "./isObjectOrArray.js";
 import { firstAncestorValue } from "./parentIdFromEvent.js";
 import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
-const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const NAME = `DOM99`;
 const SCOPE = `${NAME}_C`;
@@ -25,7 +25,6 @@ const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
 const INSIDE_SYMBOL = `>`;
-
 
 const removeNode = (node) => {
     node.remove();
