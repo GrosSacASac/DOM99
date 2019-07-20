@@ -716,7 +716,7 @@ const create = (options) => {
         startElement = document.body,
         initialFeed = {},
         dataFunctions = {},
-    }) => {
+    } = {}) => {
         if (startElement.nodeType !== 1) {
             console.error(`start takes undefined or a node as first argument`);
         }
