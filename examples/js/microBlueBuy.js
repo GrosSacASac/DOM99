@@ -1,5 +1,5 @@
-import {create} from "../../source/dom99create.js";
-import {defaultOptions} from "../../source/defaultOptions.js";
+import { create } from "../../source/dom99create.js";
+import { defaultOptions } from "../../source/defaultOptions.js";
 
 const prices = {
     t_porsche: '66,00 €',
@@ -21,7 +21,9 @@ class BlueBuy extends HTMLElement {
         this.displayFreshPrice(sku);
 
         this.innerHTML = `<button>buy for <span data-variable="price"></span></button>`;
-        this.d.start(this)
+        this.d.start({
+            startElement: this
+        });
     }
     displayFreshPrice(sku) {
         const price = prices[sku];

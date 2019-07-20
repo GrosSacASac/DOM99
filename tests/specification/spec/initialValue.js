@@ -35,7 +35,9 @@ describe("firstVariableValueStrategy", function () {
             { firstVariableValueStrategy: FIRST_VARIABLE_FROM_HTML },
         ));
 
-        d.start(this.content);
+        d.start({
+            startElement: this.content,
+        });
         expect(d.get("string1")).toEqual(this.expectedValue);
     });
 
@@ -45,7 +47,9 @@ describe("firstVariableValueStrategy", function () {
             defaultOptions,
             { firstVariableValueStrategy: FIRST_VARIABLE_FROM_USER_AGENT },
         ));
-        d.start(this.content);
+        d.start({
+            startElement: this.content,
+        });
         expect(d.get("string1")).toEqual(this.expectedValue);
     });
 

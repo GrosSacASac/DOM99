@@ -11,7 +11,9 @@ describe("data-list simple", function () {
         this.content = document.createElement("div");
         this.childType = `li`;
         this.content.innerHTML = `<ol data-element="targetElement" data-list="myList-${this.childType}"></ol>`;
-        this.d.start(this.content);
+        this.d.start({
+            startElement: this.content,
+        });
         this.d.feed(`myList`, exampleData);
     });
 

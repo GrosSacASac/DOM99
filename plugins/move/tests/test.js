@@ -1,5 +1,5 @@
-import * as d  from "../../../source/dom99.js";
-import {move} from "../move.js";
+import * as d from "../../../source/dom99.js";
+import { move } from "../move.js";
 
 d.plugin(move);
 
@@ -9,6 +9,5 @@ d.functions.moveLeft = function (event) {
     d.feed(`count`, x);
 };
 
-d.start(undefined, undefined, undefined, function () {
-    d.feed(`count`, `-1`);
-});
+d.start();
+d.feed(`count`, `-1`);

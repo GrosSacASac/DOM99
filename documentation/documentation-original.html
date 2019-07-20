@@ -257,7 +257,7 @@ let customElementDescription = {
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
-d.start(customElement);
+d.start({ startElement: customElement });
 
 // 3 insert the Element that has a clone as a child in the DOM
 d.elements[`target`].appendChild(customElement);</code></pre>
@@ -388,7 +388,7 @@ d.functions.update = function (event) {
 <article id="extra-tips">
 <h3>Extra Tips</h3>
 <p>View components in components/ folder</p>
-<p>You can handle new HTML with <code>d.start(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.start({ startElement: document.body });</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
