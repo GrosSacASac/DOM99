@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "20.0.0",
+  "version": "20.0.1",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -33,7 +33,9 @@
     "most": "npm run lint && npm run build && npm run docs",
     "prepare": "npm run build",
     "serve-doc": "serve ./documentation -p 8080",
-    "serve": "serve ./ -p 8080"
+    "serve": "serve ./ -p 8080",
+    "publish-as-latest": "npm publish",
+    "publish-as-experimental": "npm publish --tag experimental"
   },
   "dependencies": {},
   "devDependencies": {
