@@ -194,7 +194,11 @@ var initialFeed = {
     displayAllResults: true
 };
 var startElement = document.body;
-d.start(functions, initialFeed, startElement, function () {
-    // console.log("ready");
-    // run();
+d.start({
+    startElement,
+    initialFeed,
+    dataFunctions: functions,
 });
+
+// console.log("ready");
+// run();

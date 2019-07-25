@@ -23,7 +23,7 @@ const readTextFile = function () {
 		const fileInput = d.createElement2(fileInputDescription);
 		fileInput.readFileResolve = resolve;
 		fileInput.readFileReject = reject;
-		d.start(fileInput);
+		d.start({ startElement: fileInput });
 		d.elements.readTextFileContainer.appendChild(fileInput);
 		fileInput.click();
 	});

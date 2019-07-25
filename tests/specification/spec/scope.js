@@ -16,7 +16,9 @@ describe("data-scope", function () {
             </div>
             <p data-variable="x">outer x</p>
         `;
-        this.d.start(this.content);
+        this.d.start({
+            startElement: this.content,
+        });
         this.d.feed(`myList`, {
             myscope: {
                 x: textInner
@@ -57,7 +59,9 @@ describe("data-scope", function () {
             expect(true).toEqual(true);
             done();
         };
-        this.d.start(this.content);
+        this.d.start({
+            startElement: this.content,
+        });
 
         const event = document.createEvent('Event');
         event.initEvent('click', true, true);

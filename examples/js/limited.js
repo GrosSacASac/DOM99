@@ -1,4 +1,4 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
 let globalNumber = 0;
 // increment local does not update the list, how to make the data flow
 
@@ -22,7 +22,7 @@ const globalSet = function (event) {
     const context = d.scopeFromEvent(event);
     const newGlobalNumber = Number(
         d.variables[
-            d.scopeFromArray([context, "globalCopy"])
+        d.scopeFromArray([context, "globalCopy"])
         ]);
     globalNumber = newGlobalNumber;
 
@@ -34,7 +34,7 @@ const localIncrement = function (event) {
     const spanElement = d.elements[d.scopeFromArray([context, "span"])];
     const localNumber = Number(
         d.variables[
-            d.scopeFromArray([context, "local"])
+        d.scopeFromArray([context, "local"])
         ]) + 1;
     const localColor = `rgb(${(localNumber * 25) % 255},0,0)`;
 
@@ -49,9 +49,9 @@ const listremake = function (event) {
     /* display list size of global, with value local */
     const context = d.scopeFromEvent(event);
     const localNumber = Number(
-    d.variables[
+        d.variables[
         d.scopeFromArray([context, "local"])
-    ]);
+        ]);
     const global = globalNumber;
     const newList = [];
     let i;
@@ -120,4 +120,8 @@ const initialData = {
     ]
 };
 
-d.start(document.body, initialData, functions);
+d.start({
+    startElement: document.body,
+    initialFeed: initialData,
+    dataFunctions: functions
+});

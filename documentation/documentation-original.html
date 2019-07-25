@@ -257,7 +257,7 @@ let customElementDescription = {
 let customElement = d.createElement2(customElementDescription);
 
 // 2 link it
-d.start(customElement);
+d.start({ startElement: customElement });
 
 // 3 insert the Element that has a clone as a child in the DOM
 d.elements[`target`].appendChild(customElement);</code></pre>
@@ -388,7 +388,7 @@ d.functions.update = function (event) {
 <article id="extra-tips">
 <h3>Extra Tips</h3>
 <p>View components in components/ folder</p>
-<p>You can handle new HTML with <code>d.start(startNode);</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
+<p>You can handle new HTML with <code>d.start({ startElement: document.body });</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
 
 <p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
 
@@ -466,6 +466,11 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <article id="patchnotes">
 <h3>Patch Notes</h3>
 
+<h4>Version 20.0.0</h4>
+<p>start uses named parameters, drop callback</p>
+<p>inside has been renamed into scope</p>
+<p>data-template can be used in combination with data-list</p>
+
 <h4>Version 19.1.0</h4>
 <p>Allow data-template to be used on non template elements</p>
 <h4>Version 19.0.10</h4>
@@ -474,19 +479,21 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <p>FIRST_VARIABLE_FROM_USER_AGENT is the default option for firstVariableValueStrategy:</p>
 <p>FIRST_VARIABLE_FROM_HTML, FIRST_VARIABLE_FROM_USER_AGENT, options are no longer exported by the default import entry</p>
 <p>leafName and leafIndex are exported</p>
+
 <h4>Version 18.0.0</h4>
 <p>idGenerator is not exported by default. To continue using it:</p>
 <pre><code>import {idGenerator} from "./node_modules/dom99/source/idGenerator.js"</code></pre>
 
 <h4>Version 17.0.0</h4>
-<p>Removed deleteTemplate , activate</p>
-<p>Renamed all path and context into scope, remade data-inside into data-scope</p>
-<p>Changed argument order of start, options cannot be accessed anymore after initialization, instead pass wanted options to create</p>
-<p>Moved default options into a separate file source/defaultOptions.js</p>
+<p>Remove deleteTemplate , activate, forgetContext</p>
+<p>Rename all path and context into scope, Rename data-inside into data-scope</p>
+<p>Change argument order of start, options can not be accessed after initialization, instead pass wanted options to create</p>
+<p>Move default options into a separate file source/defaultOptions.js</p>
 
 <h4>Version 16.0.0</h4>
 <p>New URL for website <a href="https://dom99.now.sh/">https://dom99.now.sh/</a>. Update your bookmarks.</p>
 <p>Generated files are not in the git anymore. Generate them with the commands defined in package.json or download pre built files with npm or use URL https://unpkg.com/dom99@16.0.1/built/dom99ES.js or https://unpkg.com/dom99@16.0.1/built/dom99Script.js</p>
+
 <h4>Version 15.4.0</h4>
 <p>expose d.element(string) function. It is a convenience function for d.elements[string]. It is safer to use because it cannot accidently set private variables.</p>
 <h4>Version 15.3.0</h4>
@@ -526,27 +533,25 @@ const d = {
 };</code>
 </pre>
 <p>
-    Removed built/dom99.min.js
+    Remove built/dom99.min.js
 </p>
 <h4>Version 14.4.0</h4>
-<p>Added built/dom99ES.min.js, deprecated built/dom99.min.js</p>
+<p>Adde built/dom99ES.min.js, deprecate built/dom99.min.js</p>
 <h4>Version 14.3.0</h4>
-<p>Added built/dom99ES.js (single file)</p>
+<p>Adde built/dom99ES.js (single file)</p>
 <h4>Version 14.2.0</h4>
-<p>Added export <code>idGenerator</code></p>
+<p>Adde export <code>idGenerator</code></p>
 <h4>Version 14.1.0</h4>
-<p>Added plugin type <em>cloned</em>. It allows to target a template copy just before it is inserted into the document</p>
+<p>Adde plugin type <em>clone</em>. It allows to target a template copy just before it is inserted into the document</p>
 
 <h4>Version 14.0.0</h4>
-<p>Added plugin system for variables:</p>
+<p>Add plugin system for variables:</p>
     <ul>
         <li><code>d.feed</code></li>
         <li><code>data-variable="a"</code></li>
         <li><code>data-list="list-li"</code></li>
     </ul>
-<p>Refactored plugin system</p>
-<h4>Version 13.0.8</h4>
-<p>terser is used for minifying</p>
+<p>Refactore plugin system</p>
 
 <h4>Version 13.0.0</h4>
 <p>The library is now an ES module first. From that, <em>script require and amd</em> are built. The default export is split into 4 named exports <code>{d, plugin, options, createElement2}</code></p>
@@ -565,17 +570,17 @@ const d = {
 
 <p>For browserify users</p>
 <p>Replace <code>const d = require("dom99");</code> with <br><code>const {d, plugin, options, createElement2} = require("dom99");</code></p>
-<p>Added dom99Amd.js</p>
+<p>Add dom99Amd.js</p>
 
 <h4>Version 12.0.0</h4>
-<p>Components readTextFile and yesNoDialog now use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
+<p>Components readTextFile and yesNoDialog use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
 <h4>Version 11.1.4</h4>
-<p>File built: <em>built/dom99Module.min.js</em></p>
+<p>Add dom99Module.min.js</p>
 <h4>Version 11.1.0</h4>
 <p>ReadTextFile component is available</p>
 
 <h4>Version 11.0.0</h4>
-<p>Removed a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
+<p>Remove a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
 
 <h4>Version 10.0.0</h4>
 <p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
@@ -596,15 +601,13 @@ const d = {
         d.feed($2, $1)
 </code></pre>
 <h4>Version 9.1.0</h4>
-<p>Plugins are introduced !</p>
 <p>Plugin: shake</p>
 
 <h4>Version 9.0.0</h4>
-<p>IE 9 support is now mantained by external polyfills</p>
-<p>The result is that base dom99 is now even lighter</p>
+<p>IE 9 support is mantained by external polyfills</p>
 <p>To still support IE 9+ <code>npm install <a href="https://www.npmjs.com/package/template-mb">template-mb</a></code> and include it like in the file <code>examples/index.html</code></p>
-<p>More updates like these are coming</p>
-<p>Bower and bower.json has been dropped</p>
+
+<p>Drop Bower and bower.json</p>
 <h4>Version 8.2.0</h4>
 <p>Support for cases when an element is inside another that uses
 <code>data-function</code> Ex. button &gt; span</p>
@@ -616,8 +619,7 @@ const d = {
 </ul>
 
 <h4>Version 8.0.0</h4>
-<p>Simplified internal code</p>
-<h5>Renamed</h5>
+<h5>Rename</h5>
 <ul>
     <li>forgetRemoveTemplate into deleteTemplate</li>
     <li>linkJsAndDom into activate</li>
@@ -631,42 +633,36 @@ const d = {
     <li>options.directives.directiveList into options.directives.list</li>
     <li>options.directives.directiveTemplate into options.directives.template</li>
 </ul>
-<h5>Added</h5>
+<h5>Add</h5>
 <ul>
     <li>options.propertyFromElement</li>
     <li>options.eventNameFromElement</li>
 </ul>
-<h5>Removed</h5>
+<h5>Remove</h5>
 <ul>
     <li>options.variablePropertyFromTagAndType</li>
     <li>options.eventFromTagAndType</li>
 </ul>
 <h4>Version 7.2.18</h4>
-<p>.npmignore added. This keeps the size to a minimum for npm users</p>
+<p>add .npmignore</p>
 <h4>Version 7.2.16</h4>
-<p>Removed warnings that came from dom99</p>
-<p>Possible speed ups</p>
+<p>Remove warnings</p>
 <h4>Version 7.2.13</h4>
-<p>fixed a hard to find bug, that only occurred on edge, but not IE</p>
-<p>overall small improvements</p>
+<p>fix a bug that only occurred on edge, but not IE</p>
 <h4>Version 7.2.5</h4>
 <p>Polyfill for hidden</p>
 <p>Better css</p>
-<p>prompt equivalent now in yesNoDialog components folder</p>
+<p>prompt equivalent in yesNoDialog components folder</p>
 <h4>Version 7.2.3</h4>
-<p>Enabled IE 10 again</p>
-<p>Doc hyperlink is now latest in readme</p>
-<h4>Version 7.2.1</h4>
-<p>Fixed non html-escaped issues in the doc</p>
+<p>Enable IE 10 again</p>
 <h4>Version 7.2.0</h4>
-<p>data-scope extension, can now be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-scope attribute.
+<p>data-scope extension, can be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-scope attribute.
 Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
 <p>YesNoDialog remake, and compatible again with the last major dom99 version</p>
 <p>dom99ConfigurationExample  remake with clearer steps</p>
 <p>added deleteTemplate</p>
 <p>fixed a potential memory leak</p>
 <h4>Version 7.1.0</h4>
-<p>Upgrade the doc</p>
 <p>experimenting with d.start(userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined)</p>
 <p>d.start does what you think, the right way</p>
 <pre><code>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
@@ -717,10 +713,10 @@ the license in distributed executables or transpiled code</p>
 <p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
 
 <h4>Version 5.0.0</h4>
-<p>Renamed <code>data-vr</code> into <code>data-variable</code></p>
+<p>Rename <code>data-vr</code> into <code>data-variable</code></p>
 <p>Split <code>data-el</code> into <code>data-element</code> and <code>data-template</code></p>
-<p>Renamed <code>data-fx</code> into <code>data-function</code></p>
-<p>Renamed <code>data-in</code> into <code>data-scope</code></p>
+<p>Rename <code>data-fx</code> into <code>data-function</code></p>
+<p>Rename <code>data-in</code> into <code>data-scope</code></p>
 
 <h4>Version 4.0.0</h4>
 <p>Unpublished</p>
@@ -732,9 +728,9 @@ the license in distributed executables or transpiled code</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
 
 <h4>Version 2.0.0</h4>
-<p>Switched to SEMVER versioning</p>
-<p>d.variables setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
-<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
+<p>Switch to SEMVER versioning</p>
+<p>d.variables setter will not transform into a string , D.bool is removed</p>
+<p>D.followPath, remove. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
 <pre><code>
 {
     el,
@@ -742,19 +738,19 @@ the license in distributed executables or transpiled code</p>
     baseEl
 }
 </code></pre>
-<p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>d.functions must now be populated before d.start() is called</p>
+<p>Change function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
+<p>d.functions must be populated before d.start() is called</p>
 <p>
     eventFromTagAndType
-        changed into eventNameFromElement
+        change into eventNameFromElement
   </p>
 <p>
     variablePropertyFromTagAndType
-        changed into variablePropertyFromElement
+        change into variablePropertyFromElement
   </p>
 <p>
     elementsForUserInputList
-        changed into tagNamesForUserInput</p>
+        change into tagNamesForUserInput</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
 
@@ -771,9 +767,9 @@ the license in distributed executables or transpiled code</p>
 <p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h4>Version 1.15.0</h4>
 <ul>
-    <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
-    <li>Changed the way to configure dom99</li>
-    <li>You can now control what gets changed with data-variable</li>
+    <li>You can use <del>data-variable="x-li"</del> on a ol element for example to display the x array as multiple li elements see examples/test.html</li>
+    <li>Change the way to configure dom99</li>
+    <li>You can control what gets changed with data-variable</li>
    </ul>
 <h4>Version 1.12.0</h4>
 <p>function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>

@@ -16,8 +16,8 @@ import { isObjectOrArray } from "./isObjectOrArray.js";
 import { firstAncestorValue } from "./parentIdFromEvent.js";
 import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
-const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const NAME = `DOM99`;
 const SCOPE = `${NAME}_C`;
@@ -25,7 +25,6 @@ const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;
 const LIST_CHILDREN = `${NAME}_R`;
 const INSIDE_SYMBOL = `>`;
-
 
 const removeNode = (node) => {
     node.remove();
@@ -480,9 +479,35 @@ const create = (options) => {
 
         pushOrCreateArrayAt(listSubscribers, scope, element);
 
+        if (element.childNodes.length > 0) {
+            enterObject(scopeIn, variableName);
+            const childElements = Array.from(element.childNodes).filter(childNode => {
+                // document.body.ELEMENT_NODE === 1
+                return childNode.nodeType === 1;
+            });
+
+            const scope = scopeFromArray(scopeIn);
+            let currentValue = variables[scope];
+            if (currentValue === undefined) {
+                variables[scope] = Array.from({ length: childElements.length }, () => ({}));
+            }
+
+            element[LIST_CHILDREN] = [];
+            childElements.forEach((childElement, i) => {
+                enterObject(scopeIn, String(i));
+                activate(childElement);
+                element[LIST_CHILDREN].push(
+                    [childElement, ...childElement.childNodes]
+                );
+                leaveObject(scopeIn);
+            });
+            leaveObject(scopeIn);
+        }
+
         if (hasOwnProperty.call(variables, scope)) {
             notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
         }
+
     };
 
     const applyVariable = (element, variableName) => {
@@ -586,7 +611,7 @@ const create = (options) => {
         if (!key) {
             console.error(
                 element,
-                `Use ${options.directives.inside}="insideWhat" format!`
+                `Use ${options.directives.scope}="insideWhat" format!`
             );
         }
 
@@ -600,7 +625,7 @@ const create = (options) => {
         } else {
             // avoid infinite loop
             element.setAttribute(
-                options.directives.inside,
+                options.directives.scope,
                 `${options.doneSymbol}${key}`
             );
             // parse children under scope
@@ -618,7 +643,7 @@ const create = (options) => {
         [options.directives.function, applyFunctions],
         [options.directives.template, applyTemplate],
         [options.directives.list, applyList],
-        [options.directives.inside, applyScope],
+        [options.directives.scope, applyScope],
     ];
 
     const tryApplyDirectives = (element) => {
@@ -655,7 +680,7 @@ const create = (options) => {
             );
         });
         if (
-            element.hasAttribute(options.directives.inside) ||
+            element.hasAttribute(options.directives.scope) ||
             element.hasAttribute(options.directives.list)
         ) {
             return;
@@ -683,22 +708,18 @@ const create = (options) => {
     };
 
     /**
-     Convenience function for activate, feed and assigning functions from
-     an object
-  
-     @param {object} dataFunctions
-     @param {object} initialFeed
-     @param {Element} startElement
-     @param {function} callBack
+     @param {object} options
+        - {object} dataFunctions
+        - {object} initialFeed
+        - {Element} startElement
   
      @return {any} callBack return value
      */
-    const start = (
+    const start = ({
         startElement = document.body,
         initialFeed = {},
         dataFunctions = {},
-        callBack = undefined
-    ) => {
+    } = {}) => {
         if (startElement.nodeType !== 1) {
             console.error(`start takes undefined or a node as first argument`);
         }
@@ -706,10 +727,6 @@ const create = (options) => {
         Object.assign(functions, dataFunctions);
         feed(``, initialFeed);
         activate(startElement);
-        if (!callBack) {
-            return;
-        }
-        return callBack();
     };
 
     const cloneHook = function () {

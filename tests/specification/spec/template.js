@@ -17,7 +17,9 @@ describe(`data-template`, function () {
         <${this.templateName} data-element="${this.targetElementName}"></${this.templateName}>
         <div is="${this.templateName}" data-element="${this.targetIsElementName}"></div>
         `;
-        this.d.start(this.content);
+        this.d.start({
+            startElement: this.content,
+        });
     });
 
     it(`an element with the same tag as the template name should contain a copy of the inner html`, function () {

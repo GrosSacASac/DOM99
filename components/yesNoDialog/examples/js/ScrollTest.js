@@ -3,11 +3,12 @@ import * as d from "../../../../source/dom99.js";
 import { yesNoDialog, textDialog, useYesNoDialog } from "../../yesNoDialog.js";
 
 useYesNoDialog(d);
-d.start(document.body,
-    {
+d.start({
+    startElement: document.body,
+    initialFeed: {
         result: ""
     },
-    {
+    dataFunctions: {
         askSomething: function (event) {
             const questionText = "Do you think your scroll position will be remembered ?";
             const yesText = "Yes";
@@ -30,4 +31,5 @@ d.start(document.body,
                 });
             });
         }
-    });
+    }
+});

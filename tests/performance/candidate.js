@@ -70,15 +70,15 @@ var deleteRow = function (e) {
 
 
 // var handleRow = function (event) {
-    // const dataElement = event.target.getAttribute("data-element");
-    // if (!dataElement) {
-      // return;
-    // }
-    // if (dataElement.includes("label")) {
-        // selectRow(event);
-    // }
-    // console.log(event);
-    // console.log(event.target);
+// const dataElement = event.target.getAttribute("data-element");
+// if (!dataElement) {
+// return;
+// }
+// if (dataElement.includes("label")) {
+// selectRow(event);
+// }
+// console.log(event);
+// console.log(event.target);
 // };
 
 var unselect = function () {
@@ -121,7 +121,7 @@ const all = [
 const runAll = function () {
     timePromise(() => {
         return chainRequestAnimationFrame(all);
-    }).then(({timeElapsed, value}) => {
+    }).then(({ timeElapsed, value }) => {
         const measures = {};
         console.log(`total time (including the testing overhead) ${timeElapsed}`);
         value.forEach(function ([name, duration]) {
@@ -133,17 +133,17 @@ const runAll = function () {
 };
 
 const displayAllResults = function (measures) {
-	if (!d.variables.displayAllResults) {
-		return;
-	}
-	d.feed(measures);
+    if (!d.variables.displayAllResults) {
+        return;
+    }
+    d.feed(measures);
 };
 
 var functions = {
     // handleRow,
     runAll,
-	delete: deleteRow,
-	select: selectRow,
+    delete: deleteRow,
+    select: selectRow,
     delegate: function (e) {
         // console.log("delegate");
         if (e.target.matches('#add')) {
@@ -162,14 +162,14 @@ var functions = {
             update();
         }
         // else if (e.target.matches('#hideall')) {
-            // e.preventDefault();
-            // console.log("hideAll");
-            // hideAll();
+        // e.preventDefault();
+        // console.log("hideAll");
+        // hideAll();
         // }
         // else if (e.target.matches('#showall')) {
-            // e.preventDefault();
-            // console.log("showAll");
-            // showAll();
+        // e.preventDefault();
+        // console.log("showAll");
+        // showAll();
         // }
         else if (e.target.matches('#runlots')) {
             e.preventDefault();
@@ -191,10 +191,14 @@ var functions = {
 };
 
 var initialFeed = {
-	displayAllResults: true
+    displayAllResults: true
 };
 var startElement = document.body;
-d.start(functions, initialFeed, startElement, function () {
-    // console.log("ready");
-    // run();
+d.start({
+    startElement,
+    initialFeed,
+    dataFunctions: functions,
 });
+
+// console.log("ready");
+// run();

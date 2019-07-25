@@ -1,13 +1,13 @@
 // Does not use the new features of dom99 ...
-import * as d  from "../../source/dom99.js";
-import {fakeBossSpeak, fakeSisterSpeak} from "./chat_simulation.js";
+import * as d from "../../source/dom99.js";
+import { fakeBossSpeak, fakeSisterSpeak } from "./chat_simulation.js";
 
 let messageKeys = [];
 let element = `element`;
 const MAX = 100;
 
 
-const renderNewMessageElement = function(data, key) {
+const renderNewMessageElement = function (data, key) {
     // 1 create HTML ELement
     let customElement = d.createElement2({
         "tagName": "d-message",
@@ -16,13 +16,15 @@ const renderNewMessageElement = function(data, key) {
     });
 
     // 2 link it
-    d.start(customElement);
+    d.start({
+        startElement: customElement,
+    });
 
     // 3 insert the Element that has a clone as a child in the dOM
     d.elements["messagesContainer"].appendChild(customElement);
 };
 
-const displayNewMessage = function(data) {
+const displayNewMessage = function (data) {
     let key;
     if (messageKeys.length < MAX) {
         //create a new key
@@ -45,7 +47,7 @@ const displayNewMessage = function(data) {
     d.feed(key, data); // loops over
 };
 
-d.functions.trySendMessage = function(event) {
+d.functions.trySendMessage = function (event) {
     // the data uses the same keys declared in the html
     let data = {
         authorName: "You",
