@@ -479,10 +479,6 @@ const create = (options) => {
 
         pushOrCreateArrayAt(listSubscribers, scope, element);
 
-        if (hasOwnProperty.call(variables, scope)) {
-            notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
-        }
-
         if (element.childNodes.length > 0) {
             enterObject(scopeIn, variableName);
             const childElements = Array.from(element.childNodes).filter(childNode => {
@@ -496,14 +492,22 @@ const create = (options) => {
                 variables[scope] = Array.from({ length: childElements.length }, () => ({}));
             }
 
-            console.log(currentValue);
+            element[LIST_CHILDREN] = [];
             childElements.forEach((childElement, i) => {
                 enterObject(scopeIn, String(i));
                 activate(childElement);
+                element[LIST_CHILDREN].push(
+                    [childElement, ...childElement.childNodes]
+                );
                 leaveObject(scopeIn);
             });
             leaveObject(scopeIn);
         }
+
+        if (hasOwnProperty.call(variables, scope)) {
+            notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
+        }
+
     };
 
     const applyVariable = (element, variableName) => {
