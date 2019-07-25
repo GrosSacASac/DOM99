@@ -32,6 +32,7 @@ d.functions.record = async () => {
 const handleRecording = (blob) => {
     const blobUrl = URL.createObjectURL(blob);
     d.elements.download.setAttribute(`href`, blobUrl);
+    d.elements.download.hidden = false;
     d.elements.audio.setAttribute(`src`, blobUrl);
 }
 
