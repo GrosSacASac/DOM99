@@ -467,6 +467,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <h3>Patch Notes</h3>
 
 <h4>Version 20.0.0</h4>
+<p><strong>only released as @experimental on npm</strong></p>
 <p>start uses named parameters, drop callback</p>
 <p>inside has been renamed into scope</p>
 
@@ -731,9 +732,9 @@ the license in distributed executables or transpiled code</p>
 <p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
 
 <h4>Version 2.0.0</h4>
-<p>Switched to SEMVER versioning</p>
-<p>d.variables setter will not transform into a string anymore, D.bool is removed as it is no longer needed</p>
-<p>D.followPath, removed. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
+<p>Switch to SEMVER versioning</p>
+<p>d.variables setter will not transform into a string , D.bool is removed</p>
+<p>D.followPath, remove. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
 <pre><code>
 {
     el,
@@ -741,19 +742,19 @@ the license in distributed executables or transpiled code</p>
     baseEl
 }
 </code></pre>
-<p>New function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
-<p>d.functions must now be populated before d.start() is called</p>
+<p>Change function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
+<p>d.functions must be populated before d.start() is called</p>
 <p>
     eventFromTagAndType
-        changed into eventNameFromElement
+        change into eventNameFromElement
   </p>
 <p>
     variablePropertyFromTagAndType
-        changed into variablePropertyFromElement
+        change into variablePropertyFromElement
   </p>
 <p>
     elementsForUserInputList
-        changed into tagNamesForUserInput</p>
+        change into tagNamesForUserInput</p>
 <p>data-template="d-name" added
     data-element="template-d-name" removed</p>
 
@@ -770,9 +771,9 @@ the license in distributed executables or transpiled code</p>
 <p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
 <h4>Version 1.15.0</h4>
 <ul>
-    <li>You can now use <del>data-variable="x-li"</del> on a ol for example to display the x array as multiple li elements see examples/test.html</li>
-    <li>Changed the way to configure dom99</li>
-    <li>You can now control what gets changed with data-variable</li>
+    <li>You can use <del>data-variable="x-li"</del> on a ol element for example to display the x array as multiple li elements see examples/test.html</li>
+    <li>Change the way to configure dom99</li>
+    <li>You can control what gets changed with data-variable</li>
    </ul>
 <h4>Version 1.12.0</h4>
 <p>function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
