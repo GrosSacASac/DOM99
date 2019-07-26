@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "20.0.2",
+  "version": "20.0.3",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
