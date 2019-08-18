@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "20.0.3",
+  "version": "20.0.4",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -24,7 +24,7 @@
     "build-doc-examples": "babel documentation/js/documentation.js > documentation/js/documentation.es5.min.js",
     "generate-html": "node --experimental-modules tools/buildHTML.js",
     "prepare-site": "node --experimental-modules tools/prepareSite.js",
-    "jsdoc": "jsdoc source/dom99.js -t documentation/jsdoctemplate --destination ./documentation",
+    "jsdoc": "jsdoc source -t documentation/jsdoctemplate --destination ./documentation/api",
     "docs": "npm run build-doc-examples && npm run generate-html && npm run prepare-site && npm run jsdoc",
     "deploy": "cd documentation && now --public",
     "now": "cd documentation && now --public --target production",
