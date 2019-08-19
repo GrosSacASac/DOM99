@@ -3,7 +3,7 @@ import * as d from "../deps/dom99ES.min.js";
 
 const mediaRecorderSupport = `MediaRecorder` in window;
 const missingSupportMessage = `browser does not support MediaRecorder`;
-const missingPermissionMessage = `permission denied, cannot access`;
+const missingPermissionMessage = `permission denied or no microphone detected, cannot access`;
 const WEBM_MIME = `audio/webm`;
 
 let recording = false;
