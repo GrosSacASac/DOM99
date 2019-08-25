@@ -134,7 +134,7 @@ const parentScope = (scope) => {
  @return {string} leafName
  */
 const leafName = (scope) => {
-    const split = scope.split(INSIDE_SYMBOL)
+    const split = scope.split(INSIDE_SYMBOL);
     return split[split.length - 1];
 };
 /**
@@ -173,10 +173,10 @@ const deleteAllStartsWith = (object, prefix = ``) => {
 
 // good candidates for firstVariableValueStrategy :
 const FIRST_VARIABLE_FROM_HTML = (element) => {
-    if ('defaultValue' in element) {
+    if (`defaultValue` in element) {
         return element.defaultValue;
     }
-    if ('open' in element) { // <details>
+    if (`open` in element) { // <details>
         return element.open;
     }
     return element.textContent;
@@ -487,9 +487,11 @@ const create = (options) => {
             });
 
             const scope = scopeFromArray(scopeIn);
-            let currentValue = variables[scope];
+            const currentValue = variables[scope];
             if (currentValue === undefined) {
-                variables[scope] = Array.from({ length: childElements.length }, () => ({}));
+                variables[scope] = Array.from({ length: childElements.length }, () => {
+                    return {};
+                });
             }
 
             element[LIST_CHILDREN] = [];
@@ -686,7 +688,7 @@ const create = (options) => {
             return;
         }
         /* using a custom element without data-scope */
-        let customName = customElementNameFromElement(element);
+        const customName = customElementNameFromElement(element);
         if (hasOwnProperty.call(templateFromName, customName)) {
             element.appendChild(
                 cloneTemplate(templateFromName[customName])
