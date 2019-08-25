@@ -28,7 +28,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 
 <script>
     d.feed({text : "Hello dom99"});
-    d.activate();
+    d.start();
     console.log(d.variables.text);
 </script>
 ```
@@ -124,7 +124,7 @@ native html elements can also be used to display a list
             }
         ]
     });
-    d.activate();
+    d.start();
 </script>
 ```
 
@@ -154,7 +154,7 @@ native html elements can also be used to display a list
 
 ## Dev
 
-`npm run buildAll` to run all scripts in package.json in one go
+`npm run build-all` to run all scripts in package.json in one go
 
 open tests/specification/SpecRunner.html to run unit tests
 
