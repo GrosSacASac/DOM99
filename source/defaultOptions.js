@@ -83,7 +83,7 @@ const propertyFromElement = (element) => {
 const eventNameFromElement = (element) => {
     // defines the default event for an element
     // i.e. when data-function is omitting the event
-    const tagName = element.tagName;
+    const {tagName} = element;
     if (tagName === `INPUT`) {
         return inputEventFromType(element.type);
     }

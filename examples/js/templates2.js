@@ -1,6 +1,6 @@
 import * as d from "../../source/dom99.js";
 
-const commentPrefix = "comment";
+const commentPrefix = `comment`;
 
 let currentCommentNumber = 2;
 
@@ -12,8 +12,8 @@ const getDataFromFakeServer = function (urlOrWhat) {
     // fetch like simulation
     return new Promise(function (resolve, reject) {
         const fakeData = {
-            text: "This is a comment that could come from the server about bla bla hard coded but could come from the server",
-            date: "just now"
+            text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
+            date: `just now`
         };
 
         window.setTimeout(function () {
@@ -24,32 +24,32 @@ const getDataFromFakeServer = function (urlOrWhat) {
 
 d.functions.showNextComment = function (event) {
     currentCommentNumber += 1;
-    let key = `${commentPrefix}${currentCommentNumber}`;
+    const key = `${commentPrefix}${currentCommentNumber}`;
 
     const customElementDescription = {
-        tagName: "d-comment",
+        tagName: `d-comment`,
         "data-scope": key
-    }
+    };
     const customElement = createElement2(customElementDescription);
 
     d.start({
         startElement: customElement,
     });
     d.elements.commentSection.appendChild(customElement);
-    getDataFromFakeServer("comment?id=42").then( //get data
+    getDataFromFakeServer(`comment?id=42`).then( //get data
         function (data) {
             update(key, data);
         });
 };
 
-let commentsData = { //initial
+const commentsData = { //initial
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "yesterday"
+        text: `I really appreciate your work`,
+        date: `yesterday`
     }
 };
 

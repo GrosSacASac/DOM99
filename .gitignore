@@ -12,6 +12,8 @@ exampleses5/learnjavascript
 ## Generated Resources
 #################
 
+documentation/jsdoctemplate/static/scripts/prettify/prettify.js
+documentation/jsdoctemplate/static/scripts/
 built/
 
 examples/js/built
@@ -256,3 +258,4 @@ tests/performance/raw_results.txt
 documentation/images/redesign-old.jpg
 documentation/deps/*
 .vscode/settings.json
+documentation/presentation/reveal.js-2.6.2/js

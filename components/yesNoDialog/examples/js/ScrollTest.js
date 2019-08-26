@@ -6,13 +6,13 @@ useYesNoDialog(d);
 d.start({
     startElement: document.body,
     initialFeed: {
-        result: ""
+        result: ``
     },
     dataFunctions: {
         askSomething: function (event) {
-            const questionText = "Do you think your scroll position will be remembered ?";
-            const yesText = "Yes";
-            const noText = "No";
+            const questionText = `Do you think your scroll position will be remembered ?`;
+            const yesText = `Yes`;
+            const noText = `No`;
             yesNoDialog(questionText, yesText, noText).then(function (answer) {
                 d.feed({
                     result: String(answer)
@@ -20,14 +20,14 @@ d.start({
             });
         },
         tryTextDialog: function (event) {
-            const question = "What is your favorite colour ?";
-            const label = "Your colour: ";
-            const text = "";
-            const submitText = "send";
+            const question = `What is your favorite colour ?`;
+            const label = `Your colour: `;
+            const text = ``;
+            const submitText = `send`;
             textDialog(question, label, text, submitText).then(function (answer) {
                 d.feed({
                     result2: String(answer),
-                    warning: "Never give input back to the user in a real world app without validating, sanitizing input first."
+                    warning: `Never give input back to the user in a real world app without validating, sanitizing input first.`
                 });
             });
         }

@@ -31,7 +31,7 @@ let zMotion;
 
 const devicemotionListener = function(shakeListener) {
     return function (event) {
-        const accelerationIncludingGravity = event.accelerationIncludingGravity;
+        const {accelerationIncludingGravity} = event;
 
         if (xMotion !== undefined) {
             const now = Date.now();

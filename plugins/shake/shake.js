@@ -1,7 +1,7 @@
 /*
 shake is a plugin
 */
-import {devicemotionListener, shakeSupport} from "./shakeEvents.js"
+import {devicemotionListener, shakeSupport} from "./shakeEvents.js";
 export {shake, shakeSupport};
 
 

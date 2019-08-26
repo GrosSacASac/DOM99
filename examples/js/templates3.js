@@ -43,7 +43,7 @@ d.functions.showNextComment = function (event) {
 // you can try to convert an Object to an Array using
 // Object.values(my_object);
 
-let commentsData = [
+const commentsData = [
     {
         text: `I am the first to comment, well written! Bravo!`,
         date: `In the year 2016`

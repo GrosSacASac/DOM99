@@ -26,7 +26,7 @@ const fakeSpeakGenerator = function(array, authorName, authorFoto) {
         };
         currentIndex += 1;
         return message;
-    }
+    };
 };
 
 const fakeSisterSpeak = fakeSpeakGenerator(fakeMessagesFromSister, `Sister`, `../documentation/images/sister.jpg`);

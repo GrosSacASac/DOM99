@@ -34,7 +34,7 @@ const handleRecording = (blob) => {
     d.elements.download.setAttribute(`href`, blobUrl);
     d.elements.download.hidden = false;
     d.elements.audio.setAttribute(`src`, blobUrl);
-}
+};
 
 const startRecording = async () => {
     let stream;

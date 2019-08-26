@@ -3,14 +3,14 @@ import * as d from "../../source/dom99.js";
 import { fakeBossSpeak, fakeSisterSpeak } from "./chat_simulation.js";
 
 let messageKeys = [];
-let element = `element`;
+const element = `element`;
 const MAX = 100;
 
 
 const renderNewMessageElement = function (data, key) {
     // 1 create HTML ELement
-    let customElement = d.createElement2({
-        "tagName": "d-message",
+    const customElement = d.createElement2({
+        "tagName": `d-message`,
         "data-scope": key,
         "data-element": element + key
     });
@@ -21,7 +21,7 @@ const renderNewMessageElement = function (data, key) {
     });
 
     // 3 insert the Element that has a clone as a child in the dOM
-    d.elements["messagesContainer"].appendChild(customElement);
+    d.elements[`messagesContainer`].appendChild(customElement);
 };
 
 const displayNewMessage = function (data) {
@@ -36,11 +36,11 @@ const displayNewMessage = function (data) {
     } else {
         //rotate the first element to end
         key = messageKeys[0];
-        messageKeys = messageKeys.slice(1)
+        messageKeys = messageKeys.slice(1);
         messageKeys.push(key);
 
         //do the same rotation in the dOM
-        d.elements["messagesContainer"].appendChild(d.elements[element + key]);
+        d.elements[`messagesContainer`].appendChild(d.elements[element + key]);
     }
     // Update
 
@@ -49,9 +49,9 @@ const displayNewMessage = function (data) {
 
 d.functions.trySendMessage = function (event) {
     // the data uses the same keys declared in the html
-    let data = {
-        authorName: "You",
-        authorFoto: "../documentation/images/you.jpg",
+    const data = {
+        authorName: `You`,
+        authorFoto: `../documentation/images/you.jpg`,
         messageText: d.variables.currentMessage
     };
     // could send data to server here

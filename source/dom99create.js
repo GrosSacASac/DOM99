@@ -17,7 +17,7 @@ import { firstAncestorValue } from "./parentIdFromEvent.js";
 import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 
-const hasOwnProperty = Object.prototype.hasOwnProperty;
+const {hasOwnProperty} = Object.prototype;
 
 const NAME = `DOM99`;
 const SCOPE = `${NAME}_C`;

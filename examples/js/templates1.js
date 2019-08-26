@@ -1,17 +1,17 @@
 import * as d  from "../../source/dom99.js";
 
 d.functions.showNextComment = function(event) {
-    ;//todo
+    //todo
 };
 
-let commentsData = {
+const commentsData = {
     comment1: {
-        text: "I am the first to comment, well written! Bravo!",
-        date: "In the year 2016"
+        text: `I am the first to comment, well written! Bravo!`,
+        date: `In the year 2016`
     },
     comment2: {
-        text: "I really appreciate your work",
-        date: "just now" 
+        text: `I really appreciate your work`,
+        date: `just now` 
     }
 };
 

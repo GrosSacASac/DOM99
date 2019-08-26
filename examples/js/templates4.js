@@ -2,7 +2,7 @@ import * as d  from "../../source/dom99.js";
 window.d = d;
 const networkDelay = 1000;
 // comments are now stored inside an array
-let commentsData = [
+const commentsData = [
     {
         text: `I am the first to comment, well written! Bravo!`,
         date: `In the year 2016`
@@ -16,7 +16,7 @@ let internalId = 0;
 let commentsLoaded = 2;
 
 const lastPart = function (string) {
-    const split = string.split(">")
+    const split = string.split(`>`);
     return split[split.length - 1];
 };
 
@@ -27,7 +27,7 @@ const update = function (commentObject, id) {
         return comment.internalId === id;
     });
     if (position === -1) {
-        console.log("the comment loading placeholder was deleted");
+        console.log(`the comment loading placeholder was deleted`);
         return;
     }
     commentsData[position] = commentObject;
@@ -62,7 +62,7 @@ d.functions.showNextComment = function (event) {
     // because DOM nodes are reused, this can make result look inconsistent
     commentsData.push({
         internalId: id,
-        text: `textLoading text ... (fake response takes ${Math.floor(networkDelay/1000)}sec)`,
+        text: `textLoading text ... (fake response takes ${Math.floor(networkDelay / 1000)}sec)`,
         date: `Loading date ...`
     });
     // force UI update

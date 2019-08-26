@@ -7,9 +7,9 @@ const setAllGlobalCopyInside = function (value) {
         globalCopy: String(value),
     };
 
-    d.feed(d.scopeFromArray(["outerList", 0]), changeDescriptor);
-    d.feed(d.scopeFromArray(["outerList", 1]), changeDescriptor);
-    d.feed(d.scopeFromArray(["outerList", 2]), changeDescriptor);
+    d.feed(d.scopeFromArray([`outerList`, 0]), changeDescriptor);
+    d.feed(d.scopeFromArray([`outerList`, 1]), changeDescriptor);
+    d.feed(d.scopeFromArray([`outerList`, 2]), changeDescriptor);
 };
 
 const globalIncrement = function (event) {
@@ -22,7 +22,7 @@ const globalSet = function (event) {
     const context = d.scopeFromEvent(event);
     const newGlobalNumber = Number(
         d.variables[
-        d.scopeFromArray([context, "globalCopy"])
+        d.scopeFromArray([context, `globalCopy`])
         ]);
     globalNumber = newGlobalNumber;
 
@@ -31,10 +31,10 @@ const globalSet = function (event) {
 
 const localIncrement = function (event) {
     const context = d.scopeFromEvent(event);
-    const spanElement = d.elements[d.scopeFromArray([context, "span"])];
+    const spanElement = d.elements[d.scopeFromArray([context, `span`])];
     const localNumber = Number(
         d.variables[
-        d.scopeFromArray([context, "local"])
+        d.scopeFromArray([context, `local`])
         ]) + 1;
     const localColor = `rgb(${(localNumber * 25) % 255},0,0)`;
 
@@ -50,7 +50,7 @@ const listremake = function (event) {
     const context = d.scopeFromEvent(event);
     const localNumber = Number(
         d.variables[
-        d.scopeFromArray([context, "local"])
+        d.scopeFromArray([context, `local`])
         ]);
     const global = globalNumber;
     const newList = [];
@@ -78,42 +78,42 @@ const initialData = {
     outerList: [
         {
             globalCopy: String(globalNumber),
-            local: "-5",
+            local: `-5`,
             innerlist: [
                 {
-                    a: "1 item a",
-                    b: "1 item b"
+                    a: `1 item a`,
+                    b: `1 item b`
                 }
             ]
         },
         {
             globalCopy: String(globalNumber),
-            local: "-2",
+            local: `-2`,
             innerlist: [
                 {
-                    a: "crazy nesting 0 a aaa",
-                    b: "crazy nesting 0 b"
+                    a: `crazy nesting 0 a aaa`,
+                    b: `crazy nesting 0 b`
                 },
                 {
-                    a: "crazy nesting 1 a",
-                    b: "crazy nesting 1 b"
+                    a: `crazy nesting 1 a`,
+                    b: `crazy nesting 1 b`
                 },
             ]
         },
         {
             globalCopy: String(globalNumber),
-            local: "3",
+            local: `3`,
             innerlist: [
                 {
-                    a: "1crazy nesting 0 a",
-                    b: "1crazy nesting 0 b"
+                    a: `1crazy nesting 0 a`,
+                    b: `1crazy nesting 0 b`
                 },
                 {
-                    a: "1crazy nesting 1 a",
-                    b: "1crazy nesting 1 b zzz"
+                    a: `1crazy nesting 1 a`,
+                    b: `1crazy nesting 1 b zzz`
                 },
                 {
-                    a: "third item (b is unset)"
+                    a: `third item (b is unset)`
                 },
             ]
         },

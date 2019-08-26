@@ -99,7 +99,7 @@ d.functions.updateToDo = function (event) {
     }
 
     // reconstruct the entire path
-    const path = d.scopeFromArray([context, property])
+    const path = d.scopeFromArray([context, property]);
     const value = d.variables[path];
 
     // reflect the change in the data
@@ -121,7 +121,7 @@ d.functions.addToDo = function (event) {
 
 d.functions.deleteToDos = function (event) {
     //delete done todos only !
-    data = data.filter(toDoItem => !toDoItem.done);
+    data = data.filter(toDoItem => {return !toDoItem.done;});
 
     d.feed(`allToDos`, data);
     updateJsonView();

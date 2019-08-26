@@ -1,8 +1,8 @@
 import * as d  from "../../source/dom99.js";
 
 
-var files = [`beach.jpg`,`letter_for_johan.txt`,`letter_for_sintia.txt`,`recipe.md`,`readme.md`];
-var files2 = [`za.jpg`,`zu.txt`,`zo.txt`,`zooo.md`,`evil.md`];
+const files = [`beach.jpg`,`letter_for_johan.txt`,`letter_for_sintia.txt`,`recipe.md`,`readme.md`];
+const files2 = [`za.jpg`,`zu.txt`,`zo.txt`,`zooo.md`,`evil.md`];
 
 d.functions.filter = function (event) {
     const context = d.scopeFromEvent(event);
@@ -12,7 +12,7 @@ d.functions.filter = function (event) {
     const filterElement = d.elements[d.scopeFromArray([context, `filter`])];
     */
 
-    const messagePath = d.scopeFromArray([context, `message`])
+    const messagePath = d.scopeFromArray([context, `message`]);
 
     if (filterText) {
         d.feed(messagePath, `filtering ${filterText}`);
@@ -36,7 +36,7 @@ d.functions.filter = function (event) {
 };
 
 d.feed(`explorer1`, {
-  files: files,
+  files,
   originalFiles: files,
 });
 
