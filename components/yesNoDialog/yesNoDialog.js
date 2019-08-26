@@ -1,10 +1,3 @@
-//yesNoDialog.js
-/*jslint
-    es6, maxerr: 15, browser, devel, fudge, maxlen: 100
-*/
-/*global
-    Promise
-*/
 /*
 could remove and give back focus to the main document with document.activeElement
 as in https://github.com/GoogleChrome/dialog-polyfill/blob/master/dialog-polyfill.js
@@ -29,6 +22,8 @@ let waiting = false;
 let lastXPosition = 0;
 let lastYPosition = 0;
 
+const ENTER = 13;
+
 const useYesNoDialog = function (dom99) {
     d = dom99;
 
@@ -51,7 +46,7 @@ const useYesNoDialog = function (dom99) {
     };
 
     d.functions.yesNoDialogSubmitViaEnter = function (event) {
-        if (event.keyCode === 13) { //Enter
+        if (event.keyCode === ENTER) {
             d.functions.yesNoDialogSubmit();
         }
     };

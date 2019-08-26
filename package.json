@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "20.0.5",
+  "version": "20.0.6",
   "license": "BSL-1.0",
   "module": "built/dom99ES.js",
   "main": "built/dom99Require.js",
@@ -8,8 +8,8 @@
   "description": "Extend html with directives to manipulate the dom with JavaScript",
   "type": "module",
   "scripts": {
-    "lint-fix": "eslint --fix source",
-    "lint": "eslint source",
+    "lint-fix": "eslint --ignore-path .gitignore --fix source examples documentation plugins components",
+    "lint": "eslint --ignore-path .gitignore source examples documentation plugins components",
     "bundle": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
     "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",
@@ -46,7 +46,7 @@
     "bootstrap": "^4.3.1",
     "browserify": "^16.3.0",
     "eslint": "^6.2.2",
-    "eslint-config-red": "^1.0.1",
+    "eslint-config-red": "^1.2.1",
     "filesac": "^11.0.0",
     "handlebars": "^4.1.2",
     "highlight.js": "^9.15.8",
@@ -69,16 +69,14 @@
     "readme.md"
   ],
   "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "red"
-    ],
+    "extends": ["red"],
     "parserOptions": {
       "ecmaVersion": 2019,
       "sourceType": "module",
       "ecmaFeatures": {}
     },
     "env": {
+      "es6": true,
       "browser": true
     },
     "rules": {}

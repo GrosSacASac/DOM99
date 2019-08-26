@@ -173,10 +173,10 @@ const deleteAllStartsWith = (object, prefix = ``) => {
 
 // good candidates for firstVariableValueStrategy :
 const FIRST_VARIABLE_FROM_HTML = (element) => {
-    if (`defaultValue` in element) {
+    if (element.defaultValue !== undefined) {
         return element.defaultValue;
     }
-    if (`open` in element) { // <details>
+    if (element.open !== undefined) { // <details>
         return element.open;
     }
     return element.textContent;
