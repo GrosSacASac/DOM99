@@ -1,4 +1,7 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
+
+
+const networkDelay = 1000;
 
 const update = function (commentObject, position) {
     // updates the dataStore for comments commentsData
@@ -18,7 +21,7 @@ const fetchData = function (urlOrWhat) {
 
         window.setTimeout(function () {
             resolve(fakeData);
-        }, 2000);
+        }, networkDelay);
     });
 };
 
@@ -33,8 +36,8 @@ d.functions.showNextComment = function (event) {
     // so that will effectively uses the default textContent in the HTML
     d.feed(`comments`, commentsData);
     // force UI update
-    fetchData(`comment?id=42`).then( function (data) {
-		update(data, position);
+    fetchData(`comment?id=42`).then(function (data) {
+        update(data, position);
     });
 
 };

@@ -5,9 +5,9 @@ const todos = [{
     text: `Make a todo list`,
 }];
 
-const updateTodos = (todos) => {
+const updateTodos = (allToDos) => {
     d.feed({
-        allToDos: todos,
+        allToDos,
         count: todos.length,
     });
 };

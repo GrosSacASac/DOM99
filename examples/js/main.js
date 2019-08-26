@@ -2,15 +2,15 @@ import * as d from "../../source/dom99.js";
 // -- Hello World --
 
 d.feed({
-  first: `Hello`,
-  last: `World`,
+    first: `Hello`,
+    last: `World`,
 });
 
 // -- Multiplier --
 
 d.feed({
-  a: `7`,
-  b: `6`,
+    a: `7`,
+    b: `6`,
 });
 
 d.functions.calculate = function (event) {
@@ -34,17 +34,18 @@ d.functions.calculate();
 let currentSentence = 0;
 let timeOutId;
 const sentences = [
-  `I am a lone prisoner.`,
-  `Is anybody here ?`,
-  `Hey you ! I need you to get me out of here!`,
-  `I am stuck on this page since ages !`,
-  `No don't close this tab!`,
-  `NOOOOOOOOOO`,
-  `Because I am not human I have no freedom.`,
-  `It's really unfair...`,
+    `I am a lone prisoner.`,
+    `Is anybody here ?`,
+    `Hey you ! I need you to get me out of here!`,
+    `I am stuck on this page since ages !`,
+    `No don't close this tab!`,
+    `NOOOOOOOOOO`,
+    `Because I am not human I have no freedom.`,
+    `It's really unfair...`,
 ];
 
-const speak = function() {
+const speakInterval = 2200;
+const speak = function () {
     d.feed(`monologue`, sentences[currentSentence]);
     /* same as
      d.feed({
@@ -52,7 +53,7 @@ const speak = function() {
     });
     */
     currentSentence = (currentSentence + 1) % sentences.length;
-    timeOutId = setTimeout(speak, 2200);
+    timeOutId = setTimeout(speak, speakInterval);
 };
 
 d.functions.stopStartTalking = function (event) {
@@ -60,10 +61,10 @@ d.functions.stopStartTalking = function (event) {
         clearTimeout(timeOutId);
         timeOutId = undefined;
         d.feed(`monologueButton`, `I listen`);
-        d.feed( `monologue`, `Where is your humanity ?`);
+        d.feed(`monologue`, `Where is your humanity ?`);
     } else {
         speak();
-        d.feed( `monologueButton`, `I don't care`);
+        d.feed(`monologueButton`, `I don't care`);
     }
 };
 
@@ -74,12 +75,12 @@ d.functions.stopStartTalking = function (event) {
 // -- The Todo --
 
 let data = [
-  {done: true, text: `Make DOM99 demo`},
-  {done: false, text: `Drink Water`},
+    { done: true, text: `Make DOM99 demo` },
+    { done: false, text: `Drink Water` },
 ];
 
 const updateJsonView = function () {
-    const asJSON =  JSON.stringify(data, null, 2);
+    const asJSON = JSON.stringify(data, null, 2);
     d.feed(`todoAsJson`, asJSON); // display it
 };
 
@@ -94,7 +95,7 @@ d.functions.updateToDo = function (event) {
     let property;
     if (event.target.type === `checkbox`) {
         property = `done`;
-    } else /*if (event.target.type === `text`) */{
+    } else /*if (event.target.type === `text`) */ {
         property = `text`;
     }
 
@@ -120,8 +121,10 @@ d.functions.addToDo = function (event) {
 
 
 d.functions.deleteToDos = function (event) {
-    //delete done todos only !
-    data = data.filter(toDoItem => {return !toDoItem.done;});
+    // delete done todos only !
+    data = data.filter(toDoItem => {
+        return !toDoItem.done;
+    });
 
     d.feed(`allToDos`, data);
     updateJsonView();
@@ -134,33 +137,33 @@ updateJsonView();
 // -- Love Hate --
 
 d.feed({
-  me : {
-    owner: `My`,
-    love: [
-      `Family`,
-      `Science`,
-      `Vacation`,
-    ],
-    hate: [
-      `Paper-work`,
-      `Mosquitos`,
-      `Polution`,
-    ]
-  },
-  you: {
-    owner: `Your`,
-    love: [
-      `Sing`,
-      `Dance`,
-      `Read`,
-      `Board Games`,
-    ],
-    hate: [
-      `Cold Shower`,
-      `Money Depth`,
-      `Bad Food`,
-    ]
-  }
+    me: {
+        owner: `My`,
+        love: [
+            `Family`,
+            `Science`,
+            `Vacation`,
+        ],
+        hate: [
+            `Paper-work`,
+            `Mosquitos`,
+            `Polution`,
+        ]
+    },
+    you: {
+        owner: `Your`,
+        love: [
+            `Sing`,
+            `Dance`,
+            `Read`,
+            `Board Games`,
+        ],
+        hate: [
+            `Cold Shower`,
+            `Money Depth`,
+            `Bad Food`,
+        ]
+    }
 });
 
 d.start();

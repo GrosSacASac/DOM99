@@ -5,6 +5,8 @@ import { fakeBossSpeak, fakeSisterSpeak } from "./chat_simulation.js";
 let messageKeys = [];
 const element = `element`;
 const MAX = 100;
+const chatInterval1 = 7500;
+const chatInterval2 = 12500;
 
 
 const renderNewMessageElement = function (data, key) {
@@ -65,9 +67,9 @@ d.functions.trySendMessage = function (event) {
 d.feed(`currentMessage`, ``); //reset the inputs
 d.start(); //now we listen to all events
 
-window.setInterval(function () {
+setInterval(function () {
     displayNewMessage(fakeSisterSpeak());
-}, 7500);
-window.setInterval(function () {
+}, chatInterval1);
+setInterval(function () {
     displayNewMessage(fakeBossSpeak());
-}, 12500);
+}, chatInterval2);

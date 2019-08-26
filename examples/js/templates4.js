@@ -1,6 +1,10 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
+
+
 window.d = d;
+const second = 1000;
 const networkDelay = 1000;
+
 // comments are now stored inside an array
 const commentsData = [
     {
@@ -62,14 +66,14 @@ d.functions.showNextComment = function (event) {
     // because DOM nodes are reused, this can make result look inconsistent
     commentsData.push({
         internalId: id,
-        text: `textLoading text ... (fake response takes ${Math.floor(networkDelay / 1000)}sec)`,
+        text: `textLoading text ... (fake response takes ${Math.floor(networkDelay / second)}sec)`,
         date: `Loading date ...`
     });
     // force UI update
     d.feed(`comments`, commentsData);
     // fetch and provide internal id to replace at correct position
     fetchData(`comment?id=42`).then(function (data) {
-		update(data, id);
+        update(data, id);
     });
 
 };

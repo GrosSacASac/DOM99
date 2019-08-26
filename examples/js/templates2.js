@@ -1,5 +1,6 @@
 import * as d from "../../source/dom99.js";
 
+const networkDelay = 1000;
 const commentPrefix = `comment`;
 
 let currentCommentNumber = 2;
@@ -18,7 +19,7 @@ const getDataFromFakeServer = function (urlOrWhat) {
 
         window.setTimeout(function () {
             resolve(fakeData);
-        }, 2000);
+        }, networkDelay);
     });
 };
 
@@ -30,7 +31,7 @@ d.functions.showNextComment = function (event) {
         tagName: `d-comment`,
         "data-scope": key
     };
-    const customElement = createElement2(customElementDescription);
+    const customElement = d.createElement2(customElementDescription);
 
     d.start({
         startElement: customElement,

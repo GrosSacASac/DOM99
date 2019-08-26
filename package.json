@@ -8,8 +8,8 @@
   "description": "Extend html with directives to manipulate the dom with JavaScript",
   "type": "module",
   "scripts": {
-    "lint-fix": "eslint --ignore-path .gitignore --fix source examples documentation plugins components",
-    "lint": "eslint --ignore-path .gitignore source examples documentation plugins components",
+    "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components",
+    "lint": "eslint --ignore-path .gitignore source examples plugins components",
     "bundle": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99Script.js > built/dom99Script.es5.js",
     "minify": "terser built/dom99Script.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99Script.es5.min.js && terser built/dom99ES.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99ES.min.js",

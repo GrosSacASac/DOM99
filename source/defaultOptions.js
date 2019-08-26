@@ -70,7 +70,7 @@ const propertyFromElement = (element) => {
     // for <p> it is textContent
     let tagName;
     if (element.tagName !== undefined) {
-        tagName = element.tagName;
+        ({ tagName } = element);
     } else {
         tagName = element;
     }
@@ -83,7 +83,7 @@ const propertyFromElement = (element) => {
 const eventNameFromElement = (element) => {
     // defines the default event for an element
     // i.e. when data-function is omitting the event
-    const {tagName} = element;
+    const { tagName } = element;
     if (tagName === `INPUT`) {
         return inputEventFromType(element.type);
     }
