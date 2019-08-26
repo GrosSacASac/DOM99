@@ -9,7 +9,7 @@ d.start({
         result: ``
     },
     dataFunctions: {
-        askSomething: function (event) {
+        askSomething: function () {
             const questionText = `Do you think your scroll position will be remembered ?`;
             const yesText = `Yes`;
             const noText = `No`;
@@ -19,7 +19,7 @@ d.start({
                 });
             });
         },
-        tryTextDialog: function (event) {
+        tryTextDialog: function () {
             const question = `What is your favorite colour ?`;
             const label = `Your colour: `;
             const text = ``;

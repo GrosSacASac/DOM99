@@ -46,7 +46,7 @@
     "bootstrap": "^4.3.1",
     "browserify": "^16.3.0",
     "eslint": "^6.2.2",
-    "eslint-config-red": "^1.2.1",
+    "eslint-config-red": "^1.2.3",
     "filesac": "^11.0.0",
     "handlebars": "^4.1.2",
     "highlight.js": "^9.15.8",
@@ -69,7 +69,9 @@
     "readme.md"
   ],
   "eslintConfig": {
-    "extends": ["red"],
+    "extends": [
+      "red"
+    ],
     "parserOptions": {
       "ecmaVersion": 2019,
       "sourceType": "module",

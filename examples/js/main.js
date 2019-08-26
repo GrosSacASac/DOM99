@@ -13,7 +13,7 @@ d.feed({
     b: `6`,
 });
 
-d.functions.calculate = function (event) {
+d.functions.calculate = function () {
     const { a, b } = d.variables;
     if (isFinite(a) && isFinite(b)) {
         d.feed({
@@ -56,7 +56,7 @@ const speak = function () {
     timeOutId = setTimeout(speak, speakInterval);
 };
 
-d.functions.stopStartTalking = function (event) {
+d.functions.stopStartTalking = function () {
     if (timeOutId) {
         clearTimeout(timeOutId);
         timeOutId = undefined;
@@ -109,7 +109,7 @@ d.functions.updateToDo = function (event) {
     updateJsonView();
 };
 
-d.functions.addToDo = function (event) {
+d.functions.addToDo = function () {
     data.push({
         done: false,
         text: ``,
@@ -120,7 +120,7 @@ d.functions.addToDo = function (event) {
 };
 
 
-d.functions.deleteToDos = function (event) {
+d.functions.deleteToDos = function () {
     // delete done todos only !
     data = data.filter(toDoItem => {
         return !toDoItem.done;

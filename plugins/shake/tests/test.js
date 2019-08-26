@@ -4,7 +4,7 @@ import { shake, shakeSupport } from "../shake.js";
 d.plugin(shake);
 
 let shaken = 0;
-d.functions.deviceShaked = function (event) {
+d.functions.deviceShaked = function () {
     shaken += 1;
     d.feed(`shakenCount`, shaken);
 };

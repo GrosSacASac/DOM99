@@ -49,7 +49,7 @@ const displayNewMessage = function (data) {
     d.feed(key, data); // loops over
 };
 
-d.functions.trySendMessage = function (event) {
+d.functions.trySendMessage = function () {
     // the data uses the same keys declared in the html
     const data = {
         authorName: `You`,

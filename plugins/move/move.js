@@ -1,4 +1,4 @@
-export {move};
+export { move };
 
 const CUSTOM_EVENT = `move`;
 const SEPARATOR = `+`;
@@ -6,7 +6,9 @@ const SEPARATOR = `+`;
 const move = {
     type: `function`,
     plugin: function (element, eventName, functionName, functions, preventDefault) {
-        let [keyCode, name] = functionName.split(SEPARATOR);
+        const split = functionName.split(SEPARATOR);
+        let [keyCode] = split;
+        const [, name] = split;
         if (eventName !== CUSTOM_EVENT) {
             return;
         }

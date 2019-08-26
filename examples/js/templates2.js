@@ -9,9 +9,9 @@ const update = function (commentKey, commentObject) {
     d.feed(commentKey, commentObject);
 };
 
-const getDataFromFakeServer = function (urlOrWhat) {
+const fetchData = function (/*urlOrWhat*/) {
     // fetch like simulation
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, /*reject*/) {
         const fakeData = {
             text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
             date: `just now`
@@ -23,7 +23,7 @@ const getDataFromFakeServer = function (urlOrWhat) {
     });
 };
 
-d.functions.showNextComment = function (event) {
+d.functions.showNextComment = function () {
     currentCommentNumber += 1;
     const key = `${commentPrefix}${currentCommentNumber}`;
 
@@ -37,7 +37,7 @@ d.functions.showNextComment = function (event) {
         startElement: customElement,
     });
     d.elements.commentSection.appendChild(customElement);
-    getDataFromFakeServer(`comment?id=42`).then( //get data
+    fetchData(`comment?id=42`).then( //get data
         function (data) {
             update(key, data);
         });

@@ -1,6 +1,6 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../source/dom99.js";
 
-d.functions.showNextComment = function(event) {
+d.functions.showNextComment = function () {
     //todo
 };
 
@@ -11,7 +11,7 @@ const commentsData = {
     },
     comment2: {
         text: `I really appreciate your work`,
-        date: `just now` 
+        date: `just now`
     }
 };
 

@@ -41,10 +41,10 @@ const update = function (commentObject, id) {
 };
 
 
-const fetchData = function (url) {
-    // fetch like simulation
+const fetchData = function (/*urlOrWhat*/) {
     commentsLoaded += 1;
-    return new Promise(function (resolve, reject) {
+    // fetch like simulation
+    return new Promise(function (resolve, /*reject*/) {
         const fakeData = {
             text: `This is a comment # ${commentsLoaded}`,
             date: `${(new Date()).toLocaleString()}`
@@ -57,7 +57,7 @@ const fetchData = function (url) {
 };
 
 
-d.functions.showNextComment = function (event) {
+d.functions.showNextComment = function () {
     // remember the position to be updated later
     const id = internalId;
     internalId += 1;

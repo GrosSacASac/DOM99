@@ -37,7 +37,7 @@ const useYesNoDialog = function (dom99) {
         currentResolve(event.target === d.elements[yesButton]);
     };
 
-    d.functions.yesNoDialogSubmit = function (event) {
+    d.functions.yesNoDialogSubmit = function () {
         const input = d.variables[promptInput];
         // prepareNext can overwrite d.variables[promptInput]
         d.elements[promptContainer].hidden = true;

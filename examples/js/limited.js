@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as d from "../../source/dom99.js";
 let globalNumber = 0;
 // increment local does not update the list, how to make the data flow

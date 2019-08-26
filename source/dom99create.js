@@ -17,7 +17,7 @@ import { firstAncestorValue } from "./parentIdFromEvent.js";
 import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 
-const {hasOwnProperty} = Object.prototype;
+const { hasOwnProperty } = Object.prototype;
 
 const NAME = `DOM99`;
 const SCOPE = `${NAME}_C`;
@@ -475,9 +475,9 @@ const create = (options) => {
 
         /* could send scope as array directly but have to change
         notifyOneListSubscriber to take in scope as Array or String before */
-        const scope = scopeFromArrayWith(scopeIn, variableName);
+        const arrayScope = scopeFromArrayWith(scopeIn, variableName);
 
-        pushOrCreateArrayAt(listSubscribers, scope, element);
+        pushOrCreateArrayAt(listSubscribers, arrayScope, element);
 
         if (element.childNodes.length > 0) {
             enterObject(scopeIn, variableName);
@@ -506,8 +506,8 @@ const create = (options) => {
             leaveObject(scopeIn);
         }
 
-        if (hasOwnProperty.call(variables, scope)) {
-            notifyOneListSubscriber(element, scope, variables[scope], templateFromName, notifyCustomListSubscriber, options);
+        if (hasOwnProperty.call(variables, arrayScope)) {
+            notifyOneListSubscriber(element, arrayScope, variables[arrayScope], templateFromName, notifyCustomListSubscriber, options);
         }
 
     };

@@ -1,6 +1,8 @@
 import { create } from "../../source/dom99create.js";
 import { defaultOptions } from "../../source/defaultOptions.js";
 
+
+/* eslint-disable */
 const prices = {
     t_porsche: `66,00 €`,
     t_fendt: `54,00 €`,

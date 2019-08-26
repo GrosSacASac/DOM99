@@ -4,7 +4,7 @@ import { move } from "../move.js";
 d.plugin(move);
 
 let x = 0;
-d.functions.moveLeft = function (event) {
+d.functions.moveLeft = function () {
     x += 1;
     d.feed(`count`, x);
 };
