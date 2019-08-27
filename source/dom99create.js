@@ -789,6 +789,6 @@ const create = (options) => {
         get,
         element: getElement,
         feed,
-        plugin
+        plugin,
     };
 };
