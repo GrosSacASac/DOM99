@@ -465,14 +465,30 @@ const create = (options) => {
             );
         }
 
-        if (optional) {
-            // for custom elements
-            const fullName = `${listItemTagName}-${optional}`;
-            element[CUSTOM_ELEMENT] = fullName;
+        // todo remove deprecation warning 
+        if (listItemTagName) {
+            let fullName;
+            if (optional) {
+                // for custom elements
+                fullName = `${listItemTagName}-${optional}`;
+                element[CUSTOM_ELEMENT] = fullName;
+            } else {
+                element[ELEMENT_LIST_ITEM] = listItemTagName;
+            }
+            const tagName = element.tagName.toLowerCase();
+            console.warn(
+                `deprecated since 21.0.1
+Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"></${tagName}> with
+<${tagName} data-list="${variableName}" data-use="${fullName || listItemTagName}"></${tagName}>`
+            );
         } else {
-            element[ELEMENT_LIST_ITEM] = listItemTagName;
+            const use = element.getAttribute(options.directives.use);
+            if (use.includes(`-`)) {
+                element[CUSTOM_ELEMENT] = use;
+            } else {
+                element[ELEMENT_LIST_ITEM] = use;
+            }
         }
-
         /* could send scope as array directly but have to change
         notifyOneListSubscriber to take in scope as Array or String before */
         const arrayScope = scopeFromArrayWith(scopeIn, variableName);
@@ -509,7 +525,6 @@ const create = (options) => {
         if (hasOwnProperty.call(variables, arrayScope)) {
             notifyOneListSubscriber(element, arrayScope, variables[arrayScope], templateFromName, notifyCustomListSubscriber, options);
         }
-
     };
 
     const applyVariable = (element, variableName) => {

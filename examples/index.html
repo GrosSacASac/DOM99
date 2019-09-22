@@ -66,7 +66,7 @@
                 </li>
             </template>
 
-            <ul data-list="allToDos-d-todo"><!-- d-todo's  --></ul>
+            <ul data-list="allToDos" data-use="d-todo"><!-- d-todo's  --></ul>
             <button data-function="click-deleteToDos">Delete finished tasks</button>
             <button data-function="click-addToDo">Add To-do</button>
             <pre>JSON: <output data-variable="todoAsJson"></output></pre>
@@ -81,11 +81,11 @@
                   <h3><span data-variable="owner"></span> Love and Hate Lists</h3>
                   <section>
                         <h4>Love</h4>
-                        <ul data-list="love-li"></ul>
+                        <ul data-list="love" data-use="li"></ul>
                    </section>
                   <section>
                         <h4>Hate</h4>
-                        <ul data-list="hate-li"></ul>
+                        <ul data-list="hate" data-use="li"></ul>
                    </section>
             </template>
             <div data-scope="me" is="d-lovehatelist"></div>

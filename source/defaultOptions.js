@@ -62,7 +62,8 @@ const defaultDirectives = {
     element: `data-element`,
     list: `data-list`,
     scope: `data-scope`,
-    template: `data-template`
+    template: `data-template`,
+    use: `data-use`,
 };
 
 const propertyFromElement = (element) => {
