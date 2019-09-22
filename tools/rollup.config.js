@@ -30,22 +30,22 @@ export default {
     output: [
         Object.assign({
             format: `iife`,
-            file: `built/dom99Script.js`,
+            file: `built/dom99.iife.js`,
         }, commonOutputOptions),
         Object.assign({
             format: `cjs`,
-            file: `built/dom99Require.js`,
+            file: `built/dom99.cjs.js`,
         }, commonOutputOptions),
         Object.assign({
             format: `amd`,
-            file: `built/dom99Amd.js`,
+            file: `built/dom99.amd.js`,
             amd: {
                 id: GLOBAL_NAME
             }
         }, commonOutputOptions),
         Object.assign({
             format: `es`,
-            file: `built/dom99ES.js`
+            file: `built/dom99.es.js`
         }, commonOutputOptions),
     ],
 

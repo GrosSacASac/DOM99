@@ -22,6 +22,7 @@ p {
 }
 
 p {
+  white-space: initial;
   max-width: 900px;/*easier to read ?*/
   margin-left: 4px;
   font-size: 1.05em;
@@ -116,8 +117,6 @@ d-htmljsresult * {
 .user {
     background-color: #6293a6;  /* fallback */
     background-image: linear-gradient(0, #f3a0a0, #427090);
-
-
 }
 
 .user-picture {
