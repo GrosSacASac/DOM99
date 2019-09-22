@@ -18,8 +18,8 @@
 <nav>
     <a href="./" class="nav-ext">Overview</a>
     <a href="#about">About</a>
+    <a href="#howto">How to</a>
     <a href="#examples1">Examples</a>
-    <a href="#howto">Documentation</a>
     <a href="#components">Components</a>
     <a href="#plugins">Plugins</a>
     <a href="#details">Details</a>
@@ -33,7 +33,7 @@
 <img alt="dom99" src="./images/99.jpg">
 
 <section>
-<h3>What is dom99 ?</h3>
+<h3>What</h3>
 
 <p>dom99 is a <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>
 framework that provides a nice API to manipulate the DOM: Select nodes, add event listeners, two-way data binding, populate HTML templates with data, leverage custom elements.</p>
@@ -52,7 +52,7 @@ framework that provides a nice API to manipulate the DOM: Select nodes, add even
 <li>Fear of the unknown</li>
 <li>You have already a working code base that is maintainable</li>
 <li>You need a comprehensive framework that has all the tools/components/css you need out of the box.</li>
-<li>No built in server side rendering mechanism</li>
+<li>No built-in server side rendering mechanism</li>
 </ul>
 </section>
 
@@ -83,19 +83,19 @@ framework that provides a nice API to manipulate the DOM: Select nodes, add even
     <li>Edge</li>
     <li>Internet Explorer 9+* </li>
 </ul>
-<p>* Supports may also requires a <a href="https://babeljs.io/docs/en/next/babel-polyfill.html">ES2015 polyfill</a>
-Support may also require transpilation. You may also want to use built/dom99.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/ and examples/</p>
+<p>* Supports also requires a <a href="https://babeljs.io/docs/en/next/babel-polyfill.html">ES2015 polyfill</a>
+Support may also require transpilation. You may also want to use built/dom99.iife.es5.min.js. Support may also require other polyfills and transpilation see examples/css/basics.css and polyfills/ and examples/</p>
 </section>
 
 <section>
 <h3>License</h3>
 <p>Copyright Cyril Walle</p>
-<p><a href="../LICENSE.txt ">Distributed under the Boost Software License,
-Version 1.0: LICENSE.txt</a></p>
+<p>Distributed under the Boost Software License,
+Version 1.0</p>
 </section>
 
 <section>
-<h3>Discussion</h3>
+<h3>Community</h3>
 
 <h4>Chat</h4>
 
@@ -103,55 +103,47 @@ Version 1.0: LICENSE.txt</a></p>
 
 <h4>Issues reports</h4>
 
-<p><a href="https://github.com/GrosSacASac/DOM99/issues">Issues report</a></p>
+<p><a href="https://github.com/GrosSacASac/DOM99/issues">Report issue</a></p>
 
 <h4>Contributing</h4>
 
-<p>Contributions welcome. <a href="https://github.com/GrosSacASac/DOM99/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<p>Contributions are welcome. <a href="https://github.com/GrosSacASac/DOM99/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
 </section>
 
 </article>
 
 <article id="howto">
-<h2>How to use dom99 ?</h2>
-<h3>In your HTML:</h3>
+<h2>How to</h2>
+<h3>In HTML</h3>
 
 <p>dom99 will browse the DOM and react if an element has one of the following attributes</p>
 
 <ul>
-    <li>data-variable :  data binding between DOM element and js variable</li>
-    <li>data-list : list is a synonym for array: display a js array as a list in the DOM</li>
-    <li>data-element : pre-selecting an element for later usage</li>
-    <li>data-function : adds an event listener to that element</li>
-    <li>data-template : (advanced) Declare a html template to build components</li>
-    <li>data-scope: hides the access under a given scope</li>
+    <li>data-variable : Data binding between DOM element and JS variable</li>
+    <li>data-list : Display a JS Array as a list in the DOM</li>
+    <li>data-element : Select an element</li>
+    <li>data-function : Ddds an event listener</li>
+    <li>data-template : Declare a html template to build components</li>
+    <li>data-scope: Create a scope context</li>
 </ul>
 
-<p>Examples:</p>
+<p>The general syntax is</p>
 
-<pre><code>&lt;input data-variable="b" type="text"&gt;
-&lt;nav data-element="myNav"&gt;Navigation Links&lt;/nav&gt;
-&lt;button data-function="click-deleteFoto"&gt;Delete Foto&lt;/button&gt;
-&lt;d-magicbutton data-scope="1"&gt;&lt;/d-magicbutton&gt;</code></pre>
-
-<p>The general syntax is </p>
-
-<p><code>&lt;tag data-keyword="token1-token2" &gt; bla bla &lt;/tag&gt;</code></p>
+<p><code>&lt;tag data-keyword="token1-token2" &gt; text ... &lt;/tag&gt;</code></p>
 
 <p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
-<pre><code>&lt;script src="./node_modules/dom99/built/dom99Script.js"&gt;&lt;/script&gt;
+<pre><code>&lt;script src="./node_modules/dom99/built/dom99.iife.js"&gt;&lt;/script&gt;
 &lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
 
-<h3>In your JavaScript:</h3>
+<h3>In JavaScript</h3>
 
-<pre><code>
-import * as d from "./node_modules/dom99/source/dom99.js";
+<pre><code>import * as d from "./node_modules/dom99/source/dom99.js";
 // to start using dom99 pre selected elements use this statement
 d.start();</code></pre>
 
-<h3>Use data-function and d.functions for event listeners</h3>
-<p>Store your functions in the d.functions object</p>
+<h3>data-function and d.functions for event listeners</h3>
+<p>Store functions in the d.functions object</p>
 
 <pre><code>d.functions.functionName = aFunction;</code></pre>
 
@@ -161,25 +153,23 @@ d.start();</code></pre>
 // "functionName" not "aFunction"</code></pre>
 
 
-<h3>Use data-variable + d.variables + d.feed for data bindings</h3>
-<p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
+<h3>data-variable and d.variables and d.feed for data bindings</h3>
+
+<p>To changes the text of <pre><code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code></pre> and all other element that share the variable talkings</p>
 
 <pre><code>d.feed({talkings: `Hi`});</code></pre>
 
-<p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two way data bindings</p>
+<p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two-way data-binding</p>
 
-<h3>Use data-list="x-li" to display a list</h3>
+<h3>data-list="x-li" to display a list</h3>
 <p>See examples</p>
-<h3>Use data-element and d.elements for direct element manipulation</h3>
-<p>To use a pre-selected element</p>
+<h3>data-element and d.elements for direct element manipulation</h3>
 
-<pre><code>d.elements.bigTitle // An element reference
-d.elements.bigTitle.remove(); // for instance remove the bigTitle node</code></pre>
+<pre><code>d.elements.title.remove();</code></pre>
 
-<p>will remove <code>&lt;h1 data-element="bigTitle"&gt;You can remove me to make space&lt;/h1&gt;</code></p>
+<p>will remove <code>&lt;h1 data-element="title"&gt;Hello&lt;/h1&gt;</code></p>
 
-<h3>Use data-template to declare html templates</h3>
-<p>To compose html with predefined building blocks.</p>
+<h3>data-template to declare templates</h3>
 
 <pre><code>&lt;template data-template="d-comment"&gt;
     &lt;p data-variable="text"&gt;&lt;/p&gt;
@@ -187,27 +177,16 @@ d.elements.bigTitle.remove(); // for instance remove the bigTitle node</code></p
 &lt;/template&gt;</code></pre>
 
 
-<h3>Use data-scope to put html templates copies</h3>
+<h3>data-scope to put html templates copies</h3>
 <pre><code>&lt;d-comment data-scope="first"&gt;&lt;/d-comment&gt;
 &lt;d-comment data-scope="second"&gt;&lt;/d-comment&gt;</code></pre>
 
 <p>To edit a comment at run time do this:</p>
 
-<pre><code>
-// manually
-d.feed(`first&gt;text`, `A new comment`);
-d.feed(`first&gt;date`, `Today`);
-
-// better
-d.feed(`first`, {
+<pre><code>d.feed(`first`, {
     text: `A new comment`,
     date: `Today`
-});
-
-</code></pre>
-
-<p>You are ready to use dom99 ! </p>
-
+});</code></pre>
 
 <h2>Complete overview</h2>
 
