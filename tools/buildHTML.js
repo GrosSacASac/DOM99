@@ -1,7 +1,6 @@
 import {
     textFileContent,
     writeTextInFile,
-    copyFile
 } from "filesac";
 
 import handlebar from "handlebars";
@@ -9,45 +8,46 @@ import htmlMinifier from "html-minifier";
 const { minify } = htmlMinifier;
 
 const skipMinification = false;
-
+const documentation = `documentation`;
 
 
 const OPTIONS = {
-    removeAttributeQuotes: false,
+    removeAttributeQuotes: true,
     caseSensitive: true,
     collapseBooleanAttributes: true,
-    collapseInlineTagWhitespace: false,
+    collapseInlineTagWhitespace: true,
     collapseWhitespace: true,
     decodeEntities: true,
     html5: true,
     removeComments: true,
     removeEmptyAttributes: true,
-    removeRedundantAttributes: false
+    removeRedundantAttributes: true,
 };
 
 
 const thisName = "html minify";
 
 const HTMLFiles = {
-    [`documentation/documentation-original.html`]: {
-        to: `documentation/documentation.html`,
+    [`${documentation}/documentation-original.html`]: {
+        to: `${documentation}/documentation.html`,
         options: {
+            ...OPTIONS,
+            // override because we display html code from the page itself
             removeAttributeQuotes: false,
-            caseSensitive: true,
-            collapseBooleanAttributes: true,
             collapseInlineTagWhitespace: false,
             collapseWhitespace: false,
-            decodeEntities: true,
-            html5: true,
             removeComments: false,
-            removeEmptyAttributes: true,
-            removeRedundantAttributes: false
-        }
+            removeRedundantAttributes: false,
+        },
     },
-    [`documentation/index-original.html`]: {
-        to: `documentation/index.html`,
-        options: OPTIONS
-    }
+    [`${documentation}/index-original.html`]: {
+        to: `${documentation}/index.html`,
+        options: OPTIONS,
+    },
+    [`${documentation}/changelog-original.html`]: {
+        to: `${documentation}/changelog.html`,
+        options: OPTIONS,
+    },
 };
 
 (async function () {

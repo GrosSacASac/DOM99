@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>dom99</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/documentation.css">
+    <link rel="icon" href="./images/99.jpg">
+    <meta name="description" content={{description}}>
+    <meta name="keywords" content={{keywords}}>
+    <link rel="prefetch" href="./">
+</head>
+<body>
+<h1>dom99</h1>
+
+<main>
+<nav>
+    <a href="./" class="nav-ext">Overview</a>
+    <a href="./documentation#about">About</a>
+    <a href="./documentation#howto">How to</a>
+    <a href="./documentation#examples1">Examples</a>
+    <a href="./documentation#components">Components</a>
+    <a href="./documentation#plugins">Plugins</a>
+    <a href="./documentation#details">Details</a>
+    <a href="#timeline">Time-Line</a>
+
+    <a href="/api/global" hidden>API</a>
+</nav>
+<article id="timeline">
+<h2>Time-Line</h2>
+
+<article id="patchnotes">
+<h3>Patch Notes</h3>
+
+<h4>Version 21.0.0</h4>
+<p>data-list is split into data-list and data-use</p>
+<p>Replace data-list="x-li" with data-list="x" data-use="li"
+</p>
+<p>Rename</p>
+<ul>
+    <li>dom99Script.js into dom99.iife.js</li>
+    <li>dom99Script.es5.js into dom99.iife.es5.js</li>
+    <li>dom99Script.es5.min.js into dom99.iife.es5.min.js</li>
+    <li>dom99Require.js into dom99.cjs.js</li>
+    <li>dom99Amd.js into dom99.amd.js</li>
+    <li>dom99ES.js into dom99.es.js</li>
+    <li>dom99ES.min.js into dom99.es.min.js</li>
+</ul>
+
+<h4>Version 20.0.0</h4>
+<p>start uses named parameters, drop callback</p>
+<p>inside has been renamed into scope</p>
+<p>data-template can be used in combination with data-list</p>
+
+<h4>Version 19.1.0</h4>
+<p>Allow data-template to be used on non template elements</p>
+<h4>Version 19.0.10</h4>
+<p>Build files automatically when installing from github with <kbd>npm i GrosSacASac/DOM99</kbd></p>
+<h4>Version 19.0.0</h4>
+<p>FIRST_VARIABLE_FROM_USER_AGENT is the default option for firstVariableValueStrategy:</p>
+<p>FIRST_VARIABLE_FROM_HTML, FIRST_VARIABLE_FROM_USER_AGENT, options are no longer exported by the default import entry</p>
+<p>leafName and leafIndex are exported</p>
+
+<h4>Version 18.0.0</h4>
+<p>idGenerator is not exported by default. To continue using it:</p>
+<pre><code>import {idGenerator} from "./node_modules/dom99/source/idGenerator.js"</code></pre>
+
+<h4>Version 17.0.0</h4>
+<p>Remove deleteTemplate , activate, forgetContext</p>
+<p>Rename all path and context into scope, Rename data-inside into data-scope</p>
+<p>Change argument order of start, options can not be accessed after initialization, instead pass wanted options to create</p>
+<p>Move default options into a separate file source/defaultOptions.js</p>
+
+<h4>Version 16.0.0</h4>
+<p>New URL for website <a href="https://dom99.now.sh/">https://dom99.now.sh/</a>. Update your bookmarks.</p>
+<p>Generated files are not in the git anymore. Generate them with the commands defined in package.json or download pre built files with npm or use URL https://unpkg.com/dom99@16.0.1/built/dom99ES.js or https://unpkg.com/dom99@16.0.1/built/dom99Script.js</p>
+
+<h4>Version 15.4.0</h4>
+<p>expose d.element(string) function. It is a convenience function for d.elements[string]. It is safer to use because it cannot accidently set private variables.</p>
+<h4>Version 15.3.0</h4>
+<p>add options.firstVariableValueStrategy. It can be set to undefined which is the default with same behaviour as before, or set to d.FIRST_VARIABLE_FROM_HTML or d.FIRST_VARIABLE_FROM_USER_AGENT or a custom function (element) => value</p>
+<h4>Version 15.2.0</h4>
+<p>expose d.get(string) function. It is a convenience function for d.variables[string]. It is safer to use because it cannot accidently set private variables without explicit d.feed()</p>
+<h4>Version 15.1.0</h4>
+<p>Factory for creating independent dom99 realms is now provided. The main dom99.js interface remains unchanged and still exports a singleton. Internally dom99.js now imports dom99create.js, creates one instance and exports it. Have a look at source/dom99.js to know how to use this feature.</p>
+
+<h4>Version 15.0.0</h4>
+<p>The new way of importing is <br>
+<code>import * as d from "./node_modules/dom99/built/dom99ES.js";</code>
+It is equivalent to but without runtime overhead:
+</p>
+<pre>
+<code>import {
+    start,
+    elements,
+    functions,
+    variables,
+    feed,
+    forgetContext,
+    contextFromArray,
+    contextFromEvent,
+    getParentContext, plugin, options, createElement2
+} from "./node_modules/dom99/built/dom99ES.js";
+const d = {
+    start,
+    elements,
+    functions,
+    variables,
+    feed,
+    forgetContext,
+    contextFromArray,
+    contextFromEvent,
+    getParentContext, plugin, options, createElement2
+};</code>
+</pre>
+<p>
+    Remove built/dom99.min.js
+</p>
+<h4>Version 14.4.0</h4>
+<p>Adde built/dom99ES.min.js, deprecate built/dom99.min.js</p>
+<h4>Version 14.3.0</h4>
+<p>Adde built/dom99ES.js (single file)</p>
+<h4>Version 14.2.0</h4>
+<p>Adde export <code>idGenerator</code></p>
+<h4>Version 14.1.0</h4>
+<p>Adde plugin type <em>clone</em>. It allows to target a template copy just before it is inserted into the document</p>
+
+<h4>Version 14.0.0</h4>
+<p>Add plugin system for variables:</p>
+    <ul>
+        <li><code>d.feed</code></li>
+        <li><code>data-variable="a"</code></li>
+        <li><code>data-list="list-li"</code></li>
+    </ul>
+<p>Refactore plugin system</p>
+
+<h4>Version 13.0.0</h4>
+<p>The library is now an ES module first. From that, <em>script require and amd</em> are built. The default export is split into 4 named exports <code>{d, plugin, options, createElement2}</code></p>
+
+<p>Changes required in the code:</p>
+<p><code><em>d.plugin --&gt; plugin</em></code></p>
+<p><code><em>d.options --&gt; options</em></code></p>
+<p><code><em>d.createElement2 --&gt; createElement2</em></code></p>
+
+<p>For ES module users: <em>built/dom99Module.js --&gt; source/dom99.js</em></p>
+<p>Replace <code>import d from "...built/dom99Module.js";</code> with <br><code>import {d, plugin, options, createElement2} from ".../source/dom99.js";</code></p>
+
+<p>For script users: <em>js/dom99.js --&gt; built/dom99Script.js</em></p>
+<p><em>built/dom99.es5.min.js --&gt; built/dom99Script.es5.min.js</em></p>
+<p>Add <code>const {d, plugin, options, createElement2} = dom99;</code></p>
+
+<p>For browserify users</p>
+<p>Replace <code>const d = require("dom99");</code> with <br><code>const {d, plugin, options, createElement2} = require("dom99");</code></p>
+<p>Add dom99Amd.js</p>
+
+<h4>Version 12.0.0</h4>
+<p>Components readTextFile and yesNoDialog use dependency injection. Use `useReadTextFile(d);` or `useYesNoDialog(d);` before `d.start();` or similar.</p>
+<h4>Version 11.1.4</h4>
+<p>Add dom99Module.min.js</p>
+<h4>Version 11.1.0</h4>
+<p>ReadTextFile component is available</p>
+
+<h4>Version 11.0.0</h4>
+<p>Remove a IE bugfix that is already resolved by <a href="https://www.npmjs.com/package/template-mb">template-mb</a></p>
+
+<h4>Version 10.0.0</h4>
+<p><code>d.feed</code> signature is inverted to be more like JS Objects and Maps and Arrays</p>
+<pre><code>
+    feed = function (startPath, data) {
+        if (data === undefined) {
+            data = startPath;
+            startPath = ``;
+        }
+</code></pre>
+<p>With one parameter the effect is the same as before</p>
+<p>With two parameters the startPath is now the first argument</p>
+
+<pre><code>
+    find:
+        d\.feed\((.+)\, (.+)\)
+    replace:
+        d.feed($2, $1)
+</code></pre>
+<h4>Version 9.1.0</h4>
+<p>Plugin: shake</p>
+
+<h4>Version 9.0.0</h4>
+<p>IE 9 support is mantained by external polyfills</p>
+<p>To still support IE 9+ <code>npm install <a href="https://www.npmjs.com/package/template-mb">template-mb</a></code> and include it like in the file <code>examples/index.html</code></p>
+
+<p>Drop Bower and bower.json</p>
+<h4>Version 8.2.0</h4>
+<p>Support for cases when an element is inside another that uses
+<code>data-function</code> Ex. button &gt; span</p>
+<h4>Version 8.1.0</h4>
+<p>Files are now built:</p>
+<ul>
+    <li>built/dom99Module.es5.js</li>
+    <li>built/dom99Require.es5.js</li>
+</ul>
+
+<h4>Version 8.0.0</h4>
+<h5>Rename</h5>
+<ul>
+    <li>forgetRemoveTemplate into deleteTemplate</li>
+    <li>linkJsAndDom into activate</li>
+
+    <li>options.attributeValueDoneSign into options.doneSymbol</li>
+    <li>options.elementsForUserInputList into options.tagNamesForUserInput</li>
+    <li>options.directives.directiveFunction into options.directives.function</li>
+    <li>options.directives.directiveVariable into options.directives.variable</li>
+    <li>options.directives.directiveElement into options.directives.element</li>
+    <li>options.directives.directiveInside into options.directives.inside</li>
+    <li>options.directives.directiveList into options.directives.list</li>
+    <li>options.directives.directiveTemplate into options.directives.template</li>
+</ul>
+<h5>Add</h5>
+<ul>
+    <li>options.propertyFromElement</li>
+    <li>options.eventNameFromElement</li>
+</ul>
+<h5>Remove</h5>
+<ul>
+    <li>options.variablePropertyFromTagAndType</li>
+    <li>options.eventFromTagAndType</li>
+</ul>
+<h4>Version 7.2.18</h4>
+<p>add .npmignore</p>
+<h4>Version 7.2.16</h4>
+<p>Remove warnings</p>
+<h4>Version 7.2.13</h4>
+<p>fix a bug that only occurred on edge, but not IE</p>
+<h4>Version 7.2.5</h4>
+<p>Polyfill for hidden</p>
+<p>Better css</p>
+<p>prompt equivalent in yesNoDialog components folder</p>
+<h4>Version 7.2.3</h4>
+<p>Enable IE 10 again</p>
+<h4>Version 7.2.0</h4>
+<p>data-scope extension, can be used without is="" and without custom element. In this case all children will be encapsulated under the name space of the data-scope attribute.
+Good for encapsulation of independent components. See how it is used in components/yesNoDialog/</p>
+<p>YesNoDialog remake, and compatible again with the last major dom99 version</p>
+<p>dom99ConfigurationExample  remake with clearer steps</p>
+<p>added deleteTemplate</p>
+<p>fixed a potential memory leak</p>
+<h4>Version 7.1.0</h4>
+<p>experimenting with d.start(userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined)</p>
+<p>d.start does what you think, the right way</p>
+<pre><code>const start = function (userFunctions = {}, initialFeed = {}, startElement = document.body, callBack = undefined) {
+        Object.assign(functions, userFunctions);
+        feed(initialFeed);
+        activate(startElement);
+        if (!callBack) {
+            return;
+        }
+        return callBack();
+    };</code></pre>
+
+<h4>Version 7.0.0</h4>
+<p>renamed dom99 variable into just d</p>
+<p>d.getParentContext removed. To navigate through context there are now  3 functions that work together:</p>
+<ul>
+    <li><code>d.contextFromEvent</code> to get the context from the event</li>
+    <li><code>d.contextFromArray</code> to build up a direct access string to go 1 level up the tree</li>
+    <li><code>d.getParentContext</code>  to go 1 level down the tree</li>
+</ul>
+<p>this model is more flexible than before but requires more code, example to change color from sister element</p>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;
+
+d.functions.changeSister = function (event) {
+    const thisContext = d.contextFromEvent(event);
+    const sisterAccessContext = d.contextFromArray([thisContext, "div"]);
+    const sisterDiv = d.elements[sisterAccessContext];
+    sister.Div.classList.add("red");
+};(
+</code></pre>
+<p>This works anywhere including, deep inside other data-list="" and data-scope=""
+The div does not have to be a sister element html speaking, but only from dom99 point of view
+
+This would work too</p>
+<pre><code>&lt;button data-function="changeSister"&gt;Click Me&lt;/button&gt;
+    &lt;footer&gt;
+        &lt;time&gt;&lt;div data-element="div"&gt;Lorem Ipsul sister&lt;/div&gt;&lt;/time&gt;
+    &lt;/footer&gt;</code></pre>
+<p>To go one level down use d.getParentContext(context)</p>
+<p>Now use boost license. It is more permissive than MIT because you don't need to include (but still can if you want)
+the license in distributed executables or transpiled code</p>
+<p>Getting data uses d.variables</p>
+<p>Setting data uses           d.feed({
+            result: "Please enter finite numbers"
+        }); or d.feed("result", "Please enter finite numbers");
+          Setting data previously called a function (object setter) but it was implicit. Now it is explicit</p>
+<p>dom variables are not always converted to Strings anymore. this makes d.bool anymore</p>
+
+<h4>Version 5.0.0</h4>
+<p>Rename <code>data-vr</code> into <code>data-variable</code></p>
+<p>Split <code>data-el</code> into <code>data-element</code> and <code>data-template</code></p>
+<p>Rename <code>data-fx</code> into <code>data-function</code></p>
+<p>Rename <code>data-in</code> into <code>data-scope</code></p>
+
+<h4>Version 4.0.0</h4>
+<p>Unpublished</p>
+<h4>Version 3.0.3</h4>
+<p>Omitting the event type with data-function will now use default sane event types. See variable eventFromTag in dom99.js for more information</p>
+
+<h4>Version 3.0.1</h4>
+<p>Fixed a rare bug that could occur with a a property name hasOwnProperty</p>
+<p>The es5 version and the source dom99.js will now do strictly the same except for logging errors and warnings. There will no longer be invisible checks at runtime to see if the arguments are valid, only logs, this should slightly improve performance</p>
+
+<h4>Version 2.0.0</h4>
+<p>Switch to SEMVER versioning</p>
+<p>d.variables setter will not transform into a string , D.bool is removed</p>
+<p>D.followPath, remove. The event object is not extended anymore. To get the context use D.getParentContext(event.target) instead. It returns a static context object</p>
+<pre><code>
+{
+    el,
+    vr,
+    baseEl
+}
+</code></pre>
+<p>Change function syntax for multiple listeners data-function="event1-function1,event2-function2"</p>
+<p>d.functions must be populated before d.start() is called</p>
+<p>
+    eventFromTagAndType
+        change into eventNameFromElement
+  </p>
+<p>
+    variablePropertyFromTagAndType
+        change into variablePropertyFromElement
+  </p>
+<p>
+    elementsForUserInputList
+        change into tagNamesForUserInput</p>
+<p>data-template="d-name" added
+    data-element="template-d-name" removed</p>
+
+<h4>Version 1.23.24</h4>
+<p>dom99 components, see components/ folder for more information.</p>
+<p>Removed event.dIn. Use D.followPath(d.variables, event.dKeys) or similar instead.</p>
+<p>Added event.dHost for the event object for data-function. This is the host element with data-scope or document.body if there is none. It should be used instead of the old .xel hack.</p>
+<p>Changed, the event object for data-function. It now exposes event.dKeys and event.dIn. event.dIn is a direct shortcut for d.variables and d.elements, that are at the same nested level as element with the function. D.xel does not exist anymore. Use data-element if you still need the custom elements reference.</p>
+<p>It is now possible to use custom elements with the standard "is" attribute. Check examples/index.html and examples/main.js to see how to</p>
+<p>data-function can now be used with just the function. If that happens the event is chosen with the dom99.options.eventFromTagAndType function, that you can customize.</p>
+<p>You can now compose the html deeply. That means that you can now use custom elements inside custom elements. You can use data-scope in a template.</p>
+<h4>Version 1.17.0</h4>
+<p>Directive data-list to map an array as a list in the DOM, see examples. Removed it from data-variable because it was confusing and it didn't do the same thing at all. If you use use a list of objects you can customize exactly how the mapping is done. See second Lists example. The custom configuration has changed too.</p>
+<p>Only two way data binding for input and textarea elements. Less useless eventlisteners on the page. If you want to use the contenteditable attribute(not a good idea) then add the elements tag Names to the dom99.options.elementsForUserInputList list with the push method.</p>
+<h4>Version 1.15.0</h4>
+<ul>
+    <li>You can use <del>data-variable="x-li"</del> on a ol element for example to display the x array as multiple li elements see examples/test.html</li>
+    <li>Change the way to configure dom99</li>
+    <li>You can control what gets changed with data-variable</li>
+   </ul>
+<h4>Version 1.12.0</h4>
+<p>function available: D.bool. When you assign a value to d.variables.x it is converted to a String. When you get a value from d.variables.x it is a string. Now with&lt;input data-variable="x" type="checkbox"&gt; you might want to get a boolean instead of "false" or "true". Use D.bool(d.variables.x)</p>
+<p>input type="range" now uses the change event</p>
+<h4>Version 1.10.0</h4>
+<p>Less Confusion:</p>
+<ul><li><code>data-scope</code> becomes <code>data-scope</code></li><li><code>D.forgetScope</code> becomes <code>D.forgetKey</code></li><li><code>event.scope</code> becomes <del><code>event.dKey</code></del></li><li><code>dom99.directives.directiveScope</code> becomes <code>dom99.directives.directiveIn</code> (if you used a custom syntax)</li></ul>
+</article>
+
+<article>
+<h3>Future</h3>
+<h4>Abstract directions for the future or Specification</h4>
+<ul><li>Freedom</li><li>Simplicity in system and usage</li><li>Encourage declarative UI programming models</li><li>Focus on the view</li><li>Built on top of web standards</li><li>Not bloat ware</li></ul>
+<p>This leaves more freedom to combine dom99 with the other needs. I encourage you to use simplified APIs for client-server communication alongside dom99 and anything else that is complementary to accelerate the development process.</p>
+</article>
+
+<article id="history">
+<h3>History</h3>
+<p>The first version of dom99 was rapidly prototyped by Cyril Walle (GrosSacASac) in late 2015 for JavaScript teaching purposes to people with a designer background. It was easy to let them play with their first JavaScript functions and see result on the web page just by assigning the result in a JS variable. It took away all the headaches about DOM manipulation. It was written in ES2015 code and transpiled to ES5.</p>
+<p>In march 2016 I decided to share dom99 after heavy code changes on GitHub and NPM in its own repository instead of some sub-folder in some other project.</p>
+<p>Late 2017, new design decisions based on new experience acquired since then. The version is a major change. For older versions, have a look at <a href="https://github.com/GrosSacASac/DOM99/tree/4616579a39a34a79cc9026d6222b2bf70f9e052b">1.23.0</a> and <a href="https://github.com/GrosSacASac/DOM99/tree/398b00576e76634eb08f5fb46113c6862509a93b">1.5.7</a>
+ and <a href="https://github.com/GrosSacASac/DOM99/commit/62947dbe5076fdf4dd6cd032a971123116eeb647">4.0.0</a>.</p>
+ <p>     <a href="https://dom99.now.sh/presentation/reveal.js-2.6.2/test/examples/dom99">Presentation 2018</a>
+ </p>
+</article>
+
+</article>
+
+<link rel="stylesheet" href="./deps/solarized-dark.css" />
+<script src="./deps/highlight-full.js"></script>
+</main>
+</body>
+</html>
