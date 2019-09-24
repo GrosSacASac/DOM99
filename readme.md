@@ -34,7 +34,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 ```
 
 
-##  [Changelog](https://dom99.now.sh/documentation#timeline)
+##  [Changelog](https://dom99.now.sh/changelog#timeline)
 
 ## Design philosophy
 
