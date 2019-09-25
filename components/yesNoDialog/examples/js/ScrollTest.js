@@ -6,7 +6,7 @@ useYesNoDialog(d);
 d.start({
     startElement: document.body,
     initialFeed: {
-        result: ``
+        result: ``,
     },
     dataFunctions: {
         askSomething: function () {
@@ -15,7 +15,7 @@ d.start({
             const noText = `No`;
             yesNoDialog(questionText, yesText, noText).then(function (answer) {
                 d.feed({
-                    result: String(answer)
+                    result: String(answer),
                 });
             });
         },
@@ -27,9 +27,9 @@ d.start({
             textDialog(question, label, text, submitText).then(function (answer) {
                 d.feed({
                     result2: String(answer),
-                    warning: `Never give input back to the user in a real world app without validating, sanitizing input first.`
+                    warning: `Never give input back to the user in a real world app without validating, sanitizing input first.`,
                 });
             });
-        }
-    }
+        },
+    },
 });

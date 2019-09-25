@@ -9,12 +9,12 @@ const networkDelay = 1000;
 const commentsData = [
     {
         text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
+        date: `In the year 2016`,
     },
     {
         text: `I really appreciate your work`,
-        date: `yesterday`
-    }
+        date: `yesterday`,
+    },
 ];
 let internalId = 0;
 let commentsLoaded = 2;
@@ -47,7 +47,7 @@ const fetchData = function (/*urlOrWhat*/) {
     return new Promise(function (resolve, /*reject*/) {
         const fakeData = {
             text: `This is a comment # ${commentsLoaded}`,
-            date: `${(new Date()).toLocaleString()}`
+            date: `${(new Date()).toLocaleString()}`,
         };
 
         setTimeout(function () {
@@ -67,7 +67,7 @@ d.functions.showNextComment = function () {
     commentsData.push({
         internalId: id,
         text: `textLoading text ... (fake response takes ${Math.floor(networkDelay / second)}sec)`,
-        date: `Loading date ...`
+        date: `Loading date ...`,
     });
     // force UI update
     d.feed(`comments`, commentsData);

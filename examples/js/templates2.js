@@ -14,7 +14,7 @@ const fetchData = function (/*urlOrWhat*/) {
     return new Promise(function (resolve, /*reject*/) {
         const fakeData = {
             text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
-            date: `just now`
+            date: `just now`,
         };
 
         window.setTimeout(function () {
@@ -29,7 +29,7 @@ d.functions.showNextComment = function () {
 
     const customElementDescription = {
         tagName: `d-comment`,
-        "data-scope": key
+        "data-scope": key,
     };
     const customElement = d.createElement2(customElementDescription);
 
@@ -46,12 +46,12 @@ d.functions.showNextComment = function () {
 const commentsData = { //initial
     comment1: {
         text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
+        date: `In the year 2016`,
     },
     comment2: {
         text: `I really appreciate your work`,
-        date: `yesterday`
-    }
+        date: `yesterday`,
+    },
 };
 
 d.feed(commentsData);

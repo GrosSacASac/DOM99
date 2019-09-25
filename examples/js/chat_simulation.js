@@ -7,12 +7,12 @@ const fakeMessagesFromSister = [
     `Long time not seen`,
     `you should visit my new home`,
     `remember the skateboard races we had when we were kids ?`,
-    `Hey answer please :)`
+    `Hey answer please :)`,
 ];
 const fakeMessagesFromBoss = [
     `Nice work kids`,
     `I am going on a trip next week to meet new buisness partners`,
-    `Can you finish the project ?`
+    `Can you finish the project ?`,
 ];
 
 
@@ -22,7 +22,7 @@ const fakeSpeakGenerator = function(array, authorName, authorFoto) {
         const message = {
             authorName,
             authorFoto,
-            messageText: array[currentIndex % array.length]
+            messageText: array[currentIndex % array.length],
         };
         currentIndex += 1;
         return message;

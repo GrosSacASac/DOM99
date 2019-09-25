@@ -7,12 +7,12 @@ d.functions.showNextComment = function () {
 const commentsData = {
     comment1: {
         text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
+        date: `In the year 2016`,
     },
     comment2: {
         text: `I really appreciate your work`,
-        date: `just now`
-    }
+        date: `just now`,
+    },
 };
 
 // we could also manually assign every property in a complicated for loop

@@ -16,7 +16,7 @@ const fetchData = function (/*urlOrWhat*/) {
     return new Promise(function (resolve, /*reject*/) {
         const fakeData = {
             text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
-            date: `just now`
+            date: `just now`,
         };
 
         window.setTimeout(function () {
@@ -47,12 +47,12 @@ d.functions.showNextComment = function () {
 const commentsData = [
     {
         text: `I am the first to comment, well written! Bravo!`,
-        date: `In the year 2016`
+        date: `In the year 2016`,
     },
     {
         text: `I really appreciate your work`,
-        date: `yesterday`
-    }
+        date: `yesterday`,
+    },
 ];
 
 d.feed(`comments`, commentsData);

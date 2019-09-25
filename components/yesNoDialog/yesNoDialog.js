@@ -96,7 +96,7 @@ const prepareYesNo = function ({ resolve, question, yesText, noText }) {
     d.feed(thisNameSpace, {
         question,
         yesText,
-        noText
+        noText,
     });
 };
 
@@ -107,7 +107,7 @@ const preparePrompt = function ({ resolve, question, label, input, submitText })
         question,
         label,
         input,
-        submitText
+        submitText,
     });
     d.elements[promptInput].focus();
 };
@@ -123,7 +123,7 @@ const yesNoDialog = function (question, yesText, noText) {
                 question,
                 yesText,
                 noText,
-                resolve
+                resolve,
             });
         }
     });
@@ -141,7 +141,7 @@ const textDialog = function (question, label, input, submitText) {
                 label,
                 input,
                 submitText,
-                resolve
+                resolve,
             });
         }
     });

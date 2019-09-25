@@ -148,7 +148,7 @@ d.feed({
             `Paper-work`,
             `Mosquitos`,
             `Polution`,
-        ]
+        ],
     },
     you: {
         owner: `Your`,
@@ -162,8 +162,8 @@ d.feed({
             `Cold Shower`,
             `Money Depth`,
             `Bad Food`,
-        ]
-    }
+        ],
+    },
 });
 
 d.start();

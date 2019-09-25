@@ -14,7 +14,7 @@ const renderNewMessageElement = function (data, key) {
     const customElement = d.createElement2({
         "tagName": `d-message`,
         "data-scope": key,
-        "data-element": element + key
+        "data-element": element + key,
     });
 
     // 2 link it
@@ -54,7 +54,7 @@ d.functions.trySendMessage = function () {
     const data = {
         authorName: `You`,
         authorFoto: `../documentation/images/you.jpg`,
-        messageText: d.variables.currentMessage
+        messageText: d.variables.currentMessage,
     };
     // could send data to server here
     displayNewMessage(data);

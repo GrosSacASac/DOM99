@@ -27,7 +27,7 @@ Object.assign(d.functions, {
         const index = d.leafIndex(scope);
         todos.splice(index, 1);
         updateTodos(todos);
-    }
+    },
 });
 
 d.feed({

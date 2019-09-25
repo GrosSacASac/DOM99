@@ -32,5 +32,5 @@ const readerOnLoadPrepare = function (inputElement) {
 const fileInputDescription = {
     tagName: `input`,
     type: `file`,
-    [`data-function`]: `xReadFileStart`
+    [`data-function`]: `xReadFileStart`,
 };

@@ -455,7 +455,7 @@ const create = (options) => {
         const [
             variableName,
             listItemTagName,
-            optional
+            optional,
         ] = attributeValue.split(options.tokenSeparator);
 
         if (!variableName) {

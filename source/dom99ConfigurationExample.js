@@ -24,7 +24,7 @@ Object.assign(options.directives, {
     element: `el`,
     list: `list`,
     inside: `in`,
-    template: `templ`
+    template: `templ`,
 });
 
 // Other changes possible
@@ -34,7 +34,7 @@ Object.assign(options, {
     // cannot be empty,  default `-`
     tokenSeparator: `+`,
     // cannot be empty,  must be different than above,  default ` `
-    listSeparator: `,`
+    listSeparator: `,`,
 });
  /*
 also

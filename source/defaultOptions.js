@@ -31,14 +31,14 @@ const propertyFromTag = valueElseMissDecorator({
     [`OPTION`]: `value`,
     [`LINK`]: `href`,
     [`DETAILS`]: `open`,
-    [MISS]: `textContent`
+    [MISS]: `textContent`,
 });
 
 const propertyFromInputType = valueElseMissDecorator({
     // Input Type : appropriate property name to retrieve and set the value
     [`checkbox`]: `checked`,
     [`radio`]: `checked`,
-    [MISS]: `value`
+    [MISS]: `value`,
 });
 
 const inputEventFromType = valueElseMissDecorator({
@@ -46,14 +46,14 @@ const inputEventFromType = valueElseMissDecorator({
     [`radio`]: `change`,
     [`range`]: `change`,
     [`file`]: `change`,
-    [MISS]: `input`
+    [MISS]: `input`,
 });
 
 const eventFromTag = valueElseMissDecorator({
     [`SELECT`]: `change`,
     [`TEXTAREA`]: `input`,
     [`BUTTON`]: `click`,
-    [MISS]: `click`
+    [MISS]: `click`,
 });
 
 const defaultDirectives = {

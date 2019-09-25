@@ -30,7 +30,7 @@ d.functions.filter = function (event) {
     });
 
     d.feed(parentContext, {
-      files: filteredFiles
+      files: filteredFiles,
     });
 
 };

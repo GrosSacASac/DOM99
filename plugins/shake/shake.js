@@ -33,5 +33,5 @@ const shake = {
         }), false);
         functionsStore = functions;
         listening = true;
-    }
+    },
 };
