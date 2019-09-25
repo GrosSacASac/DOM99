@@ -1,4 +1,4 @@
-import * as d from "../deps/dom99ES.min.js";
+import * as d from "../deps/dom99.es.min.js";
 
 
 const mediaRecorderSupport = `MediaRecorder` in window;
