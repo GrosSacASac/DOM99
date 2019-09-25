@@ -18,15 +18,9 @@ Any contribution that is incorporated into the project has by default the licens
 
 ## Attribution, Identities and links
 
-Any major contributor may ask (it is opt in) to have the name/username and 1 link and 1 private contact and 1 enterprise/donation link of the major contributor included in both readme and official documentation.
+Any major contributor may ask (it is opt in) to have the name/username and 1 link of that person included in both readme and official documentation.
 
 A major contributor is someone who made at least 1 significant contribution.
-
-## About this guide
-
-
-Use this guide as guidance not as strict rules.
-
 
 ## How
 
@@ -54,8 +48,6 @@ Feel free to query any kind of upgrades. Contributors are allowed to ask for pay
 
 `npm run` to list all commands.
 
-`npx serve` to serve static files. (use a second command prompt to be able to rebuild while serving)
-
 
  * Discuss with in the chat, and/or open issue first to discuss
  * Fork, create branch, make changes, Pull request (recommended)
@@ -76,15 +68,11 @@ Open an issue to make us open a donation channel
  * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * see how checking for equality before assigning textContent affects performance
  * Create a better documentation experience
-	* New html page with articles, possible categories
-		* Security
-		* Performance
-		* DOM the good parts
+	* New html page with articles
 	* Redefine sections
 		* About
 			* Move to Details everything except the essential
 			* Add 2 inlines examples, (move all other inline examples to another html page)
-				* Proper syntax highlighting
 		* Step by step
 			* Install
 			* Setup
@@ -94,8 +82,6 @@ Open an issue to make us open a donation channel
 		* Components
 		* Plugins
 		* Details (license, chat, contribute etc)
-		* Changelog (recent)
-			* Move full timeline elsewhere
 
  * Define typical process of creating and composing with custom elements
  * IE seems to fill forms after script executes and load (onload ?)
@@ -125,13 +111,11 @@ Open an issue to make us open a donation channel
     * on the fly, streaming html
  * better developer tools
     * indexed error messages in the doc
-    * more warnings
     * text editors plugins
  * lit-html compatible API could be interesting
  * add tabindex="0" when data-function="keydown-anyname" is used on something that does not have focus by default (like div), and no tabindex is already set, body does not need it
  * https://github.com/bfred-it/select-dom see if that is faster to iterate on every dom element
  that has data-*
- * don't use blah blah in examples it is distracting, make more standard examples like todoMVC
  * finish https://github.com/GrosSacASac/DOM99/community
  * add examples for async (network) data and how it looks
  * top level variable integration like displayjs experiment
