@@ -125,6 +125,7 @@ Version 1.0</p>
     <li>data-function : Ddds an event listener</li>
     <li>data-template : Declare a html template to build components</li>
     <li>data-scope: Create a scope context</li>
+    <li>data-use: Which element to use a list item in combination with data-list</li>
 </ul>
 
 <p>The general syntax is</p>
@@ -145,12 +146,11 @@ d.start();</code></pre>
 <h3>data-function and d.functions for event listeners</h3>
 <p>Store functions in the d.functions object</p>
 
-<pre><code>d.functions.functionName = aFunction;</code></pre>
+<pre><code class="js">d.functions.functionName = aFunction;</code></pre>
 
 <p>aFunction is called when you click this button</p>
 
-<pre><code>&lt;button data-function="click-functionName"&gt;Action&lt;/button&gt;
-// "functionName" not "aFunction"</code></pre>
+<pre><code>&lt;button data-function="click-functionName"&gt;Action&lt;/button&gt;</code></pre>
 
 
 <h3>data-variable and d.variables and d.feed for data binding</h3>
@@ -161,19 +161,25 @@ d.start();</code></pre>
 
 <p>Use the same data-variable="talkings" on <code>&lt;input&gt;</code> elements for two-way data-binding</p>
 
-<h3>data-list="x-li" to display a list</h3>
-<p>See examples</p>
+<h3>data-list and data-use to display a list</h3>
+<pre><code>&lt;ol data-list="numbers" data-use="li"&gt;&lt;/ol&gt;</code></pre>
+<pre><code>d.feed(`numbers`, [
+    1,
+    2,
+    3,
+]);
+</code></pre>
 <h3>data-element and d.elements for direct element manipulation</h3>
 
 <pre><code>d.elements.title.remove();</code></pre>
 
-<p>will remove <code>&lt;h1 data-element="title"&gt;Hello&lt;/h1&gt;</code></p>
+<p>Removes <code>&lt;h1 data-element="title"&gt;Hello&lt;/h1&gt;</code></p>
 
 <h3>data-template to declare templates</h3>
 
 <pre><code>&lt;template data-template="d-comment"&gt;
-    &lt;p data-variable="text"&gt;&lt;/p&gt;
-    &lt;time data-variable="date"&gt;&lt;/time&gt;
+    &lt;p data-variable="text"&gt;default text&lt;/p&gt;
+    &lt;time data-variable="date"&gt;default time&lt;/time&gt;
 &lt;/template&gt;</code></pre>
 
 
@@ -181,7 +187,7 @@ d.start();</code></pre>
 <pre><code class="html">&lt;d-comment data-scope="first"&gt;&lt;/d-comment&gt;
 &lt;d-comment data-scope="second"&gt;&lt;/d-comment&gt;</code></pre>
 
-<p>To edit a comment at run time do this:</p>
+<p>To edit the first &lt;d-comment&gt;</p>
 
 <pre><code>d.feed(`first`, {
     text: `A new comment`,
@@ -190,13 +196,11 @@ d.start();</code></pre>
 
 <h2>Complete overview</h2>
 
-<pre><code>
-d.start();</code></pre>
+<pre><code>d.start();</code></pre>
 
 <p>Use start after having stored all the event handlers in d.functions, and before using references to nodes stored in d.elements.</p>
 <p>This will look the for dom99 directives in the document tree.</p>
 
-<p>Initialize variables with HTML. <code>d.feed</code> can then be used to over-write the default html values. Next store event listener functions in <code>d.functions</code>. You can use nodes references in <code>d.elements</code>.</p>
 
 <h3>Use HTML templates, it is healthy</h3>
 
