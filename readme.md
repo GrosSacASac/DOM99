@@ -8,8 +8,9 @@
 
 ## What is dom99 ?
 
-dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert it directly in the document.
+dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert them directly in the document.
 
+[Changelog](https://dom99.now.sh/changelog#timeline)
 
 ## Installation
 
@@ -33,8 +34,6 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 </script>
 ```
 
-
-##  [Changelog](https://dom99.now.sh/changelog#timeline)
 
 ## Design philosophy
 
@@ -70,25 +69,26 @@ dom99 is a web framework and is an extension to web standards HTML, CSS and JS, 
 dom99 can be used in a zero-second compile time development set-up with ES-modules.
 
 
-### Avoiding leaky abstractions
+### No Virtual DOM
 
-No virtual dom is used for maximum **possible** performance. [Explanation from chrismorgan about DOM and VDOM](https://news.ycombinator.com/item?id=15957517).
+No virtual dom is used for maximum **possible** performance.
+
+[Read chrismorgan about DOM and VDOM on HN](https://news.ycombinator.com/item?id=15957517).
 
 
 ### Unopinionated
 
-dom99 is unopinionated and bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
+dom99 is unopinionated. Bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
 
 
 ## [Complete Documentation](https://dom99.now.sh/documentation)
 
 
-Locally found in [./documentation/documentation.html](./documentation/documentation.html)
+Locally found in [documentation/documentation.html](./documentation/documentation-original.html)
 
 
 ## Examples
 
-[Graphs](https://github.com/GrosSacASac/graphs)
 
 
 ### [HTML Composition](https://dom99.now.sh/documentation#Composition)
@@ -136,8 +136,9 @@ native html elements can also be used to display a list
 </code></pre>
 </details>
 
-[Other examples](./examples)
+[Included examples](./examples)
 
+[Graphs](https://github.com/GrosSacASac/graphs)
 
 ## Discussion
 
