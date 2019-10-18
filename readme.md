@@ -21,7 +21,7 @@ dom99 is a JavaScript framework focused to make web development faster. Select H
 
 ### Data-binding
 
-```
+```html
 <!-- The input and the paragraph as well as the js variable always have the same value -->
 
 <input data-variable="text">
@@ -93,7 +93,7 @@ Locally found in [documentation/documentation.html](./documentation/documentatio
 
 ### [HTML Composition](https://dom99.now.sh/documentation#Composition)
 
-```
+```html
 <!--
 Define the template for an user
 every user has a picture, a short biography, and a contact button
@@ -108,7 +108,7 @@ every user has a picture, a short biography, and a contact button
 The list variable name is "users" and the template used is "user-element"
 native html elements can also be used to display a list
 -->
-<div data-list="users-user-element"></div>
+<div data-list="users" data-use="user-element"></div>
 <script type="module">
     import * as d from "./node_modules/dom99/built/dom99ES.js";
 
@@ -131,7 +131,6 @@ native html elements can also be used to display a list
 <details>
 <summary>HTML Result</summary>
 <pre><code>
-
 &lt;div data-list=&quot;*users-user-element&quot;&gt;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;usera.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Loves biking and skating&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&#10;    &lt;img data-variable=&quot;*picture&quot; alt=&quot;user-picture&quot; src=&quot;userb.jpg&quot;&gt;&#10;    &lt;p data-variable=&quot;*bio&quot;&gt;Drinks tons of caf&eacute;.&lt;/p&gt;&#10;    &lt;button&gt;Contact&lt;/button&gt;&#10;&lt;/div&gt;
 </code></pre>
 </details>
