@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "21.0.5",
+  "version": "21.1.0",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99.cjs.js",

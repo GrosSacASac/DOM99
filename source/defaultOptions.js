@@ -53,6 +53,7 @@ const eventFromTag = valueElseMissDecorator({
     [`SELECT`]: `change`,
     [`TEXTAREA`]: `input`,
     [`BUTTON`]: `click`,
+    [`FORM`]: `submit`,
     [MISS]: `click`,
 });
 
