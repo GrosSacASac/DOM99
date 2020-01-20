@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "21.1.0",
+  "version": "21.1.1",
   "license": "BSL-1.0",
   "module": "source/dom99.js",
   "main": "built/dom99.cjs.js",
@@ -46,18 +46,18 @@
     "bootstrap": "^4.3.1",
     "browserify": "^16.3.0",
     "eslint": "^6.4.0",
-    "eslint-config-red": "^1.4.1",
+    "eslint-config-red": "^1.6.1",
     "filesac": "^11.1.0",
-    "handlebars": "^4.3.1",
+    "handlebars": "^4.7.2",
     "highlight.js": "^9.15.10",
     "html-minifier": "^4.0.0",
     "jasmine-core": "^3.5.0",
     "jsdoc": "^3.6.3",
-    "rollup": "^1.21.4",
+    "rollup": "^1.29.0",
     "serve": "^11.1.0",
     "template-mb": "^2.0.6",
     "terser": "^4.1.2",
-    "utilsac": "^12.1.0"
+    "utilsac": "^12.2.7"
   },
   "files": [
     "built",
