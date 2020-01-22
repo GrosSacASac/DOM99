@@ -1,12 +1,12 @@
 {
   "name": "dom99",
-  "version": "21.1.1",
-  "license": "BSL-1.0",
-  "module": "source/dom99.js",
-  "main": "built/dom99.cjs.js",
-  "homepage": "https://dom99.now.sh/",
+  "version": "21.1.2",
   "description": "Extend html with directives",
+  "license": "BSL-1.0",
+  "homepage": "https://dom99.now.sh/",
   "type": "module",
+  "main": "built/dom99.cjs.js",
+  "module": "source/dom99.js",
   "scripts": {
     "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components",
     "lint": "eslint --ignore-path .gitignore source examples plugins components",
@@ -59,15 +59,6 @@
     "terser": "^4.1.2",
     "utilsac": "^12.2.7"
   },
-  "files": [
-    "built",
-    "components",
-    "source",
-    "plugins",
-    "polyfills",
-    "LICENSE.txt",
-    "readme.md"
-  ],
   "eslintConfig": {
     "extends": [
       "red"
@@ -99,6 +90,19 @@
       ]
     ]
   },
+  "files": [
+    "built",
+    "components",
+    "source",
+    "plugins",
+    "polyfills",
+    "LICENSE.txt",
+    "readme.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/GrosSacASac/DOM99.git"
+  },
   "keywords": [
     "dom99",
     "html",
@@ -115,9 +119,5 @@
     "data-attributes",
     "light",
     "browser"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/GrosSacASac/DOM99.git"
-  }
+  ]
 }
