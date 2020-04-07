@@ -19,7 +19,7 @@ import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 const { hasOwnProperty } = Object.prototype;
 
-const NAME = `DOM99`;
+const NAME = `dom99`;
 const SCOPE = `${NAME}_C`;
 const ELEMENT_LIST_ITEM = `${NAME}_I`;
 const CUSTOM_ELEMENT = `${NAME}_X`;

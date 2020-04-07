@@ -75,7 +75,7 @@ d.functions.stopStartTalking = function () {
 // -- The Todo --
 
 let data = [
-    { done: true, text: `Make DOM99 demo` },
+    { done: true, text: `Make dom99 demo` },
     { done: false, text: `Drink Water` },
 ];
 
