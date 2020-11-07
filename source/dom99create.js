@@ -205,10 +205,7 @@ const leaveObject = (scopeIn) => {
 };
 
 const notifyOneVariableSubscriber = (options, variableSubscriber, value) => {
-    variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
-    
-    console.log(209,'variable', value, value===variableSubscriber.value)
-    console.log(options.propertyFromElement(variableSubscriber), variableSubscriber, variableSubscriber.value)
+    variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;  
 };
 
 const notifyVariableSubscribers = (options, subscribers, value) => {
@@ -256,8 +253,6 @@ const notifyRawListSubscriber = (listContainer, data, options) => {
         fragment.appendChild(listItem);
     });
     listContainer.appendChild(fragment);
-    console.log(259, "list", listContainer, fragment)
-    console.log(listContainer.value)
 };
 
 const create = (options) => {
@@ -409,8 +404,8 @@ const create = (options) => {
             }
         } else {
             const normalizedScope = normalizeStartPath(startScope);
-            // sort arrays to be last fix 
-            // list first as otherwise setting the value of a select has no effect
+            /* sort arrays to be last fix 
+            list first as otherwise setting the value of a select has no effect */
             const dataEntries = Object.entries(data);
             dataEntries.sort(([key, value], [keyb, valueb]) => {
                 return Number(Array.isArray(valueb)) - Number(Array.isArray(value))
@@ -418,10 +413,7 @@ const create = (options) => {
             dataEntries.forEach(([key, value]) => {
                 const scope = `${normalizedScope}${key}`;
                 
-                console.log(419,'feed')
-                console.log(scope, value)
                 feed(scope, value);
-                console.log(424,'afterfeed')
             });
         }
         alreadyHooked = false;
@@ -671,10 +663,10 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         /*order is relevant applyVariable being before applyFunction,
         we can use the just changed live variable in the bind function*/
         [options.directives.element, applyElement],
-        [options.directives.variable, applyVariable],
-        [options.directives.function, applyFunctions],
         [options.directives.template, applyTemplate],
         [options.directives.list, applyList],
+        [options.directives.variable, applyVariable],
+        [options.directives.function, applyFunctions],
         [options.directives.scope, applyScope],
     ];
 
