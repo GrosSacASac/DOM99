@@ -13,7 +13,7 @@ const update = function (commentObject, position) {
 
 const fetchData = function (/*urlOrWhat*/) {
     // fetch like simulation
-    return new Promise(function (resolve, /*reject*/) {
+    return new Promise(function (resolve /*reject*/) {
         const fakeData = {
             text: `This is a comment that could come from the server about bla bla hard coded but could come from the server`,
             date: `just now`,
