@@ -61,12 +61,12 @@ const cloneTemplate = (template) => {
         console.error(
             `Template missing <template data-template="d-name">
                 Template Content
-            </template>`
+            </template>`,
         );
     }
     if (!template.content) {
         console.error(
-            `template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`
+            `template.content is undefined, this can happen if a template is inside another template. Use only top level templates, also use recommended polyfills`,
         );
     }
     return document.importNode(template.content, true);
@@ -241,7 +241,7 @@ const notifyRawListSubscriber = (listContainer, data, options) => {
     listContainer.innerHTML = ``;
     const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
     const listItemProperty = options.propertyFromElement(
-        listItemTagName.toUpperCase()
+        listItemTagName.toUpperCase(),
     );
     data.forEach((value) => {
         const listItem = document.createElement(listItemTagName);
@@ -355,10 +355,10 @@ const create = (options) => {
             have to freeze the children to still have a reference */
             const activatedClone = activateCloneTemplate(
                 template,
-                String(i)
+                String(i),
             );
             listContainer[LIST_CHILDREN].push(
-                Array.from(activatedClone.childNodes)
+                Array.from(activatedClone.childNodes),
             );
             fragment.appendChild(activatedClone);
         });
@@ -385,7 +385,7 @@ const create = (options) => {
         if (isObjectOrArray(startScope)) {
             console.error(
                 `Incorrect types passed to d.feed,
-                d.feed(string, object) or d.feed(object)`
+                d.feed(string, object) or d.feed(object)`,
             );
         }
         if (!alreadyHooked) {
@@ -453,7 +453,7 @@ const create = (options) => {
                     [eventName, functionName] = tokens;
                 }
                 applyFunction(element, eventName, functionName);
-            }
+            },
         );
     };
 
@@ -467,7 +467,7 @@ const create = (options) => {
         if (!variableName) {
             console.error(
                 element,
-                `Use ${options.directives.list}="variableName-tagName" format!`
+                `Use ${options.directives.list}="variableName-tagName" format!`,
             );
         }
 
@@ -485,7 +485,7 @@ const create = (options) => {
             console.warn(
                 `deprecated since 21.0.1
 Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"></${tagName}> with
-<${tagName} data-list="${variableName}" data-use="${fullName || listItemTagName}"></${tagName}>`
+<${tagName} data-list="${variableName}" data-use="${fullName || listItemTagName}"></${tagName}>`,
             );
         } else {
             const use = element.getAttribute(options.directives.use);
@@ -521,7 +521,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
                 enterObject(scopeIn, String(i));
                 activate(childElement);
                 element[LIST_CHILDREN].push(
-                    [childElement, ...childElement.childNodes]
+                    [childElement, ...childElement.childNodes],
                 );
                 leaveObject(scopeIn);
             });
@@ -544,7 +544,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         if (!variableName) {
             console.error(
                 element,
-                `Use ${options.directives.variable}="variableName" format!`
+                `Use ${options.directives.variable}="variableName" format!`,
             );
         }
 
@@ -579,7 +579,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         element.addEventListener(
             options.eventNameFromElement(element),
             broadcastValue,
-            false
+            false,
         );
 
     };
@@ -591,7 +591,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         if (!elementName) {
             console.error(
                 element,
-                `Use ${options.directives.element}="elementName" format!`
+                `Use ${options.directives.element}="elementName" format!`,
             );
         }
         const scope = scopeFromArrayWith(scopeIn, elementName);
@@ -603,7 +603,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         if (!attributeValue) {
             console.error(
                 element,
-                `Use ${options.directives.template}="d-name" format!`
+                `Use ${options.directives.template}="d-name" format!`,
             );
         }
 
@@ -634,7 +634,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         if (!key) {
             console.error(
                 element,
-                `Use ${options.directives.scope}="insideWhat" format!`
+                `Use ${options.directives.scope}="insideWhat" format!`,
             );
         }
 
@@ -649,7 +649,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
             // avoid infinite loop
             element.setAttribute(
                 options.directives.scope,
-                `${options.doneSymbol}${key}`
+                `${options.doneSymbol}${key}`,
             );
             // parse children under scope
             enterObject(scopeIn, key);
@@ -699,7 +699,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
             // ensure the directive is only applied once
             element.setAttribute(
                 directiveName,
-                `${options.doneSymbol}${attributeValue}`
+                `${options.doneSymbol}${attributeValue}`,
             );
         });
         if (
@@ -712,7 +712,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         const customName = customElementNameFromElement(element);
         if (hasOwnProperty.call(templateFromName, customName)) {
             element.appendChild(
-                cloneTemplate(templateFromName[customName])
+                cloneTemplate(templateFromName[customName]),
             );
         }
     };

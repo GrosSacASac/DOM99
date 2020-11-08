@@ -11,11 +11,12 @@ const options = [`yaml`, `json`, `toml`].map(option => {
 const inputType = `json`;
 
 describe(`data-list and data-variable`, function () {
+    let d, content;
     beforeEach(function () {
-        this.d = create(defaultOptions);
-        this.content = document.createElement(`div`);
+        d = create(defaultOptions);
+        content = document.createElement(`div`);
         // this.childType = `li`;
-        this.content.innerHTML = `
+        content.innerHTML = `
             <select 
                 data-list="options"
                 data-use="option"
@@ -23,8 +24,8 @@ describe(`data-list and data-variable`, function () {
                 data-element="targetElement"
             ></select>
         `;
-        this.d.start({
-            startElement: this.content,
+        d.start({
+            startElement: content,
             initialFeed: {
                 options,
                 inputType,
@@ -33,8 +34,8 @@ describe(`data-list and data-variable`, function () {
     });
 
     it(`should have a value always equal to data-variable`, function () {
-        const valueFromDGet = this.d.get(`inputType`);
-        const {value} = this.d.elements.targetElement;
+        const valueFromDGet = d.get(`inputType`);
+        const {value} = d.elements.targetElement;
         expect(value).toEqual(valueFromDGet);
         expect(value).toEqual(inputType);
     });

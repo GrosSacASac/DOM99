@@ -8,12 +8,13 @@ import {
 import { defaultOptions } from "../../../source/defaultOptions.js";
 
 describe(`firstVariableValueStrategy`, function () {
+    let expectedValue,myfunction, content;
     beforeEach(function () {
-        this.expectedValue = `abc`;
-        this.myfunction = function () { };
-        this.content = document.createElement(`div`);
-        this.content.innerHTML = `
-            <input data-variable="string1" value="${this.expectedValue}">
+        expectedValue = `abc`;
+        myfunction = function () { };
+        content = document.createElement(`div`);
+        content.innerHTML = `
+            <input data-variable="string1" value="${expectedValue}">
         `;
     });
 
@@ -24,7 +25,7 @@ describe(`firstVariableValueStrategy`, function () {
             { firstVariableValueStrategy: undefined },
         ));
 
-        d.start(this.content);
+        d.start(content);
         expect(d.get(`string1`)).toEqual(undefined);
     });
 
@@ -36,9 +37,9 @@ describe(`firstVariableValueStrategy`, function () {
         ));
 
         d.start({
-            startElement: this.content,
+            startElement: content,
         });
-        expect(d.get(`string1`)).toEqual(this.expectedValue);
+        expect(d.get(`string1`)).toEqual(expectedValue);
     });
 
     it(`it should use the active variable from the user agent with strategy FIRST_VARIABLE_FROM_USER_AGENT`, function () {
@@ -48,18 +49,20 @@ describe(`firstVariableValueStrategy`, function () {
             { firstVariableValueStrategy: FIRST_VARIABLE_FROM_USER_AGENT },
         ));
         d.start({
-            startElement: this.content,
+            startElement: content,
         });
-        expect(d.get(`string1`)).toEqual(this.expectedValue);
+        expect(d.get(`string1`)).toEqual(expectedValue);
     });
 
     xit(`d.scopeFromArray (implementation detail)`, function () {
+        const d = create(defaultOptions);
         d.scopeFromArray = scopeFromArray;
         const context = d.scopeFromArray([`Hello`, `World`]);
         expect(`Hello>World`).toEqual(context);
     });
 
     xit(`d.parentScope  (implementation detail)`, () => {
+        const d = create(defaultOptions);
         d.parentScope = parentScope;
         const contextPath = `ParentContext>ChildContext`;
         const parentContext = d.parentScope(contextPath);

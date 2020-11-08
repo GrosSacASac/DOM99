@@ -3,35 +3,36 @@ import { defaultOptions } from "../../../source/defaultOptions.js";
 
 
 describe(`data-template`, function () {
+    let d, content, templateName, insideText, targetElementName, targetIsElementName;
     beforeEach(function () {
-        this.d = create(defaultOptions);
-        this.content = document.createElement(`div`);
-        this.templateName = `x-test`;
-        this.insideText = `hello`;
-        this.targetElementName = `mysubject`;
-        this.targetIsElementName = `mysubject2`;
-        this.content.innerHTML = `
-        <template data-template="${this.templateName}" data-element="${this.templateName}">
-            <p>${this.insideText}</p>
+        d = create(defaultOptions);
+        content = document.createElement(`div`);
+        templateName = `x-test`;
+        insideText = `hello`;
+        targetElementName = `mysubject`;
+        targetIsElementName = `mysubject2`;
+        content.innerHTML = `
+        <template data-template="${templateName}" data-element="${templateName}">
+            <p>${insideText}</p>
         </template>
-        <${this.templateName} data-element="${this.targetElementName}"></${this.templateName}>
-        <div is="${this.templateName}" data-element="${this.targetIsElementName}"></div>
+        <${templateName} data-element="${targetElementName}"></${templateName}>
+        <div is="${templateName}" data-element="${targetIsElementName}"></div>
         `;
-        this.d.start({
-            startElement: this.content,
+        d.start({
+            startElement: content,
         });
     });
 
     it(`an element with the same tag as the template name should contain a copy of the inner html`, function () {
-        const template = this.d.elements[this.templateName];
-        const subject = this.d.elements[this.targetElementName];
+        const template = d.elements[templateName];
+        const subject = d.elements[targetElementName];
 
         expect(template.innerHTML).toEqual(subject.innerHTML);
     });
 
     it(`an element with is="" with the template name should contain a copy of the inner html`, function () {
-        const template = this.d.elements[this.templateName];
-        const subject = this.d.elements[this.targetIsElementName];
+        const template = d.elements[templateName];
+        const subject = d.elements[targetIsElementName];
 
         expect(template.innerHTML).toEqual(subject.innerHTML);
     });

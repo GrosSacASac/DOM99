@@ -44,7 +44,7 @@ const update = function (commentObject, id) {
 const fetchData = function (/*urlOrWhat*/) {
     commentsLoaded += 1;
     // fetch like simulation
-    return new Promise(function (resolve, /*reject*/) {
+    return new Promise(function (resolve /*reject*/) {
         const fakeData = {
             text: `This is a comment # ${commentsLoaded}`,
             date: `${(new Date()).toLocaleString()}`,
