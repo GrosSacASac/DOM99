@@ -1,4 +1,4 @@
-import rollup from "rollup";
+import {rollup} from "rollup";
 
 const files = [
     "templates1",
@@ -28,7 +28,7 @@ const everythingFinishPromise = Promise.all(files.map(function (fileName) {
 
 async function build(inputOptions, outputOptions) {
     // create a bundle
-    const bundle = await rollup.rollup(inputOptions);
+    const bundle = await rollup(inputOptions);
     const written = await bundle.write(outputOptions);
     return written;
 }

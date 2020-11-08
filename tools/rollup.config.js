@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 export default {
     input: `source/dom99.js`,
     treeshake: {
-        pureExternalModules: false,
         propertyReadSideEffects: false // assume reading properties has no side effect
     },
     output: [
