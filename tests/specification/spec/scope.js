@@ -5,10 +5,10 @@ const exampleText = `salad and fish`;
 const textInner = `inner x`;
 const textOuter = `outer x`;
 
-describe("data-scope", function () {
+describe(`data-scope`, function () {
     beforeEach(function () {
         this.d = create(defaultOptions);
-        this.content = document.createElement("div");
+        this.content = document.createElement(`div`);
         this.content.innerHTML = `
             <div data-scope="myscope" data-element="scopeParent">
                 <p data-variable="x" id="p0">inner x</p>
@@ -21,9 +21,9 @@ describe("data-scope", function () {
         });
         this.d.feed(`myList`, {
             myscope: {
-                x: textInner
+                x: textInner,
             },
-            x: textOuter
+            x: textOuter,
         });
     });
 
@@ -39,17 +39,17 @@ describe("data-scope", function () {
         expect(this.content.textContent.includes(textOuter)).toEqual(true);
     });
 
-    it("data-element should be able to preselect an element (scoped)", function () {
-        expect(this.d.element(`myscope`, `e`)).toEqual(this.content.querySelector("#p1"));
+    it(`data-element should be able to preselect an element (scoped)`, function () {
+        expect(this.d.element(`myscope`, `e`)).toEqual(this.content.querySelector(`#p1`));
     });
 
-    it("d.feed and data-variable should be able to set a new value in the dom (scoped)", function () {
+    it(`d.feed and data-variable should be able to set a new value in the dom (scoped)`, function () {
         this.d.feed(scopeFromArray([`myscope`, `x`]), exampleText);
-        expect(exampleText).toEqual(this.content.querySelector("#p0").textContent);
+        expect(exampleText).toEqual(this.content.querySelector(`#p0`).textContent);
     });
 
 
-    it("data-function should be able fire a function if the event occurs (scoped)", function (done) {
+    it(`data-function should be able fire a function if the event occurs (scoped)`, function (done) {
         this.content.innerHTML = `
             <div data-scope="myscope" data-element="scopeParent">
                 <button data-function="x" data-element="b0">inner x</button>
@@ -63,8 +63,8 @@ describe("data-scope", function () {
             startElement: this.content,
         });
 
-        const event = document.createEvent('Event');
-        event.initEvent('click', true, true);
+        const event = document.createEvent(`Event`);
+        event.initEvent(`click`, true, true);
         this.d.element(`myscope`, `b0`).dispatchEvent(event);
     });
 

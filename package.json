@@ -8,8 +8,8 @@
   "main": "built/dom99.cjs.js",
   "module": "source/dom99.js",
   "scripts": {
-    "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components",
-    "lint": "eslint --ignore-path .gitignore source examples plugins components",
+    "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components tests/specification",
+    "lint": "eslint --ignore-path .gitignore source examples plugins components tests/specification",
     "bundle": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99.iife.js > built/dom99.iife.es5.js",
     "minify": "terser built/dom99.iife.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.iife.es5.min.js && terser built/dom99.es.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es.min.js",
@@ -64,13 +64,14 @@
       "red"
     ],
     "parserOptions": {
-      "ecmaVersion": 2020,
+      "ecmaVersion": 2021,
       "sourceType": "module",
       "ecmaFeatures": {}
     },
     "env": {
-      "es2020": true,
-      "browser": true
+      "es2021": true,
+      "browser": true,
+      "jasmine": true
     },
     "rules": {}
   },

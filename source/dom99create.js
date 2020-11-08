@@ -205,7 +205,7 @@ const leaveObject = (scopeIn) => {
 };
 
 const notifyOneVariableSubscriber = (options, variableSubscriber, value) => {
-    variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;  
+    variableSubscriber[options.propertyFromElement(variableSubscriber)] = value;
 };
 
 const notifyVariableSubscribers = (options, subscribers, value) => {
@@ -408,11 +408,10 @@ const create = (options) => {
             list first as otherwise setting the value of a select has no effect */
             const dataEntries = Object.entries(data);
             dataEntries.sort(([key, value], [keyb, valueb]) => {
-                return Number(Array.isArray(valueb)) - Number(Array.isArray(value))
+                return Number(Array.isArray(valueb)) - Number(Array.isArray(value));
             });
             dataEntries.forEach(([key, value]) => {
                 const scope = `${normalizedScope}${key}`;
-                
                 feed(scope, value);
             });
         }
