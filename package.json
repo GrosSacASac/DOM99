@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "21.1.4",
+  "version": "21.1.5",
   "description": "Extend html with directives",
   "license": "BSL-1.0",
   "homepage": "https://dom99.now.sh/",
@@ -56,7 +56,7 @@
     "rollup": "^2.33.1",
     "serve": "^11.3.2",
     "template-mb": "^2.0.6",
-    "terser": "^4.1.2",
+    "terser": "^5.3.8",
     "utilsac": "^13.0.1"
   },
   "eslintConfig": {
