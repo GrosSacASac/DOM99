@@ -54,43 +54,6 @@ export default [{
     watch: {
         clearScreen: true
     }
-},{
-    input: `source/dom99.js`,
-    treeshake: {
-        propertyReadSideEffects: false // assume reading properties has no side effect
-    },
-    output: [
-        Object.assign({
-            format: `iife`,
-            file: `built/dom99.iife.es5.min.js`,
-        }, commonOutputOptions),
-    ],
-
-    watch: {
-        clearScreen: true
-    },
-    plugins: [terser({
-        ie8: true,
-        // drop_console: true,
-    })]
-},{
-    input: `source/dom99.js`,
-    treeshake: {
-        propertyReadSideEffects: false // assume reading properties has no side effect
-    },
-    output: [
-        Object.assign({
-            format: `es`,
-            file: `built/dom99.es.min.js`,
-        }, commonOutputOptions),
-    ],
-
-    watch: {
-        clearScreen: true
-    },
-    plugins: [terser({
-        // drop_console: true,
-    })]
 }, {
     input: `documentation/js/documentation.js`,
     output: [{
