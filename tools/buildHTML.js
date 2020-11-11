@@ -3,7 +3,6 @@ import {
     writeTextInFile,
 } from "filesac";
 
-import handlebar from "handlebars";
 import htmlMinifier from "html-minifier";
 const { minify } = htmlMinifier;
 
@@ -53,7 +52,6 @@ const HTMLFiles = {
 (async function () {
 
     const packageText = await textFileContent('./package.json');
-    const { description, keywords } = JSON.parse(packageText);
     Promise.all(
         Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
             return textFileContent(from).then(function (HTMLString) {
@@ -63,12 +61,11 @@ const HTMLFiles = {
                 } else {
                     minifiedHtml = minify(HTMLString, options);
                 }
-                var source = { description, keywords }
-                return writeTextInFile(to, handlebar.compile(minifiedHtml)(source));
+                return writeTextInFile(to, minifiedHtml);
             });
         })
     ).then(function () {
-        //console.log(thisName + " finished with success !");
+        // console.log(thisName + " finished with success !");
 
     }).catch(function (reason) {
         const errorText = thisName + " failed: " + String(reason);
