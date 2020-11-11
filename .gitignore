@@ -260,3 +260,4 @@ documentation/images/redesign-old.jpg
 documentation/deps/*
 .vscode/settings.json
 documentation/presentation/reveal.js-2.6.2/js
+documentation/js/documentation-full.js

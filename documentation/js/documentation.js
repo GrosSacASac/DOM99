@@ -1,4 +1,7 @@
-// global d
+import "./highlighter.js";
+import * as d from "../../source/dom99.js";
+
+
 const demoTitles = [`Hello World`, `Hello World 2`, `Multiplier`, `Lists`, `Lists2`, `Composition`];
 
 const displayHtmlJsAndResult = function (name) {

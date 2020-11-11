@@ -1,4 +1,6 @@
-// rollup.config.js
+
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 import __package from "../package.json";
 
 const VERSION = __package.version;
@@ -21,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
     namespaceToStringTag: false
 };
 
-export default {
+export default [{
     input: `source/dom99.js`,
     treeshake: {
         propertyReadSideEffects: false // assume reading properties has no side effect
@@ -51,4 +53,12 @@ export default {
     watch: {
         clearScreen: true
     }
-};
+}, {
+    input: `documentation/js/documentation.js`,
+    output: [{
+        format: `es`,
+        file: `documentation/js/documentation-full.js`
+    }],
+    plugins: [nodeResolve(), commonjs()]
+    
+}];

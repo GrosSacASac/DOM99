@@ -1,7 +1,9 @@
-"use strict";
-const hljs = require(`highlight.js/lib/highlight`);
-const hljs_js = require(`highlight.js/lib/languages/javascript`);
-const xml_html = require(`highlight.js/lib/languages/xml`);
+import hljs from "highlight.js/lib/core.js"
+import hljs_js from "highlight.js/lib/languages/javascript.js";
+import hljs_xml_html from "highlight.js/lib/languages/xml.js";
+
 hljs.registerLanguage(`javascript`, hljs_js);
-hljs.registerLanguage(`html`, xml_html);
+hljs.registerLanguage(`xml`, hljs_xml_html);
+console.log(hljs)
+console.log(Object.keys(hljs))
 hljs.initHighlightingOnLoad();
