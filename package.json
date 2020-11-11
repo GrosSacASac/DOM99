@@ -7,8 +7,8 @@
   "type": "module",
   "main": "source/dom99.js",
   "scripts": {
-    "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components tests/specification",
-    "lint": "eslint --ignore-path .gitignore source examples plugins components tests/specification",
+    "lint-fix": "eslint --ignore-path .gitignore --fix source examples plugins components tests/specification tools",
+    "lint": "eslint --ignore-path .gitignore source examples plugins components tests/specification tools",
     "bundle": "rollup --config tools/rollup.config.js",
     "test": "tests/specification/SpecRunner.html",
     "generate-html": "node tools/buildHTML.js",
@@ -52,22 +52,6 @@
       "jasmine": true
     },
     "rules": {}
-  },
-  "babel": {
-    "plugins": [],
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "loose": true,
-          "targets": {
-            "browsers": [
-              "> 0.1%"
-            ]
-          }
-        }
-      ]
-    ]
   },
   "files": [
     "built",

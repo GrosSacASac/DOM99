@@ -1,4 +1,3 @@
-
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
 import commonjs from "@rollup/plugin-commonjs";
@@ -21,13 +20,13 @@ Distributed under the Boost Software License, Version 1.0.
     interop: false,
     extend: false,
     strict: true,
-    namespaceToStringTag: false
+    namespaceToStringTag: false,
 };
 
-export default [{
+export default [{// eslint-disable-line
     input: `source/dom99.js`,
     treeshake: {
-        propertyReadSideEffects: false // assume reading properties has no side effect
+        propertyReadSideEffects: false, // assume reading properties has no side effect
     },
     output: [
         Object.assign({
@@ -42,24 +41,24 @@ export default [{
             format: `amd`,
             file: `built/dom99.amd.js`,
             amd: {
-                id: GLOBAL_NAME
-            }
+                id: GLOBAL_NAME,
+            },
         }, commonOutputOptions),
         Object.assign({
             format: `es`,
-            file: `built/dom99.es.js`
+            file: `built/dom99.es.js`,
         }, commonOutputOptions),
     ],
 
     watch: {
-        clearScreen: true
-    }
+        clearScreen: true,
+    },
 }, {
     input: `documentation/js/documentation.js`,
     output: [{
         format: `es`,
-        file: `documentation/deps/documentation.min.js`
+        file: `documentation/deps/documentation.min.js`,
     }],
-    plugins: [nodeResolve(), commonjs(), terser({})]
+    plugins: [nodeResolve(), commonjs(), terser({})],
     
 }];

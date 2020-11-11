@@ -24,7 +24,7 @@ const OPTIONS = {
 };
 
 
-const thisName = "html minify";
+const thisName = `html minify`;
 
 const HTMLFiles = {
     [`${documentation}/documentation-original.html`]: {
@@ -51,7 +51,7 @@ const HTMLFiles = {
 
 (async function () {
 
-    const packageText = await textFileContent('./package.json');
+    const packageText = await textFileContent(`./package.json`);
     Promise.all(
         Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
             return textFileContent(from).then(function (HTMLString) {
@@ -63,13 +63,12 @@ const HTMLFiles = {
                 }
                 return writeTextInFile(to, minifiedHtml);
             });
-        })
+        }),
     ).then(function () {
-        // console.log(thisName + " finished with success !");
-
+        console.log(thisName + ` finished with success !`);
     }).catch(function (reason) {
-        const errorText = thisName + " failed: " + String(reason);
-        console.log(errorText);
+        console.log(`Current directory: ${process.cwd()}`);// eslint-disable-line
+        const errorText = thisName + ` failed: ` + String(reason);
         throw new Error(errorText);
     });
 
