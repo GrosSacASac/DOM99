@@ -59,6 +59,6 @@ export default [{// eslint-disable-line
         format: `es`,
         file: `documentation/deps/documentation.min.js`,
     }],
-    plugins: [nodeResolve(), commonjs(), terser({})],
+    plugins: [nodeResolve(), commonjs(), terser({compress: {drop_console: true}})],
     
 }];
