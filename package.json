@@ -21,9 +21,7 @@
     "serve-doc": "serve ./documentation -p 8080",
     "serve": "serve ./ -p 8080"
   },
-  "dependencies": {
-    "rollup-plugin-terser": "^7.0.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
@@ -36,6 +34,7 @@
     "jasmine-core": "^3.6.0",
     "jsdoc": "^3.6.6",
     "rollup": "^2.33.1",
+    "rollup-plugin-terser": "^7.0.2",
     "serve": "^11.3.2",
     "utilsac": "^13.0.1"
   },
