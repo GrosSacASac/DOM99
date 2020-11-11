@@ -487,7 +487,7 @@ d.functions.calculate();
 
 <!-- Lists -->
 <template data-element="ListsHtml">
-<ul data-list="fruits-li"></ul>
+<ul data-list="fruits" data-use="li"></ul>
 </template>
 
 <script type="module" data-element="ListsJs">
@@ -497,7 +497,9 @@ d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 <!-- Lists2 -->
 <template data-element="Lists2Html">
 <img data-variable="image" alt="">
-<label>Favourite image<select data-variable="image" data-list="images-option" name="image"></select></label>
+<label>Favourite image
+    <select data-variable="image" data-list="images" data-use="option"></select>
+</label>
 <p>You selected <span data-variable="image"></span></p>
 </template>
 
@@ -545,8 +547,7 @@ d.feed("image", d.variables.images[0].value);
     The list variable name is "users" and the template used is "user-element"
     native html elements can also be used to display a list -->
 
-    <div data-list="users-user-element"></div>
-
+    <div data-list="users" data-use="user-element"></div>
 </template>
 <script type="module" data-element="CompositionJs">
 d.feed({users :
