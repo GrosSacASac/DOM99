@@ -1,5 +1,6 @@
 
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 import commonjs from "@rollup/plugin-commonjs";
 import __package from "../package.json";
 
@@ -53,12 +54,49 @@ export default [{
     watch: {
         clearScreen: true
     }
+},{
+    input: `source/dom99.js`,
+    treeshake: {
+        propertyReadSideEffects: false // assume reading properties has no side effect
+    },
+    output: [
+        Object.assign({
+            format: `iife`,
+            file: `built/dom99.iife.es5.min.js`,
+        }, commonOutputOptions),
+    ],
+
+    watch: {
+        clearScreen: true
+    },
+    plugins: [terser({
+        ie8: true,
+        // drop_console: true,
+    })]
+},{
+    input: `source/dom99.js`,
+    treeshake: {
+        propertyReadSideEffects: false // assume reading properties has no side effect
+    },
+    output: [
+        Object.assign({
+            format: `es`,
+            file: `built/dom99.es.min.js`,
+        }, commonOutputOptions),
+    ],
+
+    watch: {
+        clearScreen: true
+    },
+    plugins: [terser({
+        // drop_console: true,
+    })]
 }, {
     input: `documentation/js/documentation.js`,
     output: [{
         format: `es`,
-        file: `documentation/js/documentation-full.js`
+        file: `documentation/deps/documentation.min.js`
     }],
-    plugins: [nodeResolve(), commonjs()]
+    plugins: [nodeResolve(), commonjs(), terser({})]
     
 }];

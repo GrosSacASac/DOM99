@@ -12,7 +12,6 @@
     "lint": "eslint --ignore-path .gitignore source examples plugins components tests/specification",
     "bundle": "rollup --config tools/rollup.config.js",
     "transpile": "babel built/dom99.iife.js > built/dom99.iife.es5.js",
-    "minify": "terser built/dom99.iife.es5.js --ie8 --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.iife.es5.min.js && terser built/dom99.es.js --type module --ie8 --toplevel --compress drop_console,properties,dead_code,join_vars --mangle -o built/dom99.es.min.js",
     "build": "npm run bundle && npm run transpile && npm run minify",
     "test": "tests/specification/SpecRunner.html",
     "transpile-polyfills": "babel polyfills --out-dir polyfills/built --ignore polyfills/built/",
@@ -55,9 +54,9 @@
     "jasmine-core": "^3.6.0",
     "jsdoc": "^3.6.6",
     "rollup": "^2.33.1",
+    "rollup-plugin-terser": "^7.0.2",
     "serve": "^11.3.2",
     "template-mb": "^2.0.6",
-    "terser": "^5.3.8",
     "utilsac": "^13.0.1"
   },
   "eslintConfig": {
