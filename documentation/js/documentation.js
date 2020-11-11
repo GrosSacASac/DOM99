@@ -20,13 +20,11 @@ d.start();`);
     });
     const resultElement = d.elements[d.scopeFromArray([name, `ResultDisplay`])];
     resultElement.innerHTML = HtmlSourceDisplay;
-    if (window.usesModules) {
-        eval(JsSourceOriginal);
-    }
-    d.start({ startElement: resultElement });
 };
 
 d.start();
 demoTitles.forEach(function (name) {
     displayHtmlJsAndResult(name);
 });
+
+window.d = d; // for inline demos

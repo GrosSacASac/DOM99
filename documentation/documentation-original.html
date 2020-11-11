@@ -12,6 +12,7 @@
     <link rel="prefetch" href="./">
 </head>
 <body>
+<script type="module" src="js/documentation-full.js"></script>
 <h1>dom99</h1>
 
 <main>
@@ -432,7 +433,7 @@ Simply changing a class name of an element can cause the browser to do heavy com
 </template>
 
 
-<script nomodule data-element="Hello WorldJs">
+<script type="module" data-element="Hello WorldJs">
 d.feed({myVariable : "Hello World"});
 </script>
 
@@ -442,7 +443,7 @@ d.feed({myVariable : "Hello World"});
 <p data-variable="text"></p>
 </template>
 
-<script nomodule data-element="Hello World 2Js">
+<script type="module" data-element="Hello World 2Js">
 d.feed({text : "Hello dom99"});
 </script>
 
@@ -459,7 +460,7 @@ d.feed({text : "Hello dom99"});
 <output data-variable="result"></output>
 </template>
 
-<script nomodule data-element="MultiplierJs">
+<script type="module" data-element="MultiplierJs">
 
 d.functions.calculate = function (event) {
     d.feed({
@@ -481,7 +482,7 @@ d.functions.calculate();
 <ul data-list="fruits-li"></ul>
 </template>
 
-<script nomodule data-element="ListsJs">
+<script type="module" data-element="ListsJs">
 d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 </script>
 
@@ -492,7 +493,7 @@ d.feed("fruits", ["apple", "kiwi", "banana", "orange"]);
 <p>You selected <span data-variable="image"></span></p>
 </template>
 
-<script nomodule data-element="Lists2Js">
+<script type="module" data-element="Lists2Js">
 d.feed("images", [
     {
         textContent: "you",
@@ -539,7 +540,7 @@ d.feed("image", d.variables.images[0].value);
     <div data-list="users-user-element"></div>
 
 </template>
-<script nomodule data-element="CompositionJs">
+<script type="module" data-element="CompositionJs">
 d.feed({users :
     [
         {
@@ -553,8 +554,13 @@ d.feed({users :
 ]});
 </script>
 
+<script type="module">
+d.start();
+</script>
+
+
+
 <link rel="stylesheet" href="./deps/solarized-dark.css" />
-<script type="module" src="js/documentation.js"></script>
 
 </main>
 </body>
