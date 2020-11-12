@@ -110,7 +110,7 @@ native html elements can also be used to display a list
 -->
 <div data-list="users" data-use="user-element"></div>
 <script type="module">
-    import * as d from "./node_modules/dom99/built/dom99ES.js";
+    import * as d from "./node_modules/dom99/built/dom99.es.js";
 
     d.feed({users :
         [
