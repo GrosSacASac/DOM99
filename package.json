@@ -15,9 +15,9 @@
     "prepare-site": "node tools/prepareSite.js",
     "jsdoc": "jsdoc source -t documentation/jsdoctemplate --destination ./documentation/api --recurse",
     "bundle-docs": "rollup --config tools/rollup-doc.config.js",
-    "docs": "npm run generate-html && npm run prepare-site && npm run jsdoc && npm run bundle-docs",
+    "documentation": "npm run generate-html && npm run prepare-site && npm run jsdoc && npm run bundle-docs",
     "build": "npm run bundle",
-    "build-all": "npm run build && npm run docs",
+    "build-all": "npm run build && npm run documentation",
     "prepack": "npm run build-all",
     "serve-doc": "serve ./documentation -p 8080",
     "serve": "serve ./ -p 8080"
