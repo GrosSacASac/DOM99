@@ -21,7 +21,7 @@ Through all media, including oral, email, github issues, pull requests...
  * Learn
  
 
-## Consequences in cased of not expected behaviour
+## Consequences in case of unexpected behaviour
 
 
 In addition to notify competent authorities, one may be warned or banned from this community.
@@ -29,21 +29,14 @@ In addition to notify competent authorities, one may be warned or banned from th
 
 ## Reporting Guidelines
 
-If you are subject to or witness not expected behaviour, please notify a community organizer as soon as possible. Contact details are in available in the documentation.
+If you are subject to or witness unexpected behaviour, please notify a community organizer as soon as possible.
 
 
 ## Addressing Grievances
  
-If you feel you have been falsely or unfairly accused of violating this Code of Conduct, please notify a community organizer as soon as possible. Contact details are in available in the documentation.
+If you feel you have been falsely or unfairly accused of violating this Code of Conduct, please notify a community organizer as soon as possible.
 
 
-## Notes
-
-Improve the world is not well defined. Also be nice. What does it even mean to be ? At least "be nice" negates insulting, intolerance, harassment and everything else that everyone dislikes. Improve the world negates spam. Learn in Expected Behaviour would allow to kick someone that never learns (or tells so), that a behaviour is not nice even after warnings.
-
-
-
-### Motivation
 
 ## License
 
