@@ -90,7 +90,7 @@ Locally found in [documentation/documentation-original.html](./documentation/doc
 ## Examples
 
 
-### [Local examples documentation/examples](./https://dom99.now.sh/documentation.html)
+### [Local examples documentation/examples](https://dom99.now.sh/examples)
 
 ### [JSON, YAML, TOML, INI Converter](https://grossacasacs-left-phalange.vercel.app/)
 
