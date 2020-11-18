@@ -10,7 +10,7 @@
 
 dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert them directly in the document.
 
-[Changelog](https://dom99.now.sh/changelog#timeline)
+[Changelog](https://dom99.now.sh/changelog.html#timeline)
 
 ## Installation
 
@@ -56,7 +56,7 @@ Designers and Developers can work on the same files. Elements in the mark-up lin
 
 ### Easy to learn
 
-Get up an running fast.  [Documentation](https://dom99.now.sh/documentation) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
+Get up an running fast.  [Documentation](https://dom99.now.sh/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 
 ### Work with the Web platform
