@@ -72,7 +72,6 @@ Open an issue to make us open a donation channel
 	* Redefine sections
 		* About
 			* Move to Details everything except the essential
-			* Add 2 inlines examples, (move all other inline examples to another html page)
 		* Step by step
 			* Install
 			* Setup

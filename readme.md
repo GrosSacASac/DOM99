@@ -81,17 +81,22 @@ No virtual dom is used for maximum **possible** performance.
 dom99 is unopinionated. Bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
 
 
-## [Complete Documentation](https://dom99.now.sh/documentation)
+## [Complete Documentation](https://dom99.now.sh/documentation.html)
 
 
-Locally found in [documentation/documentation.html](./documentation/documentation-original.html)
+Locally found in [documentation/documentation-original.html](./documentation/documentation-original.html)
 
 
 ## Examples
 
 
+### [Local examples documentation/examples](./https://dom99.now.sh/documentation.html)
 
-### [HTML Composition](https://dom99.now.sh/documentation#Composition)
+### [JSON, YAML, TOML, INI Converter](https://grossacasacs-left-phalange.vercel.app/)
+
+### [Graphs](https://github.com/GrosSacASac/graphs)
+
+### [HTML Composition](https://dom99.now.sh/documentation.html#Composition)
 
 ```html
 <!--
@@ -135,9 +140,6 @@ native html elements can also be used to display a list
 </code></pre>
 </details>
 
-[Included examples](./examples)
-
-[Graphs](https://github.com/GrosSacASac/graphs)
 
 ## Discussion
 

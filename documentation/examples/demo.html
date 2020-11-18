@@ -6,6 +6,7 @@
     <title>dom99 DEMO</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
+    <link rel="icon" href="../images/99.jpg">
     <style>d-comment {
   border: 1px solid;
   display:block;
@@ -33,12 +34,8 @@
 	href="https://github.com/GrosSacASac/DOM99"
 	>Github</a>
 
-<!-- dom99 -->
-<script
-src="../built/dom99.iife.js"
-></script>
-<script>
-// global d;
+<script type="module">
+import * as d from "../deps/dom99.es.js";
 
 // manually set text variable
 d.feed("text", "Hi");

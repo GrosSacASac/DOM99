@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
     <link rel="stylesheet" href="css/test.css">
+    <link rel="icon" href="../images/99.jpg">
 </head>
 <body>
 
 <p>Below an ul element with data-list="list1-li". Every item in list1 will be displayed in a &lt;li&gt;</p>
-<ul data-list="list1-li"></ul>
+<ul data-list="list1" data-use="li"></ul>
 
 
 <p>Deep composition without variables</p>
@@ -48,7 +49,7 @@
       The event handler inside the &lt;d-filter&gt; can also update its childs compenent and sister
       component.</p>
       <d-filter data-scope="dfilter"></d-filter>
-      <ul data-list="files-li"></ul>
+      <ul data-list="files" data-use="li"></ul>
     </div>
 </template>
 
@@ -56,6 +57,6 @@
 
 <d-explorer data-element="exporer1container" data-scope="explorer1"></d-explorer>
 <d-explorer data-element="exporer2container" data-scope="explorer2"></d-explorer>
-<script type="module" src="js/test.js"></script>
+<script type="module" src="./js/test.js"></script>
 </body>
 </html>

@@ -5,8 +5,6 @@ node_modules/
 documentation/personal_notes.txt
 documentation/personal_htmltests.html
 documentation/css/landing-page.min.css
-exampleses5/todolistmultiuser
-exampleses5/learnjavascript
 
 #################
 ## Generated Resources
@@ -16,8 +14,6 @@ documentation/jsdoctemplate/static/scripts/prettify/prettify.js
 documentation/jsdoctemplate/static/scripts/
 built/
 
-examples/js/built
-examples/js/builtes5
 
 documentation/documentation.html
 documentation/index.html
@@ -25,7 +21,6 @@ documentation/changelog.html
 documentation/api
 documentation/js/documentation.es5.min.js
 
-components/yesNoDialog/examples/js/built
 
 #################
 ## Eclipse
@@ -249,9 +244,6 @@ images/l5.jpg
 images/short.jpg
 images/l3.jpg
 images/funny.jpg
-components/yesNoDialog/examples/js/built/yesNoDialog-bundled.js
-components/yesNoDialog/examples/js/built/ScrollTest-bundled.js
-components/yesNoDialog/examples/js/built/yesNoDialog.js
 webspree_session.json
 documentation/js_snippets.js
 images/redesign-old.jpg
@@ -260,4 +252,3 @@ documentation/images/redesign-old.jpg
 documentation/deps/*
 .vscode/settings.json
 documentation/presentation/reveal.js-2.6.2/js
-documentation/js/documentation-full.js

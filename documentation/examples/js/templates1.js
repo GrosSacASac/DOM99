@@ -1,4 +1,4 @@
-import * as d from "../../source/dom99.js";
+import * as d from "../../deps/dom99.es.js";
 
 d.functions.showNextComment = function () {
     //todo

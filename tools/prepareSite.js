@@ -10,12 +10,13 @@ const thisName = `prepare site`;
 const inputsOutputs = {
     [`${modules}bootstrap-css-only/css/bootstrap.min.css`]: `${docdeps}bootstrap.min.css`,
     [`${modules}highlight.js/styles/solarized-dark.css`]: `${docdeps}solarized-dark.css`,
+    [`./built/dom99.es.js`]: `${docdeps}dom99.es.js`,
 };
 
 Promise.all(
-Object.entries(inputsOutputs).map(function ([from, to]) {
-    copyFile(from, to);
-}),
+    Object.entries(inputsOutputs).map(function ([from, to]) {
+        copyFile(from, to);
+    }),
 ).then(function () {
     console.log(thisName + ` finished with success !`);
 }).catch(function (reason) {

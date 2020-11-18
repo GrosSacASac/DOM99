@@ -1,5 +1,5 @@
 // Does not use the new features of dom99 ...
-import * as d from "../../source/dom99.js";
+import * as d from "../../deps/dom99.es.js";
 import { fakeBossSpeak, fakeSisterSpeak } from "./chat_simulation.js";
 
 let messageKeys = [];
@@ -53,7 +53,7 @@ d.functions.trySendMessage = function () {
     // the data uses the same keys declared in the html
     const data = {
         authorName: `You`,
-        authorFoto: `../documentation/images/you.jpg`,
+        authorFoto: `../images/you.jpg`,
         messageText: d.variables.currentMessage,
     };
     // could send data to server here

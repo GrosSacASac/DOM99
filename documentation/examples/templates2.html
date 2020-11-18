@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>dom99 DEMO templates 3</title>
+    <title>dom99 DEMO templates 2</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/basics.css">
     <link rel="stylesheet" href="css/dcomment.css">
-    <link rel="icon" href="../documentation/images/99.jpg">
+    <link rel="icon" href="../images/99.jpg">
 </head>
 <body>
 
@@ -17,15 +17,16 @@
 
 <!-- a comment is some text and a date -->
 <template data-template="d-comment">
-    <article class="d-comment"><!-- add a container for styling purposes -->
-        <p data-variable="text">Loading text ... (fake response takes 2sec)</p>
-        <time data-variable="date">Loading date ...</time>
-    </article>
+    <p data-variable="text">Loading text ... (fake response takes 2sec)</p>
+    <time data-variable="date">Loading date ...</time>
 </template>
 
-<!-- data-list="VARIABLE_NAME - CUSTOM-ELEMENT_NAME" -->
-<section data-list="comments" data-use="d-comment"></section>
+<section data-element="commentSection">
+    <d-comment data-scope="comment1"></d-comment>
+    <d-comment data-scope="comment2"></d-comment>
+</section>
+
 <button data-function="click-showNextComment" >Show more comments</button>
-<script type="module" src="js/templates3.js"></script>
+<script type="module" src="js/templates2.js"></script>
 </body>
 </html>

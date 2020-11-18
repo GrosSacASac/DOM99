@@ -1,4 +1,4 @@
-import * as d  from "../../source/dom99.js";
+import * as d from "../../deps/dom99.es.js";
 
 
 const files = [`beach.jpg`,`letter_for_johan.txt`,`letter_for_sintia.txt`,`recipe.md`,`readme.md`];
