@@ -15,7 +15,7 @@ const OPTIONS = {
     caseSensitive: true,
     collapseBooleanAttributes: true,
     collapseInlineTagWhitespace: true,
-    collapseWhitespace: true,
+    collapseWhitespace: false,
     decodeEntities: true,
     html5: true,
     removeComments: true,
