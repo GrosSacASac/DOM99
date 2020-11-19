@@ -1,4 +1,4 @@
-<h1>dom99</h1>
+# dom99
 
 [![npm bundle size minified + gzip](https://img.shields.io/bundlephobia/minzip/dom99.svg)](https://bundlephobia.com/result?p=dom99)
 [![npm](https://img.shields.io/npm/v/dom99.svg)](https://www.npmjs.com/package/dom99)
