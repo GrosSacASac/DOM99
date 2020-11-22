@@ -271,7 +271,7 @@ d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></p
     &lt;button data-function="update" &gt;Update (X)&lt;/button&gt;
     &lt;p data-variable="text" &gt;Default Text&lt;/p&gt;
     &lt;div data-element="status" class="status" &gt;&lt;/div&gt;
-    &lt;ul data-list="myList-li" &gt;
+    &lt;ul data-list="myList" data-use="li" &gt;
         &lt;li&gt;Default List Item&lt;/li&gt;
     &lt;/ul&gt;
     &lt;div data-scope="encapsulated" &gt;
@@ -288,7 +288,7 @@ d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></p
 &lt;div is=&quot;d-tagName&quot; data-scope=&quot;myKey1&quot;&gt;&lt;/div&gt;
 
 &lt;!-- or --&gt;
-&lt;div data-list=&quot;listKey-d-tagName&quot;&gt;&lt;/div&gt;
+&lt;div data-list=&quot;listKey&quot; data-use=&quot;d-tagName&quot;&gt;&lt;/div&gt;
 
 
 // JS
