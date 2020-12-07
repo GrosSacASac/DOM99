@@ -220,10 +220,11 @@ const notifyVariableSubscribers = (options, subscribers, value) => {
 };
 
 const notifyOneListSubscriber = (listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
-    if (
-        hasOwnProperty.call(listContainer, CUSTOM_ELEMENT) &&
-        hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])
-    ) {
+    if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT)) {
+        if (!hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])) {
+            console.error(`<${listContainer[CUSTOM_ELEMENT]}> not found, make sure its <template> is defined before`);
+            return;
+        }
         notifyCustomListSubscriber(listContainer, startScope, data);
         return;
     }
@@ -491,7 +492,7 @@ Replace <${tagName} ${options.directives.list}="${variableName}-${fullName || li
             const use = element.getAttribute(options.directives.use);
             if (!use) {
                 const tagName = element.tagName.toLowerCase();
-                console.warn(
+                console.error(
                     `<${tagName} ${options.directives.list}="${variableName}"></${tagName}> is missing ${options.directives.use}="name"`,
                 );
                 return;

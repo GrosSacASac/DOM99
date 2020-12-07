@@ -48,7 +48,7 @@ describe(`data-list simple`, function () {
 
 
 describe(`data-list missing data-use`, function () {
-    let d, content, childType;
+    let d, content;
     beforeEach(function () {
         d = create(defaultOptions);
         content = document.createElement(`div`);
@@ -61,7 +61,26 @@ describe(`data-list missing data-use`, function () {
 
     it(`should contain 0 child elements`, function () {
         const { childElementCount } = d.elements.targetElement;
-        console.log("test should also print a warning")
+        console.log(`test should not crash and also print an error`);
+        expect(childElementCount).toEqual(0);
+    });
+});
+
+describe(`data-list with missing data-use element`, function () {
+    let d, content;
+    beforeEach(function () {
+        d = create(defaultOptions);
+        content = document.createElement(`div`);
+        content.innerHTML = `<ol data-element="targetElement" data-list="myList" data-use="does-not-exist"></ol>`;
+        d.start({
+            startElement: content,
+        });
+        d.feed(`myList`, exampleData);
+    });
+
+    it(`should contain 0 child elements`, function () {
+        const { childElementCount } = d.elements.targetElement;
+        console.log(`test should not crash and also print an error`);
         expect(childElementCount).toEqual(0);
     });
 });
