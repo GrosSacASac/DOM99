@@ -56,10 +56,10 @@ const customElementNameFromElement = (element) => {
     return element.tagName.toLowerCase();
 };
 
-const cloneTemplate = (template) => {
+const cloneTemplate = (template, options) => {
     if (!template) {
         console.error(
-            `Template missing <template data-template="d-name">
+            `Template missing <template ${options.directives.template}="d-name">
                 Template Content
             </template>`,
         );
@@ -484,11 +484,18 @@ const create = (options) => {
             const tagName = element.tagName.toLowerCase();
             console.warn(
                 `deprecated since 21.0.1
-Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"></${tagName}> with
-<${tagName} data-list="${variableName}" data-use="${fullName || listItemTagName}"></${tagName}>`,
+Replace <${tagName} ${options.directives.list}="${variableName}-${fullName || listItemTagName}"></${tagName}> with
+<${tagName} ${options.directives.list}="${variableName}" ${options.directives.use}="${fullName || listItemTagName}"></${tagName}>`,
             );
         } else {
             const use = element.getAttribute(options.directives.use);
+            if (!use) {
+                const tagName = element.tagName.toLowerCase();
+                console.warn(
+                    `<${tagName} ${options.directives.list}="${variableName}"></${tagName}> is missing ${options.directives.use}="name"`,
+                );
+                return;
+            }
             if (use.includes(`-`)) {
                 element[CUSTOM_ELEMENT] = use;
             } else {
@@ -621,7 +628,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         /* clones a template and activates it
         */
         enterObject(scopeIn, key);
-        const activatedClone = cloneTemplate(template);
+        const activatedClone = cloneTemplate(template, options);
         activate(activatedClone);
         cloneHook();
         leaveObject(scopeIn);
@@ -712,7 +719,7 @@ Replace <${tagName} data-list="${variableName}-${fullName || listItemTagName}"><
         const customName = customElementNameFromElement(element);
         if (hasOwnProperty.call(templateFromName, customName)) {
             element.appendChild(
-                cloneTemplate(templateFromName[customName]),
+                cloneTemplate(templateFromName[customName], options),
             );
         }
     };
