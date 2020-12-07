@@ -51,7 +51,6 @@ const HTMLFiles = {
 
 (async function () {
 
-    const packageText = await textFileContent(`./package.json`);
     Promise.all(
         Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
             return textFileContent(from).then(function (HTMLString) {

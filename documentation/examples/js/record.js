@@ -1,7 +1,7 @@
 import * as d from "../../deps/dom99.es.js";
 
 
-const mediaRecorderSupport = `MediaRecorder` in window;
+const mediaRecorderSupport =  Boolean(window.MediaRecorder);
 const missingSupportMessage = `browser does not support MediaRecorder`;
 const missingPermissionMessage = `permission denied or no microphone detected, cannot access`;
 const WEBM_MIME = `audio/webm`;
@@ -41,7 +41,7 @@ const startRecording = async () => {
     try {
         stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
-            video: false
+            video: false,
         });
     } catch (permissionError) {
         return missingPermissionMessage;
@@ -58,10 +58,10 @@ const startRecording = async () => {
     });
 
     recorder.addEventListener(`stop`, () => {
-        const recording = new Blob(parts, {
-            type: WEBM_MIME
+        const recordBlob = new Blob(parts, {
+            type: WEBM_MIME,
         });
-        handleRecording(recording);
+        handleRecording(recordBlob);
     });
     recorder.start();
     recording = true;

@@ -8,10 +8,9 @@ import {
 import { defaultOptions } from "../../../source/defaultOptions.js";
 
 describe(`firstVariableValueStrategy`, function () {
-    let expectedValue,myfunction, content;
+    let expectedValue, content;
     beforeEach(function () {
         expectedValue = `abc`;
-        myfunction = function () { };
         content = document.createElement(`div`);
         content.innerHTML = `
             <input data-variable="string1" value="${expectedValue}">

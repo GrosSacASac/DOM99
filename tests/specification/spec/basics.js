@@ -52,7 +52,7 @@ describe(`dom99 basics`, function () {
     const initialValue = `initialValue`;
     const finalValue = `finalValue`;
     let currentValue = initialValue;
-    myfunction = function (event) {
+    myfunction = function () {
       currentValue = finalValue;
     };
 

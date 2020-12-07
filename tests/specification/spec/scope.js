@@ -56,7 +56,7 @@ describe(`data-scope`, function () {
                 <button data-function="x" data-element="b0">inner x</button>
             </div>
         `;
-        d.functions.x = function (event) {
+        d.functions.x = function () {
             expect(true).toEqual(true);
             done();
         };
