@@ -656,7 +656,6 @@ const create = (options) => {
 
     const tryApplyDirectives = (element) => {
         /* looks if the element has dom99 specific attributes and tries to handle it*/
-        // todo make sure no impact-full read write
         if (!element.hasAttribute) {
             // can this if be removed eventually ? --> no
             return;
