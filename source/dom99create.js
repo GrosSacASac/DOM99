@@ -458,51 +458,28 @@ const create = (options) => {
         );
     };
 
-    const applyList = (element, attributeValue) => {
-        const [
-            variableName,
-            listItemTagName,
-            optional,
-        ] = attributeValue.split(options.tokenSeparator);
-
+    const applyList = (element, variableName) => {
         if (!variableName) {
             console.error(
                 element,
                 `Use ${options.directives.list}="variableName-tagName" format!`,
             );
         }
-
-        // todo remove deprecation warning 
-        if (listItemTagName) {
-            let fullName;
-            if (optional) {
-                // for custom elements
-                fullName = `${listItemTagName}-${optional}`;
-                element[CUSTOM_ELEMENT] = fullName;
-            } else {
-                element[ELEMENT_LIST_ITEM] = listItemTagName;
-            }
+        
+        const use = element.getAttribute(options.directives.use);
+        if (!use) {
             const tagName = element.tagName.toLowerCase();
-            console.warn(
-                `deprecated since 21.0.1
-Replace <${tagName} ${options.directives.list}="${variableName}-${fullName || listItemTagName}"></${tagName}> with
-<${tagName} ${options.directives.list}="${variableName}" ${options.directives.use}="${fullName || listItemTagName}"></${tagName}>`,
+            console.error(
+                `<${tagName} ${options.directives.list}="${variableName}"></${tagName}> is missing ${options.directives.use}="name"`,
             );
-        } else {
-            const use = element.getAttribute(options.directives.use);
-            if (!use) {
-                const tagName = element.tagName.toLowerCase();
-                console.error(
-                    `<${tagName} ${options.directives.list}="${variableName}"></${tagName}> is missing ${options.directives.use}="name"`,
-                );
-                return;
-            }
-            if (use.includes(`-`)) {
-                element[CUSTOM_ELEMENT] = use;
-            } else {
-                element[ELEMENT_LIST_ITEM] = use;
-            }
+            return;
         }
+        if (use.includes(`-`)) {
+            element[CUSTOM_ELEMENT] = use;
+        } else {
+            element[ELEMENT_LIST_ITEM] = use;
+        }
+        
         /* could send scope as array directly but have to change
         notifyOneListSubscriber to take in scope as Array or String before */
         const arrayScope = scopeFromArrayWith(scopeIn, variableName);
