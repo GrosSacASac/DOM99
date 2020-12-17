@@ -15,7 +15,7 @@ const inputsOutputs = {
 
 Promise.all(
     Object.entries(inputsOutputs).map(function ([from, to]) {
-        copyFile(from, to);
+        return copyFile(from, to);
     }),
 ).then(function () {
     console.log(thisName + ` finished with success !`);
