@@ -1,11 +1,12 @@
 {
   "name": "dom99",
-  "version": "22.1.1",
+  "version": "22.1.2",
   "description": "Extend html with directives",
   "license": "BSL-1.0",
   "homepage": "https://dom99.now.sh/",
   "type": "module",
   "main": "source/dom99.js",
+  "module": "source/dom99.js",
   "scripts": {
     "lint-fix": "eslint --ignore-path .gitignore --fix source documentation/examples plugins components tests/specification tools",
     "lint": "eslint --ignore-path .gitignore source documentation/examples plugins components tests/specification tools",
