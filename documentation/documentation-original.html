@@ -84,7 +84,7 @@ framework that provides a nice API to manipulate the DOM: Select nodes, add even
 <p>* Supports also requires</p>
 <p>Support may also require transpilation. You may also want to use built/dom99.iife.es5.min.js.Support may also require other polyfills and transpilation see documentation/examples/css/basics.css and polyfills/ and documentation/examples/</p>
 <ol>
-    <li><a href="https://www.npmjs.com/package/@babel/polyfill">ES2015 polyfill found under node_modules/@babel/polyfill/dist/polyfill.min.js"</a></li>
+    <li><a href="https://www.npmjs.com/package/@babel/polyfill">ES2015 polyfill found under node_modules/@babel/polyfill/dist/polyfill.min.js</a></li>
     <li><a href="https://www.npmjs.com/package/template-mb">template-mb</a></li>
     <li><a href="https://github.com/GrosSacASac/DOM99/blob/21.1.4/polyfills/template-mb-bootstrap.js">template-mb-bootstrap</a></li>
     <li><a href="https://github.com/GrosSacASac/DOM99/blob/21.1.4/documentation/css/polyfill.css">polyfill.css</a></li>
@@ -97,7 +97,7 @@ framework that provides a nice API to manipulate the DOM: Select nodes, add even
 
 <section>
 <h3>License</h3>
-<p>Copyright Cyril Walle</p>
+<p>Copyright GrosSacASacs</p>
 <p>Distributed under the Boost Software License,
 Version 1.0</p>
 </section>
@@ -258,9 +258,9 @@ d.elements[`target`].appendChild(customElement);</code></pre>
 d.elements[`key&gt;elementName`].className = `class-fun`;</code></pre>
 
 <p>Or</p>
-<pre><code>d.variables[d.contextFromArray([`key`, `text`])] = `A string`;
+<pre><code>d.variables[d.scopeFromArray([`key`, `text`])] = `A string`;
 
-d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></pre>
+d.elements[d.scopeFromArray([`key`, `elementName`])].className = ...</code></pre>
 
 <p>d.functions function the other way around. You use the same event handlers for all template copies
  and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
@@ -293,29 +293,29 @@ d.elements[d.contextFromArray([`key`, `elementName`])].className = ...</code></p
 
 // JS
 d.functions.update = function (event) {
-    const key = d.contextFromEvent(event);
-    // you can access variables, elements, lists, subcontext with d.contextFromArray
+    const scope = d.scopeFromEvent(event);
+    // you can access variables, elements, lists scopes with d.scopeFromArray
     //  - text -
-        const textKey = d.contextFromArray([key, `text`]);
-        const textVariable = d.variables[textKey]; // read
-        d.feed(textKey, `New Text`); // write
+        const textScope = d.scopeFromArray([scope, `text`]);
+        const textVariable = d.variables[textScope]; // read
+        d.feed(textScope, `New Text`); // write
     // - elements -
-        const statusKey = d.contextFromArray([key, `status`]);
-        const statusDiv = d.variables[textKey]; // read
+        const statusScope = d.scopeFromArray([scope, `status`]);
+        const statusDiv = d.variables[statusScope]; // read
         statusDiv.classList.add(`updated`) // use
     // - list -
-        const listKey = d.contextFromArray([key, `myList`]);
-        const listVariable = d.variables[listKey]; // read
-        d.feed(listKey, [
+        const listScope = d.scopeFromArray([scope, `myList`]);
+        const listVariable = d.variables[listScope]; // read
+        d.feed(listScope, [
             `a`,
             `b`,
             `c`
         ]); // write with side effect
     // - encapsulated -
         // here d.contextFromArray takes a 3 item list to go 1 level deeper the tree
-        const encapsulatedTextKey = d.contextFromArray([key, `encapsulated`, `text`]);
-        const textVariable2 = d.variables[encapsulatedTextKey]; // read
-        d.feed(encapsulatedTextKey, `New Encapsulated Text`); // write
+        const encapsulatedTextScope = d.contextFromArray([scope, `encapsulated`, `text`]);
+        const textVariable2 = d.variables[encapsulatedTextScope]; // read
+        d.feed(encapsulatedTextScope, `New Encapsulated Text`); // write
 
 
     // this looks verbose but it works for any kind of deep html composition.
@@ -323,7 +323,7 @@ d.functions.update = function (event) {
     d.variables[`key&gt;text`];
 };</code></pre>
 
-<p>If you want to remove a custom element, also use <code>d.forgetContext(baseContext);</code> to completely delete a template clone to avoid memory leaks. Read more about it in the comments of the dom99.js file. You may also consider reusing rendered template copies instead of removing them and creating new ones.</p>
+
 </article>
 
 <article id="examples1">
@@ -380,7 +380,7 @@ d.functions.update = function (event) {
 <p>View components in components/ folder</p>
 <p>You can handle new HTML with <code>d.start({ startElement: document.body });</code>. Already processed elements won't be affected at all because the * is added to the attribute value after that.</p>
 
-<p>Open your console, handy warnings may appear to help you if use the not minified version.</p>
+<p>Open your console, handy warnings may appear to help.</p>
 
 <p>You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
 
@@ -571,7 +571,7 @@ d.start();
 
 
 
-<link rel="stylesheet" href="./deps/solarized-dark.css" />
+<link rel="stylesheet" href="./deps/tomorrow.css" />
 
 </main>
 </body>
