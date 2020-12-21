@@ -1,6 +1,29 @@
+
+:root {
+
+  --text-color: #090404;
+  --text-color-2: black;
+  --back-color: #fbfdf2;
+  --back-color-2: #eedeee;
+  --link-color: #111177;
+  --link-color-2: #1314b9;
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #eee0d7;
+        --text-color-2: #efefdf;
+        --back-color: #222;
+        --back-color-2: #111;
+        --link-color: #5566ff;
+        --link-color-2: #5263f4;
+      }      
+}
+
 body {
-  color: #090404;
-  background: #fbfdf2;
+  color: var(--text-color);
+  background: var(--back-color);
   font-family: 'Open Sans',Arial,sans-serif;
   margin: 3px;
 }
@@ -28,6 +51,10 @@ p {
   font-size: 1.05em;
 }
 
+a, a:visited {
+  color: var(--link-color);
+}
+
 main > nav > a {
   display: block;
   margin-left: 4px;
@@ -36,24 +63,23 @@ main > nav > a {
   text-align: center;
   font-size: 1.62em;
   text-decoration: none;
-  color: #111177;
-  background-color: #eedeee;
+  background-color: var(--back-color-2);
 }
 .nav-ext {
     margin-bottom: 1em;
-    color: #1314b9;
+    color: var(--link-color-2);
 }
 
 main > nav > a:hover,
 main > nav > a:focus {
   text-decoration:underline;
-  color:#eedeee;
-  background-color:black;
+  color: var(--back-color-2);
+  background-color: var(--text-color-2);
 }
 
 main > article {
   padding: 0.6em;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--text-color-2);;
 }
 
 @media screen and (min-width: 960px) {
@@ -128,8 +154,4 @@ d-htmljsresult * {
 .user-bio {
     text-indent: 2;
     font-style: italic;
-}
-
-.user-contact {
-
 }
