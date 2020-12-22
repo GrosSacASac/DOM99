@@ -62,47 +62,19 @@ Open an issue to make us open a donation channel
 ## What to do
 
 
- * explain the philosophy that dom99 is really low level API and is made to be encapsulated inside a framework that give better developer experience. Show how to do it inside create-dom99-app
  * explain better where dom99 comes from and what differentiates it
  * compare values before updating ? with data-compare-before ?
- * hash values for smaller memory footprint comparison (trade would make it slower make it an option)
  * see how checking for equality before assigning textContent affects performance
  * Create a better documentation experience
 	* New html page with articles
-	* Redefine sections
-		* About
-			* Move to Details everything except the essential
-		* Step by step
-			* Install
-			* Setup
-			* Hello World
-
-		* Advanced concepts
+	* Remake sections
 		* Components
 		* Plugins
-		* Details (license, chat, contribute etc)
 
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
     * form validation, form submits
-        * web payements
-        * speech to text
-        * biometric authentification (facial, voice, fingerprint recognition),
-        * 2 factors (ex password + token)
-        * social authentification (Open Auth ?)
-    * multimedia content,
-        * audio , text to speech
-        * video
-        * canvas
-        * VR, AR
-    * local navigation (menu bars, links, buttons)
     * disabled js, and fall-backs
-    * cross device support, phone, tablets, fridges, smartwatch, tv
-        * UX, css media queries, button size, pointer events, touch events, both
-    * website monetization and growth
-        * navigator.share
-        * social network sharing, email link
-        * donation links
  * server side rendering
     * static
     * on the fly, streaming html
