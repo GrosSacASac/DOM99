@@ -82,8 +82,6 @@ Open an issue to make us open a donation channel
 		* Plugins
 		* Details (license, chat, contribute etc)
 
- * Define typical process of creating and composing with custom elements
- * IE seems to fill forms after script executes and load (onload ?)
  * further explore and document best practices for
     * keyboard shortcuts, (acceskey, keydown listener), gamepad support
     * form validation, form submits
