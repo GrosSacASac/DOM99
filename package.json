@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "23.0.1",
+  "version": "23.0.2",
   "description": "Extend html with directives",
   "license": "BSL-1.0",
   "homepage": "https://dom99.now.sh/",
@@ -30,7 +30,7 @@
     "bootstrap-css-only": "^4.4.1",
     "eslint": "^7.16.0",
     "eslint-config-red": "^1.8.1",
-    "filesac": "^12.0.0",
+    "filesac": "^13.0.0",
     "highlight.js": "^10.4.1",
     "html-minifier": "^4.0.0",
     "jasmine-core": "^3.6.0",
