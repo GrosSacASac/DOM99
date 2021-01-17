@@ -6,12 +6,12 @@ const SEPARATOR = `+`;
 const move = {
     type: `function`,
     plugin: function (element, eventName, functionName, functions, preventDefault) {
-        const split = functionName.split(SEPARATOR);
-        let [keyCode] = split;
-        const [, name] = split;
         if (eventName !== CUSTOM_EVENT) {
             return;
         }
+        const split = functionName.split(SEPARATOR);
+        let [keyCode] = split;
+        const [, name] = split;
         keyCode = Number(keyCode);
 
         element.addEventListener(`keydown`, function (event) {
