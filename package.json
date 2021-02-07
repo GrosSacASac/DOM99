@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "23.0.3",
+  "version": "23.0.4",
   "description": "Extend html with directives",
   "license": "BSL-1.0",
   "homepage": "https://dom99.now.sh/",
@@ -28,17 +28,17 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
     "bootstrap-css-only": "^4.4.1",
-    "eslint": "^7.16.0",
+    "eslint": "^7.19.0",
     "eslint-config-red": "^1.8.1",
     "filesac": "^13.0.0",
-    "highlight.js": "^10.4.1",
+    "highlight.js": "^10.5.0",
     "html-minifier": "^4.0.0",
     "jasmine-core": "^3.6.0",
     "jsdoc": "^3.6.6",
     "rollup": "^2.35.1",
     "rollup-plugin-terser": "^7.0.2",
     "serve": "^11.3.2",
-    "utilsac": "^14.0.0"
+    "utilsac": "^14.1.0"
   },
   "eslintConfig": {
     "extends": [
