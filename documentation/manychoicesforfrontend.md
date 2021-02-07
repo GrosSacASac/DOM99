@@ -5,7 +5,7 @@
 Outdated now. Was written back then.
 
 Comparing HTML frameworks is a massive tasks, there are hundreds.
-And they all differ in application developpent efficiency, learning curve, runtime memory, cpu efficiency, standards compliance, adapability and more.
+And they all differ in application development efficiency, learning curve, runtime memory, cpu efficiency, standards compliance, adaptability and more.
 
 
 ### Angular.js (1)

@@ -49,7 +49,7 @@ framework that provides a nice API to manipulate the DOM: Select nodes, add even
 <li>No support for some old browsers</li>
 <li>Fear of the unknown</li>
 <li>You have already a working code base that is maintainable</li>
-<li>You need a comprehensive framework that has all the tools/components/css you need out of the box.</li>
+<li>You need a comprehensive framework that has all the tools/components/CSS you need out of the box.</li>
 <li>No built-in server side rendering mechanism</li>
 </ul>
 </section>
@@ -130,7 +130,7 @@ Version 1.0</p>
     <li>data-variable : Data binding between DOM element and JS variable</li>
     <li>data-list : Display a JS Array as a list in the DOM</li>
     <li>data-element : Select an element</li>
-    <li>data-function : Ddds an event listener</li>
+    <li>data-function : Attaches an event listener</li>
     <li>data-template : Declare a html template to build components</li>
     <li>data-scope: Create a scope context</li>
     <li>data-use: Which element to use a list item in combination with data-list</li>
@@ -140,7 +140,7 @@ Version 1.0</p>
 
 <p><code>&lt;tag data-keyword="token1-token2" &gt; text ... &lt;/tag&gt;</code></p>
 
-<p>If you are not using browserify or es modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
+<p>If you are not using browserify or ES modules you need to include this script tag in your html <strong>before</strong> other scripts that access dom99.</p>
 
 <pre><code>&lt;script src="./node_modules/dom99/built/dom99.iife.js"&gt;&lt;/script&gt;
 &lt;script src="js/yourJavascriptFile.js"&gt;&lt;/script&gt;</code></pre>
@@ -163,7 +163,7 @@ d.start();</code></pre>
 
 <h3>data-variable and d.variables and d.feed for data binding</h3>
 
-<p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable talkings</p>
+<p>To changes the text of <code>&lt;p data-variable="talkings"&gt;&lt;/p&gt;</code> and all other element that share the variable "talkings"</p>
 
 <p><code>d.feed({talkings: `Hi`});</code></p>
 
@@ -355,7 +355,6 @@ d.functions.update = function (event) {
 <d-htmljsresult data-scope="Lists"></d-htmljsresult>
 <d-htmljsresult data-scope="Lists2"></d-htmljsresult>
 <d-htmljsresult data-scope="Composition"></d-htmljsresult>
-<!-- Note this code was written before data-list existed so it is not written pefectly-->
 </article>
 
 
@@ -382,7 +381,7 @@ d.functions.update = function (event) {
 
 <p>Open your console, handy warnings may appear to help.</p>
 
-<p>You can add a class to your app element container like "not-ready". Then in your css display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
+<p>You can add a class to your app element container like "not-ready". Then in your CSS display that .not-ready with a loading animation. Once you have initialized everything you can remove the "not-ready" class name.</p>
 
 <p>You can change the dom99 syntax. To do that follow the instructions in js/dom99ConfigurationExample.js</p>
 <p>Server side rendering is compatible with dom99, but you have to glue it together yourself. A future version will make this built in with a node extension.</p>
