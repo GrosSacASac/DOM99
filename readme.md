@@ -84,7 +84,7 @@ dom99 is unopinionated. Bigger frameworks can be built on top of it. That means 
 ## [Complete Documentation](https://dom99.now.sh/documentation.html)
 
 
-Locally found in [documentation/documentation-original.html](./documentation/documentation-original.html)
+Locally found in [documentation/documentation-original.html](https://github.com/GrosSacASac/DOM99/blob/master/documentation/documentation-original.html)
 
 
 ## Examples
@@ -152,7 +152,7 @@ native html elements can also be used to display a list
 
 ## Contributing
 
-[Contributing and things to do](CONTRIBUTING.md)
+[Contributing and things to do](https://github.com/GrosSacASac/DOM99/blob/master/CONTRIBUTING.md)
 
 ## Dev
 
@@ -162,4 +162,4 @@ open tests/specification/SpecRunner.html to run unit tests
 
 ## License
 
-[Boost License](./LICENSE.txt)
+[Boost License](https://github.com/GrosSacASac/DOM99/blob/master/LICENSE.txt)
