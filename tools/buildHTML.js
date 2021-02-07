@@ -1,8 +1,5 @@
-import {
-    textFileContent,
-    writeTextInFile,
-} from "filesac";
-
+import { writeTextInFile } from "filesac";
+import fsPromises from "fs/promises";
 import htmlMinifier from "html-minifier";
 const { minify } = htmlMinifier;
 
@@ -53,7 +50,7 @@ const HTMLFiles = {
 
     Promise.all(
         Object.entries(HTMLFiles).map(function ([from, { to, options }]) {
-            return textFileContent(from).then(function (HTMLString) {
+            return fsPromises.readFile(from, `utf-8`).then(function (HTMLString) {
                 let minifiedHtml;
                 if (skipMinification) {
                     minifiedHtml = HTMLString;
