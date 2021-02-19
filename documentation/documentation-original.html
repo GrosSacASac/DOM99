@@ -411,28 +411,6 @@ Simply changing a class name of an element can cause the browser to do heavy com
 <ul><li>Load time element selection and binding instead of runtime element selection and binding </li><li>The abstraction layer is small, no assumptions are made</li><li>No complexity, no dirty checking, no separate model under the hood</li></ul>
 </article>
 
-<article id="security">
-<h2>Security</h2>
-
-<h3>General tips</h3>
-
-<ul><li>Don't Blacklist, Aggressively Whitelist</li>
-    <li>Don't mix data with code</li>
-    <li>Don't trust what you don't control, validate size and format instead</li>
-    <li>Every software component should be so simple that it is obviously safe</li>
-    <li>Avoid complexity</li>
-    <li>Prevent undefined states</li>
-    <li>Talk with security experts</li>
-</ul>
-
-<h3>dom99 and security</h3>
-
-<p>dom99 itself is secure. It does nothing by itself really. It is only a framework to organize your view. <code>d.variables</code> uses textContent or value by default. </p>
-
-<p>If you apply the general tips above you know that you have to check if the clients browser have all features you need to run your software before running it. You also validate input on the server etc, etc. There are tons of blogs about security out there.</p>
-
-<p>If you are letting, user write HTML make sure to whitelist a finite set of safe html tags and attributes, as data-attributes could interfere.</p>
-</article>
 </article>
 <!-- Usually inline scripts are bad, but here we use them to display the source of the script with .textContent as well as executing it. Without need to use extra XHRs Also not indented first for pre tags -->
 
