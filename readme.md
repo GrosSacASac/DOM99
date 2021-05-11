@@ -56,7 +56,7 @@ Designers and Developers can work on the same files. Elements in the mark-up lin
 
 ### Easy to learn
 
-Get up an running fast.  [Documentation](https://dom99.now.sh/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
+Get up an running fast. [Documentation](https://dom99.now.sh/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 
 ### Work with the Web platform
