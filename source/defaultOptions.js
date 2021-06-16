@@ -44,7 +44,7 @@ const propertyFromInputType = valueElseMissDecorator({
 const inputEventFromType = valueElseMissDecorator({
     [`checkbox`]: `change`,
     [`radio`]: `change`,
-    [`range`]: `change`,
+    [`range`]: `input`,
     [`file`]: `change`,
     [MISS]: `input`,
 });
