@@ -41,7 +41,7 @@
     "utilsac": "^14.1.0"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "eslintConfig": {
     "extends": [
