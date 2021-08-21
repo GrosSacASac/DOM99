@@ -1,7 +1,7 @@
-import hljs from "highlight.js/lib/core.js"
-import hljs_js from "highlight.js/lib/languages/javascript.js";
-import hljs_xml_html from "highlight.js/lib/languages/xml.js";
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import xml from "highlight.js/lib/languages/xml";
 
-hljs.registerLanguage(`javascript`, hljs_js);
-hljs.registerLanguage(`xml`, hljs_xml_html);
+hljs.registerLanguage(`javascript`, javascript);
+hljs.registerLanguage(`xml`, xml);
 hljs.highlightAll();
