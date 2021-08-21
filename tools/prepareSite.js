@@ -10,7 +10,7 @@ const thisName = `prepare site`;
 const inputsOutputs = {
     [`${modules}bootstrap-css-only/css/bootstrap.min.css`]: `${docdeps}bootstrap.min.css`,
     [`${modules}highlight.js/styles/stackoverflow-dark.css`]: `${docdeps}solarized-dark.css`,
-    [`${modules}highlight.js/styles/tomorrow-night-bright.css`]: `${docdeps}tomorrow.css`,
+    [`${modules}highlight.js/styles/stackoverflow-light.css`]: `${docdeps}tomorrow.css`,
     [`./built/dom99.es.js`]: `${docdeps}dom99.es.js`,
 };
 
