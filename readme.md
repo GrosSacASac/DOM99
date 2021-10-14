@@ -10,7 +10,7 @@
 
 dom99 is a JavaScript framework focused to make web development faster. Select HTML elements, add event listeners, synchronize state with the view, clone HTML templates with your data and insert them directly in the document.
 
-[Changelog](https://dom99.now.sh/changelog.html#timeline)
+[Changelog](https://dom99.vercel.app/changelog.html#timeline)
 
 ## Installation
 
@@ -56,7 +56,7 @@ Designers and Developers can work on the same files. Elements in the mark-up lin
 
 ### Easy to learn
 
-Get up an running fast. [Documentation](https://dom99.now.sh/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
+Get up an running fast. [Documentation](https://dom99.vercel.app/documentation.html) Use a [premade starter pack create-dom99-app](https://github.com/GrosSacASac/create-dom99-app/).
 
 
 ### Work with the Web platform
@@ -81,7 +81,7 @@ No virtual dom is used for maximum **possible** performance.
 dom99 is unopinionated. Bigger frameworks can be built on top of it. That means you can chose your own architecture, state management system, CSS system etc
 
 
-## [Complete Documentation](https://dom99.now.sh/documentation.html)
+## [Complete Documentation](https://dom99.vercel.app/documentation.html)
 
 
 Locally found in [documentation/documentation-original.html](https://github.com/GrosSacASac/DOM99/blob/master/documentation/documentation-original.html)
@@ -90,13 +90,13 @@ Locally found in [documentation/documentation-original.html](https://github.com/
 ## Examples
 
 
-### [Local examples documentation/examples](https://dom99.now.sh/examples)
+### [Local examples documentation/examples](https://dom99.vercel.app/examples)
 
 ### [JSON, YAML, TOML, INI Converter](https://grossacasacs-left-phalange.vercel.app/)
 
 ### [Graphs](https://github.com/GrosSacASac/graphs)
 
-### [HTML Composition](https://dom99.now.sh/documentation.html#Composition)
+### [HTML Composition](https://dom99.vercel.app/documentation.html#Composition)
 
 ```html
 <!--
