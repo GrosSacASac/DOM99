@@ -46,7 +46,7 @@ By default dom99 is optimized for first page load, that means the size is small.
 
 ### HTML for mark-up, JS for logic
 
-Get up an running fast. dom99 does not attempt to invent for the n<sup>th</sup> time how to write <code>if</code> statements and <code>for</code> loops inside HTML. Put logic in JS, and mark-up that you already know in HTML. HTML being used when sufficient we respect the minimal responsibility principle.
+Get up an running fast. dom99 does not attempt to invent for the nth time how to write `if` statements and `for` loops inside HTML. Put logic in JS, and mark-up that you already know in HTML. HTML being used when sufficient we respect the minimal responsibility principle.
 
 
 ### Separation of concerns
