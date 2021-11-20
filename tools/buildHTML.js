@@ -1,5 +1,5 @@
+import fsPromises from "node:fs/promises";
 import { writeTextInFile } from "filesac";
-import fsPromises from "fs/promises";
 import htmlMinifier from "html-minifier";
 const { minify } = htmlMinifier;
 
