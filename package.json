@@ -37,7 +37,7 @@
     "rollup": "^2.58.0",
     "rollup-plugin-terser": "^7.0.2",
     "serve": "^12.0.1",
-    "utilsac": "^14.2.3"
+    "utilsac": "^15.0.1"
   },
   "engines": {
     "node": ">=14.x"
