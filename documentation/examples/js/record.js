@@ -15,7 +15,7 @@ d.functions.record = async () => {
         return;
     }
     if (recording) {
-        stopRecording(recorder);
+        stopRecording();
         d.feed(`nextAction`, `Record`);
         d.feed(`alert`, `Ready`);
         return;
@@ -67,7 +67,7 @@ const startRecording = async () => {
     recording = true;
 };
 
-const stopRecording = (recorder) => {
+const stopRecording = () => {
     recorder.stop();
     //todo how to stop the stream
     recording = false;
