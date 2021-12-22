@@ -408,7 +408,7 @@ const create = (options) => {
             /* sort arrays to be last fix 
             list first as otherwise setting the value of a select has no effect */
             const dataEntries = Object.entries(data);
-            dataEntries.sort(([key, value], [keyb, valueb]) => {
+            dataEntries.sort(([, value], [, valueb]) => {
                 return Number(Array.isArray(valueb)) - Number(Array.isArray(value));
             });
             dataEntries.forEach(([key, value]) => {

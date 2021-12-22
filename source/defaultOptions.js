@@ -8,7 +8,7 @@ const valueElseMissDecorator = (object) => {
     Decorated object must have a MISS key with the default value associated
     Arrays are also objects */
     return (key) => {
-        if (Object.prototype.hasOwnProperty.call(object, key)) {
+        if (Object.hasOwn(object, key)) {
             return object[key];
         }
         return object[MISS];

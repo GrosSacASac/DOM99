@@ -13,7 +13,7 @@ d.functions.moveDown = function () {
     d.feed(`count`, x);
 };
 d.functions.logger = function (event) {
-    console.log(event.keyCode)
+    console.log(event.keyCode);
 };
 
 d.start();
