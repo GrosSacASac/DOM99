@@ -719,8 +719,6 @@ const create = (options) => {
         - {object} dataFunctions
         - {object} initialFeed
         - {Element} startElement
-  
-     @return {any} callBack return value
      */
     const start = ({
         startElement = document.body,
