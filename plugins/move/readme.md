@@ -1,5 +1,7 @@
 # Move
 
+Legacy: If KeyboardEvent.key is supported use the keyboard plugin instead
+
 ←
 ↑
 →
@@ -17,17 +19,19 @@ They keyCode has to be used:
 
 ### HTML
 
+Add tabindex for html elements which are not naturally focusable
+
 ```
-<body data-function="move+37-moveLeft">
+<body data-function="move+37-moveLeft" tabindex="0">
 ```
 
 ### JS
 
 ```
-import * as d from "./node_modules/dom99/source/dom99.js";
+// import d
 import {move} from "./node_modules/dom99/plugins/move/move.js";
 
-plugin(move);
+d.plugin(move);
 
 d.functions.moveLeft = function (event) {
     // do something

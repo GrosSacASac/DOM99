@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    <p>Might appear buggy because throttling is not used</p>
+    <input data-function="key-ArrowUp+moveUp key-ArrowDown+moveDown code-KeyQ+throw keydown-logger">
+    <p>move up: <output data-variable="count">0</output></p>
+
+    <script type="module" src="test.js"></script>
+</body>
+</html>

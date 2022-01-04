@@ -10,10 +10,10 @@
 ### JS
 
 ```
-import * as d from "./node_modules/dom99/source/dom99.js";
-import {shake, shakeSupport} from "./node_modules/dom99/plugins/shake/shake.js";
+// import d
+import {shake, shakeSupport} from "dom99/plugins/shake/shake.js";
 
-plugin(shake);
+d.plugin(shake);
 
 d.functions.deviceShaked = function (event) {
     // do something
