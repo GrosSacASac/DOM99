@@ -94,10 +94,13 @@ const scopeFromElement = (element) => {
 
  @param {Event} event
 
- @return {string} scope
+ @return {string | undefined} scope
  */
 const scopeFromEvent = (event) => {
-    return firstAncestorValue(event.target, scopeFromElement) || ``;
+    if (event?.target) {
+        return firstAncestorValue(event.target, scopeFromElement) || ``;
+    }
+    return;
 };
 
 /**
@@ -111,7 +114,7 @@ const scopeFromEvent = (event) => {
  @return {string} path
  */
 const scopeFromArray = (scopeIn) => {
-    return scopeIn.join(INSIDE_SYMBOL);
+    return scopeIn.filter(Boolean).join(INSIDE_SYMBOL);
 };
 
 /**
@@ -432,11 +435,6 @@ const create = (options) => {
             console.error(`Event listener ${functionName} not found.`);
         }
         element.addEventListener(eventName, functions[functionName], false);
-
-        if (scopeIn.length) {
-            element[SCOPE] = scopeFromArray(scopeIn);
-        }
-
     };
 
     let applyFunction = applyFunctionOriginal;
@@ -617,10 +615,7 @@ const create = (options) => {
         /* looks for an html template to render
         also calls applyElement with key!*/
         if (!key) {
-            console.error(
-                element,
-                `Use ${options.directives.scope}="insideWhat" format!`,
-            );
+            return;
         }
 
         const template = templateFromName[
@@ -767,6 +762,10 @@ const create = (options) => {
                 const preventDefault = () => {
                     defaultPrevented = true;
                 };
+                
+                if (scopeIn.length) {
+                    element[SCOPE] = scopeFromArray(scopeIn);
+                }
                 functionPlugins.forEach((pluginFunction) => {
                     pluginFunction(element, eventName, functionName, functions, preventDefault);
                 });

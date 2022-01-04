@@ -128,12 +128,12 @@ Version 1.0</p>
 
 <ul>
     <li>data-variable : Data binding between DOM element and JS variable</li>
-    <li>data-list : Display a JS Array as a list in the DOM</li>
     <li>data-element : Select an element</li>
     <li>data-function : Attaches an event listener</li>
+    <li>data-list : Display a JS Array as a list in the DOM</li>
+    <li>data-use: Which element to use a list item in combination with data-list</li>
     <li>data-template : Declare a html template to build components</li>
     <li>data-scope: Create a scope context</li>
-    <li>data-use: Which element to use a list item in combination with data-list</li>
 </ul>
 
 <p>The general syntax is</p>
@@ -263,7 +263,7 @@ d.elements[`key&gt;elementName`].className = `class-fun`;</code></pre>
 d.elements[d.scopeFromArray([`key`, `elementName`])].className = ...</code></pre>
 
 <p>d.functions function the other way around. You use the same event handlers for all template copies
- and handle differences with <code>d.contextFromEvent(event)</code>. Example</p>
+ and handle differences with <code>d.scopeFromEvent(event)</code>. Example</p>
 
 <pre><code>&lt;!-- HTML --&gt;
 &lt;template data-template="d-tagname"&gt;
@@ -322,7 +322,7 @@ d.functions.update = function (event) {
     //If you want to target a specific element or variable you can directly write
     d.variables[`key&gt;text`];
 };</code></pre>
-
+<p>Note that d.scopeFromEvent  only works on child of an element that use data-scope or equivalent, not on the element with scopeFromEvent itself</p>
 
 </article>
 
