@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This code of conduct describes expected behaviour from participants of the dom99 community.
+This code of conduct describes expected behaviour from participants of the  community.
 
 
 ## Expected Behaviour
