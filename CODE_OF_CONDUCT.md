@@ -11,7 +11,6 @@ This code of conduct describes expected behaviour from participants of the  comm
 Through all means of communications
 
 
- * Be nice
  * Be polite
  * Tolerate
  * Consider the present situation
