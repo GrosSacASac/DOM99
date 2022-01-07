@@ -17,7 +17,7 @@ Through all means of communications
  * Consider the present situation
  * Help
  * Improve the world
- * Respect freedoms
+ * Follow the law
  * Learn
  
 
