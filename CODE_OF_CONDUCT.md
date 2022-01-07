@@ -8,7 +8,7 @@ This code of conduct describes expected behaviour from participants of the  comm
 ## Expected Behaviour
 
 
-Through all media, including oral, email, github issues, pull requests...
+Through all means of communications
 
 
  * Be nice
