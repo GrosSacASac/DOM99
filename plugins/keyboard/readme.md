@@ -26,7 +26,7 @@ Add `tabindex` for html elements which are not naturally focusable
 <!-- Will always be the key at the top left no watter what keyboard type is used-->
 <div data-function="code+KeyQ-throw" tabindex="0"></div>
 <!-- Use the key here, so that it works for both NumpadEnter and regular Enter
-No needd to use tabindex here sincec textarea can already capture input -->
+No need to use tabindex here sincec textarea can already capture input -->
 <textarea data-function="key+Enter-sendMessage"></textarea>
 ```
 
