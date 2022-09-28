@@ -61,10 +61,10 @@ const HTMLFiles = {
             });
         }),
     ).then(function () {
-        console.log(thisName + ` finished with success !`);
+        console.log(`${thisName  } finished with success !`);
     }).catch(function (reason) {
         console.log(`Current directory: ${process.cwd()}`);// eslint-disable-line
-        const errorText = thisName + ` failed: ` + String(reason);
+        const errorText = `${thisName  } failed: ${  String(reason)}`;
         throw new Error(errorText);
     });
 
