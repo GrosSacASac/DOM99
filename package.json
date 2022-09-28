@@ -29,7 +29,7 @@
     "bootstrap-css-only": "^4.4.1",
     "eslint": "^8.5.0",
     "eslint-config-red": "^1.9.0",
-    "filesac": "^13.0.0",
+    "filesac": "^14.2.0",
     "highlight.js": "^11.3.1",
     "html-minifier": "^4.0.0",
     "jasmine-core": "^3.10.1",
