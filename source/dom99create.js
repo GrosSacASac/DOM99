@@ -17,7 +17,6 @@ import { firstAncestorValue } from "./parentIdFromEvent.js";
 import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 
-const { hasOwnProperty } = Object.prototype;
 
 const NAME = `dom99`;
 const SCOPE = `${NAME}_C`;
@@ -223,8 +222,8 @@ const notifyVariableSubscribers = (options, subscribers, value) => {
 };
 
 const notifyOneListSubscriber = (listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
-    if (hasOwnProperty.call(listContainer, CUSTOM_ELEMENT)) {
-        if (!hasOwnProperty.call(templateFromName, listContainer[CUSTOM_ELEMENT])) {
+    if (Object.hasOwn(listContainer, CUSTOM_ELEMENT)) {
+        if (!Object.hasOwn(templateFromName, listContainer[CUSTOM_ELEMENT])) {
             console.error(`<${listContainer[CUSTOM_ELEMENT]}> not found, make sure its <template> is defined before`);
             return;
         }
@@ -332,7 +331,7 @@ const create = (options) => {
         const newLength = data.length;
         let oldLength;
         let scopeInside;
-        if (hasOwnProperty.call(listContainer, LIST_CHILDREN)) {
+        if (Object.hasOwn(listContainer, LIST_CHILDREN)) {
             // remove nodes and variable subscribers that are not used
             oldLength = listContainer[LIST_CHILDREN].length;
             if (oldLength > newLength) {
@@ -398,12 +397,12 @@ const create = (options) => {
         }
         if (!isObjectOrArray(data)) {
             variables[startScope] = data;
-            if (hasOwnProperty.call(variableSubscribers, startScope)) {
+            if (Object.hasOwn(variableSubscribers, startScope)) {
                 notifyVariableSubscribers(options, variableSubscribers[startScope], data);
             }
         } else if (Array.isArray(data)) {
             variables[startScope] = data;
-            if (hasOwnProperty.call(listSubscribers, startScope)) {
+            if (Object.hasOwn(listSubscribers, startScope)) {
                 notifyListSubscribers(listSubscribers[startScope], startScope, data, templateFromName, notifyCustomListSubscriber, options);
             }
         } else {
@@ -511,7 +510,7 @@ const create = (options) => {
             leaveObject(scopeIn);
         }
 
-        if (hasOwnProperty.call(variables, arrayScope)) {
+        if (Object.hasOwn(variables, arrayScope)) {
             notifyOneListSubscriber(element, arrayScope, variables[arrayScope], templateFromName, notifyCustomListSubscriber, options);
         }
     };
@@ -689,7 +688,7 @@ const create = (options) => {
         }
         /* using a custom element without data-scope */
         const customName = customElementNameFromElement(element);
-        if (hasOwnProperty.call(templateFromName, customName)) {
+        if (Object.hasOwn(templateFromName, customName)) {
             element.appendChild(
                 cloneTemplate(templateFromName[customName], options),
             );

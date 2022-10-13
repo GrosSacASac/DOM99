@@ -1,6 +1,6 @@
 {
   "name": "dom99",
-  "version": "25.0.0",
+  "version": "26.0.0",
   "description": "Extend html with directives",
   "license": "BSL-1.0",
   "homepage": "https://dom99.vercel.app/",
@@ -40,19 +40,19 @@
     "utilsac": "^15.2.0"
   },
   "engines": {
-    "node": ">=14.x"
+    "node": ">=18.x"
   },
   "eslintConfig": {
     "extends": [
       "red"
     ],
     "parserOptions": {
-      "ecmaVersion": 2021,
+      "ecmaVersion": 2022,
       "sourceType": "module",
       "ecmaFeatures": {}
     },
     "env": {
-      "es2021": true,
+      "es2022": true,
       "browser": true,
       "jasmine": true
     },

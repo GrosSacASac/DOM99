@@ -13,7 +13,6 @@ const util = require(`util`);
 const { htmlsafe } = helper;
 const { linkto } = helper;
 const { resolveAuthorLinks } = helper;
-const hasOwnProp = Object.prototype.hasOwnProperty;
 
 let data;
 let view;
@@ -317,10 +316,10 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
         items.forEach(function (item) {
             let displayName;
 
-            if (!hasOwnProp.call(item, `longname`)) {
+            if (!Object.hasOwn(item, `longname`)) {
                 itemsNav += `<li>` + linktoFn(``, item.name) + `</li>`;
             }
-            else if (!hasOwnProp.call(itemsSeen, item.longname)) {
+            else if (!Object.hasOwn(itemsSeen, item.longname)) {
                 if (env.conf.templates.default.useLongnameInNav) {
                     displayName = item.longname;
                 } else {
@@ -381,7 +380,7 @@ function buildNav(members) {
         globalNav = ``;
 
         members.globals.forEach(function (g) {
-            if (g.kind !== `typedef` && !hasOwnProp.call(seen, g.longname)) {
+            if (g.kind !== `typedef` && !Object.hasOwn(seen, g.longname)) {
                 globalNav += `<li>` + linkto(g.longname, g.name) + `</li>`;
             }
             seen[g.longname] = true;
