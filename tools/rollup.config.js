@@ -1,4 +1,4 @@
-import __package from "../package.json";
+import __package from "../package.json" assert {type: "json"};
 
 const VERSION = __package.version;
 const GLOBAL_NAME = `d`;
@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
     interop: false,
     extend: false,
     strict: true,
-    namespaceToStringTag: false,
 };
 
 export default [{// eslint-disable-line
