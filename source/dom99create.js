@@ -18,11 +18,10 @@ import { pushOrCreateArrayAt } from "./pushOrCreateArrayAt.js";
 
 
 
-const NAME = `dom99`;
-const SCOPE = `${NAME}_C`;
-const ELEMENT_LIST_ITEM = `${NAME}_I`;
-const CUSTOM_ELEMENT = `${NAME}_X`;
-const LIST_CHILDREN = `${NAME}_R`;
+const scopes = new WeakMap();
+const listItems = new WeakMap();
+const customElements = new WeakMap();
+const listChildren = new WeakMap();
 const INSIDE_SYMBOL = `>`;
 
 const removeNode = (node) => {
@@ -70,7 +69,7 @@ const cloneTemplate = (template, options) => {
  @return {string | undefined} scope
  */
 const scopeFromElement = (element) => {
-    return element[SCOPE];
+    return scopes.get(element);
 };
 
 /**
@@ -214,9 +213,9 @@ const notifyVariableSubscribers = (options, subscribers, value) => {
 };
 
 const notifyOneListSubscriber = (listContainer, startScope, data, templateFromName, notifyCustomListSubscriber, options) => {
-    if (Object.hasOwn(listContainer, CUSTOM_ELEMENT)) {
-        if (!Object.hasOwn(templateFromName, listContainer[CUSTOM_ELEMENT])) {
-            console.error(`<${listContainer[CUSTOM_ELEMENT]}> not found, make sure its <template> is defined before`);
+    if (customElements.has(listContainer)) {
+        if (!Object.hasOwn(templateFromName, customElements.get(listContainer))) {
+            console.error(`<${customElements.get(listContainer)}> not found, make sure its <template> is defined before`);
             return;
         }
         notifyCustomListSubscriber(listContainer, startScope, data);
@@ -234,7 +233,7 @@ const notifyListSubscribers = (subscribers, startScope, data, templateFromName, 
 const notifyRawListSubscriber = (listContainer, data, options) => {
     const fragment = document.createDocumentFragment();
     listContainer.innerHTML = ``;
-    const listItemTagName = listContainer[ELEMENT_LIST_ITEM];
+    const listItemTagName = listItems.get(listContainer);
     const listItemProperty = options.propertyFromElement(
         listItemTagName.toUpperCase(),
     );
@@ -314,7 +313,7 @@ const create = (options) => {
 
     const notifyCustomListSubscriber = (listContainer, startScope, data) => {
         const fragment = document.createDocumentFragment();
-        const template = templateFromName[listContainer[CUSTOM_ELEMENT]];
+        const template = templateFromName[customElements.get(listContainer)];
         const previous = Array.from(scopeIn);
         scopeIn = startScope.split(INSIDE_SYMBOL);
         // enterObject(scopeIn, key);
@@ -323,19 +322,19 @@ const create = (options) => {
         const newLength = data.length;
         let oldLength;
         let scopeInside;
-        if (Object.hasOwn(listContainer, LIST_CHILDREN)) {
+        if (listChildren.has(listContainer)) {
             // remove nodes and variable subscribers that are not used
-            oldLength = listContainer[LIST_CHILDREN].length;
+            oldLength = listChildren.get(listContainer).length;
             if (oldLength > newLength) {
                 for (let i = newLength; i < oldLength; i += 1) {
                     scopeInside = `${normalizedScope}${i}`;
-                    listContainer[LIST_CHILDREN][i].forEach(removeNode);
+                    listChildren.get(listContainer)[i].forEach(removeNode);
                     forgetScope(scopeInside);
                 }
-                listContainer[LIST_CHILDREN].length = newLength;
+                listChildren.get(listContainer).length = newLength;
             }
         } else {
-            listContainer[LIST_CHILDREN] = [];
+            listChildren.set(listContainer, []);
             oldLength = 0;
         }
 
@@ -352,7 +351,7 @@ const create = (options) => {
                 template,
                 String(i),
             );
-            listContainer[LIST_CHILDREN].push(
+            listChildren.get(listContainer).push(
                 Array.from(activatedClone.childNodes),
             );
             fragment.appendChild(activatedClone);
@@ -464,9 +463,9 @@ const create = (options) => {
             return;
         }
         if (use.includes(`-`)) {
-            element[CUSTOM_ELEMENT] = use;
+            customElements.set(element, use);
         } else {
-            element[ELEMENT_LIST_ITEM] = use;
+            listItems.set(element, use);
         }
         
         /* could send scope as array directly but have to change
@@ -490,11 +489,11 @@ const create = (options) => {
                 });
             }
 
-            element[LIST_CHILDREN] = [];
+            listChildren.set(element, []);
             childElements.forEach((childElement, i) => {
                 enterObject(scopeIn, String(i));
                 activate(childElement);
-                element[LIST_CHILDREN].push(
+                listChildren.get(element).push(
                     [childElement, ...childElement.childNodes],
                 );
                 leaveObject(scopeIn);
@@ -755,7 +754,7 @@ const create = (options) => {
                 };
                 
                 if (scopeIn.length) {
-                    element[SCOPE] = scopeFromArray(scopeIn);
+                    scopes.set(element, scopeFromArray(scopeIn));
                 }
                 functionPlugins.forEach((pluginFunction) => {
                     pluginFunction(element, eventName, functionName, functions, preventDefault);
