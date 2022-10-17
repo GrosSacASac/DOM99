@@ -30,21 +30,13 @@ const removeNode = (node) => {
 };
 
 const elementsDeepForEach = (startElement, callBack) => {
-    callBack(startElement);
-    /* https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/firstElementChild
-    is not supported in Edge/Safari on DocumentFragments
-    let element = startElement.firstElementChild;
-    this does not produce an error, but simply returns undefined */
-    let node = startElement.firstChild;
-    while (node) {
-        // document.body.ELEMENT_NODE === 1
-        if (node.nodeType === 1) {
-            elementsDeepForEach(node, callBack);
-            node = node.nextElementSibling;
-        } else {
-            node = node.nextSibling;
-        }
-    }
+    let currentNode = startElement;
+    const treeWalker = document.createTreeWalker(startElement, NodeFilter.SHOW_ELEMENT)
+    
+    do {
+        callBack(currentNode)
+        currentNode = treeWalker.nextNode();
+    } while( currentNode);
 };
 
 const customElementNameFromElement = (element) => {
