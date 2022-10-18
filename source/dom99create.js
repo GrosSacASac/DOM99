@@ -530,9 +530,9 @@ const create = (options) => {
         let currentValue = variables[scope];
         if (currentValue === undefined && options.firstVariableValueStrategy !== undefined) {
             currentValue = options.firstVariableValueStrategy(element);
+            variables[scope] = currentValue;
         }
         if (currentValue !== undefined) {
-            variables[scope] = currentValue;
             notifyOneVariableSubscriber(options, element, currentValue);
         }
 
