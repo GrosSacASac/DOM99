@@ -430,6 +430,9 @@ const create = (options) => {
     let applyFunction = applyFunctionOriginal;
 
     const applyFunctions = (element, attributeValue) => {
+        if (scopeIn.length) {
+            scopes.set(element, scopeFromArray(scopeIn));
+        }
         attributeValue.split(options.listSeparator).forEach(
             (attributeValueSplit) => {
                 const tokens = attributeValueSplit.split(options.tokenSeparator);
@@ -753,9 +756,7 @@ const create = (options) => {
                     defaultPrevented = true;
                 };
                 
-                if (scopeIn.length) {
-                    scopes.set(element, scopeFromArray(scopeIn));
-                }
+
                 functionPlugins.forEach((pluginFunction) => {
                     pluginFunction(element, eventName, functionName, functions, preventDefault);
                 });
