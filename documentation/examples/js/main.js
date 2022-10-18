@@ -1,6 +1,6 @@
 import * as d from "../../deps/dom99.es.js";
 // -- Hello World --
-
+window.d = d;
 d.feed({
     first: `Hello`,
     last: `World`,
