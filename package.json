@@ -27,7 +27,7 @@
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "bootstrap-css-only": "^4.4.1",
-    "eslint": "^8.25.0",
+    "eslint": "^8.26.0",
     "eslint-config-red": "^1.9.1",
     "filesac": "^14.2.0",
     "highlight.js": "^11.3.1",
