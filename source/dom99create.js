@@ -104,7 +104,9 @@ const scopeFromEvent = (event) => {
  @return {string} path
  */
 const scopeFromArray = (scopeIn) => {
-    return scopeIn.filter(Boolean).join(INSIDE_SYMBOL);
+    return scopeIn.filter(function (v) {
+        return v !== undefined;
+    }).join(INSIDE_SYMBOL);
 };
 
 /**

@@ -6,3 +6,4 @@ import "./scope.js";
 import "./initialValue.js";
 import "./isObjectOrArray.js";
 import "./idGenerator.js";
+import "./scope2.js";
