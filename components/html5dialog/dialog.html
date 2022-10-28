@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dialog Example</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="./dialog.css">
+    <link rel="stylesheet" href="../../documentation/examples/css/basics.css">
+    <link rel="icon" href="../../documentation/images/99.jpg">
+</head>
+<body>
+<button data-function="openDialog">Open Dialog</button>
+<dialog data-function="closeDialog" data-element="dialog">
+    <form method="dialog">
+        <button value="a">Value A</button>
+        <button value="z">Value Z</button>
+        <button>Close button without value</button>
+    </form>
+</dialog>
+<output data-variable="output"></output>
+<script type="module" src="./dialog.js"></script>
+</body></html>
