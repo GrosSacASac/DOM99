@@ -54,6 +54,7 @@ const eventFromTag = valueElseMissDecorator({
     [`TEXTAREA`]: `input`,
     [`BUTTON`]: `click`,
     [`FORM`]: `submit`,
+    [`DIALOG`]: `close`,
     [MISS]: `click`,
 });
 
