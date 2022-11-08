@@ -20,4 +20,12 @@ describe(`dom99 basics`, function () {
     expect(scopeFromArray(["a", 0])).not.toEqual(scopeFromArray(["a"]));
   });
 
+  it(`scopeFromArray ignore empty string`, function () {
+    expect(scopeFromArray(["", "a"])).toEqual(scopeFromArray(["a"]));
+  });
+
+  it(`scopeFromArray ignore empty string 2`, function () {
+    expect(scopeFromArray(["a", ""])).toEqual(scopeFromArray(["a"]));
+  });
+
 });
